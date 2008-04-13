@@ -1,0 +1,81 @@
+ ____        _                 ____                              _             
+|  _ \ _   _| |__  _   _      |  _ \ _ __ ___   ___ ___  ___ ___(_)_ __   __ _ 
+| |_) | | | | '_ \| | | |_____| |_) | '__/ _ \ / __/ _ \/ __/ __| | '_ \ / _` |
+|  _ <| |_| | |_) | |_| |_____|  __/| | | (_) | (_|  __/\__ \__ \ | | | | (_| |
+|_| \_\\__,_|_.__/ \__, |     |_|   |_|  \___/ \___\___||___/___/_|_| |_|\__, |
+                   |___/                                                 |___/ 
+
+
+This is a Ruby wrapper that lets you harness Processing’s awesome power. 
+It makes Processing act in a slightly more Shoes-like way, and replaces 
+the ol’ crusty faux-Java-1.4-syntax sandals that Processing usually 
+wears with some new Ruby slippers. So, here’s what you’ll need to make 
+it work:
+
+Download the most recent JRuby, and make sure that the jruby command is 
+reachable in your path.
+
+From inside this folder, you can run the samples like so:
+
+jruby samples/jwishy.rb
+
+Because it’s Ruby, you can also load the samples via jirb, and then alter 
+them on the fly. Live coding, anyone?
+
+
+Changelog:
+
+Revision 0.6
+  * Now we're baking up some applet pie. The applet_tree script will 
+    take your Ruby-Processing sketch, export it as an applet, and 
+    generate an HTML page for you to post. It's way easier now than it 
+    would have been before. (thanks to MenTaLguY.) Use it like so:
+    
+    ./applet_tree my_sketch.rb
+    
+    But there are caveats: Applets don't work with native libraries, so 
+    no OpenGL. If you're requiring other files that aren't part of the 
+    standard Ruby distro, you'll need to include them as libraries, which 
+    means: Drop them in a folder inside of "library". Use
+    load_ruby_library("folder_name") or load_java_library() to load 'em.
+    These methods replace the previous load_library(). Ruby libs will 
+    load the .rb with the same name as the folder. Java libs will just 
+    load up all of the .jars in the folder.
+    
+    Demos — all of the standard samples are available as applets:
+    http://fiercefrontiers.com/applets/jwishy/
+    http://fiercefrontiers.com/applets/tree/
+    http://fiercefrontiers.com/applets/circle_collision/
+    http://fiercefrontiers.com/applets/reflection/
+    
+
+Revision 0.5
+  * Ruby-Processing gets easy native library support. Now you can take 
+    Processing libraries, drop them in the library folder, and load them 
+    up like so (inside your sketch):
+    
+    load_library "opengl"
+    
+    It works by loading up all of the .jars in that folder, and setting
+    the java.library.path to that folder, so that the native extensions
+    can be found.
+    
+  * Full Screen OpenGL demo added, but you'll need to copy over the 
+    OpenGL library to use it.
+
+Revision 0.4
+  * Ruby-Processing goes fullscreen. Just pass :full_screen => true 
+    into the options when you’re starting up your app. Like so:
+
+    MyApp.new(:title => "MyApp", :full_screen => true)
+
+  * Because Processing has just so many methods, you can now search 
+    through them: find_method "method_name"
+
+Revision 0.3
+  * Processing::App.current will give you a handle on the app. (Useful 
+    in jirb).
+  * samples/jwishy.rb has some new hooks for live coding.
+  * circle_collision and tree samples added (Joe Holt)
+
+                   
