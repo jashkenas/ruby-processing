@@ -25,6 +25,26 @@ them on the fly. Live coding, anyone?
 
 Changelog:
 
+Revision 0.7
+  * Thanks to MenTaLguY, once again, for work on the JRubyApplet, OpenGL 
+    is now a first-class citizen. If you're using OpenGL in your sketch, 
+    the applet exporter should just work. It has also been moved and 
+    renamed, so now you can use it like:
+    
+    script/applet my_sketch.rb
+  
+  * An app generator has been added for getting started. It'll give you 
+    a template for an empty Ruby-Processing sketch, with setup and draw
+    methods and all that. Usage:
+    
+    script/generate my_sketch 800 600
+    
+    Will create a file called my_sketch.rb, with a title of "My Sketch",
+    800 pixels wide and 600 pixels tall. Width and height are optional.
+    
+  * Ruby-Processing now includes its first pure-Ruby library, a port 
+    of Tom de Smedt's "Boids", for algorithmic flocking.
+
 Revision 0.6
   * Now we're baking up some applet pie. The applet_tree script will 
     take your Ruby-Processing sketch, export it as an applet, and 

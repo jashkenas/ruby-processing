@@ -1,27 +1,16 @@
-# Inspired by John Weir's Dynamite
+# Ruby-Processing is for Code Art.
 # Send suggestions, ideas, and hate-mail to jashkenas [at] gmail.com
 # Also, send samples and libraries.
 #
-# This code is released into the public domain.
-# http://creativecommons.org/licenses/publicdomain/
-# Revision 0.6
+# Revision 0.7
 # - omygawshkenas
 
 require 'java'
 
-module JavaLang
-  include_package "java.lang"
-end
-
 module Processing 
   
   # Conditionally load core.jar
-  begin
-    include_class "processing.core.PApplet"
-  rescue NameError
-    require File.expand_path(File.dirname(__FILE__)) + "/core.jar"
-  end
-  
+  require File.expand_path(File.dirname(__FILE__)) + "/core.jar" unless Object.const_defined?(:JRUBY_APPLET)  
   include_package "processing.core"
   
   class App < PApplet
@@ -38,8 +27,8 @@ module Processing
                              :mouse_clicked => :mouseClicked,
                              :mouse_moved   =>   :mouseMoved, 
                              :mouse_released => :mouseReleased,
-                             :keyPressed    =>  :key_pressed,
-                             :keyReleased   => :key_released }
+                             :key_pressed => :keyPressed,
+                             :key_released => :keyReleased }
                             
     def self.method_added(method_name)
       if METHODS_TO_WATCH_FOR.keys.include?(method_name)
@@ -51,20 +40,18 @@ module Processing
     def self.current; @current_app; end
     
     # For pure ruby libs.
-    # The library should have an initialization .rb 
+    # The library should have an initialization ruby file 
     # of the same name as the library folder.
     def self.load_ruby_library(folder)
-      if Object.const_defined?(:JRUBY_APPLET)
-        require "#{folder}/#{folder}"
-      else
-        require "library/#{folder}/#{folder}"
-      end
+      Object.const_defined?(:JRUBY_APPLET) ? prefix = "" : prefix = "library/"
+      require "#{prefix}#{folder}/#{folder}"
     end
     
     # Loading libraries which include native code needs to 
     # hack the Java ClassLoader, so that you don't have to 
     # futz with your PATH. But its probably bad juju.
     def self.load_java_library(folder)
+      # Applets preload all the java libraries.
       unless Object.const_defined?(:JRUBY_APPLET)
         base = "library#{File::SEPARATOR}#{folder}#{File::SEPARATOR}"
         jars = Dir.glob("#{base}*.jar")
@@ -74,9 +61,9 @@ module Processing
         raise "Could not load the #{folder} library. Make sure that it's installed." if jars.length == 0 
         # Here goes:
         sep = java.io.File.pathSeparator
-        path = JavaLang::System.getProperty("java.library.path")
+        path = java.lang.System.getProperty("java.library.path")
         new_path = base + sep + base + "library" + sep + path
-        JavaLang::System.setProperty("java.library.path", new_path)
+        java.lang.System.setProperty("java.library.path", new_path)
         field = java.lang.Class.for_name("java.lang.ClassLoader").get_declared_field("sys_paths")
         if field
           field.accessible = true
@@ -162,7 +149,7 @@ module Processing
     end
     
     def quit
-      JavaLang::System.exit(0)
+      java.lang.System.exit(0)
     end
     
     # Specify what rendering Processing should use.
