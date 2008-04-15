@@ -1,16 +1,15 @@
-# This full screen OpenGL demo requires Processing's
-# OpenGL library. Copy that into ruby-processing/library, 
-# and this'll work fine.
-# However, native libs like OpenGL are not yet
-# supported in applets.
+# This full-screen demo can demonstrate the kinds of speedups 
+# that are possible with OpenGL-accelerated rendering. If you
+# have the OpenGL library installed, you'll get *much* 
+# smoother and faster drawing.
 
 require 'ruby-processing'
 
 class FullScreen < Processing::App
-  load_java_library "opengl"
+  load_java_library :opengl
   
   def setup
-    render_mode OPENGL
+    library_loaded?(:opengl) ? render_mode(OPENGL) : render_mode(P3D)
     no_stroke
   end
   
@@ -22,7 +21,7 @@ class FullScreen < Processing::App
       (height/100).times do |y|
         new_x, new_y = x * 100, y * 100
         push_matrix
-        translate new_x, new_y
+        translate new_x + 50, new_y + 50
         rotate_y(((mouse_x.to_f + new_x) / width) * Math::PI)
         rotate_x(((mouse_y.to_f + new_y) / height) * Math::PI)
         box 90
@@ -32,4 +31,4 @@ class FullScreen < Processing::App
   end
 end
 
-FullScreen.new(:full_screen => false)
+FullScreen.new(:full_screen => true)
