@@ -39,12 +39,19 @@ module Processing
     def self.current=(app); @current_app = app; end
     def self.current; @current_app; end
     
+    # Detect if a library has been loaded (for conditional loading)
+    @@loaded_libraries = {}
+    def self.library_loaded?(folder)
+      @@loaded_libraries[folder.to_sym]
+    end
+    def library_loaded?(folder); self.class.library_loaded?(folder); end
+    
     # For pure ruby libs.
     # The library should have an initialization ruby file 
     # of the same name as the library folder.
     def self.load_ruby_library(folder)
       Object.const_defined?(:JRUBY_APPLET) ? prefix = "" : prefix = "library/"
-      require "#{prefix}#{folder}/#{folder}"
+      @@loaded_libraries[folder.to_sym] = require "#{prefix}#{folder}/#{folder}"
     end
     
     # Loading libraries which include native code needs to 
@@ -52,14 +59,17 @@ module Processing
     # futz with your PATH. But its probably bad juju.
     def self.load_java_library(folder)
       # Applets preload all the java libraries.
-      unless Object.const_defined?(:JRUBY_APPLET)
+      if Object.const_defined?(:JRUBY_APPLET)
+        @@loaded_libraries[folder.to_sym] = false
+        @@loaded_libraries[folder.to_sym] = true if JRUBY_APPLET.get_parameter("archive").match(%r(#{folder}))
+      else
         base = "library#{File::SEPARATOR}#{folder}#{File::SEPARATOR}"
         jars = Dir.glob("#{base}*.jar")
         base2 = "#{base}library#{File::SEPARATOR}"
         jars = jars + Dir.glob("#{base2}*.jar")
         jars.each {|jar| require jar }
-        raise "Could not load the #{folder} library. Make sure that it's installed." if jars.length == 0 
-        # Here goes:
+        return false if jars.length == 0
+        # Here goes...
         sep = java.io.File.pathSeparator
         path = java.lang.System.getProperty("java.library.path")
         new_path = base + sep + base + "library" + sep + path
@@ -69,6 +79,7 @@ module Processing
           field.accessible = true
           field.set(java.lang.Class.for_name("java.lang.System").get_class_loader, nil)
         end
+        @@loaded_libraries[folder.to_sym] = true
       end
     end
     

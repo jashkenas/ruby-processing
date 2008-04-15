@@ -36,10 +36,12 @@ module Processing
       libs_to_load = []
       code = source_code.dup
       while matchdata
-        matchdata = code.match(/load_\w+_library.+?["'](\S+)["']/)
+        matchdata = code.match(/load_\w+_library.+?["':](\S+)["'\s]/)
         if matchdata
-          @opengl = true if matchdata[1].match(/opengl/i)
-          libs_to_load << matchdata[1]
+          if File.exists?("library/#{matchdata[1]}")
+            @opengl = true if matchdata[1].match(/opengl/i)
+            libs_to_load << matchdata[1]
+          end
           code = matchdata.post_match
         end
       end
