@@ -50,8 +50,11 @@ module Processing
     # The library should have an initialization ruby file 
     # of the same name as the library folder.
     def self.load_ruby_library(folder)
-      Object.const_defined?(:JRUBY_APPLET) ? prefix = "" : prefix = "library/"
-      @@loaded_libraries[folder.to_sym] = require "#{prefix}#{folder}/#{folder}"
+      unless @@loaded_libraries[folder.to_sym]
+        Object.const_defined?(:JRUBY_APPLET) ? prefix = "" : prefix = "library/"
+        return @@loaded_libraries[folder.to_sym] = require "#{prefix}#{folder}/#{folder}"
+      end
+      return @@loaded_libraries[folder.to_sym]
     end
     
     # Loading libraries which include native code needs to 
@@ -59,28 +62,31 @@ module Processing
     # futz with your PATH. But its probably bad juju.
     def self.load_java_library(folder)
       # Applets preload all the java libraries.
-      if Object.const_defined?(:JRUBY_APPLET)
+      unless @@loaded_libraries[folder.to_sym]
         @@loaded_libraries[folder.to_sym] = false
-        @@loaded_libraries[folder.to_sym] = true if JRUBY_APPLET.get_parameter("archive").match(%r(#{folder}))
-      else
-        base = "library#{File::SEPARATOR}#{folder}#{File::SEPARATOR}"
-        jars = Dir.glob("#{base}*.jar")
-        base2 = "#{base}library#{File::SEPARATOR}"
-        jars = jars + Dir.glob("#{base2}*.jar")
-        jars.each {|jar| require jar }
-        return false if jars.length == 0
-        # Here goes...
-        sep = java.io.File.pathSeparator
-        path = java.lang.System.getProperty("java.library.path")
-        new_path = base + sep + base + "library" + sep + path
-        java.lang.System.setProperty("java.library.path", new_path)
-        field = java.lang.Class.for_name("java.lang.ClassLoader").get_declared_field("sys_paths")
-        if field
-          field.accessible = true
-          field.set(java.lang.Class.for_name("java.lang.System").get_class_loader, nil)
+        if Object.const_defined?(:JRUBY_APPLET)
+          @@loaded_libraries[folder.to_sym] = true if JRUBY_APPLET.get_parameter("archive").match(%r(#{folder}))
+        else
+          base = "library#{File::SEPARATOR}#{folder}#{File::SEPARATOR}"
+          jars = Dir.glob("#{base}*.jar")
+          base2 = "#{base}library#{File::SEPARATOR}"
+          jars = jars + Dir.glob("#{base2}*.jar")
+          jars.each {|jar| require jar }
+          return false if jars.length == 0
+          # Here goes...
+          sep = java.io.File.pathSeparator
+          path = java.lang.System.getProperty("java.library.path")
+          new_path = base + sep + base + "library" + sep + path
+          java.lang.System.setProperty("java.library.path", new_path)
+          field = java.lang.Class.for_name("java.lang.ClassLoader").get_declared_field("sys_paths")
+          if field
+            field.accessible = true
+            field.set(java.lang.Class.for_name("java.lang.System").get_class_loader, nil)
+          end
+          @@loaded_libraries[folder.to_sym] = true
         end
-        @@loaded_libraries[folder.to_sym] = true
       end
+      return @@loaded_libraries[folder.to_sym]
     end
     
     def initialize(options = {})
