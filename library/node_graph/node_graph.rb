@@ -295,14 +295,14 @@ module NodeGraph
     def nodes_by_betweenness(threshold=0.0)
       # Heavily traffiked nodes come first.
       nodes = @nodes.select {|n| n.betweenness > threshold }
-      nodes = nodes.sort_by {|a, b| b.betweenness <=> a.betweenness }
+      nodes = nodes.sort {|a, b| b.betweenness <=> a.betweenness }
     end
     alias_method :nodes_by_traffic, :nodes_by_betweenness
     
     def nodes_by_eigenvalue(threshold=0.0)
       # Heavily traffiked nodes (by eigenvalue) come first.
       nodes = @nodes.select{|n| n.eigenvalue > threshold}
-      nodes = nodes.sort_by {|a, b| b.eigenvalue <=> a.eigenvalue }
+      nodes = nodes.sort {|a, b| b.eigenvalue <=> a.eigenvalue }
     end
     alias_method :nodes_by_weight, :nodes_by_eigenvalue
     
