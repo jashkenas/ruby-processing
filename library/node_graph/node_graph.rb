@@ -2,7 +2,7 @@
 # After Tom de Smedt's version for NodeBox.
 # -- omygawshkenas
 
-module Graphing
+module NodeGraph
   LAYOUT_CIRCLE = :circle
   LAYOUT_SPRING = :spring
   RAD = 8
@@ -323,6 +323,53 @@ module Graphing
       Cluster.subgraph(self, id, distance)
     end
     alias_method :subgraph, :sub
+    
+    def and(graph)
+      nodes = Cluster.intersection(Cluster.flatten(self), Cluster.flatten(graph))
+      all = @graph | graph.graph
+      return Cluster.subgraph(all, nodes, 0)
+    end
+    alias_method :intersect, :and
+    
+    def or(graph)
+      g = self.dup
+      graph.nodes.each {|n| g.add_node(n.id, n.r, n.style, n.category, n.label, (g.root == nil && g.root == n))}
+      graph.edges.each {|e| g.add_edge(e.node1.id, e.node2.id, e.weight, e.label) }
+      return g
+    end
+    alias_method :join, :or
+    
+    def sub(graph)
+      nodes = Cluster.difference(Cluster.flatten(self), Cluster.flatten(graph))
+      all = @graph | graph.graph
+      return Cluster.subgraph(all, nodes, 0)
+    end
+    alias_method :subtract, :sub
+    
+    def is_clique
+      Cluster.is_clique(self)
+    end
+    
+    def clique(id, distance=0)
+      Cluster.subgraph(self, Cluster.clique(self, id), distance)
+    end
+    
+    def cliques(threshold=3, distance=0)
+      g = []
+      c = Cluster.cliques(self, threshold)
+      c.each {|nodes| g << Cluster.subgraph(self, nodes, distance) }
+      return g
+    end
+    
+    def split
+      Cluster.partition(self)
+    end
+    
+    # And now for the class method to kick it all off. Kick it out!
+    def self.create(iterations=1000, distance=1.0, layout=LAYOUT_SPRING, depth=true)
+      g = Graph.new(iterations, distance, layout)
+      s = Style.style
+    end
   end
   
 end
