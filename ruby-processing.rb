@@ -52,7 +52,7 @@ module Processing
     def self.load_ruby_library(folder)
       unless @@loaded_libraries[folder.to_sym]
         Object.const_defined?(:JRUBY_APPLET) ? prefix = "" : prefix = "library/"
-        return @@loaded_libraries[folder.to_sym] = require "#{prefix}#{folder}/#{folder}"
+        @@loaded_libraries[folder.to_sym] = require "#{prefix}#{folder}/#{folder}"
       end
       return @@loaded_libraries[folder.to_sym]
     end

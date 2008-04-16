@@ -5,14 +5,11 @@ require 'ruby-processing'
 
 class Sketch < Processing::App
   load_java_library :opengl
-  
-  attr_accessor :x_wiggle, :y_wiggle, :magnitude, :bluish
-  
+    
   def setup
     library_loaded?(:opengl) ? render_mode(OPENGL) : render_mode(P3D)
     no_stroke
-    smooth
-    draw_circle(100, 100, 80, 8)
+    draw_circle(100, 100, 80.0, 8)
   end
   
   def draw_circle(x, y, radius, level)
