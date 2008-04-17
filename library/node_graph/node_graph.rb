@@ -2,6 +2,8 @@
 # After Tom de Smedt's version for NodeBox.
 # -- omygawshkenas
 
+# WARNING: Not yet ready for any sort of use!
+
 module NodeGraph
   LAYOUT_CIRCLE = :circle
   LAYOUT_SPRING = :spring
