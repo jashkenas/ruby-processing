@@ -16,7 +16,7 @@ module Processing
   class App < PApplet
     
     include_class "javax.swing.JFrame"
-    attr_accessor :frame
+    attr_accessor :frame, :title
     alias_method :oval, :ellipse
     alias_method :stroke_width, :stroke_weight
     alias_method :rgb, :color
@@ -40,7 +40,7 @@ module Processing
     def self.current; @current_app; end
     
     # Detect if a library has been loaded (for conditional loading)
-    @@loaded_libraries = {}
+    @@loaded_libraries = Hash.new(false)
     def self.library_loaded?(folder)
       @@loaded_libraries[folder.to_sym]
     end
