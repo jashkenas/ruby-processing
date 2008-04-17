@@ -63,7 +63,6 @@ module Processing
     def self.load_java_library(folder)
       # Applets preload all the java libraries.
       unless @@loaded_libraries[folder.to_sym]
-        @@loaded_libraries[folder.to_sym] = false
         if Object.const_defined?(:JRUBY_APPLET)
           @@loaded_libraries[folder.to_sym] = true if JRUBY_APPLET.get_parameter("archive").match(%r(#{folder}))
         else

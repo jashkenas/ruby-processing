@@ -31,9 +31,10 @@ class Boid
     vx = vy = vz = 0.0
     @boids.each do |boid|
       if boid != self
-        vx += (@x-boid.x) if (@x-boid.x).abs < radius
-        vy += (@y-boid.y) if (@y-boid.y).abs < radius
-        vz += (@z-boid.z) if (@z-boid.z).abs < radius
+        dvx, dvy, dvz = @x - boid.x, @y - boid.y, @z - boid.z
+        vx += dvx if dvx.abs < radius
+        vy += dvy if dvy.abs < radius
+        vz += dvz if dvz.abs < radius
       end
     end
     return vx, vy, vz
@@ -73,9 +74,7 @@ end
 
 
 
-class Boids
-  include Enumerable
-  
+class Boids < Array  
   attr_accessor :boids, :x, :y, :w, :h, 
                 :scattered, :has_goal, :flee
                 
@@ -84,15 +83,14 @@ class Boids
               :goal_x, :goal_y, :goal_z
               
   def self.flock(n, x, y, w, h)
-    return Boids.new(n, x, y, w, h)
+    return Boids.new.setup(n, x, y, w, h)
   end
   
-  def initialize(n, x, y, w, h)
-    @boids = []
+  def setup(n, x, y, w, h)
     n.times do |i|
       dx, dy = rand(w), rand(h)
       z = rand(200.0)
-      @boids << Boid.new(self, x + dx, y + dy, z)
+      self << Boid.new(self, x + dx, y + dy, z)
     end
     @x, @y, @w, @h = x, y, w, h
     @scattered = false
@@ -105,11 +103,8 @@ class Boids
     @has_goal = false
     @flee = false
     @goal_x = @goal_y = @goal_z = 0.0
+    return self
   end
-  
-  # Delegate to the actual collection
-  def each; @boids.each {|boid| yield boid}; end
-  def length; @boids.length; end
   
   def scatter(chance = 0.005, frames = 50.0)
     @scatter = chance
@@ -143,7 +138,7 @@ class Boids
   def constrain
     # Put them boids in a cage.
     dx, dy = @w * 0.1, @h * 0.1
-    @boids.each do |b|
+    self.each do |b|
       b.vx += rand(dx) if b.x < @x - dx
       b.vx += rand(dy) if b.y < @y - dy
       b.vx -= rand(dx) if b.x > @x + @w + dx
@@ -161,7 +156,7 @@ class Boids
   end
   
   def shuffle
-    @boids.sort! { rand }
+    self.sort! { rand }
   end
   
   def update(opts={})
@@ -195,7 +190,7 @@ class Boids
     m4 = 0.0 unless @has_goal
     m4 = -m4 if @flee
     
-    @boids.each do |b|
+    self.each do |b|
       if b.is_perching
         if b.perch_time > 0.0
           b.perch_time -= 1.0
