@@ -4,17 +4,15 @@
 # sketches to applets that can be viewed online.
 # -- omygawshkenas
 
-require 'fileutils'
-require 'erb'
+require File.join(File.dirname(__FILE__), "base_exporter.rb")
 
 module Processing
-  class AppletExporter
+  class AppletExporter < BaseExporter
     def export!
 
       # Check to make sure that the main file exists
-      main_file_path = ARGV.first
-      main_file = File.basename(main_file_path)
-      unless main_file_path && File.exists?(main_file_path)
+      @main_file_path, main_file = *get_main_file()
+      unless @main_file_path && File.exists?(@main_file_path)
         puts <<-USAGE
         
       The applet generator will generate a web-ready applet for you.
@@ -25,46 +23,28 @@ module Processing
         exit
       end
       
-      # Extract information from main file
-      source_code = File.open(main_file_path, "r") {|file| file.readlines.join(" ")}
-      class_name = source_code.match(/(\w+)\s*<\s*Processing::App/)[1]
-      title = source_code.match(/#{class_name}\.new.*?:title\s=>\s["'](.+)["']/m)
-      width = source_code.match(/#{class_name}\.new.*?:width\s=>\s(\d+)/m)
-      height = source_code.match(/#{class_name}\.new.*?:height\s=>\s(\d+)/m)
-      description = source_code.match(/# Description:(.*?)\n [^#]/m)
-      matchdata = true
-      libs_to_load = []
-      code = source_code.dup
-      while matchdata
-        matchdata = code.match(/load_\w+_library.+?["':](\S+)["'\s]/)
-        if matchdata
-          if File.exists?("library/#{matchdata[1]}")
-            @opengl = true if matchdata[1].match(/opengl/i)
-            libs_to_load << matchdata[1]
-          end
-          code = matchdata.post_match
-        end
-      end
+      # Extract all the cool details.
+      source_code, class_name, title, width, height, description, libs_to_load = *extract_information()
       
       # Make the appropriate directory
       applet_dir = "applets/#{main_file.sub(".rb", "")}"
-      FileUtils.remove_entry_secure applet_dir if File.exists?(applet_dir)
-      FileUtils.mkdir_p applet_dir
+      remove_entry_secure applet_dir if File.exists?(applet_dir)
+      mkdir_p applet_dir
       
       # Copy over all the required files
-      necessary_files = [main_file_path, "ruby-processing.rb", "core.jar"]
+      necessary_files = [@main_file_path, "ruby-processing.rb", "core.jar"]
       necessary_files << "data" if File.exists?("data")
       necessary_files += Dir.glob("script/applet_files/{*,**}") # Exporter files
       necessary_files += Dir.glob("library/{#{libs_to_load.join(",")}}") if libs_to_load.length > 0
-      FileUtils.cp_r(necessary_files, applet_dir)
+      cp_r(necessary_files, applet_dir)
       
       # Figure out OpenGL replacements, if necessary:
       @starting_class = @opengl ? "com.sun.opengl.util.JOGLAppletLauncher" : "org.jruby.JRubyApplet"
       if @opengl
         opengl_files = Dir.glob(applet_dir + "/opengl/*.jar")
         opengl_files += Dir.glob(applet_dir + "/opengl/library/*.jar")
-        FileUtils.move(opengl_files, applet_dir)
-        FileUtils.remove_entry_secure(applet_dir + "/opengl")
+        move(opengl_files, applet_dir)
+        remove_entry_secure(applet_dir + "/opengl")
         necessary_files.map! {|file| file.match(/^opengl/) ? File.basename(file) : file }
       end
       
@@ -87,7 +67,7 @@ module Processing
       File.open(applet_dir + "/index.html", "w") do |file|
         file.print rendered_index
       end
-      FileUtils.rm(applet_dir + "/index.html.erb")
+      rm(applet_dir + "/index.html.erb")
       
     end
   end
