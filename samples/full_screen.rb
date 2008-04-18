@@ -31,4 +31,4 @@ class FullScreen < Processing::App
   end
 end
 
-FullScreen.new(:full_screen => true)
+FullScreen.new(:full_screen => true, :title => "Full Screen")

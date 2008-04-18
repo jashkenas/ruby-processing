@@ -34,6 +34,7 @@ module Processing
       # Copy over all the required files
       necessary_files = [@main_file_path, "ruby-processing.rb", "core.jar"]
       necessary_files << "data" if File.exists?("data")
+      necessary_files += Dir.glob("script/base_files/{*,**}") # Base files
       necessary_files += Dir.glob("script/applet_files/{*,**}") # Exporter files
       necessary_files += Dir.glob("library/{#{libs_to_load.join(",")}}") if libs_to_load.length > 0
       cp_r(necessary_files, applet_dir)
