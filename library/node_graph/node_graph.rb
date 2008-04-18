@@ -371,6 +371,8 @@ module NodeGraph
     def self.create(iterations=1000, distance=1.0, layout=LAYOUT_SPRING, depth=true)
       g = Graph.new(iterations, distance, layout)
       s = Style.style
+      g.styles.append(Style.new(Style.light, @app, app.color(0.0, 0.0, 0.0, 0.20)))
+      
     end
   end
   
