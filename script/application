@@ -10,7 +10,7 @@ module Processing
     def export!
 
       # Check to make sure that the main file exists
-      @main_file_path, main_file = *get_main_file()
+      @main_file_path, @main_file = *get_main_file()
       unless PLATFORM.match(/darwin/)
         puts <<-ERROR
           
@@ -32,19 +32,31 @@ module Processing
       end
       
       # Extract all the cool details.
-      source_code, class_name, title, width, height, description, libs_to_load = *extract_information()
+      source_code, @class_name, title, width, height, description, libs_to_load = *extract_information()
+      @title = title ? title[1] : "Ruby-Processing Sketch"
       
       # Make the appropriate directory
-      app_dir = "applications/#{File.basename(main_file, ".rb")}.app"
+      app_dir = "applications/#{@title}.app"
       remove_entry_secure app_dir if File.exists?(app_dir)
       mkdir_p app_dir
       
       # Copy over all the required files
+      prefix = "Contents/Resources/Java"
+      cp_r(Dir.glob("script/application_files/{*,**}"), app_dir)
       necessary_files = [@main_file_path, "ruby-processing.rb", "core.jar"]
       necessary_files << "data" if File.exists?("data")
-      necessary_files += Dir.glob("script/application_files/{*,**}") # Exporter files
-      necessary_files += Dir.glob("library/{#{libs_to_load.join(",")}}") if libs_to_load.length > 0
-      cp_r(necessary_files, app_dir)
+      necessary_files += Dir.glob("script/base_files/{*,**}") # Base files
+      cp_r(necessary_files, File.join(app_dir, prefix))
+      library_files = Dir.glob("library/{#{libs_to_load.join(",")}}") if libs_to_load.length > 0
+      cp_r(library_files, File.join(app_dir, prefix, "library")) if library_files
+      
+      # Figure out the substitutions.
+      file_list = Dir.glob(app_dir + "{/**/*.{rb,jar},/data/*.*}").map {|f| f.sub(app_dir + "/", "")}
+      @class_path = file_list.map {|f| "$JAVAROOT/" + f.sub(prefix+"/", "") }.join(":")
+      
+      # Do it.
+      render_erb_in_path_with_binding(app_dir, binding)
+      rm Dir.glob(app_dir + "/**/*.{class,java}")
       
     end
   end
