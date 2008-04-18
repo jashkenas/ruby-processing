@@ -1,0 +1,53 @@
+#!/usr/bin/env ruby
+
+# This is a utility to export Ruby-Processing sketches as Mac Apps.
+# -- omygawshkenas
+
+require File.join(File.dirname(__FILE__), "base_exporter.rb")
+
+module Processing
+  class ApplicationExporter < BaseExporter
+    def export!
+
+      # Check to make sure that the main file exists
+      @main_file_path, main_file = *get_main_file()
+      unless PLATFORM.match(/darwin/)
+        puts <<-ERROR
+          
+          Sorry, but the application exporter can only make 
+          Mac applications so far.
+          
+        ERROR
+        exit
+      end
+      unless @main_file_path && File.exists?(@main_file_path)
+        puts <<-USAGE
+        
+      The application exporter will generate a Mac application for you.
+      Usage: script/application <path_to_sketch>
+      Example: script/applet samples/jwishy.rb 
+      
+      USAGE
+        exit
+      end
+      
+      # Extract all the cool details.
+      source_code, class_name, title, width, height, description, libs_to_load = *extract_information()
+      
+      # Make the appropriate directory
+      app_dir = "applications/#{File.basename(main_file, ".rb")}.app"
+      remove_entry_secure app_dir if File.exists?(app_dir)
+      mkdir_p app_dir
+      
+      # Copy over all the required files
+      necessary_files = [@main_file_path, "ruby-processing.rb", "core.jar"]
+      necessary_files << "data" if File.exists?("data")
+      necessary_files += Dir.glob("script/application_files/{*,**}") # Exporter files
+      necessary_files += Dir.glob("library/{#{libs_to_load.join(",")}}") if libs_to_load.length > 0
+      cp_r(necessary_files, app_dir)
+      
+    end
+  end
+end
+
+Processing::ApplicationExporter.new.export!
