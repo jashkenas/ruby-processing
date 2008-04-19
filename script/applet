@@ -63,12 +63,7 @@ module Processing
       @description = description
       
       # Fill in the blanks in the HTML.    
-      final_index = File.new(applet_dir+"/index.html.erb")  
-      rendered_index = ERB.new(final_index.read, nil, "<>", "rendered_index").result(binding)
-      File.open(applet_dir + "/index.html", "w") do |file|
-        file.print rendered_index
-      end
-      rm(applet_dir + "/index.html.erb")
+      render_erb_in_path_with_binding(applet_dir, binding, :delete => true)
       
     end
   end
