@@ -36,12 +36,12 @@ module Processing
       return [source_code, class_name, title, width, height, description, libs_to_load]
     end
     
-    def render_erb_in_path_with_binding(path, some_binding)
+    def render_erb_in_path_with_binding(path, some_binding, opts={})
       erbs = Dir.glob(path + "/**/*.erb")
       erbs.each do |erb|
         rendered = ERB.new(File.new(erb).read, nil, "<>", "rendered").result(some_binding)
         File.open(erb.sub(".erb", ""), "w") {|f| f.print rendered }
-        rm erb
+        rm erb if opts[:delete]
       end
     end
     
