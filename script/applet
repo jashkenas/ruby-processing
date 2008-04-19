@@ -11,7 +11,7 @@ module Processing
     def export!
 
       # Check to make sure that the main file exists
-      @main_file_path, main_file = *get_main_file()
+      @main_file_path, @main_file = *get_main_file()
       unless @main_file_path && File.exists?(@main_file_path)
         puts <<-USAGE
         
@@ -24,10 +24,11 @@ module Processing
       end
       
       # Extract all the cool details.
-      source_code, class_name, title, width, height, description, libs_to_load = *extract_information()
+      @info = extract_information
+      hash_to_ivars @info
       
       # Make the appropriate directory
-      applet_dir = "applets/#{main_file.sub(".rb", "")}"
+      applet_dir = "applets/#{@main_file.sub(".rb", "")}"
       remove_entry_secure applet_dir if File.exists?(applet_dir)
       mkdir_p applet_dir
       
@@ -36,7 +37,7 @@ module Processing
       necessary_files << "data" if File.exists?("data")
       necessary_files += Dir.glob("script/base_files/{*,**}") # Base files
       necessary_files += Dir.glob("script/applet_files/{*,**}") # Exporter files
-      necessary_files += Dir.glob("library/{#{libs_to_load.join(",")}}") if libs_to_load.length > 0
+      necessary_files += Dir.glob("library/{#{@libs_to_load.join(",")}}") if @libs_to_load.length > 0
       cp_r(necessary_files, applet_dir)
       
       # Figure out OpenGL replacements, if necessary:
@@ -52,15 +53,10 @@ module Processing
       
       # Figure out the substitutions to make.
       file_list = Dir.glob(applet_dir + "{/**/*.{rb,jar},/data/*.*}").map {|f| f.sub(applet_dir+"/","")}
-      h1 = title ? "<h1>#{title[1]}</h1>" : ""
-      description = description ? "<div id='description'>" + h1 + "<p>" + description[1].gsub!("\n #", "") + "</p></div>" : ""
-      @title = title ? title[1] : "Ruby-Processing Sketch"
-      @width = width ? width[1] : "400"
+      h1 = "<h1>#{@title}</h1>"
+      @description = "<div id='description'>" + h1 + "<p>" + @description.gsub!("\n #", "") + "</p></div>"
       @width_plus_14 = (@width.to_i + 14).to_s
-      @height = height ? height[1] : "400"
-      @main_file = main_file
       @file_list = file_list.join(",")
-      @description = description
       
       # Fill in the blanks in the HTML.    
       render_erb_in_path_with_binding(applet_dir, binding, :delete => true)

@@ -20,20 +20,11 @@ module Processing
         ERROR
         exit
       end
-      unless @main_file_path && File.exists?(@main_file_path)
-        puts <<-USAGE
-        
-      The application exporter will generate a Mac application for you.
-      Usage: script/application <path_to_sketch>
-      Example: script/applet samples/jwishy.rb 
-      
-      USAGE
-        exit
-      end
+      usage( @main_file_path && File.exists?(@main_file_path) )
       
       # Extract all the cool details.
-      source_code, @class_name, title, width, height, description, libs_to_load = *extract_information()
-      @title = title ? title[1] : "Ruby-Processing Sketch"
+      @info = extract_information
+      hash_to_ivars @info
       
       # Make the appropriate directory
       app_dir = "applications/#{@title}.app"
@@ -47,7 +38,7 @@ module Processing
       necessary_files << "data" if File.exists?("data")
       necessary_files += Dir.glob("script/base_files/{*,**}") # Base files
       cp_r(necessary_files, File.join(app_dir, prefix))
-      library_files = Dir.glob("library/{#{libs_to_load.join(",")}}") if libs_to_load.length > 0
+      library_files = Dir.glob("library/{#{@libs_to_load.join(",")}}") if @libs_to_load.length > 0
       cp_r(library_files, File.join(app_dir, prefix, "library")) if library_files
       
       # Move the icon
@@ -62,6 +53,19 @@ module Processing
       render_erb_in_path_with_binding(app_dir, binding, :delete => true)
       rm Dir.glob(app_dir + "/**/*.{class,java}")
       
+    end
+    
+    def usage(predicate)
+      unless predicate
+        puts <<-USAGE
+        
+      The application exporter will generate a Mac application for you.
+      Usage: script/application <path_to_sketch>
+      Example: script/applet samples/jwishy.rb 
+      
+      USAGE
+        exit
+      end
     end
   end
 end

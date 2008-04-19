@@ -2,7 +2,7 @@
 # Send suggestions, ideas, and hate-mail to jashkenas [at] gmail.com
 # Also, send samples and libraries.
 #
-# Revision 0.7
+# Revision 0.8
 # - omygawshkenas
 
 require 'java'

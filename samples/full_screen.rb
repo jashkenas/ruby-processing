@@ -1,3 +1,4 @@
+# Description:
 # This full-screen demo can demonstrate the kinds of speedups 
 # that are possible with OpenGL-accelerated rendering. If you
 # have the OpenGL library installed, you'll get *much* 
@@ -31,4 +32,4 @@ class FullScreen < Processing::App
   end
 end
 
-FullScreen.new(:full_screen => true, :title => "Full Screen")
+FullScreen.new(:full_screen => true, :title => "Full Screen", :width => 600, :height => 600)
