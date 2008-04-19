@@ -25,6 +25,26 @@ them on the fly. Live coding, anyone?
 
 Changelog:
 
+Revision 0.8
+  * Ruby-Processing can now export Mac applications! Running 
+    script/application my_sketch.rb will create MySketch.app, 
+    complete with all of its data and libraries. If you have 
+    a .icns file inside of your data folder, it will become 
+    the app's icon.
+    
+  * Added a mathematical Fern sample. It's a port of Luis 
+    Correia's java original, with algorithms from Wikipedia.
+    
+  * Sketches now have a library_loaded? method, so that you can 
+    check if a library has been started successfully, and 
+    conditionally enable things. (Good for OpenGL.)
+    
+  * The Boids library is now about 40% faster. It also comes with
+    an example in library/boids/samples.
+    
+  * Specs have been started both for exporting and for Ruby-
+    Processing itself.
+
 Revision 0.7
   * Thanks to MenTaLguY, once again, for work on the JRubyApplet, OpenGL 
     is now a first-class citizen. If you're using OpenGL in your sketch, 

@@ -14,35 +14,46 @@ module Processing
     
     def extract_information
       # Extract information from main file
-      source_code = File.open(@main_file_path, "r") {|file| file.readlines.join(" ")}
-      class_name = source_code.match(/(\w+)\s*<\s*Processing::App/)[1]
-      title = source_code.match(/#{class_name}\.new.*?:title\s=>\s["'](.+)["']/m)
-      width = source_code.match(/#{class_name}\.new.*?:width\s=>\s(\d+)/m)
-      height = source_code.match(/#{class_name}\.new.*?:height\s=>\s(\d+)/m)
-      description = source_code.match(/# Description:(.*?)\n [^#]/m)
+      info = {}
+      source_code = info[:source_code] = File.open(@main_file_path, "r") {|file| file.readlines.join(" ")}
+      info[:class_name] = source_code.match(/(\w+)\s*<\s*Processing::App/)[1]
+      info[:title] = source_code.match(/#{info[:class_name]}\.new.*?:title\s=>\s["'](.+)["']/m)
+      info[:width] = source_code.match(/#{info[:class_name]}\.new.*?:width\s=>\s(\d+)/m)
+      info[:height] = source_code.match(/#{info[:class_name]}\.new.*?:height\s=>\s(\d+)/m)
+      info[:description] = source_code.match(/# Description:(.*?)\n [^#]/m)
       matchdata = true
-      libs_to_load = []
+      info[:libs_to_load] = []
       code = source_code.dup
       while matchdata
         matchdata = code.match(/load_\w+_library.+?["':](\S+?)["'\s]/)
         if matchdata
           if File.exists?("library/#{matchdata[1]}")            
             @opengl = true if matchdata[1].match(/opengl/i)
-            libs_to_load << matchdata[1]
+            info[:libs_to_load] << matchdata[1]
           end
           code = matchdata.post_match
         end
       end
-      return [source_code, class_name, title, width, height, description, libs_to_load]
+      defaults = {:description => "", :title => "Ruby-Processing Sketch", :width => "400", :height => "400"}
+      defaults.each {|k,v| info[k] ? info[k] = info[k][1] : info[k] = v }
+      return info
+    end
+    
+    def hash_to_ivars(hash)
+      hash.each{|k,v| instance_variable_set("@" + k.to_s, v) }
     end
     
     def render_erb_in_path_with_binding(path, some_binding, opts={})
       erbs = Dir.glob(path + "/**/*.erb")
       erbs.each do |erb|
-        rendered = ERB.new(File.new(erb).read, nil, "<>", "rendered").result(some_binding)
+        rendered = render_erb_from_string_with_binding(File.new(erb).read, some_binding)
         File.open(erb.sub(".erb", ""), "w") {|f| f.print rendered }
         rm erb if opts[:delete]
       end
+    end
+    
+    def render_erb_from_string_with_binding(erb, some_binding)
+      rendered = ERB.new(erb, nil, "<>", "rendered").result(some_binding)
     end
     
     # Ripped from activesupport

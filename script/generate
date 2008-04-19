@@ -11,17 +11,7 @@ module Processing
     def generate!
       # Check to make sure that the main file exists
       main_file_path = ARGV.first
-      unless main_file_path
-        puts <<-USAGE
-  
-      Usage: script/generate <sketch_to_generate> <width> <height>
-      Width and Height are optional.
-      
-      Example: script/generate fancy_drawing/app 800 600
-  
-      USAGE
-        exit
-      end
+      usage main_file_path
       main_file = File.basename(main_file_path, ".rb")
       
       # Get the substitutions
@@ -35,9 +25,23 @@ module Processing
       dir = File.dirname main_file_path
       mkdir_p dir
       template = File.new(File.join(File.dirname(__FILE__), "generate_files/app.rb.erb"))
-      rendered = ERB.new(template.read, nil, "<>", "rendered").result(binding)
+      rendered = render_erb_from_string_with_binding(template.read, binding)
       File.open(File.join(dir, "#{@file_name}.rb"), "w") do |file|
         file.print rendered
+      end
+    end
+    
+    def usage(predicate)
+      unless predicate
+        puts <<-USAGE
+  
+      Usage: script/generate <sketch_to_generate> <width> <height>
+      Width and Height are optional.
+      
+      Example: script/generate fancy_drawing/app 800 600
+  
+      USAGE
+        exit
       end
     end
   end
