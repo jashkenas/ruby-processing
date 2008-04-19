@@ -50,6 +50,10 @@ module Processing
       library_files = Dir.glob("library/{#{libs_to_load.join(",")}}") if libs_to_load.length > 0
       cp_r(library_files, File.join(app_dir, prefix, "library")) if library_files
       
+      # Move the icon
+      potential_icon = Dir.glob(File.join(app_dir, prefix, "data/*.icns"))[0]
+      move(potential_icon, File.join(app_dir, "Contents/Resources/sketch.icns"), :force => true ) if potential_icon
+      
       # Figure out the substitutions.
       file_list = Dir.glob(app_dir + "{/**/*.{rb,jar},/data/*.*}").map {|f| f.sub(app_dir + "/", "")}
       @class_path = file_list.map {|f| "$JAVAROOT/" + f.sub(prefix+"/", "") }.join(":")

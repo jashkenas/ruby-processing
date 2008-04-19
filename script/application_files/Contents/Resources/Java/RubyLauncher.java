@@ -1,9 +1,7 @@
 // A RubyLauncher for Launchin' that Ruby code.
 // -- omygawshkenas
 
-import java.util.Arrays;
 import java.io.*;
-import java.lang.reflect.InvocationTargetException;
 
 import org.jruby.Ruby;
 import org.jruby.RubyInstanceConfig;
