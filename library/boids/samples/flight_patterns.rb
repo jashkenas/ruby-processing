@@ -4,9 +4,9 @@
 require 'ruby-processing'
 
 class FlightPatterns < Processing::App
-  load_ruby_library :boids
-  load_java_library :opengl
-  include_package "processing.opengl" if library_loaded? :opengl
+  load_ruby_library "boids"
+  load_java_library "opengl"
+  include_package "processing.opengl" if library_loaded? "opengl"
   
   def setup
     library_loaded?(:opengl) ? setup_opengl : render_mode(P3D)

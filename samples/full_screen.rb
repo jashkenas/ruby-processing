@@ -7,10 +7,10 @@
 require 'ruby-processing'
 
 class FullScreen < Processing::App
-  load_java_library :opengl
+  load_java_library "opengl"
   
   def setup
-    library_loaded?(:opengl) ? render_mode(OPENGL) : render_mode(P3D)
+    library_loaded?("opengl") ? render_mode(OPENGL) : render_mode(P3D)
     no_stroke
   end
   
