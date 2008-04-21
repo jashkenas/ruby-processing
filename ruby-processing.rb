@@ -16,6 +16,11 @@ module Processing
   class App < PApplet
     
     include_class "javax.swing.JFrame"
+    include_class "javax.swing.JSlider"
+    @@has_sliders = false
+    include_class "javax.swing.JPanel"
+    include_class "javax.swing.JLabel"
+    
     attr_accessor :frame, :title
     alias_method :oval, :ellipse
     alias_method :stroke_width, :stroke_weight
@@ -88,6 +93,30 @@ module Processing
       return @@loaded_libraries[folder.to_sym]
     end
     
+    # Creates a slider, in a new window, to control an instance variable.
+    # Sliders take a name and a range (optionally), returning an integer.
+    def self.has_slider(name, range=0..100)
+      return if Object.const_defined?(:JRUBY_APPLET)
+      @@has_sliders = true
+      @@slider_frame ||= JFrame.new
+      @@slider_frame.instance_eval do
+        def sliders; @sliders ||= []; end
+        def listeners; @listeners ||= []; end
+      end
+      @@slider_panel ||= JPanel.new(java.awt.FlowLayout.new)
+      attr_accessor name
+      slider = JSlider.new((range.begin * 100), (range.end * 100))
+      listener = SliderListener.new(slider, name.to_s + "=")
+      slider.add_change_listener listener
+      @@slider_frame.listeners << listener
+      slider.set_minor_tick_spacing 1000
+      slider.set_paint_ticks true
+      label = JLabel.new(name.to_s)
+      @@slider_panel.add label
+      @@slider_panel.add slider
+      @@slider_frame.sliders << {:name => name, :slider => slider}
+    end
+    
     def initialize(options = {})
       super()
       App.current = self
@@ -97,10 +126,24 @@ module Processing
                 :full_screen => false}.merge(options)
       @width, @height, @title = options[:width], options[:height], options[:title]
       display options
+      display_slider_frame
     end
     
     def setup() end
     def draw() end
+      
+    def display_slider_frame
+      if @@has_sliders
+        @@slider_frame.add @@slider_panel
+        @@slider_frame.set_size 200, 26 + (65 * @@slider_frame.sliders.size)
+        @@slider_frame.setDefaultCloseOperation(JFrame::DISPOSE_ON_CLOSE)
+        @@slider_frame.set_resizable false
+        @@slider_frame.set_location(@width + 10, 0)
+        @@slider_frame.show
+        @@slider_frame.sliders.each {|s| s[:slider].set_value(self.send(s[:name]).to_i)}
+        @@slider_frame.listeners.each {|l| l.stateChanged(nil)}
+      end
+    end
       
     def display_full_screen(graphics_env)
       @frame = java.awt.Frame.new
@@ -181,6 +224,18 @@ module Processing
       mouseY
     end
     
+  end
+  
+  class SliderListener
+    include javax.swing.event.ChangeListener
+    
+    def initialize(slider, callback)
+      @slider, @callback = slider, callback
+    end
+    
+    def stateChanged(state)
+      Processing::App.current.send(@callback, @slider.get_value / 100.0)
+    end
   end
     
 end
