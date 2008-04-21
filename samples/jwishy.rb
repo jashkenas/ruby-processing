@@ -7,13 +7,16 @@
 # playing with the attr_accessors, as 
 # well as the background.
 
+# This example now demonstrates the use of sliders.
+
 # -- omygawshkenas
 
 require 'ruby-processing'
 
 class Sketch < Processing::App
-  
   attr_accessor :x_wiggle, :y_wiggle, :magnitude, :bluish
+  has_slider :bluish, 0.0..1.0
+  has_slider :alpha, 0.0..1.0
   
   def setup
     @x_wiggle, @y_wiggle = 10.0, 0
@@ -23,6 +26,10 @@ class Sketch < Processing::App
     @toggle = true
     color_mode RGB, 1
     smooth
+  end
+  
+  def alpha=(num)
+    @background[3] = num
   end
   
   def background=(*args)
