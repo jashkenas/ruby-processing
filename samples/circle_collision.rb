@@ -58,7 +58,6 @@ class Sketch < Processing::App
     t = Time.now
     if @frame_time
         fps = 1.0 / (t - @frame_time)
-#        printf "%0.1ffps\n", fps
     end
     @frame_time = t
     @frame_count += 1
@@ -80,7 +79,7 @@ class Sketch < Processing::App
       checkBoundaryCollision ball
     end
     checkObjectCollisions
-
+    1 * 20
   end
 
 
@@ -107,8 +106,8 @@ class Sketch < Processing::App
 
   def checkObjectCollisions
 
-    (0...@balls.length).each do |ia|
-      (ia+1...@balls.length).each do |ib|
+    (0...(@balls.length)).each do |ia|
+      ((ia+1)...(@balls.length)).each do |ib|
 
         ba = @balls[ia]
         bb = @balls[ib]
