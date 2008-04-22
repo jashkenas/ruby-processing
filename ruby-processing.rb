@@ -16,8 +16,6 @@ module Processing
   class App < PApplet
     
     include_class "javax.swing.JFrame"
-    include_class "javax.swing.JSlider"
-    @@has_sliders = false
     include_class "javax.swing.JPanel"
     include_class "javax.swing.JLabel"
     
@@ -26,6 +24,7 @@ module Processing
     alias_method :stroke_width, :stroke_weight
     alias_method :rgb, :color
     alias_method :gray, :color
+    @@has_sliders = false
     
     METHODS_TO_WATCH_FOR = { :mouse_pressed => :mousePressed,
                              :mouse_dragged => :mouseDragged,
@@ -106,16 +105,18 @@ module Processing
       end
       @@slider_panel ||= JPanel.new(java.awt.FlowLayout.new(1, 0, 0))
       attr_accessor name
-      slider = JSlider.new(min, max)
+      slider = Slider.new(min, max)
       listener = SliderListener.new(slider, name.to_s + "=")
       slider.add_change_listener listener
       @@slider_frame.listeners << listener
       slider.set_minor_tick_spacing((max - min).abs / 10) 
       slider.set_paint_ticks true
       label = JLabel.new("<html><br>" + name.to_s + "</html>")
+      slider.label = label
+      slider.name = name
       @@slider_panel.add label
       @@slider_panel.add slider
-      @@slider_frame.sliders << {:name => name, :slider => slider}
+      @@slider_frame.sliders << slider
     end
     
     def initialize(options = {})
@@ -141,7 +142,7 @@ module Processing
         @@slider_frame.set_resizable false
         @@slider_frame.set_location(@width + 10, 0)
         @@slider_frame.show
-        @@slider_frame.sliders.each {|s| s[:slider].set_value(self.send(s[:name]).to_i)}
+        @@slider_frame.sliders.each {|s| s.set_value(self.send(s.name).to_i)}
         @@slider_frame.listeners.each {|l| l.stateChanged(nil)}
       end
     end
@@ -227,6 +228,20 @@ module Processing
     
   end
   
+  class Slider < javax.swing.JSlider
+    attr_accessor :name, :label
+    
+    def initialize(*args)
+      super(*args)
+    end
+    
+    def update_label(value)
+      value = value.to_s
+      value << "0" if value.length < 4
+      label.set_text "<html><br>#{@name.to_s} (#{value}) : </html>"
+    end
+  end
+  
   class SliderListener
     include javax.swing.event.ChangeListener
     
@@ -235,7 +250,9 @@ module Processing
     end
     
     def stateChanged(state)
-      Processing::App.current.send(@callback, @slider.get_value / 100.0)
+      val = @slider.get_value / 100.0
+      @slider.update_label(val)
+      Processing::App.current.send(@callback, val)
     end
   end
     
