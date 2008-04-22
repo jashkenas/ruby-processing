@@ -1,0 +1,2 @@
+#!/bin/sh
+java -cp "script/base_files/jruby-complete.jar:script/base_files/RubyLauncher.jar" RubyLauncher $1
