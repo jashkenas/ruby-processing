@@ -97,21 +97,22 @@ module Processing
     # Sliders take a name and a range (optionally), returning an integer.
     def self.has_slider(name, range=0..100)
       return if Object.const_defined?(:JRUBY_APPLET)
+      min, max = range.begin * 100, range.end * 100
       @@has_sliders = true
       @@slider_frame ||= JFrame.new
       @@slider_frame.instance_eval do
         def sliders; @sliders ||= []; end
         def listeners; @listeners ||= []; end
       end
-      @@slider_panel ||= JPanel.new(java.awt.FlowLayout.new)
+      @@slider_panel ||= JPanel.new(java.awt.FlowLayout.new(1, 0, 0))
       attr_accessor name
-      slider = JSlider.new((range.begin * 100), (range.end * 100))
+      slider = JSlider.new(min, max)
       listener = SliderListener.new(slider, name.to_s + "=")
       slider.add_change_listener listener
       @@slider_frame.listeners << listener
-      slider.set_minor_tick_spacing 1000
+      slider.set_minor_tick_spacing((max - min).abs / 10) 
       slider.set_paint_ticks true
-      label = JLabel.new(name.to_s)
+      label = JLabel.new("<html><br>" + name.to_s + "</html>")
       @@slider_panel.add label
       @@slider_panel.add slider
       @@slider_frame.sliders << {:name => name, :slider => slider}
@@ -135,7 +136,7 @@ module Processing
     def display_slider_frame
       if @@has_sliders
         @@slider_frame.add @@slider_panel
-        @@slider_frame.set_size 200, 26 + (65 * @@slider_frame.sliders.size)
+        @@slider_frame.set_size 200, 32 + (71 * @@slider_frame.sliders.size)
         @@slider_frame.setDefaultCloseOperation(JFrame::DISPOSE_ON_CLOSE)
         @@slider_frame.set_resizable false
         @@slider_frame.set_location(@width + 10, 0)
