@@ -56,6 +56,25 @@ module Processing
       rendered = ERB.new(erb, nil, "<>", "rendered").result(some_binding)
     end
     
+    # This method looks for all of the codes require or load 
+    # directives, checks to see if the file exists (that it's 
+    # not a gem, or a standard lib) and gives you the real ones.
+    def discover_requires_that_actually_exist(main_file_path)
+      code = File.open(main_file_path) {|f| f.readlines.join }
+      code.gsub!("__FILE__", "'#{main_file_path}'")
+      requirements = []
+      matchdata = true
+      while matchdata
+        matchdata = code.match(/((require)|(load)) .*['"]/)
+        if matchdata
+          path = eval(matchdata[0].sub(/((require)|(load)) /, ""))
+          requirements += Dir.glob(path + ".{rb,jar}")
+          code = matchdata.post_match
+        end
+      end
+      return requirements
+    end
+    
     # Ripped from activesupport
     def titleize(word)
       humanize(underscore(word)).gsub(/\b([a-z])/) { $1.capitalize }
