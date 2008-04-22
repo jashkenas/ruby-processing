@@ -1,2 +1,16 @@
-#!/bin/sh
-java -cp "script/base_files/jruby-complete.jar:script/base_files/RubyLauncher.jar" RubyLauncher $1
+#!/usr/bin/env ruby
+
+# This script lets you open up Ruby-Processing sketches
+# without having to install JRuby.
+
+path = ARGV[0]
+unless path
+  puts "Usage: script/open path/to/my_sketch.rb" 
+  exit
+end
+unless File.exists? path
+  puts "Couldn't find: #{path}"
+  exit
+end
+
+`java -cp "script/base_files/jruby-complete.jar:script/base_files/RubyLauncher.jar" RubyLauncher #{path}`

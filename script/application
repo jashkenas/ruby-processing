@@ -35,7 +35,7 @@ module Processing
       prefix = "Contents/Resources/Java"
       cp_r(Dir.glob("script/application_files/{*,**}"), app_dir)
       necessary_files = [@main_file_path, "ruby-processing.rb", "core.jar"]
-      necessary_files += Dir.glob(File.dirname(@main_file_path) + "/{*,**}") unless File.dirname(@main_file_path).match(/(ruby-processing$|\.$)/)
+      necessary_files += discover_requires_that_actually_exist(@main_file_path)
       necessary_files << "data" if File.exists?("data")
       necessary_files += Dir.glob("script/base_files/{*,**}") # Base files
       necessary_files.uniq!
