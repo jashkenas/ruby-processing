@@ -22,18 +22,16 @@ module Processing
       info[:width] = source_code.match(/#{info[:class_name]}\.new.*?:width\s=>\s(\d+)/m)
       info[:height] = source_code.match(/#{info[:class_name]}\.new.*?:height\s=>\s(\d+)/m)
       info[:description] = source_code.match(/# Description:(.*?)\n [^#]/m)
-      matchdata = true
       info[:libs_to_load] = []
       code = source_code.dup
-      while matchdata
+      loop do
         matchdata = code.match(/load_\w+_library.+?["':](\S+?)["'\s]/)
-        if matchdata
-          if File.exists?("library/#{matchdata[1]}")            
-            @opengl = true if matchdata[1].match(/opengl/i)
-            info[:libs_to_load] << matchdata[1]
-          end
-          code = matchdata.post_match
+        break unless matchdata
+        if File.exists?("library/#{matchdata[1]}")            
+          @opengl = true if matchdata[1].match(/opengl/i)
+          info[:libs_to_load] << matchdata[1]
         end
+        code = matchdata.post_match
       end
       defaults = {:description => "", :title => "Ruby-Processing Sketch", :width => "400", :height => "400"}
       defaults.each {|k,v| info[k] ? info[k] = info[k][1] : info[k] = v }
@@ -64,14 +62,12 @@ module Processing
       code = File.open(main_file_path) {|f| f.readlines.join }
       code.gsub!("__FILE__", "'#{main_file_path}'")
       requirements = []
-      matchdata = true
-      while matchdata
+      loop do
         matchdata = code.match(/((require)|(load)) .*['"]/)
-        if matchdata
-          path = eval(matchdata[0].sub(/((require)|(load)) /, ""))
-          requirements += Dir.glob(path + ".{rb,jar}")
-          code = matchdata.post_match
-        end
+        break unless matchdata
+        path = eval(matchdata[0].sub(/((require)|(load)) /, ""))
+        requirements += Dir.glob(path + ".{rb,jar}")
+        code = matchdata.post_match
       end
       return requirements
     end
