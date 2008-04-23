@@ -137,8 +137,6 @@ module Processing
         f.set_resizable false
         f.set_location(@width + 10, 0)
         f.show
-        f.sliders.each {|s| s.set_value(self.send(s.name).to_i)}
-        f.listeners.each {|l| l.stateChanged(nil)}
       end
     end
       
@@ -246,7 +244,7 @@ module Processing
     def update_label(value)
       value = value.to_s
       value << "0" if value.length < 4
-      label.set_text "<html><br>#{@name.to_s} (#{value}) : </html>"
+      label.set_text "<html><br>#{@name.to_s}: #{value}</html>"
     end
   end
   

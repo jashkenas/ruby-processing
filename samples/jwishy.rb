@@ -21,7 +21,8 @@ class Sketch < Processing::App
   def setup
     @x_wiggle, @y_wiggle = 10.0, 0
     @magnitude = 8.15
-    @bluish = 0.5
+    @bluish = 0.9
+    @alpha = 0.0
     @background = [0.06, 0.03, 0.18]
     @toggle = true
     color_mode RGB, 1
