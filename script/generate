@@ -12,6 +12,10 @@ module Processing
       # Check to make sure that the main file exists
       main_file_path = ARGV.first
       usage main_file_path
+      if File.exists?(main_file_path)
+        puts "That sketch already exists."
+        exit
+      end
       main_file = File.basename(main_file_path, ".rb")
       
       # Get the substitutions

@@ -168,7 +168,7 @@ module Processing
       @frame = JFrame.new(@title)
       @frame.add(self)
       @frame.setSize(@width, @height + 22)
-      @frame.setDefaultCloseOperation(JFrame::DISPOSE_ON_CLOSE)
+      @frame.setDefaultCloseOperation(JFrame::EXIT_ON_CLOSE)
       @frame.setResizable(false)
       @frame.show
       self.init

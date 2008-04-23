@@ -16,7 +16,8 @@ module Processing
       # Extract information from main file
       info = {}
       source_code = info[:source_code] = File.open(@main_file_path, "r") {|file| file.readlines.join(" ")}
-      info[:class_name] = source_code.match(/(\w+)\s*<\s*Processing::App/)[1]
+      info[:class_name] = source_code.match(/(\w+)\s*<\s*Processing::App/)
+      info[:class_name] = (info[:class_name] ? info[:class_name][1] : nil)
       info[:title] = source_code.match(/#{info[:class_name]}\.new.*?:title\s=>\s["'](.+)["']/m)
       info[:width] = source_code.match(/#{info[:class_name]}\.new.*?:width\s=>\s(\d+)/m)
       info[:height] = source_code.match(/#{info[:class_name]}\.new.*?:height\s=>\s(\d+)/m)
