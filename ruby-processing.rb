@@ -24,7 +24,6 @@ module Processing
     alias_method :stroke_width, :stroke_weight
     alias_method :rgb, :color
     alias_method :gray, :color
-    @@has_sliders = false
     
     METHODS_TO_WATCH_FOR = { :mouse_pressed => :mousePressed,
                              :mouse_dragged => :mouseDragged,
@@ -42,6 +41,7 @@ module Processing
     
     def self.current=(app); @current_app = app; end
     def self.current; @current_app; end
+    def self.slider_frame; @slider_frame; end
     
     # Detect if a library has been loaded (for conditional loading)
     @@loaded_libraries = Hash.new(false)
@@ -97,26 +97,21 @@ module Processing
     def self.has_slider(name, range=0..100)
       return if Object.const_defined?(:JRUBY_APPLET)
       min, max = range.begin * 100, range.end * 100
-      @@has_sliders = true
-      @@slider_frame ||= JFrame.new
-      @@slider_frame.instance_eval do
-        def sliders; @sliders ||= []; end
-        def listeners; @listeners ||= []; end
-      end
-      @@slider_panel ||= JPanel.new(java.awt.FlowLayout.new(1, 0, 0))
       attr_accessor name
+      initialize_slider_frame unless @slider_frame
       slider = Slider.new(min, max)
       listener = SliderListener.new(slider, name.to_s + "=")
       slider.add_change_listener listener
-      @@slider_frame.listeners << listener
+      @slider_frame.listeners << listener
       slider.set_minor_tick_spacing((max - min).abs / 10) 
       slider.set_paint_ticks true
+      slider.paint_labels = true
       label = JLabel.new("<html><br>" + name.to_s + "</html>")
       slider.label = label
       slider.name = name
-      @@slider_panel.add label
-      @@slider_panel.add slider
-      @@slider_frame.sliders << slider
+      @slider_frame.sliders << slider
+      @slider_frame.panel.add label
+      @slider_frame.panel.add slider
     end
     
     def initialize(options = {})
@@ -135,15 +130,15 @@ module Processing
     def draw() end
       
     def display_slider_frame
-      if @@has_sliders
-        @@slider_frame.add @@slider_panel
-        @@slider_frame.set_size 200, 32 + (71 * @@slider_frame.sliders.size)
-        @@slider_frame.setDefaultCloseOperation(JFrame::DISPOSE_ON_CLOSE)
-        @@slider_frame.set_resizable false
-        @@slider_frame.set_location(@width + 10, 0)
-        @@slider_frame.show
-        @@slider_frame.sliders.each {|s| s.set_value(self.send(s.name).to_i)}
-        @@slider_frame.listeners.each {|l| l.stateChanged(nil)}
+      if (f = self.class.slider_frame)
+        f.add f.panel
+        f.set_size 200, 32 + (71 * f.sliders.size)
+        f.setDefaultCloseOperation(JFrame::DISPOSE_ON_CLOSE)
+        f.set_resizable false
+        f.set_location(@width + 10, 0)
+        f.show
+        f.sliders.each {|s| s.set_value(self.send(s.name).to_i)}
+        f.listeners.each {|l| l.stateChanged(nil)}
       end
     end
       
@@ -224,6 +219,19 @@ module Processing
     
     def mouse_y
       mouseY
+    end
+    
+    
+    private
+    
+    def self.initialize_slider_frame
+      @slider_frame ||= JFrame.new
+      class << @slider_frame
+        attr_accessor :sliders, :listeners, :panel
+      end
+      @slider_frame.sliders ||= []; @slider_frame.listeners ||= []
+      slider_panel ||= JPanel.new(java.awt.FlowLayout.new(1, 0, 0))
+      @slider_frame.panel = slider_panel
     end
     
   end

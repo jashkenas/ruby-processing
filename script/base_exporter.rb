@@ -60,7 +60,7 @@ module Processing
     # This method looks for all of the codes require or load 
     # directives, checks to see if the file exists (that it's 
     # not a gem, or a standard lib) and gives you the real ones.
-    def discover_requires_that_actually_exist(main_file_path)
+    def extract_real_requires(main_file_path)
       code = File.open(main_file_path) {|f| f.readlines.join }
       code.gsub!("__FILE__", "'#{main_file_path}'")
       requirements = []

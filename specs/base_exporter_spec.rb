@@ -45,6 +45,10 @@ describe "Processing::BaseExporter" do
         @ex.instance_variables.should include(var)
       end
     end
+    
+    it "should extract requires that actually exist" do
+      @ex.extract_real_requires(__FILE__).should == ["script/base_exporter.rb"]
+    end
   end  
   
   it "should be able to render erb" do
