@@ -123,21 +123,20 @@ module Processing
                 :full_screen => false}.merge(options)
       @width, @height, @title = options[:width], options[:height], options[:title]
       display options
-      display_slider_frame
+      display_slider_frame if self.class.slider_frame
     end
     
     def setup() end
     def draw() end
       
     def display_slider_frame
-      if (f = self.class.slider_frame)
-        f.add f.panel
-        f.set_size 200, 32 + (71 * f.sliders.size)
-        f.setDefaultCloseOperation(JFrame::DISPOSE_ON_CLOSE)
-        f.set_resizable false
-        f.set_location(@width + 10, 0)
-        f.show
-      end
+      f = self.class.slider_frame
+      f.add f.panel
+      f.set_size 200, 32 + (71 * f.sliders.size)
+      f.setDefaultCloseOperation(JFrame::DISPOSE_ON_CLOSE)
+      f.set_resizable false
+      f.set_location(@width + 10, 0)
+      f.show
     end
       
     def display_full_screen(graphics_env)

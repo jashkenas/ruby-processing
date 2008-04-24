@@ -2,6 +2,9 @@
 // -- omygawshkenas
 
 import java.io.*;
+import java.io.IOException;
+import java.io.FileInputStream;
+import java.io.BufferedInputStream;
 
 import org.jruby.Ruby;
 import org.jruby.RubyInstanceConfig;

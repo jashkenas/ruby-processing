@@ -1,3 +1,3 @@
 Manifest-Version: 1.0
 Created-By: Ruby-Processing
-Main-Class: RubyLauncher
+Main-Class: org.jruby.JRubyLauncher
