@@ -1,6 +1,7 @@
 # Specs for Ruby-Processing. You can run these with the 
 # JRuby version of RSpec. Sweet.
 
+require 'script/base_files/jruby-complete.jar'
 require 'ruby-processing'
 
 describe Processing::App do
