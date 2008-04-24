@@ -1,4 +1,4 @@
 #!/bin/sh
 APPDIR=$(dirname "$0")
 cd "$APPDIR/Contents/Resources/Java"
-java -cp "<%= @linux_class_path %>" RubyLauncher <%= @main_file %>
+java -cp "<%= @linux_class_path %>" org.jruby.JRubyLauncher <%= @main_file %>

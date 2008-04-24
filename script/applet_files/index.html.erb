@@ -70,9 +70,9 @@
       codebase="."
       archive="<%= @file_list %>"
       style="margin: 0; padding: 0;"
-      script="<%= @main_file %>"
       width="<%= @width %>" height="<%= @height %>">
       
+      <param name="jruby.script" value="<%= @main_file %>"/>
       <param name="image" value="images/ruby.jpg" />
       <param name="boxbgcolor" value="#000000" />   
       <param name="lang" value="en" />
