@@ -210,13 +210,11 @@ module Processing
       size(@width, @height, mode_const)
     end
     
-    def mouse_x
-      mouseX
-    end
     
-    def mouse_y
-      mouseY
-    end
+    def mouse_x; mouseX; end
+    def mouse_y; mouseY; end
+    def pmouse_x; pmouseX; end
+    def pmouse_y; pmouseY; end
     
     
     private
