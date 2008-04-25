@@ -1,0 +1,3 @@
+#!/usr/bin/env ruby
+home = File.dirname(File.dirname(`which jruby`))
+puts `java -cp script/base_files/jruby-complete.jar -Djruby.lib=#{home}/lib -Djruby.home=#{home} org.jruby.Main #{home}/bin/spec #{ARGV.join(" ")}`
