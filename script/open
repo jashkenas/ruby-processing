@@ -1,16 +1,13 @@
-#!/usr/bin/env ruby
+#!/bin/bash
 
 # This script lets you open up Ruby-Processing sketches
 # without having to install JRuby.
 
-path = ARGV[0]
-unless path
-  puts "Usage: script/open path/to/my_sketch.rb" 
+if [ -e "$1" ]
+then
+  java -cp script/base_files/jruby-complete.jar org.jruby.Main "$1"
+else
+  echo "Couldn't find that sketch."
+  echo "Usage: script/open path/to/my_sketch.rb"
   exit
-end
-unless File.exists? path
-  puts "Couldn't find: #{path}"
-  exit
-end
-
-`java -cp "script/base_files/jruby-complete.jar" org.jruby.Main #{path}`
+fi
