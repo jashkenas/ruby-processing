@@ -13,4 +13,4 @@ unless File.exists? path
   exit
 end
 
-`java -cp "script/base_files/jruby-complete.jar" org.jruby.JRubyLauncher #{path}`
+`java -cp "script/base_files/jruby-complete.jar" org.jruby.Main #{path}`
