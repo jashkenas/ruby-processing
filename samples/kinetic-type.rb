@@ -1,3 +1,7 @@
+# From the Processing Examples
+# by Zach Lieberman
+# Ruby version thanks to Nick Sieger
+
 require 'ruby-processing'
 
 class KineticType < Processing::App
@@ -10,15 +14,17 @@ class KineticType < Processing::App
   include Math
 
   def setup
-    render_mode OPENGL
+    library_loaded?("opengl") ? render_mode(OPENGL) : render_mode(P3D)
 
     frame_rate 30
 
     # Array of line objects
     @lns = [];
 
-    # Load the font from the sketch's data directory
-    f = load_font(File.dirname(__FILE__) + "/Univers66.vlw.gz")
+    # Create the font from scratch. 
+    # Everyone and their kid sister's got Arial.
+    hint(ENABLE_NATIVE_FONTS)
+    f = create_font("Arial", 66)
     text_font f, 1.0
 
     # White type, black background
@@ -61,6 +67,8 @@ class KineticType < Processing::App
     raise e
   end
 
+  # Any class inheriting from this app object
+  # can use all the plain Processing calls.
   class AppObject
     attr_accessor :app
     def method_missing(meth, *args, &block)
