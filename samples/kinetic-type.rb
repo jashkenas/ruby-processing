@@ -100,4 +100,4 @@ class KineticType < Processing::App
   end
 end
 
-KineticType.new :width => 200, :height => 200
+KineticType.new :width => 200, :height => 200, :title => "Kinetic Type"
