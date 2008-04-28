@@ -100,9 +100,11 @@ module Processing
       attr_accessor name
       initialize_slider_frame unless @slider_frame
       slider = Slider.new(min, max)
-      listener = SliderListener.new(slider, name.to_s + "=")
-      slider.add_change_listener listener
-      @slider_frame.listeners << listener
+      slider.add_change_listener do
+        val = slider.get_value / 100.0
+        slider.update_label(val)
+        Processing::App.current.send(name.to_s + "=", val)
+      end
       slider.set_minor_tick_spacing((max - min).abs / 10) 
       slider.set_paint_ticks true
       slider.paint_labels = true
@@ -222,9 +224,9 @@ module Processing
     def self.initialize_slider_frame
       @slider_frame ||= JFrame.new
       class << @slider_frame
-        attr_accessor :sliders, :listeners, :panel
+        attr_accessor :sliders, :panel
       end
-      @slider_frame.sliders ||= []; @slider_frame.listeners ||= []
+      @slider_frame.sliders ||= []
       slider_panel ||= JPanel.new(java.awt.FlowLayout.new(1, 0, 0))
       @slider_frame.panel = slider_panel
     end
@@ -242,20 +244,6 @@ module Processing
       value = value.to_s
       value << "0" if value.length < 4
       label.set_text "<html><br>#{@name.to_s}: #{value}</html>"
-    end
-  end
-  
-  class SliderListener
-    include javax.swing.event.ChangeListener
-    
-    def initialize(slider, callback)
-      @slider, @callback = slider, callback
-    end
-    
-    def stateChanged(state)
-      val = @slider.get_value / 100.0
-      @slider.update_label(val)
-      Processing::App.current.send(@callback, val)
     end
   end
     
