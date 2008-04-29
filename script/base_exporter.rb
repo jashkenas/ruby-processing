@@ -45,7 +45,8 @@ module Processing
     def render_erb_in_path_with_binding(path, some_binding, opts={})
       erbs = Dir.glob(path + "/**/*.erb")
       erbs.each do |erb|
-        rendered = render_erb_from_string_with_binding(File.new(erb).read, some_binding)
+        string = File.open(erb) {|f| f.read }
+        rendered = render_erb_from_string_with_binding(string, some_binding)
         File.open(erb.sub(".erb", ""), "w") {|f| f.print rendered }
         rm erb if opts[:delete]
       end
