@@ -2,6 +2,10 @@
 # Send suggestions, ideas, and hate-mail to jashkenas [at] gmail.com
 # Also, send samples and libraries.
 #
+# This class is a thin wrapper around Processing's PApplet.
+# Most of the code here is for interfacing with Swing, 
+# web applets, going fullscreen, and drawing sliders.
+#
 # Revision 0.8
 # - omygawshkenas
 
@@ -19,12 +23,15 @@ module Processing
     include_class "javax.swing.JPanel"
     include_class "javax.swing.JLabel"
     
+    # Alias some methods for familiarity for Shoes coders.
     attr_accessor :frame, :title
     alias_method :oval, :ellipse
     alias_method :stroke_width, :stroke_weight
     alias_method :rgb, :color
     alias_method :gray, :color
     
+    # Watch the definition of these methods, to make sure 
+    # that Processing is able to call them during events.
     METHODS_TO_WATCH_FOR = { :mouse_pressed => :mousePressed,
                              :mouse_dragged => :mouseDragged,
                              :mouse_clicked => :mouseClicked,
@@ -65,9 +72,8 @@ module Processing
     # hack the Java ClassLoader, so that you don't have to 
     # futz with your PATH. But its probably bad juju.
     def self.load_java_library(folder)
-      # Applets preload all the java libraries.
       unless @@loaded_libraries[folder.to_sym]
-        if Object.const_defined?(:JRUBY_APPLET)
+        if Object.const_defined?(:JRUBY_APPLET) # Applets preload all the java libraries.
           @@loaded_libraries[folder.to_sym] = true if JRUBY_APPLET.get_parameter("archive").match(%r(#{folder}))
         else
           base = "library#{File::SEPARATOR}#{folder}#{File::SEPARATOR}"
@@ -180,7 +186,7 @@ module Processing
       self.init
     end
     
-    # Tests to see if it's possible to go full screen.
+    # Tests to see which display method should run.
     def display(options)
       if Object.const_defined?(:JRUBY_APPLET) # Then display it in an applet.
         display_in_an_applet
@@ -192,12 +198,22 @@ module Processing
       end
     end
     
-    # There's just so many methods in Processing,
+    # There's just so many functions in Processing,
     # Here's a convenient way to look for them.
     def find_method(method_name)
       reg = Regexp.new("#{method_name}", true)
       self.methods.sort.select {|meth| reg.match(meth)}
     end
+    
+    # Specify what rendering Processing should use.
+    def render_mode(mode_const)
+      size(@width, @height, mode_const)
+    end
+    
+    def mouse_x; mouseX; end
+    def mouse_y; mouseY; end
+    def pmouse_x; pmouseX; end
+    def pmouse_y; pmouseY; end
     
     def close
       @frame.dispose
@@ -206,17 +222,6 @@ module Processing
     def quit
       java.lang.System.exit(0)
     end
-    
-    # Specify what rendering Processing should use.
-    def render_mode(mode_const)
-      size(@width, @height, mode_const)
-    end
-    
-    
-    def mouse_x; mouseX; end
-    def mouse_y; mouseY; end
-    def pmouse_x; pmouseX; end
-    def pmouse_y; pmouseY; end
     
     
     private
