@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# This script opens up Ruby-Processing Sketches in a Live-Coding
+# Environment (jIRB), so that you can go code on the fly.
+
+if [ -e "$1" ]
+then
+  java -cp script/base_files/jruby-complete.jar org.jruby.Main script/live_files/live_coding.rb "$1"
+else
+  java -cp script/base_files/jruby-complete.jar org.jruby.Main script/live_files/empty_coding.rb
+fi
