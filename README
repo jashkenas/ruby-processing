@@ -25,6 +25,27 @@ them on the fly. Live coding, anyone?
 
 Changelog:
 
+Revision 0.9
+  * Inspired by NodeBox, Ruby-Processing now sports the ability 
+    to have sliders control numeric variables in your sketches.
+    If you're using an instance variable, say, @speed, to control 
+    the speed of your sketch. 
+    
+    has_slider :speed
+    
+    Will bring up a panel alongside with a slider that controls 
+    the speed. It can take a range of values as an optional parameter. 
+    Check out and run jwishy.rb for an example.
+  
+  * Multi-platform app export! Exporting your Ruby-Processing 
+    apps will now create executable apps for Mac/Windows/Linux.
+    
+  * Live coding support. Now you can do script/live path/to/sketch.rb 
+    to open up an interactive session with your sketch available
+    as @app.
+    
+  * Nick Sieger donated an additional sample.
+
 Revision 0.8
   * Ruby-Processing can now export Mac applications! Running 
     script/application my_sketch.rb will create MySketch.app, 
