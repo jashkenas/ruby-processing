@@ -134,6 +134,10 @@ module Processing
       display_slider_frame if self.class.slider_frame
     end
     
+    def inspect
+      "#<Processing::App:#{self.class}:#{@title}>"
+    end
+    
     def setup() end
     def draw() end
       
