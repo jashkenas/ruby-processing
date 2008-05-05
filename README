@@ -9,18 +9,17 @@
 This is a Ruby wrapper that lets you harness Processing’s awesome power. 
 It makes Processing act in a slightly more Shoes-like way, and replaces 
 the ol’ crusty faux-Java-1.4-syntax sandals that Processing usually 
-wears with some new Ruby slippers. So, here’s what you’ll need to make 
-it work:
-
-Download the most recent JRuby, and make sure that the jruby command is 
-reachable in your path.
+wears with some new Ruby slippers.
 
 From inside this folder, you can run the samples like so:
 
-jruby samples/jwishy.rb
+script/open samples/jwishy.rb
 
-Because it’s Ruby, you can also load the samples via jirb, and then alter 
+Because it’s Ruby, you can also load the samples via script/live, and then alter 
 them on the fly. Live coding, anyone?
+
+For full, up-to-date info, always check the wiki:
+http://github.com/jashkenas/ruby-processing/wikis
 
 
 Changelog:
