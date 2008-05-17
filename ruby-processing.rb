@@ -122,6 +122,24 @@ module Processing
       @slider_frame.panel.add slider
     end
     
+    def self.initialize_slider_frame
+      @slider_frame ||= JFrame.new
+      class << @slider_frame
+        attr_accessor :sliders, :panel
+      end
+      @slider_frame.sliders ||= []
+      slider_panel ||= JPanel.new(java.awt.FlowLayout.new(1, 0, 0))
+      @slider_frame.panel = slider_panel
+    end
+    
+    def self.remove_slider_frame
+      if @slider_frame
+        @slider_frame.remove_all
+        @slider_frame.dispose
+        @slider_frame = nil
+      end
+    end
+    
     def initialize(options = {})
       super()
       App.current = self
@@ -225,24 +243,15 @@ module Processing
     end
     
     def close
+      Processing::App.current = nil
+      self.class.remove_slider_frame
+      @frame.remove(self)
+      self.destroy
       @frame.dispose
     end
     
     def quit
       java.lang.System.exit(0)
-    end
-    
-    
-    private
-    
-    def self.initialize_slider_frame
-      @slider_frame ||= JFrame.new
-      class << @slider_frame
-        attr_accessor :sliders, :panel
-      end
-      @slider_frame.sliders ||= []
-      slider_panel ||= JPanel.new(java.awt.FlowLayout.new(1, 0, 0))
-      @slider_frame.panel = slider_panel
     end
     
   end
