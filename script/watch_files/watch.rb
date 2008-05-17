@@ -17,7 +17,9 @@ module Processing
           file_mtime = File.stat(@file).mtime
           if file_mtime > @time
             @time = file_mtime
-            Processing::App.current.close
+            app = Processing::App.current
+            Processing::App.current.close if app
+            GC.start
             load @file
           end
           sleep 0.1
