@@ -137,9 +137,6 @@ module Processing
     def inspect
       "#<Processing::App:#{self.class}:#{@title}>"
     end
-    
-    def setup() end
-    def draw() end
       
     def display_slider_frame
       f = self.class.slider_frame
@@ -218,6 +215,14 @@ module Processing
     def mouse_y; mouseY; end
     def pmouse_x; pmouseX; end
     def pmouse_y; pmouseY; end
+    
+    def mouse_pressed?
+      Java.java_to_primitive(java_class.field("mousePressed").value(java_object))
+    end
+    
+    def key_pressed?
+      Java.java_to_primitive(java_class.field("keyPressed").value(java_object))
+    end
     
     def close
       @frame.dispose
