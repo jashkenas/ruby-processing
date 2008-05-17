@@ -5,7 +5,7 @@
 
 if [ -e "$1" ]
 then
-  java -cp script/base_files/jruby-complete.jar org.jruby.Main "$1"
+  java -cp script/base_files/jruby-complete.jar -Xdock:name=Ruby-Processing -Xdock:icon=script/application_files/Contents/Resources/sketch.icns org.jruby.Main "$1"
 else
   echo "Couldn't find that sketch."
   echo "Usage: script/open path/to/my_sketch.rb"
