@@ -20,7 +20,11 @@ module Processing
             app = Processing::App.current
             Processing::App.current.close if app
             GC.start
-            load @file
+            begin
+              load @file
+            rescue SyntaxError
+              print "Syntax Error in your sketch: ",$!, "\n"
+            end
           end
           sleep 0.1
         end
