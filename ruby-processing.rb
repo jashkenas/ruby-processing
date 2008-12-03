@@ -101,6 +101,8 @@ module Processing
     
     
     def self.has_slider(name, range=0..100)
+      attr_accessor name
+      return if Object.const_defined?(:JRUBY_APPLET)
       load_ruby_library 'slider'
       extend Slider::ClassMethods
       include Slider::InstanceMethods

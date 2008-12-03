@@ -6,6 +6,5 @@ require 'irb'
 sketch = ARGV[0] || 'ruby-processing'
 ARGV[0] = nil
 require sketch
-@app = Processing::App.current
 IRB.setup(__FILE__)
 IRB.start()

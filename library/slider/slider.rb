@@ -18,7 +18,6 @@ class Slider < javax.swing.JSlider
     # Creates a slider, in a new window, to control an instance variable.
     # Sliders take a name and a range (optionally), returning an integer.
     def create_slider(name, range=0..100)
-      attr_accessor name
       return if Object.const_defined?(:JRUBY_APPLET)
       min, max = range.begin * 100, range.end * 100
       initialize_slider_frame unless @slider_frame
