@@ -17,6 +17,7 @@ module Processing
   include_package "processing.core"
   
   class App < PApplet
+    include Math
     
     include_class "javax.swing.JFrame"
     
