@@ -15,14 +15,25 @@ From inside this folder, you can run the samples like so:
 
 script/open samples/jwishy.rb
 
-Because it’s Ruby, you can also load the samples via script/live, and then alter 
-them on the fly. Live coding, anyone?
+Because it’s Ruby, you can also load the samples via script/live, and 
+then alter them on the fly. Live coding, anyone?
 
 For full, up-to-date info, always check the wiki:
 http://github.com/jashkenas/ruby-processing/wikis
 
 
 Changelog:
+
+Revision 1.0
+  * Processing updated to 1.0.1 (congrats to the Processing team),
+    and JRuby updated to the latest trunk. Most sketches run a good
+    bit faster now.
+    
+  * Ruby-Processing now comes with many default libraries: Boids, DXF,
+    Javascript, Minim, Net, OpenGL, PDF, Serial, Slider, and Video
+    are now included in the download.
+    
+  * has_slider moved out into an included ruby library.
 
 Revision 0.9
   * Inspired by NodeBox, Ruby-Processing now sports the ability 
