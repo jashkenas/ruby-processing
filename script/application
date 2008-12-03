@@ -34,10 +34,9 @@ module Processing
       # Copy over all the required files
       prefix = "lib"
       cp_r(Dir.glob("script/application_files/{*,**}"), app_dir)
-      necessary_files = [@main_file_path, "ruby-processing.rb", "core.jar"]
+      necessary_files = [@main_file_path, "ruby-processing.rb", "core.jar", "jruby-complete.jar"]
       necessary_files += extract_real_requires(@main_file_path)
       necessary_files << "data" if File.exists?("data")
-      necessary_files += Dir.glob("script/base_files/{*,**}") # Base files
       necessary_files.uniq!
       cp_r(necessary_files, File.join(app_dir, prefix))
       library_files = Dir.glob("library/{#{@libs_to_load.join(",")}}") if @libs_to_load.length > 0
