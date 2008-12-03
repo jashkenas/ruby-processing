@@ -101,9 +101,9 @@ module Processing
     # Creates a slider, in a new window, to control an instance variable.
     # Sliders take a name and a range (optionally), returning an integer.
     def self.has_slider(name, range=0..100)
+      attr_accessor name
       return if Object.const_defined?(:JRUBY_APPLET)
       min, max = range.begin * 100, range.end * 100
-      attr_accessor name
       initialize_slider_frame unless @slider_frame
       slider = Slider.new(min, max)
       slider.add_change_listener do
@@ -194,7 +194,7 @@ module Processing
     end
     
     def display_in_an_applet
-      JRUBY_APPLET.setSize(@width, @height)
+      JRUBY_APPLET.set_size(@width, @height)
       JRUBY_APPLET.background_color = nil
       JRUBY_APPLET.double_buffered = false
       JRUBY_APPLET.add self

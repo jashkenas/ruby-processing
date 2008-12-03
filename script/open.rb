@@ -14,4 +14,4 @@ unless File.exists? path
   exit
 end
 
-puts `java -cp "script/base_files/jruby-complete.jar" org.jruby.Main #{path}`
+puts `java -cp "jruby-complete.jar" org.jruby.Main #{path}`

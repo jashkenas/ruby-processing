@@ -21,10 +21,9 @@ class KineticType < Processing::App
     # Array of line objects
     @lns = [];
 
-    # Create the font from scratch. 
-    # Everyone and their kid sister's got Arial.
+    # Try to create the font from scratch. 
     hint(ENABLE_NATIVE_FONTS)
-    f = create_font("Arial", 66)
+    f = create_font("Monospaced", 66)
     text_font f, 1.0
 
     # White type, black background
