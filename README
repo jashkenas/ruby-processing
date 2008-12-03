@@ -52,7 +52,7 @@ Revision 0.9
     
   * Live coding support. Now you can do script/live path/to/sketch.rb 
     to open up an interactive session with your sketch available
-    as @app.
+    as $app.
     
   * Nick Sieger donated an additional sample.
 
