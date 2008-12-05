@@ -36,13 +36,25 @@ module Processing
                              :mouse_moved   =>   :mouseMoved, 
                              :mouse_released => :mouseReleased,
                              :key_pressed => :keyPressed,
-                             :key_released => :keyReleased }
+                             :key_released => :keyReleased,
+                             :key_typed => :keyTyped }
              
                             
     def self.method_added(method_name)
       if METHODS_TO_WATCH_FOR.keys.include?(method_name)
         alias_method METHODS_TO_WATCH_FOR[method_name], method_name
       end
+    end
+    
+    
+    # Class methods that we should make available in the instance.
+    [:map, :pow, :norm, :lerp, :second, :minute, :hour, :day, :month, :year, :sq, :constrain].each do |meth|
+      method = <<-EOS
+        def #{meth}(*args)
+          self.class.#{meth}(*args)
+        end
+      EOS
+      eval method
     end
     
     
@@ -216,6 +228,7 @@ module Processing
     def mouse_y; mouseY; end
     def pmouse_x; pmouseX; end
     def pmouse_y; pmouseY; end
+    def frame_count; frameCount; end
     
     
     def mouse_pressed?
