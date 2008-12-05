@@ -29,9 +29,9 @@ class MoreConditionals < Processing::App
     mouse_pressed? ? @g += 1 : @g -= 1
     
     # Constrain all color values to between 0 and 255.
-    @r = self.class.constrain(@r, 0, 255)
-    @g = self.class.constrain(@g, 0, 255)
-    @b = self.class.constrain(@b, 0, 255)
+    @r = constrain(@r, 0, 255)
+    @g = constrain(@g, 0, 255)
+    @b = constrain(@b, 0, 255)
   end
 end
 
