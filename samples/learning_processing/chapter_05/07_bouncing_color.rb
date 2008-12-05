@@ -27,9 +27,9 @@ class BouncingColor < Processing::App
     # 0 for no color and 255 for full color.  
     # When this happens, just like with the bouncing ball, the direction is reversed.
     #
-    # Reverse direction of color change
-    @c1_dir *= -1 if @c1 < 0 || @c1 > 255
-    @c2_dir *= -1 if @c2 < 0 || @c2 > 255
+    # The following lines use Ranges and "unless" (which is the opposite of if).    
+    @c1_dir *= -1 unless (0..255).include?(@c1)
+    @c2_dir *= -1 unless (0..255).include?(@c1)
   end
   
 end

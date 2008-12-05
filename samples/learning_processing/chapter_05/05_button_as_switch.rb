@@ -23,8 +23,13 @@ class ButtonAsSwitch < Processing::App
   
   # When the mouse is pressed, the state of the button is toggled.   
   # Try moving this code to draw() like in the rollover example. What goes wrong?
+  
+  # The following method uses Ruby ranges, which look like 1..10, and
+  # stand for the range of things between the start and end element.
+  # You can ask a range if it includes a value, in this case whether
+  # or not mouse_x is between @x and @x+@w.
   def mouse_pressed
-    if mouse_x > @x && mouse_x < @x+@w && mouse_y > @y && mouse_y < @y+@h
+    if (@x..@x+@w).include?(mouse_x) && (@y..@y+@h).include?(mouse_y)
       @button = !@button 
     end
   end
