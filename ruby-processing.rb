@@ -131,6 +131,7 @@ module Processing
                 :title => "",
                 :full_screen => false}.merge(options)
       @width, @height, @title = options[:width], options[:height], options[:title]
+      @render_mode = P2D
       display options
       display_slider_frame if self.class.respond_to?('slider_frame') && self.class.slider_frame
     end
@@ -206,7 +207,20 @@ module Processing
     
     # Specify what rendering Processing should use.
     def render_mode(mode_const)
-      size(@width, @height, mode_const)
+      @render_mode = mode_const
+      size(@width, @height, @render_mode)
+    end
+    
+    
+    # Nice block method to draw to a buffer.
+    # You can optionally pass it a width, a height, and a renderer.
+    # Takes care of starting and ending the draw for you.
+    def buffer(buf_width=width, buf_height=height, renderer=@render_mode)
+      buf = create_graphics(buf_width, buf_height, renderer)
+      buf.begin_draw
+      yield buf
+      buf.end_draw
+      buf
     end
     
     
