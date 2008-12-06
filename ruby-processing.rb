@@ -62,6 +62,13 @@ module Processing
     def self.current; @current_app; end
     
     
+    # Detect if we're online or not.
+    def self.online?
+      @online ||= Object.const_defined?(:JRUBY_APPLET)
+    end
+    def online?; self.class.online?; end
+    
+    
     # Detect if a library has been loaded (for conditional loading)
     @@loaded_libraries = Hash.new(false)
     def self.library_loaded?(folder)
@@ -75,7 +82,7 @@ module Processing
     # of the same name as the library folder.
     def self.load_ruby_library(folder)
       unless @@loaded_libraries[folder.to_sym]
-        Object.const_defined?(:JRUBY_APPLET) ? prefix = "" : prefix = "library/"
+        online? ? prefix = "" : prefix = "library/"
         @@loaded_libraries[folder.to_sym] = require "#{prefix}#{folder}/#{folder}"
       end
       return @@loaded_libraries[folder.to_sym]
@@ -87,7 +94,7 @@ module Processing
     # futz with your PATH. But its probably bad juju.
     def self.load_java_library(folder)
       unless @@loaded_libraries[folder.to_sym]
-        if Object.const_defined?(:JRUBY_APPLET) # Applets preload all the java libraries.
+        if online? # Applets preload all the java libraries.
           @@loaded_libraries[folder.to_sym] = true if JRUBY_APPLET.get_parameter("archive").match(%r(#{folder}))
         else
           base = "library#{File::SEPARATOR}#{folder}#{File::SEPARATOR}"
@@ -115,7 +122,7 @@ module Processing
     
     def self.has_slider(name, range=0..100)
       attr_accessor name
-      return if Object.const_defined?(:JRUBY_APPLET)
+      return if online?
       load_ruby_library 'slider'
       extend Slider::ClassMethods
       include Slider::InstanceMethods
@@ -186,7 +193,7 @@ module Processing
     
     # Tests to see which display method should run.
     def display(options)
-      if Object.const_defined?(:JRUBY_APPLET) # Then display it in an applet.
+      if online? # Then display it in an applet.
         display_in_an_applet
       elsif options[:full_screen] # Then display it fullscreen.
         graphics_env = java.awt.GraphicsEnvironment.get_local_graphics_environment.get_default_screen_device
