@@ -251,6 +251,7 @@ module Processing
     def pmouse_x; pmouseX; end
     def pmouse_y; pmouseY; end
     def frame_count; frameCount; end
+    def mouse_button; mouseButton; end
     
     
     def mouse_pressed?
