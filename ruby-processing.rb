@@ -48,7 +48,8 @@ module Processing
     
     
     # Class methods that we should make available in the instance.
-    [:map, :pow, :norm, :lerp, :second, :minute, :hour, :day, :month, :year, :sq, :constrain].each do |meth|
+    [:map, :pow, :norm, :lerp, :second, :minute, :hour, :day, :month, :year, 
+     :sq, :constrain, :dist, :blend_color, :lerp_color].each do |meth|
       method = <<-EOS
         def #{meth}(*args)
           self.class.#{meth}(*args)
@@ -139,7 +140,7 @@ module Processing
                 :full_screen => false}.merge(options)
       @width, @height, @title = options[:width], options[:height], options[:title]
       @render_mode = P2D
-      display options
+      determine_how_to_display options
       display_slider_frame if self.class.respond_to?('slider_frame') && self.class.slider_frame
     end
     
@@ -192,7 +193,7 @@ module Processing
     
     
     # Tests to see which display method should run.
-    def display(options)
+    def determine_how_to_display(options)
       if online? # Then display it in an applet.
         display_in_an_applet
       elsif options[:full_screen] # Then display it fullscreen.
