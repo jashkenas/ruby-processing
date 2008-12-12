@@ -10,10 +10,10 @@ class PerlinNoiseSketch < Processing::App
   def draw
     background 255
 
-    n = $app.noise(@time) * $app.width
+    n = noise(@time) * width
     @time += @increment
-    $app.fill 0
-    $app.ellipse $app.width/2, $app.height/2, n, n
+    fill 0
+    ellipse width/2, height/2, n, n
   end
 
 end
