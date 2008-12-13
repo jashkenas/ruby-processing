@@ -10,10 +10,12 @@
 
 require 'java'
 
+RUBY_PROCESSING_ROOT = File.expand_path(File.dirname(__FILE__)) unless defined?(RUBY_PROCESSING_ROOT)
+
 module Processing 
   
   # Conditionally load core.jar
-  require File.expand_path(File.dirname(__FILE__)) + "/core.jar" unless Object.const_defined?(:JRUBY_APPLET)  
+  require "#{RUBY_PROCESSING_ROOT}/core.jar" unless Object.const_defined?(:JRUBY_APPLET)  
   include_package "processing.core"
   
   class App < PApplet
@@ -121,13 +123,17 @@ module Processing
     end
     
     
-    def self.has_slider(name, range=0..100)
-      attr_accessor name
-      return if online?
-      load_ruby_library 'slider'
-      extend Slider::ClassMethods
-      include Slider::InstanceMethods
-      create_slider(name, range)
+    def self.has_slider(*args)
+      raise "has_slider has been replaced with a nicer control_panel library. Check it out."
+    end
+    
+    
+    def self.wipe_out_current_app!
+      app = Processing::App.current
+      return unless app
+      app_class_name = app.class.to_s.to_sym
+      app.close
+      Object.send(:remove_const, app_class_name)
     end
     
     
@@ -141,7 +147,6 @@ module Processing
       @width, @height, @title = options[:width], options[:height], options[:title]
       @render_mode = P2D
       determine_how_to_display options
-      display_slider_frame if self.class.respond_to?('slider_frame') && self.class.slider_frame
     end
     
     
@@ -231,6 +236,16 @@ module Processing
       buf
     end
     
+    # A nice method to run a given block for a grid.
+    # Lifted from action_coding/Nodebox.
+    def grid(cols, rows, col_size=1, row_size=1)
+      (0..cols*rows).map do |i|
+        x = col_size * (i % cols)
+        y = row_size * i.div(cols)
+        yield x, y
+      end
+    end
+    
     
     # Fix java conversion problems getting the last key
     def key
@@ -266,7 +281,7 @@ module Processing
     
     def close
       Processing::App.current = nil
-      self.class.remove_slider_frame if self.class.respond_to? 'remove_slider_frame'
+      control_panel.remove if respond_to?(:control_panel)
       @frame.remove(self)
       self.destroy
       @frame.dispose
