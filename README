@@ -24,6 +24,11 @@ http://github.com/jashkenas/ruby-processing/wikis
 
 Changelog:
 
+Revision 1.0+
+  * has_slider has been superseded by control_panel, a more full-
+    fledged library for controlling aspects of your sketch. Read
+    how to use it on the wiki, or check out jwishy.rb
+
 Revision 1.0
   * Processing updated to 1.0.1 (congrats to the Processing team),
     and JRuby updated to the latest trunk. Most sketches run a good
