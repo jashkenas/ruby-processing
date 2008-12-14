@@ -17,8 +17,7 @@ module Processing
           file_mtime = File.stat(@file).mtime
           if file_mtime > @time
             @time = file_mtime
-            app = Processing::App.current
-            Processing::App.current.close if app
+            Processing::App.wipe_out_current_app!
             GC.start
             begin
               load @file
