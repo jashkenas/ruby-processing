@@ -58,20 +58,6 @@ describe Processing::App do
     @app.find_method(/oval/).should == ["oval"]
   end
   
-  it "should be able to have a slider" do 
-    lambda {
-      @app.class.has_slider(:test, 0..50)
-    }.should_not raise_error
-    lambda {
-      @app.class.has_slider(:hello, -50..-200)
-    }.should raise_error
-  end
-  
-  it "should be able to access the sliders" do
-    @app.class.slider_frame.sliders.size == 1
-  end
-  
-  
   it "should be able to call Processing methods" do
     lambda {
       @app.smooth
