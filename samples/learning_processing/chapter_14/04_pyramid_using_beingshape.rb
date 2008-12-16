@@ -3,7 +3,7 @@ require 'ruby-processing'
 class PyramidUsingBeginshape < Processing::App
 
   def setup
-    size 400, 400, P3D
+    render_mode P3D
   end
 
   def draw
@@ -12,14 +12,14 @@ class PyramidUsingBeginshape < Processing::App
     # The pyramid's vertices are drawn relative to a centerpoint.
     # Therefore, we call translate ) to place the pyramid properly in the window.
     # A slightly better option might be to include the translate in the drawPyramid ) function and pass in x,y,z as arguments
-    translate 200, 200, 0 
-    drawPyramid 300
+    translate 100, 100, 0 
+    draw_pyramid 150
   end
 
 
   # The function sets the vertices for the pyramid around the centerpoint at a flexible distance, 
   # depending on the number passed in as an argument.
-  def drawPyramid(t)
+  def draw_pyramid(t)
 
     stroke 0
 
@@ -53,5 +53,5 @@ class PyramidUsingBeginshape < Processing::App
 
 end
 
-PyramidUsingBeginshape.new :title => "Draw Pyramid Using BeginShape",  :width => 400,  :height => 400
+PyramidUsingBeginshape.new :title => "Draw Pyramid Using BeginShape",  :width => 200,  :height => 200
 
