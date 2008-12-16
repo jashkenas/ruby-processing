@@ -1,58 +1,54 @@
 require 'ruby-processing'
 
+# Let's start by defining the cell class.
 class Cell
 
   def initialize(x, y, w, h, angle)
-    @x = x
-    @y = y
-    @w = w
-    @h = h
+    @x, @y = x, y
+    @w, @h = w, h
     @angle = angle
   end
 
+  # we oscillate by increasing the angle, here.
   def oscillate
-    @angle += 0.2
+    @angle += 0.02
   end
 
-  def display(app)
-    app.stroke 255
-    # calculate colour using sin wave
-    app.fill 127 + 128 * Math::sin(@angle)
-    app.rect @x, @y, @w, @h
+  def display
+    $app.stroke 255
+    # calculate color using sine wave
+    $app.fill 127 + 127 * Math.sin(@angle)
+    $app.rect @x, @y, @w, @h
+  end
+  
+  def oscillate_and_display
+    oscillate
+    display
   end
 
 end
 
-class TwoDimensionalArrayWithObjectsSketch < Processing::App
+
+# And then the sketch that holds many cells.
+class ArrayWithObjectsSketch < Processing::App
 
   def setup
     smooth
     @cols = @rows = 20
 
-    # initializse array with random values
-    @grid = Array.new(@cols) { Array.new(@rows) { nil }}
-    
-    # draw the points
-    @cols.times do |i|
-      @rows.times do |j|
-        @grid[i][j] = Cell.new(i * (width / @cols), j * (height / @rows), width / @cols, height / @rows, i + j)
-        point i, j
+    # initialize array with random values
+    @grid = Array.new(@cols) do |i| 
+      Array.new(@rows) do |j|
+        Cell.new(i*20, j*20, 20, 20, i+j)
       end
     end
   end
 
   def draw
     background 0
-
-    @cols.times do |i|
-      @rows.times do |j|
-        # oscillate and display each object
-        @grid[i][j].oscillate
-        @grid[i][j].display($app)
-      end
-    end
+    @grid.each { |array| array.each { |cell| cell.oscillate_and_display } }
   end
 
 end
 
-TwoDimensionalArrayWithObjectsSketch.new :title => "Two Dimensional Array with Objects", :width => 400, :height => 400
+ArrayWithObjectsSketch.new :title => "Two Dimensional Array with Objects", :width => 200, :height => 200

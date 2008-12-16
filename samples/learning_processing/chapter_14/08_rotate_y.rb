@@ -3,7 +3,8 @@ require 'ruby-processing'
 class RotateYSketch < Processing::App
 
   def setup
-    size 400, 400, P3D
+    render_mode P3D
+    rect_mode CENTER
     @theta = 0
   end
 
@@ -13,12 +14,11 @@ class RotateYSketch < Processing::App
     fill 175
 
     translate width/2, height/2
-    rotateY @theta
-    rectMode CENTER
-    rect 0, 0, 200, 200
+    rotate_y @theta
+    rect 0, 0, 100, 100
     @theta += 0.02
   end
 
 end
 
-RotateYSketch.new :title => "Rotate Y",  :width => 400,  :height => 400
+RotateYSketch.new :title => "Rotate Y", :width => 200, :height => 200
