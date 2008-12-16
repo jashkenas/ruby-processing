@@ -5,7 +5,7 @@ include Math
 class RotateRectangleAroundCenterSketch < Processing::App
 
   def setup
-    size 400, 400, P3D
+    render_mode P3D
   end
 
   def draw
@@ -21,10 +21,10 @@ class RotateRectangleAroundCenterSketch < Processing::App
 
     rotate theta
     rectMode CENTER
-    rect 0, 0, 200, 200
+    rect 0, 0, 100, 100
   end
 
 end
 
-RotateRectangleAroundCenterSketch.new :title => "Rotate Rectangle Around Center",  :width => 400,  :height => 400
+RotateRectangleAroundCenterSketch.new :title => "Rotate Rectangle Around Center",  :width => 200,  :height => 200
 

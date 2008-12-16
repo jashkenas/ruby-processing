@@ -3,23 +3,23 @@ require 'ruby-processing'
 class RotatingOneSquareSketch < Processing::App
 
   def setup
-    size 400, 400, P3D
-    @theta = 0
+    render_mode P3D
+    rect_mode CENTER
+    @theta1 = 0
   end
 
   def draw
     background 255
     stroke 0
     fill 175
-    rectMode CENTER
 
-    translate 100, 100
-    rotateZ @theta
-    rect 0, 0, 120, 120
-    @theta += 0.02
+    translate 50, 50
+    rotateZ @theta1
+    rect 0, 0, 60, 60
+    @theta1 += 0.02
   end
 
 end
 
-RotatingOneSquareSketch.new :title => "Rotating One Square",  :width => 400,  :height => 400
+RotatingOneSquareSketch.new :title => "Rotating One Square",  :width => 200,  :height => 200
 
