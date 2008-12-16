@@ -4,7 +4,7 @@ class TwoDimensionalArraySketch < Processing::App
 
   def setup
     smooth
-    # initializse array with random values
+    # initialize array with random values
     @my_array = Array.new(width) { Array.new(height) { rand 255 }}
     
     # draw the points
@@ -18,4 +18,4 @@ class TwoDimensionalArraySketch < Processing::App
 
 end
 
-TwoDimensionalArraySketch.new :title => "Two Dimensional Array", :width => 400, :height => 400
+TwoDimensionalArraySketch.new :title => "Two Dimensional Array", :width => 200, :height => 200
