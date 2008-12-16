@@ -3,6 +3,7 @@ require 'ruby-processing'
 class GrowingRectangleSketch < Processing::App
 
   def setup
+    rect_mode CENTER
     @r = 8
   end
 
@@ -11,7 +12,6 @@ class GrowingRectangleSketch < Processing::App
     # Display a rectangle in the middle of the screen
     stroke 0
     fill 175
-    rectMode CENTER
     rect width/2, height/2, @r, @r
 
     # Increase the rectangle size
@@ -23,4 +23,4 @@ class GrowingRectangleSketch < Processing::App
 
 end
 
-GrowingRectangleSketch.new :title => "Growing Rectangle", :width => 400, :height => 400
+GrowingRectangleSketch.new :title => "Growing Rectangle", :width => 200, :height => 200

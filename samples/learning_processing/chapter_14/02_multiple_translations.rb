@@ -12,8 +12,8 @@ class MultipleTranslationsSketch < Processing::App
     fill 175
 
     # Grab mouse coordinates,  constrained to window
-    mx = constrain mouseX, 0, width
-    my = constrain mouseY, 0, height
+    mx = constrain(mouse_x, 0, width)
+    my = constrain(mouse_y, 0, height)
 
     # Translate to the mouse location
     translate mx, my
@@ -30,9 +30,8 @@ class MultipleTranslationsSketch < Processing::App
     # Translate 100 pixels left
     translate -100, 0
     ellipse 0, 0, 8, 8
-
   end
 
 end
 
-MultipleTranslationsSketch.new :title => "Multiple Translations",  :width => 400,  :height => 400
+MultipleTranslationsSketch.new :title => "Multiple Translations", :width => 200, :height => 200
