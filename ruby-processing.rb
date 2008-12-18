@@ -13,73 +13,73 @@ require 'java'
 RUBY_PROCESSING_ROOT = File.expand_path(File.dirname(__FILE__)) unless defined?(RUBY_PROCESSING_ROOT)
 
 module Processing 
-  
+
   # Conditionally load core.jar
   require "#{RUBY_PROCESSING_ROOT}/core.jar" unless Object.const_defined?(:JRUBY_APPLET)  
   include_package "processing.core"
-  
+
   class App < PApplet
     include Math
-    
+
     include_class "javax.swing.JFrame"
-    
+
     # Alias some methods for familiarity for Shoes coders.
     attr_accessor :frame, :title
     alias_method :oval, :ellipse
     alias_method :stroke_width, :stroke_weight
     alias_method :rgb, :color
     alias_method :gray, :color
-    
+
     # Watch the definition of these methods, to make sure 
     # that Processing is able to call them during events.
     METHODS_TO_WATCH_FOR = { :mouse_pressed => :mousePressed,
-                             :mouse_dragged => :mouseDragged,
-                             :mouse_clicked => :mouseClicked,
-                             :mouse_moved   =>   :mouseMoved, 
-                             :mouse_released => :mouseReleased,
-                             :key_pressed => :keyPressed,
-                             :key_released => :keyReleased,
-                             :key_typed => :keyTyped }
-             
-                            
+      :mouse_dragged => :mouseDragged,
+      :mouse_clicked => :mouseClicked,
+      :mouse_moved   =>   :mouseMoved, 
+      :mouse_released => :mouseReleased,
+      :key_pressed => :keyPressed,
+      :key_released => :keyReleased,
+      :key_typed => :keyTyped }
+
+
     def self.method_added(method_name)
       if METHODS_TO_WATCH_FOR.keys.include?(method_name)
         alias_method METHODS_TO_WATCH_FOR[method_name], method_name
       end
     end
-    
-    
+
+
     # Class methods that we should make available in the instance.
     [:map, :pow, :norm, :lerp, :second, :minute, :hour, :day, :month, :year, 
-     :sq, :constrain, :dist, :blend_color, :lerp_color].each do |meth|
+      :sq, :constrain, :dist, :blend_color, :lerp_color].each do |meth|
       method = <<-EOS
         def #{meth}(*args)
           self.class.#{meth}(*args)
         end
       EOS
       eval method
-    end
-    
-    
+      end
+
+
     def self.current=(app); @current_app = app; end
     def self.current; @current_app; end
-    
-    
+
+
     # Detect if we're online or not.
     def self.online?
       @online ||= Object.const_defined?(:JRUBY_APPLET)
     end
     def online?; self.class.online?; end
-    
-    
+
+
     # Detect if a library has been loaded (for conditional loading)
     @@loaded_libraries = Hash.new(false)
     def self.library_loaded?(folder)
       @@loaded_libraries[folder.to_sym]
     end
     def library_loaded?(folder); self.class.library_loaded?(folder); end
-    
-    
+
+
     # For pure ruby libs.
     # The library should have an initialization ruby file 
     # of the same name as the library folder.
@@ -90,8 +90,8 @@ module Processing
       end
       return @@loaded_libraries[folder.to_sym]
     end
-    
-    
+
+
     # Loading libraries which include native code needs to 
     # hack the Java ClassLoader, so that you don't have to 
     # futz with your PATH. But its probably bad juju.
@@ -121,13 +121,13 @@ module Processing
       end
       return @@loaded_libraries[folder.to_sym]
     end
-    
-    
+
+
     def self.has_slider(*args)
       raise "has_slider has been replaced with a nicer control_panel library. Check it out."
     end
-    
-    
+
+
     def self.wipe_out_current_app!
       app = Processing::App.current
       return unless app
@@ -135,26 +135,26 @@ module Processing
       app.close
       Object.send(:remove_const, app_class_name)
     end
-    
-    
+
+
     def initialize(options = {})
       super()
       $app = App.current = self
       options = {:width => 400, 
-                :height => 400, 
-                :title => "",
-                :full_screen => false}.merge(options)
+        :height => 400, 
+        :title => "",
+        :full_screen => false}.merge(options)
       @width, @height, @title = options[:width], options[:height], options[:title]
       @render_mode = P2D
       determine_how_to_display options
     end
-    
-    
+
+
     def inspect
       "#<Processing::App:#{self.class}:#{@title}>"
     end
-    
-      
+
+
     def display_full_screen(graphics_env)
       @frame = java.awt.Frame.new
       mode = graphics_env.display_mode
@@ -171,8 +171,8 @@ module Processing
       self.init
       self.request_focus
     end
-    
-    
+
+
     def display_in_a_window
       @frame = JFrame.new(@title)
       @frame.add(self)
@@ -182,8 +182,8 @@ module Processing
       @frame.show
       self.init
     end
-    
-    
+
+
     def display_in_an_applet
       JRUBY_APPLET.set_size(@width, @height)
       JRUBY_APPLET.background_color = nil
@@ -195,8 +195,8 @@ module Processing
       JRUBY_APPLET.on_destroy { self.destroy }
       self.init
     end
-    
-    
+
+
     # Tests to see which display method should run.
     def determine_how_to_display(options)
       if online? # Then display it in an applet.
@@ -208,23 +208,27 @@ module Processing
         display_in_a_window
       end
     end
-    
-    
+
+
     # There's just so many functions in Processing,
     # Here's a convenient way to look for them.
     def find_method(method_name)
       reg = Regexp.new("#{method_name}", true)
       self.methods.sort.select {|meth| reg.match(meth)}
     end
-    
-    
+
     # Specify what rendering Processing should use.
     def render_mode(mode_const)
       @render_mode = mode_const
       size(@width, @height, @render_mode)
     end
-    
-    
+
+    # construct the full path to the image to load
+    def load_image(filename)
+      data_path = File.join(java.lang.System.getProperty('user.dir'), File.dirname($0), 'data')
+      loadImage(File.join(data_path, filename))
+    end
+
     # Nice block method to draw to a buffer.
     # You can optionally pass it a width, a height, and a renderer.
     # Takes care of starting and ending the draw for you.
@@ -235,7 +239,7 @@ module Processing
       buf.end_draw
       buf
     end
-    
+
     # A nice method to run a given block for a grid.
     # Lifted from action_coding/Nodebox.
     def grid(cols, rows, col_size=1, row_size=1)
@@ -245,40 +249,40 @@ module Processing
         yield x, y
       end
     end
-    
-    
+
+
     # Fix java conversion problems getting the last key
     def key
       field = java_class.declared_field 'key'
       app = Java.ruby_to_java self
       field.value app
     end
-    
-    
+
+
     # From ROP. Turns a color hash-string into hexadecimal, for Processing.
     def hex(value)
       value[1..-1].hex + 0xff000000
     end
-    
-    
+
+
     def mouse_x; mouseX; end
     def mouse_y; mouseY; end
     def pmouse_x; pmouseX; end
     def pmouse_y; pmouseY; end
     def frame_count; frameCount; end
     def mouse_button; mouseButton; end
-    
-    
+
+
     def mouse_pressed?
       Java.java_to_primitive(java_class.field("mousePressed").value(java_object))
     end
-    
-    
+
+
     def key_pressed?
       Java.java_to_primitive(java_class.field("keyPressed").value(java_object))
     end
-    
-    
+
+
     def close
       Processing::App.current = nil
       control_panel.remove if respond_to?(:control_panel)
@@ -286,11 +290,11 @@ module Processing
       self.destroy
       @frame.dispose
     end
-    
-    
+
+
     def quit
       java.lang.System.exit(0)
     end
-    
+
   end
 end

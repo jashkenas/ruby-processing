@@ -3,12 +3,8 @@ require 'ruby-processing'
 class HelloWorldImageSketch < Processing::App
 
   def setup
-    puts $FILENAME
-    puts $*
-    puts __FILE__
-    puts ARGF
     # the image file must be in the data directory
-    @img = load_image "mysummervacation.jpg"
+    @img = load_image("mysummervacation.jpg")
   end
 
   def draw
