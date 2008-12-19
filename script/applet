@@ -11,7 +11,7 @@ module Processing
     def export!
 
       # Check to make sure that the main file exists
-      @main_file_path, @main_file = *get_main_file()
+      @main_file_path, @main_file, @main_folder = *get_main_file()
       unless @main_file_path && File.exists?(@main_file_path)
         puts <<-USAGE
         
@@ -35,7 +35,7 @@ module Processing
       # Copy over all the required files
       necessary_files = [@main_file_path, "ruby-processing.rb", "core.jar", "jruby-complete.jar"]
       necessary_files += extract_real_requires(@main_file_path)
-      necessary_files << "data" if File.exists?("data")
+      necessary_files << "#{@main_folder}/data" if File.exists?("#{@main_folder}/data")
       necessary_files += Dir.glob("script/applet_files/{*,**}") # Exporter files
       necessary_files += Dir.glob("library/{#{@libs_to_load.join(",")}}") if @libs_to_load.length > 0
       necessary_files.uniq!
