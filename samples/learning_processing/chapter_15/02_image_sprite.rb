@@ -3,11 +3,9 @@ require 'ruby-processing'
 class ImageSpriteSketch < Processing::App
 
   def setup
-
-    @head = load_image("face.jpg") # variable for the image file
-    @x = 0.0; # variables for image location
-    @y = width/2.0
-    @rot = 0.0 # variable for image rotation
+    @head = load_image("face.jpg")  # variable for the image file
+    @x, @y = 0, width/2             # variables for image location
+    @rot = 0.0                      # variable for image rotation
   end
 
   def draw
