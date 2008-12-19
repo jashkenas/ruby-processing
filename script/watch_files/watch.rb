@@ -1,6 +1,8 @@
 # A sketch loader, observer, and reloader, to tighten 
 # the feedback between code and effect.
 
+SKETCH_PATH = File.dirname(ARGV[0]) unless defined?(SKETCH_PATH)
+
 module Processing
   class SketchObserver
     

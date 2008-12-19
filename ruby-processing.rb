@@ -9,8 +9,10 @@
 # - omygawshkenas
 
 require 'java'
+require 'fileutils'
 
 RUBY_PROCESSING_ROOT = File.expand_path(File.dirname(__FILE__)) unless defined?(RUBY_PROCESSING_ROOT)
+SKETCH_PATH = File.dirname($0) unless defined?(SKETCH_PATH)
 
 module Processing 
 
@@ -32,14 +34,16 @@ module Processing
 
     # Watch the definition of these methods, to make sure 
     # that Processing is able to call them during events.
-    METHODS_TO_WATCH_FOR = { :mouse_pressed => :mousePressed,
+    METHODS_TO_WATCH_FOR = { 
+      :mouse_pressed => :mousePressed,
       :mouse_dragged => :mouseDragged,
       :mouse_clicked => :mouseClicked,
       :mouse_moved   =>   :mouseMoved, 
       :mouse_released => :mouseReleased,
       :key_pressed => :keyPressed,
       :key_released => :keyReleased,
-      :key_typed => :keyTyped }
+      :key_typed => :keyTyped 
+    }
 
 
     def self.method_added(method_name)
@@ -51,14 +55,14 @@ module Processing
 
     # Class methods that we should make available in the instance.
     [:map, :pow, :norm, :lerp, :second, :minute, :hour, :day, :month, :year, 
-      :sq, :constrain, :dist, :blend_color, :lerp_color].each do |meth|
+     :sq, :constrain, :dist, :blend_color, :lerp_color].each do |meth|
       method = <<-EOS
         def #{meth}(*args)
           self.class.#{meth}(*args)
         end
       EOS
       eval method
-      end
+    end
 
 
     def self.current=(app); @current_app = app; end
@@ -140,10 +144,13 @@ module Processing
     def initialize(options = {})
       super()
       $app = App.current = self
-      options = {:width => 400, 
+      set_sketch_path
+      options = {
+        :width => 400, 
         :height => 400, 
         :title => "",
-        :full_screen => false}.merge(options)
+        :full_screen => false
+      }.merge(options)
       @width, @height, @title = options[:width], options[:height], options[:title]
       @render_mode = P2D
       determine_how_to_display options
@@ -152,6 +159,14 @@ module Processing
 
     def inspect
       "#<Processing::App:#{self.class}:#{@title}>"
+    end
+    
+    
+    # By default, your sketch path is the folder that your sketch is in.
+    # If you'd like to do something fancy, feel free.
+    def set_sketch_path(path=nil)
+      field = self.java_class.declared_field('sketchPath')
+      field.set_value(Java.ruby_to_java(self), path || SKETCH_PATH)
     end
 
 
@@ -217,17 +232,13 @@ module Processing
       self.methods.sort.select {|meth| reg.match(meth)}
     end
 
+
     # Specify what rendering Processing should use.
     def render_mode(mode_const)
       @render_mode = mode_const
       size(@width, @height, @render_mode)
     end
 
-    # construct the full path to the image to load
-    def load_image(filename)
-      data_path = File.join(java.lang.System.getProperty('user.dir'), File.dirname($0), 'data')
-      loadImage(File.join(data_path, filename))
-    end
 
     # Nice block method to draw to a buffer.
     # You can optionally pass it a width, a height, and a renderer.
@@ -239,6 +250,7 @@ module Processing
       buf.end_draw
       buf
     end
+
 
     # A nice method to run a given block for a grid.
     # Lifted from action_coding/Nodebox.

@@ -9,7 +9,8 @@ module Processing
     include FileUtils
     
     def get_main_file
-      return ARGV.first, File.basename(ARGV.first)
+      file = ARGV.first
+      return file, File.basename(file), File.dirname(file)
     end
     
     def extract_information
