@@ -14,7 +14,7 @@ class RotatingOneSquareSketch < Processing::App
     fill 175
 
     translate 50, 50
-    rotateZ @theta1
+    rotate_z @theta1
     rect 0, 0, 60, 60
     @theta1 += 0.02
   end

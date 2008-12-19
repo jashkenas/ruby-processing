@@ -13,8 +13,8 @@ class RotatingAnotherSquareSketch < Processing::App
     stroke 0
     fill 175
 
-    translate 100, 100
-    rotateY @theta2
+    translate 150, 150
+    rotate_y @theta2
     rect 0, 0, 60, 60
     @theta2 += 0.02
   end

@@ -14,24 +14,24 @@ class RotatingBothSquaresSketch < Processing::App
     fill 175
 
     # Save the current transformation matrix. 
-    # This is where we started,  with  0, 0) in the top left corner of the window and no rotation.
-    pushMatrix 
+    # This is where we started, with (0,0) in the top left corner of the window and no rotation.
+    push_matrix 
 
     # Translate and rotate the first rectangle.
     translate 50, 50 
-    rotateZ @theta1
+    rotate_z @theta1
     # Display the first rectangle.
     rect 0, 0, 60, 60 
     # Restore matrix from Step 1 so that it isn't affected by Steps 2 and 3!
-    popMatrix  
+    pop_matrix  
 
-    pushMatrix 
+    push_matrix 
     # Translate and rotate the second rectangle.
-    translate 100, 100 
-    rotateY @theta2
+    translate 150, 150 
+    rotate_y @theta2
     # Display the second rectangle.
     rect 0, 0, 60, 60 
-    popMatrix 
+    pop_matrix 
 
     @theta1 += 0.02
     @theta2 += 0.02

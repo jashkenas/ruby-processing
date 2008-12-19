@@ -4,7 +4,7 @@ class SimpleSolarSystemSketch < Processing::App
 
   def setup
     smooth
-    @theta = 0
+    @theta = 0  # Angle of rotation around sun and planets
   end
 
   def draw

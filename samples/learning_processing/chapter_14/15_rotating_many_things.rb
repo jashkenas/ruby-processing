@@ -3,12 +3,12 @@ require 'ruby-processing'
 # A Rotater class
 class Rotater
 
-  def initialize(temp_x, temp_y, temp_speed, temp_w)
-    @x, @y = temp_x, temp_y
+  def initialize(x, y, speed, width)
+    @x, @y = x, y
     # Angle is always initialized to 0
     @theta = 0 
-    @speed = temp_speed
-    @w = temp_w
+    @speed = speed
+    @w = width
   end
 
   # Increment angle
@@ -18,7 +18,7 @@ class Rotater
 
   # Display rectangle
   def display
-    # push_matrix  and popMatrix are called inside the class' display method. 
+    # push_matrix and pop_matrix are called inside the class' display method. 
     # This way, every Rotater object is rendered with its own independent translation and rotation!
     $app.push_matrix  
     $app.translate @x, @y
@@ -35,7 +35,9 @@ class RotatingManyThingsSketch < Processing::App
     rect_mode CENTER
     stroke 0
     fill 0, 100
-    @rotaters = Array.new(20) { Rotater.new(rand(width), rand(height), rand * 0.2 - 0.1, rand(48)) }
+    @rotaters = Array.new(20) do
+      Rotater.new(rand(width), rand(height), random(-0.1, 0.1), rand(48))
+    end
   end
 
   def draw

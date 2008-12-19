@@ -37,7 +37,6 @@ end
 
 
 class Sketch < Processing::App
-  include Math  
 
   def setup
     smooth

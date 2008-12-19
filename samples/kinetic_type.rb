@@ -11,8 +11,6 @@ class KineticType < Processing::App
     "or leave the page or jump", "can you blame them?", "living on the page like that",
     "waiting to be read..."]
 
-  include Math
-
   def setup
     library_loaded?("opengl") ? render_mode(OPENGL) : render_mode(P3D)
 

@@ -14,7 +14,7 @@ class RotateZSketch < Processing::App
     fill 175
 
     translate width/2, height/2
-    rotateZ @theta
+    rotate_z @theta
     rect 0, 0, 100, 100
     @theta += 0.02
   end
