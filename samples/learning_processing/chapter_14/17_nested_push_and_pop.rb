@@ -1,12 +1,10 @@
 require 'ruby-processing'
 
-include Math
-
 class NestedPushAndPopSketch < Processing::App
 
   def setup
     smooth
-    @theta = 0
+    @theta = 0  # angle for rotation
   end
 
   def draw
@@ -19,25 +17,25 @@ class NestedPushAndPopSketch < Processing::App
     # Loop from 0 to 360 degrees (2*PI radians)
     0.step(TWO_PI, 0.2) do |i| 
 
-      # Push,  rotate and draw a line!
+      # Push, rotate and draw a line!
       # The transformation state is saved at the beginning of each cycle through the for loop and restored at the end. 
       # Try commenting out these lines to see the difference!
       push_matrix  
       rotate @theta + i
       line 0, 0, 100, 0
 
-      # Loop from 0 to 360 degrees  2*PI radians)
+      # Loop from 0 to 360 degrees (2*PI radians)
       0.step(TWO_PI, 0.5) do |j| 
-        # Push,  translate,  rotate and draw a line!
+        # Push, translate, rotate and draw a line!
         push_matrix 
         translate 100, 0
         rotate -@theta - j
         line 0, 0, 50, 0
-        # We're done with the inside loop,  pop!
+        # We're done with the inside loop,pop!
         pop_matrix 
       end
 
-      # We're done with the outside loop,  pop!
+      # We're done with the outside loop, pop!
       pop_matrix 
     end
     end_shape 

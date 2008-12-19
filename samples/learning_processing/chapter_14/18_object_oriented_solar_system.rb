@@ -1,24 +1,22 @@
 require 'ruby-processing'
 
-include Math
-
 class Planet
 
   # Each planet object keeps track of its own angle of rotation.
-  # @theta      Rotation around sun
-  # @diameter   Size of planet
-  # @distance   Distance from sun
-  # @orbitspeed Orbit speed
-  def initialize(distance_, diameter_)
-    @distance = distance_
-    @diameter = diameter_
+  # @theta        Rotation around sun
+  # @diameter     Size of planet
+  # @distance     Distance from sun
+  # @orbit_speed  Orbit speed
+  def initialize(distance, diameter)
+    @distance = distance
+    @diameter = diameter
     @theta = 0
-    @orbitspeed = rand * 0.02 + 0.01
+    @orbit_speed = rand * 0.02 + 0.01
   end
 
   def update
     # Increment the angle to rotate
-    @theta += @orbitspeed
+    @theta += @orbit_speed
   end
 
   def display
@@ -37,11 +35,12 @@ class Planet
 
 end
 
+
 class ObjectOrientedSolarSystemSketch < Processing::App
 
   def setup
     smooth
-    @planets = Array.new(8) { |i| Planet.new(20 + i * 10, i + 8) }
+    @planets = Array.new(8) { |i| Planet.new(20+i*10, i+8) }
   end
 
   def draw
