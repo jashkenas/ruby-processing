@@ -309,10 +309,6 @@ module Processing
       java.lang.System.exit(0)
     end
     
-    def method_defined_here
-      'hello'
-    end
-    
     
     private
     
