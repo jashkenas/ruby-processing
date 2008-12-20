@@ -145,6 +145,7 @@ module Processing
       super()
       $app = App.current = self
       set_sketch_path
+      make_accessible_to_the_browser
       options = {
         :width => 400, 
         :height => 400, 
@@ -306,6 +307,27 @@ module Processing
 
     def quit
       java.lang.System.exit(0)
+    end
+    
+    def method_defined_here
+      'hello'
+    end
+    
+    
+    private
+    
+    # Tiny proxy class to pass to javascript.
+    class Prox; attr_accessor :app; end
+    
+    def make_accessible_to_the_browser
+      return unless library_loaded?('net') && online?
+      p = Prox.new
+      p.app = self
+      ruby = org.jruby.Ruby.get_default_instance
+      ruby.define_global_constant('PROX', p)
+      ruby.eval_scriptlet('$app = PROX.app')
+      window = Java::netscape.javascript.JSObject.get_window(JRUBY_APPLET)
+      window.set_member('ruby', ruby)
     end
 
   end
