@@ -312,16 +312,14 @@ module Processing
     
     private
     
-    # Tiny proxy class to pass to javascript.
-    class Prox; attr_accessor :app; end
-    
+    # When the net library is included, we make the Ruby interpreter
+    # accessible to javascript as the 'ruby' variable. From javascript,
+    # you can call evalScriptlet() to run code against the sketch.
     def make_accessible_to_the_browser
       return unless library_loaded?('net') && online?
-      p = Prox.new
-      p.app = self
-      ruby = org.jruby.Ruby.get_default_instance
-      ruby.define_global_constant('PROX', p)
-      ruby.eval_scriptlet('$app = PROX.app')
+      field = java.lang.Class.for_name("org.jruby.JRubyApplet").get_declared_field("runtime")
+      field.set_accessible true
+      ruby = field.get(JRUBY_APPLET)
       window = Java::netscape.javascript.JSObject.get_window(JRUBY_APPLET)
       window.set_member('ruby', ruby)
     end
