@@ -67,10 +67,10 @@ class Sketch < Processing::App
     c = 0.0
     
     64.times do |i|
-      x += Math.cos(horiz)*mag
-      y += Math.log10(vert)*mag + Math.sin(vert) * 2
-      fill(Math.sin(@y_wiggle + c), rand * 0.2, rand * blu, 0.5)
-      s = 42 + Math.cos(vert) * 17
+      x += cos(horiz)*mag
+      y += log10(vert)*mag + sin(vert) * 2
+      fill(sin(@y_wiggle + c), rand * 0.2, rand * blu, 0.5)
+      s = 42 + cos(vert) * 17
       oval(x-s/2, y-s/2, s, s)
       vert += rand * 0.25
       horiz += rand * 0.25
