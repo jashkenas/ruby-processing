@@ -298,10 +298,11 @@ module Processing
 
     def close
       Processing::App.current = nil
-      control_panel.remove if respond_to?(:control_panel)
-      @frame.remove(self)
+      control_panel.remove if respond_to?(:control_panel) && !online?
+      container = (@frame || JRUBY_APPLET)
+      container.remove(self)
       self.destroy
-      @frame.dispose
+      container.dispose
     end
 
 
