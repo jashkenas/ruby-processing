@@ -68,11 +68,11 @@
       type="application/x-java-applet"
       code="<%= @starting_class %>"
       codebase="."
-      archive="<%= @file_list %>"
       style="margin: 0; padding: 0;"
       width="<%= @width %>" height="<%= @height %>">
       
-      <param name="jruby.script" value="<%= @main_file %>"/>
+      <param name="archive" value="<%= @file_list %>" />
+      <param name="jruby.script" value="<%= @main_file %>" />
       <param name="image" value="images/ruby.jpg" />
       <param name="boxbgcolor" value="#000000" />   
       <param name="lang" value="en" />

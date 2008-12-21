@@ -98,7 +98,7 @@ module Processing
 
     # Loading libraries which include native code needs to 
     # hack the Java ClassLoader, so that you don't have to 
-    # futz with your PATH. But its probably bad juju.
+    # futz with your PATH. But it's probably bad juju.
     def self.load_java_library(folder)
       unless @@loaded_libraries[folder.to_sym]
         if online? # Applets preload all the java libraries.
