@@ -17,6 +17,6 @@ module Processing
     VERSION.join('.')
   end
   
-  autoload :App,    'processing/app'
-  autoload :Runner, 'processing/runner'
+  autoload :App,      'processing/app'
+  autoload :Runner,   'processing/runner'
 end
