@@ -112,6 +112,6 @@ module Processing
       mac ? "-Xdock:name=Ruby-Processing -Xdock:icon=script/application_files/Contents/Resources/sketch.icns" : ""
     end
     
-  end
+  end # class Runner
   
-end
+end # module Processing
