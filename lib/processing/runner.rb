@@ -74,7 +74,42 @@ module Processing
     # boilerplate filled out.
     def create(sketch)
       project.underscore!
-      destination
+      destination = File.join(Dir.pwd, project)
+    end
+    
+    # Just simply run a ruby-processing sketch.
+    def run(sketch)
+      ensure_exists(sketch)
+      spin_up(sketch)
+    end
+    
+    # Run a sketch, keeping an eye on it's file, and reloading
+    # whenever it changes.
+    def watch(sketch)
+      ensure_exists(sketch)
+      spin_up("lib/processing/watcher.rb '#{sketch}'")
+    end
+    
+    # Run a sketch, opening its guts to IRB, letting you play with it.
+    def live(sketch)
+      ensure_exists(sketch)
+      spin_up("lib/processing/live.rb '#{sketch}'")
+    end
+    
+    
+    private
+    
+    def spin_up(args)
+      puts `java -cp jruby-complete.jar #{doc_icon} org.jruby.Main #{args}`
+    end
+    
+    def ensure_exists(sketch)
+      exit_with_error("Couldn't find: #{sketch}") unless File.exists?(sketch)
+    end
+    
+    def dock_icon
+      mac = RUBY_PLATFORM.match(/darwin/i)
+      mac ? "-Xdock:name=Ruby-Processing -Xdock:icon=script/application_files/Contents/Resources/sketch.icns" : ""
     end
     
   end
