@@ -18,5 +18,4 @@ module Processing
   end
   
   autoload :App,      'processing/app'
-  autoload :Runner,   'processing/runner'
 end
