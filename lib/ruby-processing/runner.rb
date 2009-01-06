@@ -1,4 +1,4 @@
-['optparse', 'ostruct'].each {|f| require f }
+require 'ostruct'
 
 module Processing
   
@@ -18,57 +18,22 @@ module Processing
       @options.path = File.basename(Dir.pwd) + '.rb'
     end
     
-    def parse_options(args)
-      # EWGG!
-    end
-    
     def execute!
       case @options.action
-      when :run     : run(@options.path)
-      when :watch   : watch(@options.path)
-      when :create  : create(@options.path)
-      when :live    : live(@options.path)
-      when :sample  : sample(@options.path)
+      when 'run'    : run(@options.path)
+      when 'watch'  : watch(@options.path)
+      when 'create' : create(@options.path)
+      when 'live'   : live(@options.path)
+      when 'sample' : sample(@options.path)
+      when /-v/     : show_version
+      when /-h/     : show_help
       end
     end
     
+    # Parse the command-line options. Keep it simple
     def parse_options(args)
-      begin
-        args.extend(OptionParser::Arguable)
-        args.options do |opts|
-          opts.banner = "Usage: rp5 []"
-          
-          opts.separator ""
-          opts.separator "Creating a fresh project:"
-          
-          opts.on('create', 'create [SKETCH]', 'Create a new Ruby-Processing sketch') do |sketch|
-            @options.action = :create
-            @options.path = sketch
-          end
-          
-          opts.separator ""
-          opts.separator "Running a project:"
-          
-          opts.on "run", "run [SKETCH]", 'Run a Ruby-Processing sketch' do |sketch|
-            @options.action :run
-            @options.path = sketch
-          end
-          
-          opts.separator ""
-          opts.separator "Extra options:"
-          
-          opts.on_tail('-v', '--version', 'Show version') do
-            exit_with_success("ruby-processing version #{Processing.version}")
-          end
-          
-          opts.on_tail('-h', '--help', 'Show this message') do
-            exit_with_success(opts)
-          end
-          
-        end.parse!
-      rescue Exeption => e
-        exit_with_error(e)
-      end
+      @options.action = args[0]
+      @options.path = args[1]
     end
     
     # Create a fresh Ruby-Processing sketch, with the necessary
@@ -81,7 +46,7 @@ module Processing
     # Just simply run a ruby-processing sketch.
     def run(sketch)
       ensure_exists(sketch)
-      spin_up(sketch)
+      spin_up("#{File.join(RP5_ROOT, 'lib/ruby-processing/run.rb')} '#{sketch}'")
     end
     
     # Run a sketch, keeping an eye on it's file, and reloading
@@ -97,15 +62,34 @@ module Processing
       spin_up("lib/processing/live.rb '#{sketch}'")
     end
     
+    def sample
+      
+    end
+    
+    def show_version
+      exit_with_success("ruby-processing version #{Processing.version}")
+    end
+    
+    def show_help
+      help = <<-EOS
+Usage: rp5 [run | watch | live | create | applet | application] path/to/the/sketch
+      EOS
+      exit_with_success(help)
+    end
+    
     
     private
     
     def spin_up(args)
-      puts `java -cp jruby-complete.jar #{doc_icon} org.jruby.Main #{args}`
+      puts `java -cp #{jruby_complete} #{dock_icon} org.jruby.Main #{args}`
     end
     
     def ensure_exists(sketch)
       exit_with_error("Couldn't find: #{sketch}") unless File.exists?(sketch)
+    end
+    
+    def jruby_complete
+      File.join(RP5_ROOT, 'lib/core/jruby-complete.jar')
     end
     
     def dock_icon

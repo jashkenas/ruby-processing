@@ -2,11 +2,12 @@
 # Most of the code here is for interfacing with Swing, 
 # web applets, going fullscreen and so on.
 
+require 'java'
 
 module Processing 
 
   # Conditionally load core.jar
-  require "#{RUBY_PROCESSING_ROOT}/core.jar" unless Object.const_defined?(:JRUBY_APPLET)  
+  require "#{RP5_ROOT}/lib/core/core.jar" unless Object.const_defined?(:JRUBY_APPLET)  
   include_package "processing.core"
 
   class App < PApplet

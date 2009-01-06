@@ -22,7 +22,7 @@ module Processing
             begin
               load @file
             rescue SyntaxError
-              print "Syntax Error in your sketch: ",$!, "\n"
+              print "Syntax Error in your sketch: ", $!, "\n"
             end
           end
           sleep 0.1
