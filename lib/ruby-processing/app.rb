@@ -79,7 +79,7 @@ module Processing
     # of the same name as the library folder.
     def self.load_ruby_library(folder)
       unless @@loaded_libraries[folder.to_sym]
-        online? ? prefix = "" : prefix = "library/"
+        online? ? prefix = "" : prefix = RP5_ROOT+"/library/"
         @@loaded_libraries[folder.to_sym] = require "#{prefix}#{folder}/#{folder}"
       end
       return @@loaded_libraries[folder.to_sym]
