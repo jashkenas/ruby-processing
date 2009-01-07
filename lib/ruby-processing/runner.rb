@@ -1,4 +1,6 @@
 require 'ostruct'
+require 'fileutils'
+require RP5_ROOT+'/lib/helpers/string'
 
 module Processing
   
@@ -14,8 +16,6 @@ module Processing
     def initialize(out_stream = STDOUT, error_stream = STDERR)
       @out_stream, @error_stream = out_stream, error_stream
       @options = OpenStruct.new
-      @options.action = :run, 
-      @options.path = File.basename(Dir.pwd) + '.rb'
     end
     
     def execute!
@@ -33,8 +33,8 @@ module Processing
     
     # Parse the command-line options. Keep it simple
     def parse_options(args)
-      @options.action = args[0]
-      @options.path = args[1]
+      @options.action = args[0] || 'run'
+      @options.path   = args[1] || File.basename(Dir.pwd + '.rb')
     end
     
     # Create a fresh Ruby-Processing sketch, with the necessary
