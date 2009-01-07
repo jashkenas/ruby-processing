@@ -27,6 +27,7 @@ module Processing
       when 'sample' : sample(@options.path)
       when /-v/     : show_version
       when /-h/     : show_help
+      else show_help
       end
     end
     
