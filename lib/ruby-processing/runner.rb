@@ -40,8 +40,21 @@ module Processing
     # Create a fresh Ruby-Processing sketch, with the necessary
     # boilerplate filled out.
     def create(sketch)
-      project.underscore!
-      destination = File.join(Dir.pwd, project)
+      template_file = RP5_ROOT + "/samples/sample_application.rb"
+      sketch_folder = File.join(Dir.pwd, sketch.underscore)
+      sketch_file   = "#{sketch_folder}/#{sketch.underscore}.rb"
+      
+      exit_with_error("Can not overwrite an existing project.") if File.exist?(sketch_folder)
+
+      FileUtils.mkdir(sketch_folder)
+      FileUtils.cp_r(template_file, sketch_file)
+      File.open(sketch_file, "r+") do |f|
+        lines = f.readlines
+        lines.each {|l| l.gsub!(/SampleApplication/, sketch.camelize)}
+        f.rewind
+        f.print lines
+        f.truncate(f.pos)
+      end
     end
     
     # Just simply run a ruby-processing sketch.
