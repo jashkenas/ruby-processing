@@ -55,6 +55,7 @@ module Processing
         f.print lines
         f.truncate(f.pos)
       end
+      exit_with_success("Successfully created sketch '#{sketch.underscore}'")
     end
     
     # Just simply run a ruby-processing sketch.
@@ -95,6 +96,7 @@ Usage: rp5 [run | watch | live | create | applet | application] path/to/the/sket
     private
     
     def spin_up(args)
+      @out_stream.puts "Please wait while the sketch is loading..."
       puts `java -cp #{jruby_complete} #{dock_icon} org.jruby.Main #{args}`
     end
     
