@@ -3,20 +3,20 @@ require 'ruby-processing'
 class SwappingImagesSketch < Processing::App
 
   def setup
-    @image_index = 0
-    @image_count = 7
+    @index = 0
+    @count = 7
     # loading the images into the array
-    @images = (0...@image_count).collect { |t| load_image("animal#{t}.jpg") }
+    @images = (0...@count).map { |i| load_image("animal#{i}.jpg") }
   end
 
   def draw
     # displaying one images
-    image @images[@image_index], 0, 0 
+    image @images[@index], 0, 0 
   end
 
   def mouse_pressed
     # A new image is picked randomly when the mouse is clicked
-    @image_index = rand(@images.size)
+    @index = rand(@images.size)
   end
 
 end
