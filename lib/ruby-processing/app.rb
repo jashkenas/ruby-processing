@@ -72,15 +72,31 @@ module Processing
       @@loaded_libraries[folder.to_sym]
     end
     def library_loaded?(folder); self.class.library_loaded?(folder); end
-
+    
 
     # For pure ruby libs.
     # The library should have an initialization ruby file 
     # of the same name as the library folder.
-    def self.load_ruby_library(folder)
+    #
+    # FIXME: document the following behavior
+    # If a library is put into a folder next to the sketch it will
+    # be used instead of the library that ships with Ruby-Processing.
+    def self.load_ruby_library(folder, local = true)
       unless @@loaded_libraries[folder.to_sym]
-        online? ? prefix = "" : prefix = RP5_ROOT+"/library/"
-        @@loaded_libraries[folder.to_sym] = require "#{prefix}#{folder}/#{folder}"
+        load_path  =  (local ? Dir.pwd : RP5_ROOT) + "/library/"
+        prefix     =  (online? ? "" : load_path) # TODO: untested when online? is true
+        library    =  "#{prefix}#{folder}/#{folder}"
+        begin
+          library = require "#{prefix}#{folder}/#{folder}"
+        rescue LoadError => e
+          if local
+            self.load_ruby_library(folder, false)
+          else
+            puts "LoadError: The library '#{folder}' could not be found."
+            Kernel.exit(1)
+          end
+        end
+        @@loaded_libraries[folder.to_sym] = library
       end
       return @@loaded_libraries[folder.to_sym]
     end
