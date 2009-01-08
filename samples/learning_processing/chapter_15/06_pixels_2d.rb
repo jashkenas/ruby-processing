@@ -11,12 +11,10 @@ class Pixels2dSketch < Processing::App
       # Loop through every pixel row
       height.times do |y|
         # Use the formula to find the 1D location
-        loc = x + y * width; # The location in the pixel array is calculated via our formula: 1D pixel location = x + y * width
-        if (x % 2 == 0) # If we are an even column
-          pixels[loc] = color(255)
-        else # If we are an odd column
-          pixels[loc] = color(0) # We use the column number (x) to determine whether the color should be black or white.
-        end
+        # The location in the pixel array is calculated via our formula: 1D pixel location = x + y * width
+        loc = x + y * width
+        # We use the even-or-odd-ness of the column number (x) to determine whether the color should be black or white.
+        pixels[loc] = (x % 2 == 0) ? color(255) : color(0)
       end
     end
     # update the pixels on screen
