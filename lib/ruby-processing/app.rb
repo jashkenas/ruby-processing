@@ -72,15 +72,31 @@ module Processing
       @@loaded_libraries[folder.to_sym]
     end
     def library_loaded?(folder); self.class.library_loaded?(folder); end
-
+    
 
     # For pure ruby libs.
     # The library should have an initialization ruby file 
     # of the same name as the library folder.
-    def self.load_ruby_library(folder)
+    #
+    # TODO: document the following behavior
+    # If a library is put into a folder next to the sketch it will
+    # be used instead of the library that ships with Ruby-Processing.
+    def self.load_ruby_library(folder, local = true)
       unless @@loaded_libraries[folder.to_sym]
-        online? ? prefix = "" : prefix = RP5_ROOT+"/library/"
-        @@loaded_libraries[folder.to_sym] = require "#{prefix}#{folder}/#{folder}"
+        load_path  =  (local ? Dir.pwd : RP5_ROOT) + "/library/"
+        prefix     =  (online? ? "" : load_path) # TODO: untested when online? is true
+        library    =  "#{prefix}#{folder}/#{folder}"
+        begin
+          library = require "#{prefix}#{folder}/#{folder}"
+        rescue LoadError => e
+          if local
+            self.load_ruby_library(folder, false)
+          else
+            puts "LoadError: The Ruby library '#{folder}' could not be found."
+            Kernel.exit(1)
+          end
+        end
+        @@loaded_libraries[folder.to_sym] = library
       end
       return @@loaded_libraries[folder.to_sym]
     end
@@ -89,21 +105,24 @@ module Processing
     # Loading libraries which include native code needs to 
     # hack the Java ClassLoader, so that you don't have to 
     # futz with your PATH. But it's probably bad juju.
-    def self.load_java_library(folder)
+    #
+    # TODO: document the following behavior
+    # If a library is put into a folder next to the sketch it will
+    # be used instead of the library that ships with Ruby-Processing.
+    def self.load_java_library(folder, local = true)
       unless @@loaded_libraries[folder.to_sym]
         if online? # Applets preload all the java libraries.
           @@loaded_libraries[folder.to_sym] = true if JRUBY_APPLET.get_parameter("archive").match(%r(#{folder}))
         else
-          base = "library#{File::SEPARATOR}#{folder}#{File::SEPARATOR}"
-          jars = Dir.glob("#{base}*.jar")
-          base2 = "#{base}library#{File::SEPARATOR}"
-          jars = jars + Dir.glob("#{base2}*.jar")
+          load_path = (local ? Dir.pwd : RP5_ROOT)
+          base = File.join(load_path, "library", folder.to_s)
+          jars = Dir.glob("#{base}/**/*.jar")
           jars.each {|jar| require jar }
-          return false if jars.length == 0
+          raise LoadError if jars.length == 0
+          
           # Here goes...
-          sep = java.io.File.pathSeparator
           path = java.lang.System.getProperty("java.library.path")
-          new_path = base + sep + base + "library" + sep + path
+          new_path = [base, "library", path].join(java.io.File.pathSeparator)
           java.lang.System.setProperty("java.library.path", new_path)
           field = java.lang.Class.for_name("java.lang.ClassLoader").get_declared_field("sys_paths")
           if field
@@ -114,6 +133,13 @@ module Processing
         end
       end
       return @@loaded_libraries[folder.to_sym]
+    rescue LoadError => e
+      if local
+        self.load_java_library(folder, false)
+      else
+        puts "LoadError: The Java library '#{folder}' could not be found."
+        Kernel.exit(1)
+      end
     end
 
 
