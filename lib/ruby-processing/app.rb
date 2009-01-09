@@ -53,7 +53,7 @@ module Processing
       EOS
       eval method
     end
-
+    
 
     def self.current=(app); @current_app = app; end
     def self.current; @current_app; end
@@ -268,12 +268,14 @@ module Processing
     end
 
 
-    def mouse_x; mouseX; end
-    def mouse_y; mouseY; end
-    def pmouse_x; pmouseX; end
-    def pmouse_y; pmouseY; end
-    def frame_count; frameCount; end
-    def mouse_button; mouseButton; end
+    # Fields that should be made accessible as under_scored.
+    def mouse_x;      mouseX;       end
+    def mouse_y;      mouseY;       end
+    def pmouse_x;     pmouseX;      end
+    def pmouse_y;     pmouseY;      end
+    def frame_count;  frameCount;   end
+    def mouse_button; mouseButton;  end
+    def key_code;     keyCode;      end
 
 
     def mouse_pressed?
