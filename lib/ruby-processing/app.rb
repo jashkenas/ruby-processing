@@ -77,69 +77,44 @@ module Processing
     # For pure ruby libs.
     # The library should have an initialization ruby file 
     # of the same name as the library folder.
-    #
-    # TODO: document the following behavior
     # If a library is put into a folder next to the sketch it will
     # be used instead of the library that ships with Ruby-Processing.
-    def self.load_ruby_library(folder, local = true)
-      unless @@loaded_libraries[folder.to_sym]
-        load_path  =  (local ? Dir.pwd : RP5_ROOT) + "/library/"
-        prefix     =  (online? ? "" : load_path) # TODO: untested when online? is true
-        library    =  "#{prefix}#{folder}/#{folder}"
-        begin
-          library = require "#{prefix}#{folder}/#{folder}"
-        rescue LoadError => e
-          if local
-            self.load_ruby_library(folder, false)
-          else
-            puts "LoadError: The Ruby library '#{folder}' could not be found."
-            Kernel.exit(1)
-          end
-        end
-        @@loaded_libraries[folder.to_sym] = library
-      end
-      return @@loaded_libraries[folder.to_sym]
+    def self.load_ruby_library(dir)
+      dir = dir.to_sym
+      return true if @@loaded_libraries[dir]
+      return @@loaded_libraries[dir] = (require "#{dir}/#{dir}") if online?
+      local_path = "#{Dir.pwd}/library/#{dir}"
+      gem_path = "#{RP5_ROOT}/library/#{dir}"
+      path = File.exists?(local_path) ? local_path : gem_path
+      return @@loaded_libraries[dir] = (require "#{path}/#{dir}")
     end
 
 
     # Loading libraries which include native code needs to 
     # hack the Java ClassLoader, so that you don't have to 
     # futz with your PATH. But it's probably bad juju.
-    #
-    # TODO: document the following behavior
     # If a library is put into a folder next to the sketch it will
     # be used instead of the library that ships with Ruby-Processing.
-    def self.load_java_library(folder, local = true)
-      unless @@loaded_libraries[folder.to_sym]
-        if online? # Applets preload all the java libraries.
-          @@loaded_libraries[folder.to_sym] = true if JRUBY_APPLET.get_parameter("archive").match(%r(#{folder}))
-        else
-          load_path = (local ? Dir.pwd : RP5_ROOT)
-          base = File.join(load_path, "library", folder.to_s)
-          jars = Dir.glob("#{base}/**/*.jar")
-          jars.each {|jar| require jar }
-          raise LoadError if jars.length == 0
-          
-          # Here goes...
-          path = java.lang.System.getProperty("java.library.path")
-          new_path = [base, "library", path].join(java.io.File.pathSeparator)
-          java.lang.System.setProperty("java.library.path", new_path)
-          field = java.lang.Class.for_name("java.lang.ClassLoader").get_declared_field("sys_paths")
-          if field
-            field.accessible = true
-            field.set(java.lang.Class.for_name("java.lang.System").get_class_loader, nil)
-          end
-          @@loaded_libraries[folder.to_sym] = true
-        end
+    def self.load_java_library(dir)
+      dir = dir.to_sym
+      return true if @@loaded_libraries[dir]
+      return @@loaded_libraries[dir] = !!(JRUBY_APPLET.get_parameter("archive").match(%r(#{dir}))) if online?
+      local_path = "#{Dir.pwd}/library/#{dir}"
+      gem_path = "#{RP5_ROOT}/library/#{dir}"
+      path = File.exists?(local_path) ? local_path : gem_path
+      jars = Dir.glob("#{path}/**/*.jar")
+      raise LoadError if jars.length == 0
+      jars.each {|jar| require jar }
+      # Here goes...
+      library_path = java.lang.System.getProperty("java.library.path")
+      new_library_path = [path, "#{path}/library", library_path].join(java.io.File.pathSeparator)
+      java.lang.System.setProperty("java.library.path", new_library_path)
+      field = java.lang.Class.for_name("java.lang.ClassLoader").get_declared_field("sys_paths")
+      if field
+        field.accessible = true
+        field.set(java.lang.Class.for_name("java.lang.System").get_class_loader, nil)
       end
-      return @@loaded_libraries[folder.to_sym]
-    rescue LoadError => e
-      if local
-        self.load_java_library(folder, false)
-      else
-        puts "LoadError: The Java library '#{folder}' could not be found."
-        Kernel.exit(1)
-      end
+      return @@loaded_libraries[dir] = true
     end
 
 
