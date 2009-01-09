@@ -1,7 +1,9 @@
 # A sketch loader, observer, and reloader, to tighten 
 # the feedback between code and effect.
 
-module Processing
+require "#{File.dirname(__FILE__)}/base.rb"
+
+module Processing  
   class Watcher
     
     def initialize(file)
@@ -34,5 +36,4 @@ module Processing
   end
 end
 
-sketch = ARGV[0]
-Processing::Watcher.new(sketch)
+Processing::Watcher.new(Processing::SKETCH_PATH)

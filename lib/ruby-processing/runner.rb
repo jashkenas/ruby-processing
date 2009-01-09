@@ -61,20 +61,20 @@ module Processing
     # Just simply run a ruby-processing sketch.
     def run(sketch)
       ensure_exists(sketch)
-      spin_up("#{File.join(RP5_ROOT, 'lib/ruby-processing/run.rb')} '#{sketch}'")
+      spin_up('run.rb', sketch)
     end
     
     # Run a sketch, keeping an eye on it's file, and reloading
     # whenever it changes.
     def watch(sketch)
       ensure_exists(sketch)
-      spin_up("lib/processing/watcher.rb '#{sketch}'")
+      spin_up('watch.rb', sketch)
     end
     
     # Run a sketch, opening its guts to IRB, letting you play with it.
     def live(sketch)
       ensure_exists(sketch)
-      spin_up("lib/processing/live.rb '#{sketch}'")
+      spin_up('live.rb', sketch)
     end
     
     def sample
@@ -95,9 +95,11 @@ Usage: rp5 [run | watch | live | create | applet | application] path/to/the/sket
     
     private
     
-    def spin_up(args)
-      @out_stream.puts "Please wait while the sketch is loading..."
-      puts `java -cp #{jruby_complete} #{dock_icon} org.jruby.Main #{args}`
+    def spin_up(starter_script, args)
+      runner = "#{RP5_ROOT}/lib/ruby-processing/runners/#{starter_script}"
+      command = "java -cp #{jruby_complete} #{dock_icon} org.jruby.Main #{runner} #{args}"
+      exec(command)
+      # exec replaces the Ruby process with the JRuby one.
     end
     
     def ensure_exists(sketch)
