@@ -8,8 +8,7 @@ module Processing
   class BaseExporter
     include FileUtils
     
-    def get_main_file
-      file = ARGV.first
+    def get_main_file(file)
       return file, File.basename(file), File.dirname(file)
     end
     
