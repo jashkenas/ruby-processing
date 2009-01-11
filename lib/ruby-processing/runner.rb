@@ -23,8 +23,9 @@ module Processing
       when 'watch'  : watch(@options.path)
       when 'create' : create(@options.path, @options.args)
       when 'live'   : live(@options.path)
-      when 'sample' : sample(@options.path)
       when 'app'    : app(@options.path)
+      when 'applet' : applet(@options.path)
+      when 'sample' : sample(@options.path)
       when /-v/     : show_version
       when /-h/     : show_help
       else show_help
@@ -63,13 +64,18 @@ module Processing
       spin_up('live.rb', sketch)
     end
     
-    def sample
-      
-    end
-    
     # Generate a cross-platform application of a given Ruby-Processing sketch.
     def app(sketch)
       Processing::ApplicationExporter.new.export!(sketch)
+    end
+    
+    # Generate an applet and HTML page for a given sketch.
+    def applet(sketch)
+      Processing::AppletExporter.new.export!(sketch)
+    end
+    
+    def sample
+      # TODO
     end
     
     def show_version

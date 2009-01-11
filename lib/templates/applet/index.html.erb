@@ -1,0 +1,106 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <title><%= @title %></title>
+  <style type="text/css">
+    body {
+      background: #000000;
+      font-family: Arial;
+      font-size: 12px;
+      color: #bbb;
+      text-align: center;
+      line-height: 16px;
+    }
+    a {
+      color: #bbb;
+      margin: 0; padding: 0;
+    }
+    a img {
+      border: 0;
+      margin: 0;
+      padding: 0;
+    }
+    #container {
+      width: <%= @width_plus_14 %>px;
+      margin: 0 auto;
+      margin-top: 20px;
+    }
+    #the_applet {
+      padding: 6px; 
+      padding-top: 7px; padding-bottom: 2px;
+      background: #262626 url(images/top.png) top left repeat-x;
+      border: 1px solid #363636; border-top: 0;
+    }
+    #built_with {
+      width: 150px;
+      margin: 0 auto;
+      margin-top: 30px;
+      padding: 0;
+    }
+    #description {
+      font-size: 12px;
+      width: <%= @width %>px;
+      padding: 7px;
+      background: #111;
+      text-align: justify;
+      margin: 0 auto;
+      margin-top: 30px; margin-bottom: 10px;
+      border: 1px solid #363636;
+    }
+      #description h1 {
+        font-size: 18px;
+        font-weight: normal;
+        color: #999;
+        font-variant: small-caps;
+        text-align: center;
+      }
+  </style>
+</head>
+
+<body>
+<div id="container">
+  
+  <div id="the_applet">
+    <object
+      type="application/x-java-applet"
+      code="<%= @starting_class %>"
+      codebase="."
+      style="margin: 0; padding: 0;"
+      width="<%= @width %>" height="<%= @height %>">
+      
+      <param name="archive" value="<%= @file_list %>" />
+      <param name="jruby.script" value="<%= @main_file %>" />
+      <param name="image" value="images/ruby.jpg" />
+      <param name="boxbgcolor" value="#000000" />   
+      <param name="lang" value="en" />
+      <param name="mayscript" value="true" />
+      <param name="scriptable" value="true" />
+      <param name="progressbar" value="true" />
+      
+      <% if @opengl %>
+        <param name="codebase_lookup" value="false" />
+        <param name="subapplet.classname" value="org.jruby.JRubyApplet" />
+        <param name="subapplet.displayname" value="<%= @title %>" />
+      <% end %>
+      
+      <!-- And if you don't have java.  -->
+      To view this content, you need to install Java from <a href="http://java.com">java.com</a>
+    </object>
+  </div>
+  
+  <div id="built_with">
+    <a href="http://the-shoebox.org/apps/44/">
+      <img src="images/built_with.jpg" alt="Ruby-Processing" />
+    </a>
+      Via <a href="http://jruby.codehaus.org/">JRuby</a> and <a href="http://processing.org/">Processing</a><br />
+      Source: <a href="<%= @main_file %>"><%= @main_file %></a>
+  </div>
+  
+  <%= @description %>
+  
+</div>
+</body>
+</html>

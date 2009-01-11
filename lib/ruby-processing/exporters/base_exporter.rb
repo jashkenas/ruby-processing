@@ -75,11 +75,10 @@ module Processing
       requirements = []
       partial_paths = []
       loop do
-        matchdata = code.match(/^.*(require|load).*$/)
+        matchdata = code.match(/^.*\b(require|load)\b.*$/)
         break unless matchdata
         line = matchdata[0].gsub('__FILE__', "'#{@main_file_path}'")
-        line = line.gsub(/(require|load)/, 'partial_paths << ')
-        require 'rubygems'; require 'ruby-debug'; debugger
+        line = line.gsub(/\b(require|load)\b/, 'partial_paths << ')
         eval(line)
         requirements += Dir["{#{local_dir}/,}{#{partial_paths.join(',')}}.{rb,jar}"]
         code = matchdata.post_match

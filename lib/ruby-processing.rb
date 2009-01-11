@@ -20,5 +20,6 @@ module Processing
   autoload :Runner,               'ruby-processing/runner'
   autoload :Creator,              'ruby-processing/exporters/creator'
   autoload :BaseExporter,         'ruby-processing/exporters/base_exporter'
+  autoload :AppletExporter,       'ruby-processing/exporters/applet_exporter'
   autoload :ApplicationExporter,  'ruby-processing/exporters/application_exporter'
 end
