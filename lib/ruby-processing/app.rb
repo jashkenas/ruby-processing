@@ -82,7 +82,7 @@ module Processing
     def self.load_ruby_library(dir)
       dir = dir.to_sym
       return true if @@loaded_libraries[dir]
-      return @@loaded_libraries[dir] = (require "#{dir}/#{dir}") if online?
+      return @@loaded_libraries[dir] = (require "library/#{dir}/#{dir}") if online?
       local_path = "#{Dir.pwd}/library/#{dir}"
       gem_path = "#{RP5_ROOT}/library/#{dir}"
       path = File.exists?(local_path) ? local_path : gem_path
@@ -135,7 +135,7 @@ module Processing
     def initialize(options = {})
       super()
       $app = App.current = self
-      set_sketch_path
+      set_sketch_path unless online?
       make_accessible_to_the_browser
       options = {
         :width => 400, 
