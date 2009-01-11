@@ -19,7 +19,7 @@ module Processing
       # Make the file
       dir = File.dirname path
       mkdir_p dir
-      template = File.new("#{RP5_ROOT}/lib/templates/blank_sketch.rb.erb")
+      template = File.new("#{RP5_ROOT}/lib/templates/create/blank_sketch.rb.erb")
       rendered = render_erb_from_string_with_binding(template.read, binding)
       File.open(File.join(dir, "#{@file_name}.rb"), "w") do |file|
         file.print rendered

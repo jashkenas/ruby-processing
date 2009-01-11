@@ -24,6 +24,7 @@ module Processing
       when 'create' : create(@options.path, @options.args)
       when 'live'   : live(@options.path)
       when 'sample' : sample(@options.path)
+      when 'app'    : app(@options.path)
       when /-v/     : show_version
       when /-h/     : show_help
       else show_help
@@ -66,13 +67,18 @@ module Processing
       
     end
     
+    # Generate a cross-platform application of a given Ruby-Processing sketch.
+    def app(sketch)
+      Processing::ApplicationExporter.new.export!(sketch)
+    end
+    
     def show_version
       exit_with_success("ruby-processing version #{Processing.version}")
     end
     
     def show_help
       help = <<-EOS
-Usage: rp5 [run | watch | live | create | applet | application] path/to/the/sketch
+Usage: rp5 [run | watch | live | create | applet | app] path/to/the/sketch
       EOS
       exit_with_success(help)
     end
