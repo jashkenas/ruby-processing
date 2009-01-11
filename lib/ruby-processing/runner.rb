@@ -1,6 +1,5 @@
 require 'ostruct'
 require 'fileutils'
-require RP5_ROOT+'/lib/helpers/string'
 
 module Processing
   
@@ -22,7 +21,7 @@ module Processing
       case @options.action
       when 'run'    : run(@options.path)
       when 'watch'  : watch(@options.path)
-      when 'create' : create(@options.path)
+      when 'create' : create(@options.path, @options.args)
       when 'live'   : live(@options.path)
       when 'sample' : sample(@options.path)
       when /-v/     : show_version
@@ -33,29 +32,15 @@ module Processing
     
     # Parse the command-line options. Keep it simple
     def parse_options(args)
-      @options.action = args[0] || 'run'
-      @options.path   = args[1] || File.basename(Dir.pwd + '.rb')
+      @options.action = args[0]     || 'run'
+      @options.path   = args[1]     || File.basename(Dir.pwd + '.rb')
+      @options.args   = args[2..-1] || []
     end
     
     # Create a fresh Ruby-Processing sketch, with the necessary
     # boilerplate filled out.
-    def create(sketch)
-      template_file = RP5_ROOT + "/samples/sample_application.rb"
-      sketch_folder = File.join(Dir.pwd, sketch.underscore)
-      sketch_file   = "#{sketch_folder}/#{sketch.underscore}.rb"
-      
-      exit_with_error("Can not overwrite an existing project.") if File.exist?(sketch_folder)
-
-      FileUtils.mkdir(sketch_folder)
-      FileUtils.cp_r(template_file, sketch_file)
-      File.open(sketch_file, "r+") do |f|
-        lines = f.readlines
-        lines.each {|l| l.gsub!(/SampleApplication/, sketch.camelize)}
-        f.rewind
-        f.print lines
-        f.truncate(f.pos)
-      end
-      exit_with_success("Successfully created sketch '#{sketch.underscore}'")
+    def create(sketch, args)
+      Processing::Creator.new.create!(sketch, args)
     end
     
     # Just simply run a ruby-processing sketch.
