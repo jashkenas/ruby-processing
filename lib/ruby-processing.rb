@@ -7,7 +7,7 @@ unless defined? RP5_ROOT
   RP5_ROOT = File.expand_path(File.dirname(__FILE__) + "/../")
 end
 
-require 'helpers/string'
+require 'ruby-processing/helpers/string'
 
 module Processing
   VERSION = [1,1]
@@ -16,8 +16,9 @@ module Processing
     VERSION.join('.')
   end
   
-  autoload :App,          'ruby-processing/app'
-  autoload :Runner,       'ruby-processing/runner'
-  autoload :Creator,      'ruby-processing/exporters/creator'
-  autoload :BaseExporter, 'ruby-processing/exporters/base_exporter'
+  autoload :App,                  'ruby-processing/app'
+  autoload :Runner,               'ruby-processing/runner'
+  autoload :Creator,              'ruby-processing/exporters/creator'
+  autoload :BaseExporter,         'ruby-processing/exporters/base_exporter'
+  autoload :ApplicationExporter,  'ruby-processing/exporters/application_exporter'
 end

@@ -19,14 +19,14 @@ module Processing
       
       # Copy over all the required files
       prefix = "lib"
-      cp_r(Dir.glob("#{RP5_ROOT}/lib/templates/application_files/{*,**}"), app_dir)
-      necessary_files = [@main_file_path, "ruby-processing.rb", "core.jar", "jruby-complete.jar"]
-      necessary_files += extract_real_requires(@main_file_path)
+      cp_r(Dir["#{RP5_ROOT}/lib/templates/application/{*,**}"], app_dir)
+      necessary_files = [@main_file_path]
+      necessary_files += Dir["#{RP5_ROOT}/lib/{*,**}"]
+      necessary_files += @real_requires
       necessary_files << "#{@main_folder}/data" if File.exists?("#{@main_folder}/data")
       necessary_files.uniq!
       cp_r(necessary_files, File.join(app_dir, prefix))
-      library_files = Dir.glob("library/{#{@libs_to_load.join(",")}}") if @libs_to_load.length > 0
-      cp_r(library_files, File.join(app_dir, prefix, "library")) if library_files
+      cp_r(@libraries, File.join(app_dir, prefix, "library")) unless @libraries.empty?
       
       # Move the icon
       potential_icon = Dir.glob(File.join(app_dir, prefix, "data/*.icns"))[0]
@@ -64,5 +64,3 @@ module Processing
     end
   end
 end
-
-Processing::ApplicationExporter.new.export!

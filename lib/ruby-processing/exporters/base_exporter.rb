@@ -8,34 +8,91 @@ module Processing
   class BaseExporter
     include FileUtils
     
+    DEFAULT_TITLE = "Ruby-Processing Sketch"
+    DEFAULT_DIMENSIONS = {'width' => '500', 'height' => '500'}
+    DEFAULT_DESCRIPTION = ''
+    
     def get_main_file(file)
       return file, File.basename(file), File.dirname(file)
     end
     
     def extract_information
       # Extract information from main file
-      info = {}
-      source_code = info[:source_code] = File.open(@main_file_path, "r") {|file| file.readlines.join(" ")}
-      info[:class_name] = source_code.match(/(\w+)\s*<\s*Processing::App/)
-      info[:class_name] = (info[:class_name] ? info[:class_name][1] : nil)
-      info[:title] = source_code.match(/#{info[:class_name]}\.new.*?:title\s=>\s["'](.+)["']/m)
-      info[:width] = source_code.match(/#{info[:class_name]}\.new.*?:width\s=>\s(\d+)/m)
-      info[:height] = source_code.match(/#{info[:class_name]}\.new.*?:height\s=>\s(\d+)/m)
-      info[:description] = source_code.match(/# Description:(.*?)\n [^#]/m)
-      info[:libs_to_load] = []
-      code = source_code.dup
+      @info = {}
+      @info[:source_code]     = source = read_source_code
+      @info[:class_name]      = extract_class_name(source)
+      @info[:title]           = extract_title(source)
+      @info[:width]           = extract_dimension(source, 'width')
+      @info[:height]          = extract_dimension(source, 'height')
+      @info[:description]     = extract_description(source)
+      @info[:libraries]       = extract_libraries(source)
+      @info[:real_requires]   = extract_real_requires(source)
+      @info
+    end
+    
+    def extract_class_name(source)
+      match = source.match(/(\w+)\s*<\s*Processing::App/)
+      match ? match[1] : nil
+    end
+    
+    def extract_title(source)
+      match = source.match(/#{@info[:class_name]}\.new.*?:title\s=>\s["'](.+)["']/m)
+      match ? match[1] : DEFAULT_TITLE
+    end
+    
+    def extract_dimension(source, dimension)
+      match = source.match(/#{@info[:class_name]}\.new.*?:#{dimension}\s=>\s(\d+)/m)
+      match ? match[1] : DEFAULT_DIMENSIONS[dimension]
+    end
+    
+    def extract_description(source)
+      match = source.match(/# Description:(.*?)\n [^#]/m)
+      match ? match[1] : DEFAULT_DESCRIPTION
+    end
+    
+    def extract_libraries(source)
+      libs = []
+      code = source.dup
       loop do
         matchdata = code.match(/load_\w+_library.+?["':](\S+?)["'\s]/)
         break unless matchdata
-        if File.exists?("library/#{matchdata[1]}")            
-          @opengl = true if matchdata[1].match(/opengl/i)
-          info[:libs_to_load] << matchdata[1]
-        end
+        match = matchdata[1]
+        @opengl = true if match.match(/opengl/i)
+        local_path = "#{local_dir}/library/#{match}"
+        rp5_path = "#{RP5_ROOT}/library/#{match}"
+        File.exists?(local_path) ? libs << local_path : 
+          (libs << rp5_path if File.exists?(rp5_path))
         code = matchdata.post_match
       end
-      defaults = {:description => "", :title => "Ruby-Processing Sketch", :width => "400", :height => "400"}
-      defaults.each {|k,v| info[k] ? info[k] = info[k][1] : info[k] = v }
-      return info
+      libs
+    end
+    
+    # This method looks for all of the codes require or load 
+    # directives, checks to see if the file exists (that it's 
+    # not a gem, or a standard lib) and gives you the real ones.
+    def extract_real_requires(source)
+      code = source.dup
+      requirements = []
+      partial_paths = []
+      loop do
+        matchdata = code.match(/^.*(require|load).*$/)
+        break unless matchdata
+        line = matchdata[0].gsub('__FILE__', "'#{@main_file_path}'")
+        line = line.gsub(/(require|load)/, 'partial_paths << ')
+        require 'rubygems'; require 'ruby-debug'; debugger
+        eval(line)
+        requirements += Dir["{#{local_dir}/,}{#{partial_paths.join(',')}}.{rb,jar}"]
+        code = matchdata.post_match
+      end
+      return requirements
+    end
+    
+    def read_source_code
+      File.read(@main_file_path)
+    end
+    
+    def local_dir
+      File.dirname(@main_file_path)
     end
     
     def hash_to_ivars(hash)
@@ -54,23 +111,6 @@ module Processing
     
     def render_erb_from_string_with_binding(erb, some_binding)
       rendered = ERB.new(erb, nil, "<>", "rendered").result(some_binding)
-    end
-    
-    # This method looks for all of the codes require or load 
-    # directives, checks to see if the file exists (that it's 
-    # not a gem, or a standard lib) and gives you the real ones.
-    def extract_real_requires(main_file_path)
-      code = File.open(main_file_path) {|f| f.readlines.join }
-      code.gsub!("__FILE__", "'#{main_file_path}'")
-      requirements = []
-      loop do
-        matchdata = code.match(/((require)|(load)) .*['"]/)
-        break unless matchdata
-        path = eval(matchdata[0].sub(/((require)|(load)) /, ""))
-        requirements += Dir.glob(path + ".{rb,jar}")
-        code = matchdata.post_match
-      end
-      return requirements
     end
     
   end
