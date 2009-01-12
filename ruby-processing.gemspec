@@ -11,8 +11,8 @@ Gem::Specification.new do |s|
   s.description = "Code as Art, Art as Code. Processing and Ruby are meant for each other."
   s.email = "jeremy@ashkenas.com"
   s.executables = ["rp5"]
-  s.extra_rdoc_files = ["bin/rp5", "lib/helpers/string.rb", "lib/ruby-processing.rb", "license.txt", "README.rdoc"]
-  s.files = FileList['lib/**/*', 'library/**/*', 'README.rdoc', 'samples/**/*', 'specs/**/*'].to_a
+  s.extra_rdoc_files = ["LICENSE", "README.rdoc"]
+  s.files = FileList['bin/**/*', 'lib/**/*', 'library/**/*', 'README.rdoc', 'samples/**/*'].to_a
   s.has_rdoc = true
   s.homepage = "http://github.com/jashkenas/ruby-processing/wikis"
   s.rdoc_options = ["--line-numbers", "--inline-source", "--title", "Ruby-Processing", "--main", "README.rdoc"]
