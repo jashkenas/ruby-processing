@@ -1,3 +1,8 @@
+v1.1 Gemmin' it up.
+  * Ruby-Processing has undergone a great refactor, kicked off by
+    Peter Gassner's initial efforts to make a gem out of it. Now
+    available as a real RubyGem.
+
 v1.0.1. control_panel introduced, has_slider deprecated
   * has_slider has been superseded by control_panel, a more full-
     fledged library for controlling aspects of your sketch. Read
