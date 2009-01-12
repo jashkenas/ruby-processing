@@ -51,8 +51,6 @@ module Processing
       
       # Figure out the substitutions to make.
       file_list = Dir.glob(applet_dir + "{/**/*.{rb,jar},/data/*.*}").map {|f| f.sub(applet_dir+"/","")}
-      h1 = "<h1>#{@title}</h1>"
-      @description = "<div id='description'>#{h1}<p>#{@description.gsub!(/\n(\s*)?#/, "")}</p></div>" unless @description.empty?
       @width_plus_14 = (@width.to_i + 14).to_s
       @file_list = file_list.join(",")
       
