@@ -1,8 +1,9 @@
-# Use this class to build a blank sketch.
-
 module Processing
+  
+  # This class creates blank sketches, with the boilerplate filled in.
   class Creator < BaseExporter
     
+    # Create a blank sketch, given a path.
     def create!(path, args)
       usage path
       main_file = File.basename(path, ".rb")
@@ -26,6 +27,7 @@ module Processing
       end
     end
     
+    # Show the help/usage message for create.
     def usage(predicate)
       unless predicate
         puts <<-USAGE

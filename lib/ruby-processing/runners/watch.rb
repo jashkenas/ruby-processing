@@ -1,18 +1,21 @@
-# A sketch loader, observer, and reloader, to tighten 
-# the feedback between code and effect.
-
 require "#{File.dirname(__FILE__)}/base.rb"
 
 module Processing  
+  
+  # A sketch loader, observer, and reloader, to tighten 
+  # the feedback between code and effect.
   class Watcher
     
-    def initialize(file)
-      @file = file
+    # Sic a new Processing::Watcher on a given sketch.
+    def initialize(sketch)
+      @file = sketch
       @time = Time.now
       load @file
       start_watching
     end
     
+    # Kicks off a thread to watch the sketch, reloading Ruby-Processing
+    # and restarting the sketch whenever it changes.
     def start_watching
       thread = Thread.start do
         loop do

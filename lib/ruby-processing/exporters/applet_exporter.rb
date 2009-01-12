@@ -1,7 +1,7 @@
-# This is a utility to export Ruby-Processing
-# sketches to applets that can be viewed online.
-
 module Processing
+  
+  # A utility class to export Ruby-Processing sketches as applets 
+  # that can be viewed online.
   class AppletExporter < BaseExporter
     
     def export!(sketch)
