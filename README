@@ -1,0 +1,61 @@
+=
+   ____        _                 ____                              _             
+  |  _ \ _   _| |__  _   _      |  _ \ _ __ ___   ___ ___  ___ ___(_)_ __   __ _ 
+  | |_) | | | | '_ \| | | |_____| |_) | '__/ _ \ / __/ _ \/ __/ __| | '_ \ / _` |
+  |  _ <| |_| | |_) | |_| |_____|  __/| | | (_) | (_|  __/\__ \__ \ | | | | (_| |
+  |_| \_\\__,_|_.__/ \__, |     |_|   |_|  \___/ \___\___||___/___/_|_| |_|\__, |
+                     |___/                                                 |___/ 
+
+
+  Ruby-Processing is a Ruby wrapper for the Processing code art framework. It's
+  this thin little shim that squeezes between Processing and JRuby, passing 
+  along some neat goodies like:
+  
+  * Applet and Application exporting of your sketches. Hand them out to 
+    your party guests, ready-to-run.
+    
+  * Live Coding via JRuby's IRB. Loads in your sketch so you can futz with 
+    variables and remake methods on the fly.
+    
+  * A "Control Panel" library, so that you can easily create sliders, buttons,
+    checkboxes and drop-down menus, and hook them into your sketch's instance 
+    variables.
+    
+  * "Watch" mode, where Ruby-Processing keeps an eye on your sketch and reloads 
+    it from scratch every time you make a change. A pretty nice REPL-ish way
+    to work on your Processing sketches.
+    
+  If some quality time with Ruby is your idea of a pleasant afternoon, or you
+  harbor ambitions of entering the fast-paced and not altogether cutthroat world 
+  of Code Art, then Ruby-Processing is probably something you should try on for 
+  size. You can grab it as a gem:
+  
+  sudo gem install ruby-processing
+    
+    
+  ~ But Processing? ~
+  
+  Processing is an MIT-developed framework for making little code artifacts, 
+  animations, visualizations, and the like, developed originally by Ben Fry
+  and Casey Reas, supported by a small army of open-source contributors. 
+  Processing has become a sort of standard for visually-oriented programming,
+  strongly influencing the designs of Nodebox, Shoes, Arduino, and other kindred
+  projects. For more information, take a look at http://processing.org/
+  
+  
+  ~ What does it look like? How does it smell? ~
+  
+  Processing provides a tidy API, with a bunch of handy methods you can call 
+  from Ruby-Processing. Here's a smattering:
+  
+  alpha, arc, background, blend, blue, ellipse, frame_rate, hue, lerp, 
+  load_image, load_pixels, mouse_pressed, noise, rect, saturation, shape, 
+  smooth, text_align, translate, triangle...
+  
+  And so on, and so forth. See the full list here: 
+  http://www.processing.org/reference/index_ext.html
+  
+  ~ How can I learn more? ~
+
+  For full, up-to-date info, always check the wiki:
+  http://wiki.github.com/jashkenas/ruby-processing
