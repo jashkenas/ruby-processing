@@ -3,6 +3,8 @@ require 'fileutils'
 
 module Processing
   
+  # Utility class to handle the different commands that the 'rp5' command
+  # offers. Able to run, watch, live, create, app, applet, and unpack_samples
   class Runner
     
     # Start running a ruby-processing sketch from the passed-in arguments
@@ -17,6 +19,7 @@ module Processing
       @options = OpenStruct.new
     end
     
+    # Dispatch central.
     def execute!
       case @options.action
       when 'run'    : run(@options.path)
@@ -32,7 +35,7 @@ module Processing
       end
     end
     
-    # Parse the command-line options. Keep it simple
+    # Parse the command-line options. Keep it simple.
     def parse_options(args)
       @options.action = args[0]     || 'run'
       @options.path   = args[1]     || File.basename(Dir.pwd + '.rb')
@@ -78,10 +81,12 @@ module Processing
       # TODO
     end
     
+    # Display the current version of Ruby-Processing.
     def show_version
       exit_with_success("ruby-processing version #{Processing.version}")
     end
     
+    # Show the standard help/usage message.
     def show_help
       help = <<-EOS
 Usage: rp5 [run | watch | live | create | applet | app] path/to/the/sketch
@@ -92,6 +97,8 @@ Usage: rp5 [run | watch | live | create | applet | app] path/to/the/sketch
     
     private
     
+    # Trade in this Ruby instance for a JRuby instance, loading in a 
+    # starter script and passing it some arguments.
     def spin_up(starter_script, args)
       runner = "#{RP5_ROOT}/lib/ruby-processing/runners/#{starter_script}"
       command = "java -cp #{jruby_complete} #{dock_icon} org.jruby.Main #{runner} #{args}"
@@ -107,6 +114,7 @@ Usage: rp5 [run | watch | live | create | applet | app] path/to/the/sketch
       File.join(RP5_ROOT, 'lib/core/jruby-complete.jar')
     end
     
+    # On the Mac, we can display a fat, shiny ruby in the Dock.
     def dock_icon
       mac = RUBY_PLATFORM.match(/darwin/i)
       mac ? "-Xdock:name=Ruby-Processing -Xdock:icon=script/application_files/Contents/Resources/sketch.icns" : ""

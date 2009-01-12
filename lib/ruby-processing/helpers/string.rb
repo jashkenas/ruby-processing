@@ -1,6 +1,5 @@
-# Mostly ripped from activesupport
-
-class String
+class String #:nodoc:
+  
   def titleize
     self.underscore.humanize.gsub(/\b([a-z])/) { $1.capitalize }
   end
@@ -24,4 +23,5 @@ class String
       tr("-", "_").
       downcase
   end
+  
 end

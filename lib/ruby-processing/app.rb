@@ -10,11 +10,18 @@ module Processing
   require "#{RP5_ROOT}/lib/core/core.jar" unless Object.const_defined?(:JRUBY_APPLET)  
   include_package "processing.core"
 
+  # This is the main Ruby-Processing class, and is what you'll
+  # inherit from when you create a sketch. This class can call
+  # all of the methods available in Processing, and has two 
+  # mandatory methods, 'setup' and 'draw', both of which you
+  # should define in your sketch. 'setup' will be called one
+  # time when the sketch is first loaded, and 'draw' will be 
+  # called constantly, for every frame.
   class App < PApplet
     include Math
 
     include_class "javax.swing.JFrame"
-
+    
     # Alias some methods for familiarity for Shoes coders.
     attr_accessor :frame, :title
     alias_method :oval, :ellipse
@@ -25,18 +32,18 @@ module Processing
     # Watch the definition of these methods, to make sure 
     # that Processing is able to call them during events.
     METHODS_TO_WATCH_FOR = { 
-      :mouse_pressed => :mousePressed,
-      :mouse_dragged => :mouseDragged,
-      :mouse_clicked => :mouseClicked,
-      :mouse_moved   =>   :mouseMoved, 
+      :mouse_pressed  => :mousePressed,
+      :mouse_dragged  => :mouseDragged,
+      :mouse_clicked  => :mouseClicked,
+      :mouse_moved    => :mouseMoved, 
       :mouse_released => :mouseReleased,
-      :key_pressed => :keyPressed,
-      :key_released => :keyReleased,
-      :key_typed => :keyTyped 
+      :key_pressed    => :keyPressed,
+      :key_released   => :keyReleased,
+      :key_typed      => :keyTyped 
     }
 
 
-    def self.method_added(method_name)
+    def self.method_added(method_name) #:nodoc:
       if METHODS_TO_WATCH_FOR.keys.include?(method_name)
         alias_method METHODS_TO_WATCH_FOR[method_name], method_name
       end
@@ -56,10 +63,10 @@ module Processing
     
 
     def self.current=(app); @current_app = app; end
-    def self.current; @current_app; end
+    def self.current; @current_app; end   
+    
 
-
-    # Detect if we're online or not.
+    # Are we running inside an applet?
     def self.online?
       @online ||= Object.const_defined?(:JRUBY_APPLET)
     end
@@ -74,10 +81,11 @@ module Processing
     def library_loaded?(folder); self.class.library_loaded?(folder); end
     
 
-    # For pure ruby libs.
+    # For pure ruby libraries.
     # The library should have an initialization ruby file 
     # of the same name as the library folder.
-    # If a library is put into a folder next to the sketch it will
+    #
+    # If a library is put into a 'library' folder next to the sketch it will
     # be used instead of the library that ships with Ruby-Processing.
     def self.load_ruby_library(dir)
       dir = dir.to_sym
@@ -90,11 +98,15 @@ module Processing
     end
 
 
-    # Loading libraries which include native code needs to 
+    # For pure java libraries, such as the ones that are available
+    # on this page: http://processing.org/reference/libraries/index.html
+    #
+    # If a library is put into a 'library' folder next to the sketch it will
+    # be used instead of the library that ships with Ruby-Processing.
+    #
+    # P.S. -- Loading libraries which include native code needs to 
     # hack the Java ClassLoader, so that you don't have to 
     # futz with your PATH. But it's probably bad juju.
-    # If a library is put into a folder next to the sketch it will
-    # be used instead of the library that ships with Ruby-Processing.
     def self.load_java_library(dir)
       dir = dir.to_sym
       return true if @@loaded_libraries[dir]
@@ -118,11 +130,13 @@ module Processing
     end
 
 
-    def self.has_slider(*args)
+    def self.has_slider(*args) #:nodoc:
       raise "has_slider has been replaced with a nicer control_panel library. Check it out."
     end
 
 
+    # Used by the Processing::Watcher to completely remove all 
+    # traces of the current sketch, so that it can be loaded afresh.
     def self.wipe_out_current_app!
       app = Processing::App.current
       return unless app
@@ -132,6 +146,12 @@ module Processing
     end
 
 
+    # When you make a new sketch, you pass in (optionally), 
+    # a width, height, title, and whether or not you want to 
+    # run in full-screen. 
+    #
+    # This is a little different than Processing where height
+    # and width are declared inside the setup method instead.
     def initialize(options = {})
       super()
       $app = App.current = self
@@ -149,6 +169,7 @@ module Processing
     end
 
 
+    # Provide a loggable string to represent this sketch.
     def inspect
       "#<Processing::App:#{self.class}:#{@title}>"
     end
@@ -159,61 +180,6 @@ module Processing
     def set_sketch_path(path=nil)
       field = self.java_class.declared_field('sketchPath')
       field.set_value(Java.ruby_to_java(self), path || SKETCH_PATH)
-    end
-
-
-    def display_full_screen(graphics_env)
-      @frame = java.awt.Frame.new
-      mode = graphics_env.display_mode
-      @width, @height = mode.get_width, mode.get_height
-      gc = graphics_env.get_default_configuration
-      @frame.set_undecorated true
-      @frame.set_background java.awt.Color.black
-      @frame.set_layout java.awt.BorderLayout.new
-      @frame.add(self, java.awt.BorderLayout::CENTER)
-      @frame.pack
-      graphics_env.set_full_screen_window @frame
-      @frame.set_location(0, 0)
-      @frame.show
-      self.init
-      self.request_focus
-    end
-
-
-    def display_in_a_window
-      @frame = JFrame.new(@title)
-      @frame.add(self)
-      @frame.setSize(@width, @height + 22)
-      @frame.setDefaultCloseOperation(JFrame::EXIT_ON_CLOSE)
-      @frame.setResizable(false)
-      @frame.show
-      self.init
-    end
-
-
-    def display_in_an_applet
-      JRUBY_APPLET.set_size(@width, @height)
-      JRUBY_APPLET.background_color = nil
-      JRUBY_APPLET.double_buffered = false
-      JRUBY_APPLET.add self
-      JRUBY_APPLET.validate
-      # Add the callbacks to peacefully expire.
-      JRUBY_APPLET.on_stop { self.stop }
-      JRUBY_APPLET.on_destroy { self.destroy }
-      self.init
-    end
-
-
-    # Tests to see which display method should run.
-    def determine_how_to_display(options)
-      if online? # Then display it in an applet.
-        display_in_an_applet
-      elsif options[:full_screen] # Then display it fullscreen.
-        graphics_env = java.awt.GraphicsEnvironment.get_local_graphics_environment.get_default_screen_device
-        graphics_env.is_full_screen_supported ? display_full_screen(graphics_env) : display_in_a_window
-      else # Then display it in a window.
-        display_in_a_window
-      end
     end
 
 
@@ -268,7 +234,7 @@ module Processing
       value[1..-1].hex + 0xff000000
     end
 
-
+    
     # Fields that should be made accessible as under_scored.
     def mouse_x;      mouseX;       end
     def mouse_y;      mouseY;       end
@@ -279,16 +245,19 @@ module Processing
     def key_code;     keyCode;      end
 
 
+    # Is the mouse pressed for this frame?
     def mouse_pressed?
       Java.java_to_primitive(java_class.field("mousePressed").value(java_object))
     end
 
 
+    # Is a key pressed for this frame?
     def key_pressed?
       Java.java_to_primitive(java_class.field("keyPressed").value(java_object))
     end
+    
 
-
+    # Cleanly close and shutter a running sketch.
     def close
       Processing::App.current = nil
       control_panel.remove if respond_to?(:control_panel) && !online?
@@ -298,13 +267,68 @@ module Processing
       container.dispose
     end
 
-
+    
     def quit
-      java.lang.System.exit(0)
+      exit
     end
     
     
     private
+    
+    # Tests to see which display method should run.
+    def determine_how_to_display(options)
+      if online? # Then display it in an applet.
+        display_in_an_applet
+      elsif options[:full_screen] # Then display it fullscreen.
+        graphics_env = java.awt.GraphicsEnvironment.get_local_graphics_environment.get_default_screen_device
+        graphics_env.is_full_screen_supported ? display_full_screen(graphics_env) : display_in_a_window
+      else # Then display it in a window.
+        display_in_a_window
+      end
+    end
+    
+    
+    def display_full_screen(graphics_env)
+      @frame = java.awt.Frame.new
+      mode = graphics_env.display_mode
+      @width, @height = mode.get_width, mode.get_height
+      gc = graphics_env.get_default_configuration
+      @frame.set_undecorated true
+      @frame.set_background java.awt.Color.black
+      @frame.set_layout java.awt.BorderLayout.new
+      @frame.add(self, java.awt.BorderLayout::CENTER)
+      @frame.pack
+      graphics_env.set_full_screen_window @frame
+      @frame.set_location(0, 0)
+      @frame.show
+      self.init
+      self.request_focus
+    end
+
+
+    def display_in_a_window
+      @frame = JFrame.new(@title)
+      @frame.add(self)
+      @frame.setSize(@width, @height + 22)
+      @frame.setDefaultCloseOperation(JFrame::EXIT_ON_CLOSE)
+      @frame.setResizable(false)
+      @frame.show
+      self.init
+    end
+
+
+    def display_in_an_applet
+      JRUBY_APPLET.set_size(@width, @height)
+      JRUBY_APPLET.background_color = nil
+      JRUBY_APPLET.double_buffered = false
+      JRUBY_APPLET.add self
+      JRUBY_APPLET.validate
+      # Add the callbacks to peacefully expire.
+      JRUBY_APPLET.on_stop { self.stop }
+      JRUBY_APPLET.on_destroy { self.destroy }
+      self.init
+    end
+    
     
     # When the net library is included, we make the Ruby interpreter
     # accessible to javascript as the 'ruby' variable. From javascript,

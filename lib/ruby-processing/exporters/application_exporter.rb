@@ -1,6 +1,7 @@
-# This is a utility to export Ruby-Processing sketches as Applications.
-
 module Processing
+  
+  # A utility class to export Ruby-Processing sketches as 
+  # Mac/Win/Nix Applications.
   class ApplicationExporter < BaseExporter
     
     def export!(sketch)
