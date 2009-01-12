@@ -179,7 +179,7 @@ module Processing
     # If you'd like to do something fancy, feel free.
     def set_sketch_path(path=nil)
       field = self.java_class.declared_field('sketchPath')
-      field.set_value(Java.ruby_to_java(self), path || SKETCH_PATH)
+      field.set_value(Java.ruby_to_java(self), path || File.dirname(SKETCH_PATH))
     end
 
 
