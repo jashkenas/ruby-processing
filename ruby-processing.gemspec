@@ -5,7 +5,7 @@ Gem::Specification.new do |s|
   s.version = "1.1"
   
   s.required_rubygems_version = Gem::Requirement.new(">= 1.2") if s.respond_to? :required_rubygems_version=
-  s.authors = ["Jeremy Ashkenas", "Peter Gassner"]
+  s.authors = ["Jeremy Ashkenas", "Peter Gassner", "Martin Stannard", "Andrew Nanton"]
   s.date = "2008-12-31"
   s.default_executable = %q{rp5}
   s.description = "Code as Art, Art as Code. Processing and Ruby are meant for each other."

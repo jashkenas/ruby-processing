@@ -12,10 +12,11 @@ module Processing
       puts "That sketch already exists." and exit if already_exists
       
       # Get the substitutions
-      @name = main_file.camelize
-      @file_name = main_file.underscore
-      @title = main_file.titleize
-      @width, @height = "500", "500"
+      @name =       main_file.camelize
+      @file_name =  main_file.underscore
+      @title =      main_file.titleize
+      @width =      args[0] || "500"
+      @height =     args[1] || "500"
   
       # Make the file
       dir = File.dirname path
