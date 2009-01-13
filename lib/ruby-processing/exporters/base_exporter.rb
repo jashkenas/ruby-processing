@@ -53,8 +53,8 @@ module Processing
     
     # Searches the source for a description of the sketch.
     def extract_description(source)
-      match = source.match(/# Description:(.*?)\n [^#]/m)
-      match ? match[1] : DEFAULT_DESCRIPTION
+      match = source.match(/# Description:(.*?)\n[^#]/m)
+      match ? match[1].gsub!(/\n(\s*)?#/, "") : DEFAULT_DESCRIPTION
     end
     
     # Searches the source any libraries that have been loaded.
