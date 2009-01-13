@@ -34,11 +34,6 @@ module Processing
       runner.execute!
     end
     
-    def initialize(out_stream = STDOUT, error_stream = STDERR)
-      @out_stream, @error_stream = out_stream, error_stream
-      @options = OpenStruct.new
-    end
-    
     # Dispatch central.
     def execute!
       case @options.action
@@ -57,6 +52,7 @@ module Processing
     
     # Parse the command-line options. Keep it simple.
     def parse_options(args)
+      @options = OpenStruct.new
       @options.action = args[0]     || nil
       @options.path   = args[1]     || File.basename(Dir.pwd + '.rb')
       @options.args   = args[2..-1] || []
@@ -106,12 +102,12 @@ module Processing
     
     # Display the current version of Ruby-Processing.
     def show_version
-      exit_with_success("Ruby-Processing version #{Processing.version}")
+      puts "Ruby-Processing version #{Processing.version}"
     end
     
     # Show the standard help/usage message.
     def show_help
-      exit_with_success(HELP_MESSAGE)
+      puts HELP_MESSAGE
     end
     
     
@@ -127,7 +123,10 @@ module Processing
     end
     
     def ensure_exists(sketch)
-      exit_with_error("Couldn't find: #{sketch}") unless File.exists?(sketch)
+      unless File.exists?(sketch)
+        puts "Couldn't find: #{sketch}"
+        exit
+      end
     end
     
     def jruby_complete
@@ -138,16 +137,6 @@ module Processing
     def dock_icon
       mac = RUBY_PLATFORM.match(/darwin/i)
       mac ? "-Xdock:name=Ruby-Processing -Xdock:icon=#{RP5_ROOT}/lib/templates/application/Contents/Resources/sketch.icns" : ""
-    end
-    
-    def exit_with_success(message)
-      @out_stream.puts message
-      Kernel.exit(0)
-    end
-    
-    def exit_with_error(message)
-      @error_stream.puts message
-      Kernel.exit(1)
     end
     
   end # class Runner

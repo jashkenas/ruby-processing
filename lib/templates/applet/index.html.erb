@@ -99,7 +99,12 @@
       Source: <a href="<%= @main_file %>"><%= @main_file %></a>
   </div>
   
-  <%= @description %>
+  <% unless @description.empty? %>
+  <div id="description">
+    <h1><%= @title %></h1>
+    <p><%= @description %></p>
+  </div>
+  <% end %>
   
 </div>
 </body>
