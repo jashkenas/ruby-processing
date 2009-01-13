@@ -45,10 +45,13 @@ module Processing
       runnable = app_dir + "/" + File.basename(@main_file, ".rb")
       move app_dir + "/run", runnable
       move app_dir + "/run.exe", runnable + ".exe"
-      `chmod +x "#{runnable}"`
+      chmod 0755, runnable
       cd app_dir + "/Contents/Resources"
-      `ln -s ../../lib Java`
-      
+      # Poor ol' windows can't symlink.
+      # TODO...
+      win = RUBY_PLATFORM.match(/mswin/)
+      puts "I'm afraid windows can't export Apps quite yet" and exit if win
+      ln_s('../../lib', 'Java')
     end
     
     def usage(predicate)
