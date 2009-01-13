@@ -3,25 +3,24 @@ require 'ruby-processing'
 class PointillismSketch < Processing::App
 
   def setup
-    @pointillize = 16
+    @pointillize = 10
     @img = load_image 'sunflower.jpg'
     background 255
+    frame_rate 200 # Let's run this one as fast as we can.
+    no_stroke
     smooth
   end
 
   def draw
     # Pick a random point
-    x = rand @img.width
-    y = rand @img.height
-    loc = x + y * @img.width
+    x, y = rand(width), rand(height)
+    loc = x + y * width
 
     # Look up the RGB color in the source image
     load_pixels
-    r = red @img.pixels[loc]
-    g = green @img.pixels[loc]
-    b = blue @img.pixels[loc]
-    no_stroke
-
+    pixel = @img.pixels[loc]
+    r, g, b = red(pixel), green(pixel), blue(pixel)
+    
     # Draw an ellipse at that location with that color
     fill r, g, b, 100
     # Back to shapes! Instead of setting a pixel, we use the color from a pixel to draw a circle.

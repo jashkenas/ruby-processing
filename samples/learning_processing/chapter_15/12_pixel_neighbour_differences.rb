@@ -9,8 +9,8 @@ class PixelNeighbourDifferencesSketch < Processing::App
 
   def draw
     # We are going to look at both image's pixels
-    @img.load_pixels()
-    @destination.load_pixels()
+    @img.load_pixels
+    @destination.load_pixels
 
     # Since we are looking at left neighbors
     # We skip the first column
