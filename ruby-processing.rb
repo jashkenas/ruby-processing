@@ -55,7 +55,7 @@ module Processing
 
     # Class methods that we should make available in the instance.
     [:map, :pow, :norm, :lerp, :second, :minute, :hour, :day, :month, :year, 
-     :sq, :constrain, :dist, :blend_color, :lerp_color].each do |meth|
+     :sq, :constrain, :dist, :blend_color].each do |meth|
       method = <<-EOS
         def #{meth}(*args)
           self.class.#{meth}(*args)
