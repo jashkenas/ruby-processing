@@ -9,15 +9,12 @@ class CaptureVideoSketch < Processing::App
 
   def setup
     # Step 2. Declare a Capture object
-    @video = Capture.new $app, width, height, 30
+    @video = Capture.new(self, width, height, 30)
   end
 
   def draw
-    # Check to see if a new frame is available
-    if @video.available
-      # If so,  Step 4. Read the image from the camera.
-      @video.read
-    end
+    # Step 3 and 4: Read from the camera if it's available.
+    @video.read if @video.available
 
     # Step 5. Display the video image.
     image @video, 0, 0
