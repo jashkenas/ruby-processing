@@ -6,13 +6,11 @@ class ManipulateVideoImageSketch < Processing::App
   include_package "processing.video" 
 
   def setup
-    @video = Capture.new $app, width, height, 30
+    @video = Capture.new(self, width, height, 30)
   end
 
   def draw
-    if @video.available
-      @video.read
-    end
+    @video.read if @video.available
 
     # Tinting using mouse location
     tint mouse_x, mouse_y, 255
