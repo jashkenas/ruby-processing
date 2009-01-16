@@ -1,7 +1,7 @@
 # So, let's get started: The first thing you may notice is
 # that there is a bunch more code around the edges here 
-# than in the Learning Processing example. Ruby-Processing
-# doesn't perform any special munging or pre-processing, 
+# than in vanilla Processing sketches. Ruby-Processing
+# doesn't perform any special code munging or pre-processing, 
 # so what you see here is *just Ruby* taking advantage
 # of the Processing library.
 

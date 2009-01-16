@@ -123,10 +123,7 @@ module Processing
     end
     
     def ensure_exists(sketch)
-      unless File.exists?(sketch)
-        puts "Couldn't find: #{sketch}"
-        exit
-      end
+      puts "Couldn't find: #{sketch}" and exit unless File.exists?(sketch)
     end
     
     def jruby_complete
