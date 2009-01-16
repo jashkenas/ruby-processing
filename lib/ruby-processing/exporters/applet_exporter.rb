@@ -4,58 +4,72 @@ module Processing
   # that can be viewed online.
   class AppletExporter < BaseExporter
     
+    USAGE = <<-EOS
+    
+    The applet generator will generate a web-ready applet for you.
+    Usage: script/applet <path_to_sketch>
+    Example: script/applet samples/jwishy.rb
+    
+    EOS
+    
     def export!(sketch)
       # Check to make sure that the main file exists
       @main_file_path, @main_file, @main_folder = *get_main_file(sketch)
-      unless @main_file_path && File.exists?(@main_file_path)
-        puts <<-USAGE
-        
-      The applet generator will generate a web-ready applet for you.
-      Usage: script/applet <path_to_sketch>
-      Example: script/applet samples/jwishy.rb 
+      usage(@main_file_path && File.exists?(@main_file_path))
       
-      USAGE
-        exit
-      end
+      extract_information
       
-      # Extract all the cool details.
-      @info = extract_information
-      hash_to_ivars @info
+      compute_destination_name
+            
+      wipe_and_recreate_destination
       
-      # Make the appropriate directory
-      applet_dir = "#{@main_file.sub(".rb", "")}"
-      remove_entry_secure applet_dir if File.exists?(applet_dir)
-      mkdir_p applet_dir
+      copy_over_necessary_files
       
-      # Copy over all the required files
-      necessary_files = [@main_file_path]
-      necessary_files += Dir["#{RP5_ROOT}/lib/{*,**}"]
-      necessary_files += @real_requires
-      necessary_files << "#{@main_folder}/data" if File.exists?("#{@main_folder}/data")
-      necessary_files += Dir["#{RP5_ROOT}/lib/templates/applet/{*,**}"]
-      necessary_files += Dir.glob("library/{#{@libraries.join(",")}}") unless @libraries.empty?
-      necessary_files.uniq!
-      cp_r(necessary_files, applet_dir)
-      cp_r(@libraries, File.join(applet_dir, "library")) unless @libraries.empty?
+      process_opengl_replacements
       
-      # Figure out OpenGL replacements, if necessary:
+      calculate_substitutions
+      
+      render_erb_in_path_with_binding(@dest, binding, :delete => true)
+    end
+    
+    def compute_destination_name
+      @dest = "#{@main_file.sub(".rb", "")}"
+    end
+    
+    def copy_over_necessary_files
+      @necessary_files = [@main_file_path]
+      @necessary_files += Dir["#{RP5_ROOT}/lib/{*,**}"]
+      @necessary_files += @real_requires
+      @necessary_files << "#{@main_folder}/data" if File.exists?("#{@main_folder}/data")
+      @necessary_files += Dir["#{RP5_ROOT}/lib/templates/applet/{*,**}"]
+      @necessary_files += Dir.glob("library/{#{@libraries.join(",")}}") unless @libraries.empty?
+      @necessary_files.uniq!
+      cp_r(@necessary_files, @dest)
+      cp_r(@libraries, File.join(@dest, "library")) unless @libraries.empty?
+    end
+    
+    def process_opengl_replacements
       @starting_class = @opengl ? "com.sun.opengl.util.JOGLAppletLauncher" : "org.jruby.JRubyApplet"
-      if @opengl
-        opengl_files = Dir["#{applet_dir}/library/opengl/*.jar"]
-        opengl_files += Dir["#{applet_dir}/library/opengl/library/*.jar"]
-        move(opengl_files, applet_dir)
-        opengl_dir = "#{applet_dir}/library/opengl"
-        remove_entry_secure(opengl_dir) if File.exists?(opengl_dir)
-        necessary_files.map! {|file| file.match(/^opengl/) ? File.basename(file) : file }
-      end
-      
-      # Figure out the substitutions to make.
-      file_list = Dir.glob(applet_dir + "{/**/*.{rb,jar},/data/*.*}").map {|f| f.sub(applet_dir+"/","")}
+      return unless @opengl
+      opengl_files = Dir["#{@dest}/library/opengl/*.jar"]
+      opengl_files += Dir["#{@dest}/library/opengl/library/*.jar"]
+      move(opengl_files, @dest)
+      opengl_dir = "#{@dest}/library/opengl"
+      remove_entry_secure(opengl_dir) if File.exists?(opengl_dir)
+      @necessary_files.map! {|file| file.match(/^opengl/) ? File.basename(file) : file }
+    end
+    
+    def calculate_substitutions
+      file_list = Dir.glob(@dest + "{/**/*.{rb,jar},/data/*.*}").map {|f| f.sub(@dest+"/","")}
       @width_plus_14 = (@width.to_i + 14).to_s
       @file_list = file_list.join(",")
-      
-      # Fill in the blanks in the HTML.    
-      render_erb_in_path_with_binding(applet_dir, binding, :delete => true)
     end
+    
+    def usage(predicate)
+      return if predicate
+      puts USAGE
+      exit
+    end
+    
   end
 end
