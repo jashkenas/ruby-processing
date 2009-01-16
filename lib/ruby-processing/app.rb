@@ -80,6 +80,20 @@ module Processing
     end
     def library_loaded?(folder); self.class.library_loaded?(folder); end
     
+    
+    # Load a Ruby or Java library (in that order)
+    # Usage: load_library :opengl, :boids
+    #
+    # If a library is put into a 'library' folder next to the sketch it will
+    # be used instead of the library that ships with Ruby-Processing.
+    def self.load_library(*args)
+      args.each do |dir|
+        unless load_ruby_library(dir) or load_java_library(dir)
+          puts "Could not find library '#{dir}'"
+          exit
+        end
+      end
+    end
 
     # For pure ruby libraries.
     # The library should have an initialization ruby file 
@@ -94,6 +108,7 @@ module Processing
       local_path = "#{Dir.pwd}/library/#{dir}"
       gem_path = "#{RP5_ROOT}/library/#{dir}"
       path = File.exists?(local_path) ? local_path : gem_path
+      return false unless (File.exists?("#{path}/#{dir}.rb"))
       return @@loaded_libraries[dir] = (require "#{path}/#{dir}")
     end
 
@@ -115,7 +130,7 @@ module Processing
       gem_path = "#{RP5_ROOT}/library/#{dir}"
       path = File.exists?(local_path) ? local_path : gem_path
       jars = Dir.glob("#{path}/**/*.jar")
-      raise LoadError if jars.length == 0
+      return false if jars.empty?
       jars.each {|jar| require jar }
       # Here goes...
       library_path = java.lang.System.getProperty("java.library.path")
