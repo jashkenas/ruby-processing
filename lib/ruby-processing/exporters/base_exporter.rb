@@ -30,6 +30,7 @@ module Processing
       @info[:description]     = extract_description(source)
       @info[:libraries]       = extract_libraries(source)
       @info[:real_requires]   = extract_real_requires(source)
+      hash_to_ivars @info
       @info
     end
     
@@ -107,6 +108,11 @@ module Processing
     
     def hash_to_ivars(hash)
       hash.each{|k,v| instance_variable_set("@" + k.to_s, v) }
+    end
+    
+    def wipe_and_recreate_destination
+      remove_entry_secure @dest if File.exists?(@dest)
+      mkdir_p @dest
     end
     
     def render_erb_in_path_with_binding(path, some_binding, opts={})

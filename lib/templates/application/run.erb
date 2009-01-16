@@ -1,4 +1,4 @@
 #!/bin/sh
 APPDIR=$(dirname "$0")
 cd "$APPDIR/lib"
-java -cp "<%= @linux_class_path %>" org.jruby.Main <%= @main_file %>
+java -cp "<%= @linux_class_path %>" org.jruby.Main ruby-processing/runners/run.rb <%= @main_file %>
