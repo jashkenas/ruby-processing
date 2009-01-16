@@ -1,0 +1,4 @@
+@echo off
+echo loading...
+cd lib
+java -cp "<%= @windows_class_path %>" org.jruby.Main ruby-processing/runners/run.rb <%= @main_file %>
