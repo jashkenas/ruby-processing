@@ -37,21 +37,22 @@ module Processing
       file_list = Dir.glob(app_dir + "{/**/*.{rb,jar},/data/*.*}").map {|f| f.sub(app_dir + "/", "")}
       @class_path = file_list.map {|f| "$JAVAROOT/" + f.sub(prefix+"/", "") }.join(":")
       @linux_class_path = file_list.map{|f| f.sub(prefix+"/", "")}.join(":")
-      @windows_class_path = file_list.map{|f| f.sub(prefix+"/", "")}.join(",")
+      @windows_class_path = file_list.map{|f| f.sub(prefix+"/", "").gsub('/', '\\')}.join(";")
       
       # Do it.
       render_erb_in_path_with_binding(app_dir, binding, :delete => true)
       rm Dir.glob(app_dir + "/**/*.{class,java}")
       runnable = app_dir + "/" + File.basename(@main_file, ".rb")
       move app_dir + "/run", runnable
-      move app_dir + "/run.exe", runnable + ".exe"
+      move app_dir + "/run.bat", "#{runnable}.bat"
       chmod 0755, runnable
+      chmod 0755, "#{runnable}.bat"
       cd app_dir + "/Contents/Resources"
       # Poor ol' windows can't symlink.
       # TODO...
       win = RUBY_PLATFORM.match(/mswin/)
-      puts "I'm afraid windows can't export Apps quite yet" and exit if win
-      ln_s('../../lib', 'Java')
+      puts "\nSorry. Applications exported from Windows won't run on Macs...\n" if win 
+      ln_s('../../lib', 'Java') unless win
     end
     
     def usage(predicate)
