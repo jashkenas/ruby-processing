@@ -1,9 +1,12 @@
-v1.1 Gemmin' it up.
-  * Ruby-Processing has undergone a great refactor, kicked off by
+v1.0.1 Gemmin' it up.
+  * The smallest version bump is the biggest change:
+    Ruby-Processing has undergone a great refactor, kicked off by
     Peter Gassner's initial efforts to make a gem out of it. Now
     available as a real RubyGem.
+    
+  * Changes all around: The main interface to Ruby-Processing is now
+    through the 'rp5' command. Try rp5 --help to get started.
 
-v1.0.1. control_panel introduced, has_slider deprecated
   * has_slider has been superseded by control_panel, a more full-
     fledged library for controlling aspects of your sketch. Read
     how to use it on the wiki, or check out jwishy.rb
