@@ -95,15 +95,11 @@ module Processing
     
     # Install the included samples to a given path, where you can run and 
     # alter them to your heart's content.
-    def unpack(type)
+    def unpack(dir)
       require 'fileutils'
-      case type
-      when 'samples'
-        FileUtils.cp_r("#{RP5_ROOT}/samples", Dir.pwd)
-      when 'library'
-        FileUtils.cp_r("#{RP5_ROOT}/library", Dir.pwd)
-      else puts "Usage: rp5 unpack [samples | library]"
-      end
+      usage = "Usage: rp5 unpack [samples | library]"
+      puts usage and return unless dir.match(/\A(samples|library)\Z/)
+      FileUtils.cp_r("#{RP5_ROOT}/#{dir}", "#{Dir.pwd}/#{dir}")
     end
     
     # Display the current version of Ruby-Processing.

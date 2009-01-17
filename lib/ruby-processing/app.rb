@@ -81,26 +81,19 @@ module Processing
     def library_loaded?(folder); self.class.library_loaded?(folder); end
     
     
-    # Load a Ruby or Java library (in that order)
-    # Usage: load_library :opengl, :boids
+    # Load a list of Ruby or Java libraries (in that order)
+    # Usage: load_libraries :opengl, :boids
     #
     # If a library is put into a 'library' folder next to the sketch it will
     # be used instead of the library that ships with Ruby-Processing.
-    def self.load_library(*args)
-      args.each do |dir|
-        unless load_ruby_library(dir) or load_java_library(dir)
-          puts "Could not find library '#{dir}'"
-          exit
-        end
-      end
+    def self.load_libraries(*args)
+      args.each {|lib| load_ruby_library(lib) || load_java_library(lib) }
     end
+    def self.load_library(*args); self.load_libraries(*args); end
 
     # For pure ruby libraries.
     # The library should have an initialization ruby file 
     # of the same name as the library folder.
-    #
-    # If a library is put into a 'library' folder next to the sketch it will
-    # be used instead of the library that ships with Ruby-Processing.
     def self.load_ruby_library(dir)
       dir = dir.to_sym
       return true if @@loaded_libraries[dir]
@@ -115,9 +108,6 @@ module Processing
 
     # For pure java libraries, such as the ones that are available
     # on this page: http://processing.org/reference/libraries/index.html
-    #
-    # If a library is put into a 'library' folder next to the sketch it will
-    # be used instead of the library that ships with Ruby-Processing.
     #
     # P.S. -- Loading libraries which include native code needs to 
     # hack the Java ClassLoader, so that you don't have to 

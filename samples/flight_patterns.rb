@@ -4,8 +4,7 @@
 require 'ruby-processing'
 
 class FlightPatterns < Processing::App
-  load_ruby_library "boids"
-  load_java_library "opengl"
+  load_libraries 'boids', 'opengl'
   include_package "processing.opengl" if library_loaded? "opengl"
   
   def setup
@@ -29,7 +28,6 @@ class FlightPatterns < Processing::App
   
   def setup_opengl
     render_mode OPENGL
-    hint DISABLE_ERROR_REPORT
     hint ENABLE_OPENGL_4X_SMOOTH
   end
   

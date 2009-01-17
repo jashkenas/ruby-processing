@@ -5,14 +5,14 @@
 require 'ruby-processing'
 
 class KineticType < Processing::App
-  load_java_library "opengl"
+  load_library :opengl
 
   WORDS = ["sometimes it's like", "the lines of text", "are so happy", "that they want to dance",
     "or leave the page or jump", "can you blame them?", "living on the page like that",
     "waiting to be read..."]
 
   def setup
-    library_loaded?("opengl") ? render_mode(OPENGL) : render_mode(P3D)
+    library_loaded?(:opengl) ? render_mode(OPENGL) : render_mode(P3D)
 
     frame_rate 30
 

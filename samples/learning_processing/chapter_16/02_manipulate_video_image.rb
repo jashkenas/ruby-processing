@@ -2,7 +2,7 @@ require 'ruby-processing'
 
 class ManipulateVideoImageSketch < Processing::App
 
-  load_java_library "video"
+  load_library "video"
   include_package "processing.video" 
 
   def setup

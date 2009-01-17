@@ -3,7 +3,7 @@ require 'ruby-processing'
 class CaptureVideoSketch < Processing::App
 
   # Step 1. Import the video library
-  load_java_library "video"
+  load_library "video"
   # We need the video classes to be included here.
   include_package "processing.video" 
 
