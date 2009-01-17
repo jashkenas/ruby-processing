@@ -4,9 +4,8 @@ Gem::Specification.new do |s|
   s.name = "ruby-processing"
   s.version = "1.0.1"
   
-  s.required_rubygems_version = Gem::Requirement.new(">= 1.2") if s.respond_to? :required_rubygems_version=
   s.authors = ["Jeremy Ashkenas", "Peter Gassner", "Martin Stannard", "Andrew Nanton"]
-  s.date = "2009-1-16"
+  s.date = "2009-1-17"
   s.default_executable = "rp5"
   s.email = "jeremy@ashkenas.com"
   s.executables = ["rp5"]
