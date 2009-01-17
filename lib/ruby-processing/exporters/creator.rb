@@ -17,7 +17,6 @@ module Processing
       @title =      main_file.titleize
       @width =      args[0] || "500"
       @height =     args[1] || "500"
-      @libraries =  args[2..-1] || []
   
       # Make the file
       dir = File.dirname path

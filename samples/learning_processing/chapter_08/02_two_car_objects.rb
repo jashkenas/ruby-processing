@@ -1,7 +1,7 @@
 require 'ruby-processing'
 
 class TwoCarObjects < Processing::App
-  load_ruby_library "control_panel"
+  load_library :control_panel
 
   def setup
     control_panel do |c|

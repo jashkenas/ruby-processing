@@ -14,8 +14,7 @@
 require 'ruby-processing'
 
 class Sketch < Processing::App
-  load_ruby_library "control_panel"
-  load_java_library "net"
+  load_libraries :control_panel, :net
   
   attr_accessor :x_wiggle, :y_wiggle, :magnitude, :bluish
   
