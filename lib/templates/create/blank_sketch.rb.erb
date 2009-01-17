@@ -1,9 +1,15 @@
 require 'ruby-processing'
 
 class <%= @name %> < Processing::App
+<% unless @libraries.empty? %>
+  load_library <%= @libraries.map{|l| ":#{l}"}.join(", ") %>
+<% end %>
 
   def setup
-  
+<% if @libraries.include?("opengl") %>
+    render_mode OPENGL
+<% end  %>
+    
   end
   
   def draw
