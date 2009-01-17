@@ -4,7 +4,7 @@ require 'fileutils'
 module Processing
   
   # Utility class to handle the different commands that the 'rp5' command
-  # offers. Able to run, watch, live, create, app, applet, and unpack_samples
+  # offers. Able to run, watch, live, create, app, applet, and unpack
   class Runner
     
     HELP_MESSAGE = <<-EOS
@@ -13,10 +13,10 @@ module Processing
   you create sketches of code art.
   
   Usage:
-    rp5 [run | watch | live | create | app | applet | unpack_samples] path/to/sketch
+    rp5 [run | watch | live | create | app | applet | unpack] path/to/sketch
     
   Examples:
-    rp5 unpack_samples
+    rp5 unpack samples
     rp5 run samples/jwishy.rb
     rp5 create some_new_sketch 640 480
     rp5 watch some_new_sketch.rb
@@ -37,15 +37,15 @@ module Processing
     # Dispatch central.
     def execute!
       case @options.action
-      when 'run'            : run(@options.path)
-      when 'watch'          : watch(@options.path)
-      when 'create'         : create(@options.path, @options.args)
-      when 'live'           : live(@options.path)
-      when 'app'            : app(@options.path)
-      when 'applet'         : applet(@options.path)
-      when 'unpack_samples' : unpack_samples
-      when /-v/             : show_version
-      when /-h/             : show_help
+      when 'run'    : run(@options.path)
+      when 'watch'  : watch(@options.path)
+      when 'create' : create(@options.path, @options.args)
+      when 'live'   : live(@options.path)
+      when 'app'    : app(@options.path)
+      when 'applet' : applet(@options.path)
+      when 'unpack' : unpack(@options.path)
+      when /-v/     : show_version
+      when /-h/     : show_help
       else show_help
       end
     end
@@ -95,9 +95,15 @@ module Processing
     
     # Install the included samples to a given path, where you can run and 
     # alter them to your heart's content.
-    def unpack_samples
+    def unpack(type)
       require 'fileutils'
-      FileUtils.cp_r("#{RP5_ROOT}/samples", "#{Dir.pwd}/samples")
+      case type
+      when 'samples'
+        FileUtils.cp_r("#{RP5_ROOT}/samples", Dir.pwd)
+      when 'library'
+        FileUtils.cp_r("#{RP5_ROOT}/library", Dir.pwd)
+      else puts "Usage: rp5 unpack [samples | library]"
+      end
     end
     
     # Display the current version of Ruby-Processing.
