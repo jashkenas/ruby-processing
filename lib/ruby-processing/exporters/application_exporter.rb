@@ -55,7 +55,7 @@ module Processing
       file_list = Dir.glob(@dest + "{/**/*.{rb,jar},/data/*.*}").map {|f| f.sub(@dest + "/", "")}
       @class_path = file_list.map {|f| "$JAVAROOT/" + f.sub(@prefix+"/", "") }.join(":")
       @linux_class_path = file_list.map{|f| f.sub(@prefix+"/", "")}.join(":")
-      @windows_class_path = file_list.map{|f| f.sub(@prefix+"/", "").gsub('/', '\\')}.join(";")
+      @windows_class_path = file_list.map{|f| f.sub(@prefix+"/", "")}.join(",")
     end
     
     def create_executables
@@ -63,9 +63,9 @@ module Processing
       rm Dir.glob(@dest + "/**/*.java")
       runnable = @dest + "/" + File.basename(@main_file, ".rb")
       move @dest + "/run", runnable
-      move @dest + "/run.bat", "#{runnable}.bat"
+      move @dest + "/run.exe", "#{runnable}.exe"
       chmod 0755, runnable
-      chmod 0755, "#{runnable}.bat"
+      chmod 0755, "#{runnable}.exe"
     end
     
     def symlink_library_into_place
