@@ -22,6 +22,11 @@ module Processing
 
     include_class "javax.swing.JFrame"
     
+    # Include some processing classes that we'd like to use:
+    %w(PShape PImage PGraphics PFont PVector).each do |klass|
+      include_class "processing.core.#{klass}"
+    end
+        
     # Alias some methods for familiarity for Shoes coders.
     attr_accessor :frame, :title
     alias_method :oval, :ellipse
@@ -90,6 +95,7 @@ module Processing
       args.each {|lib| load_ruby_library(lib) || load_java_library(lib) }
     end
     def self.load_library(*args); self.load_libraries(*args); end
+
 
     # For pure ruby libraries.
     # The library should have an initialization ruby file 
