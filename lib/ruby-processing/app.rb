@@ -256,6 +256,13 @@ module Processing
       Java.java_to_primitive(java_class.field("keyPressed").value(java_object))
     end
     
+    
+    # lerp_color takes three or four arguments, in Java that's two
+    # different methods, one regular and one static, so:
+    def lerp_color(*args)
+      args.length > 3 ? self.class.lerp_color(*args) : super(*args) 
+    end
+    
 
     # Cleanly close and shutter a running sketch.
     def close
