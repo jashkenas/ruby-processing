@@ -1,3 +1,9 @@
+v1.0.2 Bugfixes and Java Args...
+  * Application exporting, long plagued, should now be a little
+    closer to rock-solid. If you need to pass command-line options
+    to the JVM, add a java_args.txt file in your sketch's data 
+    folder that sets stack size, memory size, or whatever ails you.
+
 v1.0.1 Gemmin' it up.
   * The smallest version bump is the biggest change:
     Ruby-Processing has undergone a great refactor, kicked off by
