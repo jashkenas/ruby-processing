@@ -2,10 +2,10 @@ require 'rake'
 
 Gem::Specification.new do |s|
   s.name = "ruby-processing"
-  s.version = "1.0.1"
+  s.version = "1.0.2"
   
   s.authors = ["Jeremy Ashkenas", "Peter Gassner", "Martin Stannard", "Andrew Nanton"]
-  s.date = "2009-1-17"
+  s.date = "2009-1-20" # Inauguration Day!
   s.default_executable = "rp5"
   s.email = "jeremy@ashkenas.com"
   s.executables = ["rp5"]
