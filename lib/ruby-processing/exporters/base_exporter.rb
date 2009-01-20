@@ -63,9 +63,9 @@ module Processing
       libs = []
       code = source.dup
       loop do
-        matchdata = code.match(/load_\w+_library.+?["':](\S+?)["'\s]/)
+        matchdata = code.match(/load\w+librar(y|ies).+?["':](\S+?)["'\s]/)
         break unless matchdata
-        match = matchdata[1]
+        match = matchdata[2]
         @opengl = true if match.match(/opengl/i)
         local_path = "#{local_dir}/library/#{match}"
         rp5_path = "#{RP5_ROOT}/library/#{match}"

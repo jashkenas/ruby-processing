@@ -190,7 +190,9 @@ module Processing
     # If you'd like to do something fancy, feel free.
     def set_sketch_path(path=nil)
       field = self.java_class.declared_field('sketchPath')
-      field.set_value(Java.ruby_to_java(self), path || File.dirname(SKETCH_PATH))
+      local = File.dirname(SKETCH_PATH)
+      default = $__windows_app_mode__ ? "#{local}/lib" : local
+      field.set_value(Java.ruby_to_java(self), path || default)
     end
 
 

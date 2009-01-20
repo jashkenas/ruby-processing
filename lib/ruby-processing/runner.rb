@@ -117,11 +117,20 @@ module Processing
     
     # Trade in this Ruby instance for a JRuby instance, loading in a 
     # starter script and passing it some arguments.
-    def spin_up(starter_script, args)
+    def spin_up(starter_script, sketch)
       runner = "#{RP5_ROOT}/lib/ruby-processing/runners/#{starter_script}"
-      command = "java -cp #{jruby_complete} #{dock_icon} org.jruby.Main #{runner} #{args}"
+      java_args = discover_java_args(sketch)
+      command = "java #{java_args} -cp #{jruby_complete} #{dock_icon} org.jruby.Main #{runner} #{sketch}"
       exec(command)
       # exec replaces the Ruby process with the JRuby one.
+    end
+    
+    # If you need to pass in arguments to Java, such as the ones on this page:
+    # http://java.sun.com/j2se/1.4.2/docs/tooldocs/windows/java.html
+    # then type them into a java_args.txt in your data directory next to your sketch.
+    def discover_java_args(sketch)
+      arg_file = "#{File.dirname(sketch)}/data/java_args.txt"
+      File.exists?(arg_file) ? File.read(arg_file).gsub("\n", " ") : ''
     end
     
     def ensure_exists(sketch)
