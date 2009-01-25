@@ -6,49 +6,45 @@ require 'ruby-processing'
 class Spring < Processing::App
 
   def setup
-    rect_mode(CORNERS)
+    rect_mode CORNERS
     no_stroke
 
-    @s_height = 16 # Height
-    @left = 50     # Left position
-    @right = 150   # Right position
-    @max = 100     # Maximum Y value
-    @min = 20      # Minimum Y value
-    @over = false  # If mouse over
-    @move = false  # If mouse down and over
+    @s_height = 16    # Height
+    @left     = 50    # Left position
+    @right    = 150   # Right position
+    @max      = 100   # Maximum Y value
+    @min      = 20    # Minimum Y value
+    @over     = false # If mouse over
+    @move     = false # If mouse down and over
 
     # Spring simulation constants
-    @M = 0.8   # Mass
-    @K = 0.2   # Spring constant
-    @D = 0.92  # Damping
-    @R = 60    # Rest position
+    @M        = 0.8   # Mass
+    @K        = 0.2   # Spring constant
+    @D        = 0.92  # Damping
+    @R        = 60    # Rest position
 
     # Spring simulation variables
-    @ps = 60.0 # Position
-    @vs = 0.0  # Velocity
-    @as = 0    # Acceleration
-    @f = 0     # Force
+    @ps       = 60.0  # Position
+    @vs       = 0.0   # Velocity
+    @as       = 0     # Acceleration
+    @f        = 0     # Force
   end
 
   def draw
-    background(102)
+    background 102
     update_spring
     draw_spring
   end
 
   def draw_spring
     # Draw base
-    fill(0.2)
+    fill 0.2
     b_width = 0.5 * @ps + -8
     rect(width/2 - b_width, @ps + @s_height, width/2 + b_width, 150)
 
     # Set color and draw top bar
-    if (@over || @move)
-      fill(255)
-    else
-      fill(204)
-    end
-    rect(@left, @ps, @right, @ps + @s_height)
+    fill (@over || @move) ? 255 : 204
+    rect @left, @ps, @right, @ps + @s_height
   end
 
   def update_spring
@@ -59,16 +55,12 @@ class Spring < Processing::App
       @vs = @D * (@vs + @as)    # Set the velocity
       @ps = @ps + @vs           # Updated position
     end
-    if (abs(@vs) < 0.1) 
-      @vs = 0.0
-    end
+    @vs = 0.0 if @vs.abs < 0.1
 
     # Test if mouse is over the top bar
-    if(mouse_x > @left && mouse_x < @right && mouse_y > @ps && mouse_y < @ps + @s_height)
-      @over = true
-    else 
-      @over = false
-    end
+    within_x = (@left..@right).include?(mouse_x)
+    within_y = (@ps..@ps+@s_height).include?(mouse_y)
+    @over = within_x && within_y
 
     # Set and constrain the position of top bar
     if (@move) 
@@ -79,21 +71,11 @@ class Spring < Processing::App
   end
 
   def mouse_pressed
-    if (@over)
-      @move = true
-    end
+    @move = true if @over
   end
 
   def mouse_released
     @move = false
-  end
-
-  def abs(f)
-    if (f < -1)
-      f * -1
-    else
-      f
-    end
   end
 
 end
