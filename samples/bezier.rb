@@ -143,6 +143,7 @@ class Bezier < Processing::App
   
   
   def mouse_pressed
+    switch_curve_if_endpoint_clicked
     @control = clicked_control_point?
     return if @control
     curve = @curves.detect {|c| c.contains(mouse_x, mouse_y) }
@@ -155,21 +156,21 @@ class Bezier < Processing::App
   end
   
   
-  def mouse_clicked
-    become = @curves.detect {|c| c.contains(mouse_x, mouse_y) }
-    return unless become && become != current_curve
-    current_curve.set_control_points(*control_points)
-    self.set_control_points(*become.control_points)
-    @current = @curves.index(become)
-  end
-  
-  
   def mouse_dragged
     offs = compute_offsets
     return if offs.map {|o| o.abs }.max > 100
     return move_control_point(*offs) if @control
     return move_end_point(*offs) && move_control_point(*offs) if @end_point
     move_current_curve(*offs)
+  end
+  
+  
+  def switch_curve_if_endpoint_clicked
+    become = @curves.detect {|c| c.contains(mouse_x, mouse_y) }
+    return unless become && become != current_curve
+    current_curve.set_control_points(*control_points)
+    self.set_control_points(*become.control_points)
+    @current = @curves.index(become)
   end
   
   
