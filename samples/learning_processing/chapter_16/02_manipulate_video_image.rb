@@ -3,7 +3,7 @@ require 'ruby-processing'
 class ManipulateVideoImageSketch < Processing::App
 
   load_library "video"
-  include_package "processing.video" 
+  import "processing.video" 
 
   def setup
     @video = Capture.new(self, width, height, 30)

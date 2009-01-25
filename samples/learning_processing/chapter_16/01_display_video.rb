@@ -5,7 +5,7 @@ class CaptureVideoSketch < Processing::App
   # Step 1. Import the video library
   load_library "video"
   # We need the video classes to be included here.
-  include_package "processing.video" 
+  import "processing.video" 
 
   def setup
     # Step 2. Declare a Capture object

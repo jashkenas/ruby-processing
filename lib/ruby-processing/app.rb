@@ -8,7 +8,7 @@ module Processing
 
   # Conditionally load core.jar
   require "#{RP5_ROOT}/lib/core/core.jar" unless Object.const_defined?(:JRUBY_APPLET)  
-  include_package "processing.core"
+  import "processing.core"
 
   # This is the main Ruby-Processing class, and is what you'll
   # inherit from when you create a sketch. This class can call
@@ -20,11 +20,11 @@ module Processing
   class App < PApplet
     include Math
 
-    include_class "javax.swing.JFrame"
+    import "javax.swing.JFrame"
     
     # Include some processing classes that we'd like to use:
     %w(PShape PImage PGraphics PFont PVector).each do |klass|
-      include_class "processing.core.#{klass}"
+      import "processing.core.#{klass}"
     end
         
     # Alias some methods for familiarity for Shoes coders.
