@@ -11,7 +11,7 @@ require 'ruby-processing/helpers/string'
 
 # The top-level namespace, a home for all Ruby-Processing classes.
 module Processing
-  VERSION = [1,0,2]
+  VERSION = [1,0,2] unless defined? Processing::VERSION
   
   # Returns the current version of Ruby-Processing.
   def self.version
