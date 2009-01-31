@@ -3,6 +3,8 @@ require 'ruby-processing'
 #
 # Ported from http://www.processing.org/learning/topics/spring.html
 #
+# Click, drag, and release the horizontal bar to start the spring.
+#
 class Spring < Processing::App
 
   def setup

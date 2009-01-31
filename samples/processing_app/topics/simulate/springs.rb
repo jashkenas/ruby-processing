@@ -3,6 +3,9 @@ require 'ruby-processing'
 #
 # Ported from http://www.processing.org/learning/topics/springs.html
 #
+# Move the mouse over one of the circles and click to re-position. When you release the mouse, it will 
+# snap back into position. Each circle has a slightly different behavior.
+#
 class Springs < Processing::App
 
   def setup
