@@ -1,5 +1,4 @@
 require 'ruby-processing'
-require 'pp'
 
 #
 # Ported from http://processing.org/learning/topics/chain.html
@@ -16,28 +15,35 @@ class Chain < Processing::App
     # Inputs: spring1, spring2, mass, gravity
     @gravity = 6.0
     @mass    = 2.0
-    @s1      = Spring2d.new(self, 0.0, width/2, @mass, @gravity)
-    @s2      = Spring2d.new(self, 0.0, width/2, @mass, @gravity)
+    @s1      = Spring2d.new(0.0, width/2, @mass, @gravity)
+    @s2      = Spring2d.new(0.0, width/2, @mass, @gravity)
   end
   
   def draw
     background(204)
     @s1.update(mouse_x, mouse_y)
-    @s1.display(mouse_x, mouse_y)
+    display(@s1, mouse_x, mouse_y)
+
     @s2.update(@s1.x, @s1.y)
-    @s2.display(@s1.x, @s1.y)
+    display(@s2, @s1.x, @s1.y)
+  end
+  
+  def display(spring, nx, ny)
+    no_stroke
+    ellipse(spring.x, spring.y, spring.diameter, spring.diameter)
+    stroke(255)
+    line(spring.x, spring.y, nx, ny)
   end
 
 end
 
 class Spring2d
   
-  attr_accessor :x, :y
+  attr_reader :x, :y
   
-  def initialize(app, xpos, ypos, m, g)
-    @app       = app
-    self.x         = xpos # The x-coordinate
-    self.y         = ypos # The y-coordinate
+  def initialize(xpos, ypos, m, g)
+    @x     = xpos # The x-coordinate
+    @y     = ypos # The y-coordinate
     @mass      = m
     @gravity   = g
     @vx, @vy   = 0, 0 # The x- and y-axis velocities
@@ -59,12 +65,10 @@ class Spring2d
     self.y += @vy
   end
   
-  def display(nx, ny)
-    @app.no_stroke
-    @app.ellipse(self.x, self.y, @radius*2, @radius*2)
-    @app.stroke(255)
-    @app.line(self.x, self.y, nx, ny)
+  def diameter
+    @radius * 2
   end
+  
 end
 
 Chain.new(:width => 200, :height => 200, :title => "Chain", :full_screen => false)
