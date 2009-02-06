@@ -7,20 +7,29 @@ require 'ruby-processing'
 # The gravity in the environment pulls down on both.
 #
 class Chain < Processing::App
+  
+  attr_reader :gravity
+  
+  load_library :control_panel
 
   def setup
     smooth
-    fill(0)
+    fill 0
     
     # Inputs: spring1, spring2, mass, gravity
     @gravity = 6.0
     @mass    = 2.0
-    @s1      = Spring2d.new(0.0, width/2, @mass, @gravity)
-    @s2      = Spring2d.new(0.0, width/2, @mass, @gravity)
+    @s1      = Spring2d.new(width/2, height/2, @mass)
+    @s2      = Spring2d.new(width/2, height/2, @mass)
+    
+    # Control panel for changing gravity
+    control_panel do |c|
+      c.slider :gravity, 0..30
+    end
   end
   
   def draw
-    background(204)
+    background 204
     @s1.update(mouse_x, mouse_y)
     display(@s1, mouse_x, mouse_y)
 
@@ -31,7 +40,7 @@ class Chain < Processing::App
   def display(spring, nx, ny)
     no_stroke
     ellipse(spring.x, spring.y, spring.diameter, spring.diameter)
-    stroke(255)
+    stroke 255
     line(spring.x, spring.y, nx, ny)
   end
 
@@ -41,11 +50,10 @@ class Spring2d
   
   attr_reader :x, :y
   
-  def initialize(xpos, ypos, m, g)
-    @x     = xpos # The x-coordinate
-    @y     = ypos # The y-coordinate
-    @mass      = m
-    @gravity   = g
+  def initialize(xpos, ypos, mass)
+    @x         = xpos # The x-coordinate
+    @y         = ypos # The y-coordinate
+    @mass      = mass
     @vx, @vy   = 0, 0 # The x- and y-axis velocities
     @radius    = 20
     @stiffness = 0.2
@@ -56,13 +64,13 @@ class Spring2d
     force_x = (target_x - self.x) * @stiffness
     ax = force_x / @mass
     @vx = @damping * (@vx + ax)
-    self.x += @vx
+    @x += @vx
     
     force_y = (target_y - self.y) * @stiffness
-    force_y += @gravity
+    force_y += $app.gravity
     ay = force_y / @mass
     @vy = @damping * (@vy + ay)
-    self.y += @vy
+    @y += @vy
   end
   
   def diameter
