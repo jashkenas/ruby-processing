@@ -37,24 +37,15 @@ module Processing
     # Dispatch central.
     def execute!
       case @options.action
-      when 'run'
-        run(@options.path)
-      when 'watch'
-        watch(@options.path)
-      when 'create'
-        create(@options.path, @options.args)
-      when 'live'
-        live(@options.path)
-      when 'app'
-        app(@options.path)
-      when 'applet'
-        applet(@options.path)
-      when 'unpack'
-        unpack(@options.path)
-      when /-v/
-        show_version
-      when /-h/
-        show_help
+      when 'run'    then run(@options.path)
+      when 'watch'  then watch(@options.path)
+      when 'create' then create(@options.path, @options.args)
+      when 'live'   then live(@options.path)
+      when 'app'    then app(@options.path)
+      when 'applet' then applet(@options.path)
+      when 'unpack' then unpack(@options.path)
+      when /-v/     then show_version
+      when /-h/     then show_help
       else
         show_help
       end
