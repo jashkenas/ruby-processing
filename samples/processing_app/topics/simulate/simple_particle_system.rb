@@ -12,7 +12,7 @@ class SimpleParticleSystem < Processing::App
     color_mode(Processing::App::RGB, 255, 255, 255, 100)
 
     @particles = []
-    @particles.extend ParticleSystem
+    @particles.extend Runnable
   end
 
   def draw
@@ -21,7 +21,7 @@ class SimpleParticleSystem < Processing::App
     @particles << Particle.new(Vector.new(mouse_x, mouse_y))
   end
 
-  module ParticleSystem
+  module Runnable
     def run
       self.reject! { |particle| particle.dead? }
       self.each { |particle| particle.run }
@@ -29,8 +29,8 @@ class SimpleParticleSystem < Processing::App
   end
 
   class Particle
-    def initialize(location)
-      @location = location
+    def initialize(origin)
+      @origin = origin
       @velocity = Vector.new(rand * 2 - 1, rand * 2 - 2)
       @acceleration = Vector.new(0, 0.05)
 
@@ -39,27 +39,31 @@ class SimpleParticleSystem < Processing::App
       @lifespan = 100
     end
 
-    def dead?
-      @lifespan <= 0
-    end
-
     def run
       update
+      grow
       render
       render_velocity_vector
     end
 
+    def grow
+      @lifespan -= 1
+    end
+
+    def dead?
+      @lifespan <= 0
+    end
+
     def update
       @velocity += @acceleration
-      @location += @velocity
-      @lifespan -= 1
+      @origin += @velocity
     end
 
     def render
       $app.ellipse_mode(Processing::App::CENTER)
       $app.stroke(255, @lifespan)
       $app.fill(100, @lifespan)
-      $app.ellipse(@location.x, @location.y, @radius, @radius)
+      $app.ellipse(@origin.x, @origin.y, @radius, @radius)
     end
 
     def render_velocity_vector
@@ -68,7 +72,7 @@ class SimpleParticleSystem < Processing::App
 
       $app.push_matrix
 
-      $app.translate(@location.x, @location.y)
+      $app.translate(@origin.x, @origin.y)
       $app.rotate(@velocity.heading)
 
       length = @velocity.magnitude * scale
