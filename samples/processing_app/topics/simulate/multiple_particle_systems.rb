@@ -11,7 +11,8 @@ require 'ruby-processing'
 class MultipleParticleSystems < Processing::App
   def setup
     smooth
-    color_mode(Processing::App::RGB, 255, 255, 255, 100)
+    color_mode(RGB, 255, 255, 255, 100)
+    ellipse_mode(CENTER)
 
     @particle_systems = []
     @particle_systems.extend Runnable
@@ -29,29 +30,19 @@ class MultipleParticleSystems < Processing::App
   module Runnable
     def run
       self.reject! { |item| item.dead? }
-      self.each { |item| item.run }
+      self.each    { |item| item.run   }
     end
   end
 
   class ParticleSystem < Array
     include Runnable
+    alias_method :dead?, :empty?
 
     def initialize(number, origin)
       super()
-      
       @origin = origin
-
-      number.times do
-        if rand(2) == 1
-          self << CrazyParticle.new(origin)
-        else
-          self << Particle.new(origin)
-        end
-      end
-    end
-
-    def dead?
-      self.empty?
+      kind = rand < 0.5 ? Particle : CrazyParticle
+      number.times { self << kind.new(origin) }
     end
   end
 
@@ -60,9 +51,7 @@ class MultipleParticleSystems < Processing::App
       @origin = origin
       @velocity = Vector.new(rand * 2 - 1, rand * 2 - 2)
       @acceleration = Vector.new(0, 0.05)
-
       @radius = 10
-
       @lifespan = 100
     end
 
@@ -73,6 +62,11 @@ class MultipleParticleSystems < Processing::App
       render_velocity_vector
     end
 
+    def update
+      @velocity += @acceleration
+      @origin += @velocity
+    end
+
     def grow
       @lifespan -= 1
     end
@@ -81,13 +75,7 @@ class MultipleParticleSystems < Processing::App
       @lifespan <= 0
     end
 
-    def update
-      @velocity += @acceleration
-      @origin += @velocity
-    end
-
     def render
-      $app.ellipse_mode(Processing::App::CENTER)
       $app.stroke(255, @lifespan)
       $app.fill(100, @lifespan)
       $app.ellipse(@origin.x, @origin.y, @radius, @radius)
@@ -104,7 +92,6 @@ class MultipleParticleSystems < Processing::App
 
       length = @velocity.magnitude * scale
 
-      $app.stroke(255, @lifespan)
       $app.line 0, 0, length, 0
       $app.line length, 0, length - arrow_size, arrow_size / 2
       $app.line length, 0, length - arrow_size, -arrow_size / 2
@@ -116,7 +103,6 @@ class MultipleParticleSystems < Processing::App
   class CrazyParticle < Particle
     def initialize(origin)
       super
-
       @theta = 0
     end
 
@@ -126,15 +112,14 @@ class MultipleParticleSystems < Processing::App
       render
       render_rotation_line
     end
+    
+    def update
+      super
+      @theta += @velocity.x * @velocity.magnitude / 10
+    end
 
     def grow
       @lifespan -= 0.8
-    end
-
-    def update
-      super
-
-      @theta += @velocity.x * @velocity.magnitude / 10
     end
 
     def render_rotation_line

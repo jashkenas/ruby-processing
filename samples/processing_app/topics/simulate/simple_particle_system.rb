@@ -9,7 +9,8 @@ require 'ruby-processing'
 class SimpleParticleSystem < Processing::App
   def setup
     smooth
-    color_mode(Processing::App::RGB, 255, 255, 255, 100)
+    color_mode(RGB, 255, 255, 255, 100)
+    ellipse_mode(CENTER)
 
     @particles = []
     @particles.extend Runnable
@@ -24,7 +25,7 @@ class SimpleParticleSystem < Processing::App
   module Runnable
     def run
       self.reject! { |particle| particle.dead? }
-      self.each { |particle| particle.run }
+      self.each    { |particle| particle.run   }
     end
   end
 
@@ -33,9 +34,7 @@ class SimpleParticleSystem < Processing::App
       @origin = origin
       @velocity = Vector.new(rand * 2 - 1, rand * 2 - 2)
       @acceleration = Vector.new(0, 0.05)
-
       @radius = 10
-
       @lifespan = 100
     end
 
@@ -44,6 +43,11 @@ class SimpleParticleSystem < Processing::App
       grow
       render
       render_velocity_vector
+    end
+    
+    def update
+      @velocity += @acceleration
+      @origin += @velocity
     end
 
     def grow
@@ -54,13 +58,7 @@ class SimpleParticleSystem < Processing::App
       @lifespan <= 0
     end
 
-    def update
-      @velocity += @acceleration
-      @origin += @velocity
-    end
-
     def render
-      $app.ellipse_mode(Processing::App::CENTER)
       $app.stroke(255, @lifespan)
       $app.fill(100, @lifespan)
       $app.ellipse(@origin.x, @origin.y, @radius, @radius)
@@ -77,8 +75,7 @@ class SimpleParticleSystem < Processing::App
 
       length = @velocity.magnitude * scale
 
-      $app.stroke(255, @lifespan)
-      $app.line 0, 0, length, 0
+      $app.line 0,      0, length,              0
       $app.line length, 0, length - arrow_size, arrow_size / 2
       $app.line length, 0, length - arrow_size, -arrow_size / 2
 
