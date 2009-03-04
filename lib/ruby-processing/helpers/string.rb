@@ -24,4 +24,12 @@ class String #:nodoc:
       downcase
   end
   
+  # String.ord is Ruby 1.9, so this is a little fix for R 1.8 
+  # to make it forward compatible and readable
+  unless String.method_defined? :ord
+  	def ord
+  		self[0]
+  	end
+  end  
+  
 end
