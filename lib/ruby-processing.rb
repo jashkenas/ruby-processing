@@ -8,6 +8,7 @@ unless defined? RP5_ROOT
 end
 
 require 'ruby-processing/helpers/string'
+require 'ruby-processing/helpers/numeric'
 
 # The top-level namespace, a home for all Ruby-Processing classes.
 module Processing

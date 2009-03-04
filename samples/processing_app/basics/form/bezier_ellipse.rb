@@ -84,21 +84,21 @@ class BezierEllipse < Processing::App
   	control_angle_1 = angle/3.0
   	control_angle_2 = control_angle_1*2.0
   	points.times do |i|
-  		px[i] = width/2+cos(self.class.radians(angle))*radius
+  		px[i] = width/2+cos(angle.radians)*radius
   		
-    	py[i] = height/2+sin(self.class.radians(angle))*radius
+    	py[i] = height/2+sin(angle.radians)*radius
     	
-    	cx[i] = width/2+cos(self.class.radians(angle+control_angle_1))* 
-      			control_radius/cos(self.class.radians(control_angle_1))
+    	cx[i] = width/2+cos((angle+control_angle_1).radians)* 
+      			control_radius/cos((control_angle_1).radians)
       			
-    	cy[i] = height/2+sin(self.class.radians(angle+control_angle_1))* 
-      			control_radius/cos(self.class.radians(control_angle_1))
+    	cy[i] = height/2+sin((angle+control_angle_1).radians)* 
+      			control_radius/cos((control_angle_1).radians)
       			
-    	cx2[i] = width/2+cos(self.class.radians(angle+control_angle_2))* 
-      			control_radius/cos(self.class.radians(control_angle_1))
+    	cx2[i] = width/2+cos((angle+control_angle_2).radians)* 
+      			control_radius/cos((control_angle_1).radians)
       			
-    	cy2[i] = height/2+sin(self.class.radians(angle+control_angle_2))* 
-      			control_radius/cos(self.class.radians(control_angle_1))
+    	cy2[i] = height/2+sin((angle+control_angle_2).radians)* 
+      			control_radius/cos((control_angle_1).radians)
 
     	#increment angle so trig functions keep chugging along
     	angle += 360.0/points
