@@ -235,10 +235,12 @@ module Processing
 
 
     # Fix java conversion problems getting the last key
+    # If it's ASCII, return the character, otherwise the integer
     def key
       field = java_class.declared_field 'key'
       app = Java.ruby_to_java self
-      field.value app
+      int = field.value(app)
+      int < 256 ? int.chr : int
     end
 
 
