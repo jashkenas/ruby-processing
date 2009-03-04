@@ -9,7 +9,10 @@ module Processing
       main_file = File.basename(path, ".rb")
       # Check to make sure that the main file exists
       already_exists = File.exists?(path) || File.exists?("#{File.dirname(path)}/#{main_file.underscore}.rb")
-      puts "That sketch already exists." and exit if already_exists
+      if already_exists
+        puts "That sketch already exists."
+        exit
+      end
       
       # Get the substitutions
       @name =       main_file.camelize
@@ -23,9 +26,9 @@ module Processing
       mkdir_p dir
       template = File.new("#{RP5_ROOT}/lib/templates/create/blank_sketch.rb.erb")
       rendered = render_erb_from_string_with_binding(template.read, binding)
-      File.open(File.join(dir, "#{@file_name}.rb"), "w") do |file|
-        file.print rendered
-      end
+      full_path = File.join(dir, "#{@file_name}.rb")
+      File.open(full_path, "w") {|f| f.print(rendered) }
+      puts "Created Sketch \"#{@title}\" in #{full_path.sub(/\A\.\//, '')}"
     end
     
     # Show the help/usage message for create.
