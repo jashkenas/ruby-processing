@@ -23,7 +23,7 @@ class WaveGradient < Processing::App
   		frequency += 0.006
   		
   		(width + 75).times do |j|
-  			py = i + sin( angle*PI/180 ) * amplitude
+  			py = i + sin( angle.radians ) * amplitude
   			angle += frequency
   			
   			c = color((py-i).abs * 255/amplitude,
