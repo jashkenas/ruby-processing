@@ -20,9 +20,9 @@ class MouseFunctions < Processing::App
   	fill 153
   	
   	if (mouse_x > @block["x"]-@block_width &&	# Test if the cursor is over the box 
-	    mouse_x < @block["x"]+@block_width &&
-	    mouse_y > @block["y"]-@block_width &&
-	    mouse_y < @block["y"]+@block_width )
+	      mouse_x < @block["x"]+@block_width &&
+	      mouse_y > @block["y"]-@block_width &&
+	      mouse_y < @block["y"]+@block_width )
   		
   		@over_block = true
   		

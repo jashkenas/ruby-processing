@@ -24,7 +24,7 @@ class RequestImage < Processing::App
 	
 	  # Load images asynchronously
 	  @imgs.length.times do |i|
-		@imgs[i] = request_image "dublin" + i.to_s + ".jpg"
+		  @imgs[i] = request_image "dublin" + i.to_s + ".jpg"
 	  end
   end
   
@@ -33,18 +33,18 @@ class RequestImage < Processing::App
   	
   	run_loader_animation
   	
-	# Check if individual images are fully loaded
-	@imgs.each_with_index do |img, i|
-		# As images are loaded set true in boolean array
-		@load_states[i] = (img.width != 0) && (img.width != -1)
-	end
+	  # Check if individual images are fully loaded
+	  @imgs.each_with_index do |img, i|
+	  	# As images are loaded set true in boolean array
+	  	@load_states[i] = (img.width != 0) && (img.width != -1)
+	  end
 	
-	# When all images are loaded draw them to the screen
-	if all_loaded?
-		@img.each_with_index do |img, i|
-			image( img, width/@imgs.length*i, 0, width/@imgs.length, height )
-		end
-	end
+	  # When all images are loaded draw them to the screen
+	  if all_loaded?
+	  	@img.each_with_index do |img, i|
+	  		image( img, width/@imgs.length*i, 0, width/@imgs.length, height )
+	  	end
+	  end
   end
   
   # Loading animation

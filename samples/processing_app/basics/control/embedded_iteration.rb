@@ -31,7 +31,7 @@ class EmbeddedIteration < Processing::App
     	
     	box_size -= 0.6
     	
-    	# don't forget to increment with while:
+    	# for java loops, don't forget to increment with while:
     	# i += box_space
     end
     

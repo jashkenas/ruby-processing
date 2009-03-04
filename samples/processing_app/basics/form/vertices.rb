@@ -21,29 +21,29 @@ class Vertices < Processing::App
 		curve_vertex 42, 34 
 		curve_vertex 64, 200 
 		curve_vertex 64, 200 
-	end_shape  
+	  end_shape  
 	
-	stroke 51 
-	begin_shape LINES 
+	  stroke 51 
+	  begin_shape LINES 
 		vertex 60, 40 
 		vertex 160, 10 
 		vertex 170, 150 
 		vertex 60, 150 
-	end_shape  
+	  end_shape  
 	
-	stroke 126 
-	begin_shape  
+	  stroke 126 
+	  begin_shape  
 		vertex 60, 40 
 		bezier_vertex 160, 10, 170, 150, 60, 150 
-	end_shape  
+	  end_shape  
 	
-	stroke 255 
-	begin_shape POINTS 
+	  stroke 255 
+	  begin_shape POINTS 
 		vertex 60, 40 
 		vertex 160, 10 
 		vertex 170, 150 
 		vertex 60, 150 
-	end_shape  
+	  end_shape  
   end
   
 end

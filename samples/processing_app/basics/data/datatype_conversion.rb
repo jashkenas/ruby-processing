@@ -11,27 +11,23 @@ class DatatypeConversion < Processing::App
 
   def setup
   	
-  	# Ruby has no primitive datatypes, anything is an object!
+  	# Ruby has no primitive datatypes, everything is an object!
   	# See:
   	[1, 2.0, 'a', "B", nil, false].each do |element|
   		puts
-  		p element
-  		puts "... is a #{element.class.name} object"
+  		puts "#{element.inspect} ... is a #{element.class.name} object"
   	end
   	
   	c = 'A' # String (!) as there is no char datatype in Ruby.
-  			# Single quotes are parsed without substitutions (i.e. "It is #{Time.now}.")
-  			# and therefore faster
+  			    # Single quotes are parsed without substitutions (i.e. "It is #{Time.now}.")
   	
   	f = c[0].to_f # Sets f = 65.0
-  	# will become "c.ord.to_f" in Ruby 1.9+
+  	              # will become "c.ord.to_f" in Ruby 1.9+
   	
   	i = (f * 1.4).to_i # Sets i to 91
   	
   	b = (c[0] / 2) # Integer or FixNum as there is no byte in Ruby
   	
-  
-  
   	background 51
   	no_stroke
   	

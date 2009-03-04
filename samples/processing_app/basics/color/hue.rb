@@ -15,13 +15,13 @@ class Hue < Processing::App
   end
   
   def draw
-  	i = 0; j = 0; while i <= (width - @bar_width)
-  	
-  		@hue[j] = mouseY if (mouseX > i) and (mouseX < (i + @bar_width))
-  		fill @hue[j], height/1.2, height/1.2
-  		rect i, 0, @bar_width, height
-  	
-  	j += 1; i += @bar_width; end
+  	(width/@bar_width).times do |i|
+  	  n = i * @bar_width
+  	  range = (n..n+@bar_width)
+  	  @hue[i] = mouse_y if range.include?(mouse_x)
+  		fill @hue[i], height/1.2, height/1.2
+  		rect n, 0, @bar_width, height
+		end
   end
   
 end

@@ -11,24 +11,24 @@ class Array2d < Processing::App
     
     distances = Array.new( width ) { Array.new( height ) } # [width][height]
 	
-    maxDistance = dist( width/2, height/2, width, height )
+    max_distance = dist( width/2, height/2, width, height )
     
-    0.upto( width-1 ) do |j|
-    	0.upto( height-1 ) do |i|
-    		dist = dist( width/2, height/2, j, i )
-    		distances[j][i] = dist / maxDistance * 255
+    width.times do |x|
+    	height.times do |y|
+    		distance = dist( width/2, height/2, x, y )
+    		distances[x][y] = distance / max_distance * 255
     	end
     end
     
     background 0
     
-    j = 0; while j < distances.length
-		i = 0; while i < distances[j].length
-			stroke distances[j][i]
-    		point j, i
-    		i += 2
+    x = 0; while x < distances.length
+		y = 0; while y < distances[x].length
+			stroke distances[x][y]
+    		point x, y
+    		y += 2
     	end
-    	j += 2
+    	x += 2
     end
     
   end

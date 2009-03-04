@@ -19,10 +19,10 @@ class PieChart < Processing::App
     
     angles.each do |angle|
     	fill angle * 3.0
-    	arc width/2, height/2, 	 						# center x, y
-    		diameter, diameter,  						# width, height
-    		last_angle, last_angle + radians( angle )	# angles from, to
-    	last_angle += radians( angle )
+    	arc width/2, height/2, 	 						    # center x, y
+    		diameter, diameter,  						      # width, height
+    		last_angle, last_angle + angle*PI/180	# angles from, to
+    	last_angle += angle*PI/180
     end
   end
   

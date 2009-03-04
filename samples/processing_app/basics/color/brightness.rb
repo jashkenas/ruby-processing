@@ -9,20 +9,20 @@ require 'ruby-processing'
 class Brightness < Processing::App
 
   def setup
+    no_stroke
     color_mode HSB, 360, height, height
     @bar_width = 5
-    @brightness = Array.new width/@bar_width, 0
+    @brightness = Array.new(width/@bar_width, 0)
   end
   
   def draw
-  	no_stroke
-  	i = 0; j = 0; while i <= (width - @bar_width)
-  	
-  		@brightness[j] = mouse_y if (mouse_x > i) and mouse_x < (i + @bar_width)
-  		fill i, height, @brightness[j]
-  		rect i, 0, @bar_width, height
-  		
-  	j += 1; i += @bar_width; end
+  	(width/@bar_width).times do |i|
+  	  n = i * @bar_width
+  	  range = (n..n+@bar_width)
+  		@brightness[i] = mouse_y if range.include? mouse_x
+  		fill n, height, @brightness[i]
+  		rect n, 0, @bar_width, height
+		end
   end
   
 end

@@ -8,13 +8,12 @@ require 'ruby-processing'
 class AdditiveWave < Processing::App
 
   def setup
-  	@max_waves = 4				# total # of waves to add together
+  	@max_waves = 4				    # Total number of waves to add together
     @wave_width = width + 16	# Width of entire wave
-    @x_spacing = 8				# How far apart should each horizontal location be spaced
+    @x_spacing = 8				    # How far apart should each horizontal location be spaced
     @theta = 0.0
-    @amplitude = []				# Height of wave
-    @dx = []					# Value for incrementing X, to be calculated as a 
-    							# function of period and xspacing
+    @amplitude = []				    # Height of wave
+    @dx = []					        # Value for incrementing X, to be calculated as a function of period and x_spacing
     
     @max_waves.times do |i|
     	@amplitude << random( 10, 30 )
@@ -45,11 +44,7 @@ class AdditiveWave < Processing::App
   		x = @theta
   		@y_values.length.times do |i|
   			# Every other wave is cosine instead of sine
-  			if (j % 2) == 0
-  				value = sin(x)
-  			else
-  				value = cos(x)
-  			end
+  			value = (j % 2) == 0 ? sin(x) : cos(x)
   			@y_values[i] += value * @amplitude[j]
   			x += @dx[j]
   		end

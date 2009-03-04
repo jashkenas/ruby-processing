@@ -4,7 +4,10 @@ require 'ruby-processing'
 # It is common to use Booleans with control statements to 
 # determine the flow of a program. In this example, when the
 # boolean value "x" is true, vertical black lines are drawn and when
-# the boolean value "x" is false, horizontal gray lines are drawn. 
+# the boolean value "x" is false, horizontal gray lines are drawn.
+
+# In Ruby, false and nil are "falsy" ... they are the only things
+# that will fail an "if" test. Absolutely everything else passes "if".
 
 class TrueFalse < Processing::App
 
@@ -13,22 +16,18 @@ class TrueFalse < Processing::App
   	  stroke 0
   	  
   	  (1..width).step(2) do |i|
-  	  
-  	      if i < (width/2)
-  	      	x = true
-  	      else
-  	      	x = false
-  	      end
-  	      
-  	      if x
-  	      	stroke 255
-  	      	line i, 1, i, height-1
-  	      end
-  	      
-  	      if not x
-  	      	stroke 126
-  	      	line width/2, i, width-2, i
-  	      end
+  	    
+  	    x = i < (width/2) # Evaluates to true or false, depending on i
+  	    
+  	    if x
+  	    	stroke 255
+  	    	line i, 1, i, height-1
+  	    end
+  	    
+  	    if !x
+  	    	stroke 126
+  	    	line width/2, i, width-2, i
+  	    end
   	      
   	  end
   end

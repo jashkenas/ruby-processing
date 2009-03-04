@@ -4,19 +4,19 @@ require 'ruby-processing'
 
 class ArrayObjects < Processing::App
 
-	UNIT = 40.0
+	UNIT = 40
 
   def setup
     
     @num = width/UNIT ** 2
     @mods = []
     
-    i = 0; while i < height/UNIT
-    	j = 0; while j < height/UNIT
-    		j += 1
-    		@mods << AModule.new( j*UNIT, i*UNIT, UNIT/2, UNIT/2, random( 0.05, 0.8 ) )
+    basis = (height/UNIT).to_i
+    
+    basis.times do |i|
+      basis.times do |j|
+    		@mods << CustomObject.new( j*UNIT, i*UNIT, UNIT/2, UNIT/2, random( 0.05, 0.8 ) )
     	end
-    	i += 1
     end
     
     background 176
@@ -24,27 +24,23 @@ class ArrayObjects < Processing::App
   end
   
   def draw
-  	stroke( second * 4 )
+  	stroke(second * 4)
   	
   	@mods.each do |mod|
-  		mod.update
-  		mod.draw( g )
+  		mod.update; mod.draw
   	end
   end
 
 	# the custom object
 	
-	class AModule
+	class CustomObject
 	
 		def initialize( mx, my, x, y, speed )
-			@mx = my
-			@my = mx
-			@x = x.to_i
-			@y = y.to_i
-			@speed = speed
-			@xdir = 1
-			@ydir = 1
-			@size = UNIT
+			@mx, @my      = my, mx                # This is backwards because the Processing example is backwards.
+			@x, @y        = x.to_i, y.to_i
+			@xdir, @ydir  = 1, 1
+		  @speed        = speed
+			@size         = UNIT
 		end
 		
 		def update
@@ -60,8 +56,8 @@ class ArrayObjects < Processing::App
 			end
 		end
 		
-		def draw( context )
-			context.point( @mx + @x - 1, @my + @y - 1 )
+		def draw
+			$app.point( @mx + @x - 1, @my + @y - 1 )
 		end
 	
 	end
