@@ -11,15 +11,14 @@ class Keyboard2 < Processing::App
     @num_chars = 26
     @key_scale = 200.0 / @num_chars-1.0
     @rect_width = width/4
-    
     no_stroke
     background 0
   end
   
   def draw
   	if key_pressed?
-  		if key_char && key_char >= "A" && key_char <= "z"  # added testing 'gainst Nil
-  			if key_char <= "Z"
+  		if key.chr && key.chr >= "A" && key.chr <= "z"  # added testing 'gainst Nil
+  			if key.chr <= "Z"
   				@key_index = key - "A".ord
   			else
   				@key_index = key - "a".ord
@@ -31,18 +30,6 @@ class Keyboard2 < Processing::App
   	end
   end
   
-end
-
-class Processing::App
-	def key_char
-		the_key_char = nil
-		begin
-			the_key_char = key.chr
-		rescue
-			#ignore
-		end
-		the_key_char
-	end
 end
 
 # String.ord is Ruby 1.9, so this is a little fix for R 1.8 

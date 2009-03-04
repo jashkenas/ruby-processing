@@ -35,8 +35,8 @@ class Clock < Processing::App
   	# Draw the minute ticks
   	stroke_weight 2
   	(0..360).step(6) do |a|
-  		x = 100 + cos( radians( a ) ) * 72
-  		y = 100 + sin( radians( a ) ) * 72
+  		x = 100 + cos( a*PI/180 ) * 72
+  		y = 100 + sin( a*PI/180 ) * 72
   		point x, y
   	end
   end

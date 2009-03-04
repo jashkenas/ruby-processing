@@ -9,8 +9,7 @@ class Sprite < Processing::App
 
   def setup
     @teddy = load_image "teddy.gif"
-    @xpos = width/2
-    @ypos = height/2
+    @xpos, @ypos = width/2, height/2
     @drag = 30.0
     
     frame_rate 60

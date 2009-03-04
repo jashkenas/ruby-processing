@@ -21,7 +21,7 @@ class CharactersStrings < Processing::App
     @xoffset = 0
     @letter = ""
     
-    @font = loadFont "Eureka-90.vlw"
+    @font = load_font "Eureka-90.vlw"
     text_font @font
     
     # Draw text more accurately and efficiently.
@@ -29,30 +29,24 @@ class CharactersStrings < Processing::App
     text_mode SCREEN
     text_align CENTER
     
-    # The String datatype must be capitalized because it is a complex datatype.
   	# A String is actually a class with its own methods, some of which are
   	# featured below.
   	
   	name = "rathausFrog"
   	extension = ".jpg"
   	
-  	name_length = name.length
-  	puts "The length of #{name} is #{name_length}." # "puts" is Ruby for "println"
+  	puts "The length of #{name} is #{name.length}." # "puts" is Ruby for "println"
   	
   	name = name + extension
-  	name_length = name.length
-  	puts "The length of #{name} is #{name_length}."
-  	
+  	puts "The length of #{name} is #{name.length}."
   	
   	# The parameter for the loadImage() method must be a string
   	# This line could also be written "frog = load_image "rathausFrog.jpg"
-  	
+
   	@frog = load_image name
-    
   end
   
   def draw
-  
   	background 51 # Set background to dark gray
   	
   	# Same as "image @frog, @xoffset, 0", but more efficient 
@@ -68,25 +62,23 @@ class CharactersStrings < Processing::App
   end
   
   def key_pressed
-  	  
-  	  # The variable "key" always contains the value of the most recent key pressed.
+  	# The variable "key" always contains the value of the most recent key pressed.
 	  # If the key is an upper or lowercase letter between 'A' and 'z'
 	  # the image is shifted to the corresponding value of that key
 	  
 	  if (key >= "A"[0]) and (key <= "z"[0])  # should become "A".ord and "z".ord in Ruby 1.9
 		
-		# Map the index of the key pressed from the range between 'A' and 'z',
-		# into a position for the left edge of the image. The maximum xoffset
-		# is the width of the drawing area minus the size of the image.
-		
-		@xoffset = map( key, "A"[0], "z"[0], 0, width - @frog.width ).to_i
-		
-		# Update the letter shown to the screen
-		@letter = key.chr
-		
-		# Write the letter to the console
-		puts key
-	  
+		  # Map the index of the key pressed from the range between 'A' and 'z',
+		  # into a position for the left edge of the image. The maximum xoffset
+		  # is the width of the drawing area minus the size of the image.
+		  
+		  @xoffset = map( key, "A"[0], "z"[0], 0, width - @frog.width ).to_i
+		  
+		  # Update the letter shown to the screen
+		  @letter = key.chr
+		  
+		  # Write the letter to the console
+		  puts key
 	  end
   end
   

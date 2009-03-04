@@ -20,30 +20,26 @@ class LinearGradient < Processing::App
   	c4 = color 125, 2, 140 
   	c5 = color 255, 255, 0 
   	c6 = color 25, 255, 200 
-  	set_gradient 25, 25, 75, 75, c1, c2, :y_axis
-  	set_gradient 100, 25, 75, 75, c3, c4, :x_axis
-  	set_gradient 25, 100, 75, 75, c2, c5, :x_axis
-  	set_gradient 100, 100, 75, 75, c4, c6, :y_axis
+  	set_gradient 25, 25, 75, 75, c1, c2, true
+  	set_gradient 100, 25, 75, 75, c3, c4, false
+  	set_gradient 25, 100, 75, 75, c2, c5, false
+  	set_gradient 100, 100, 75, 75, c4, c6, true
   end
   
-  def set_gradient( x, y, w, h, c1, c2, axis )
-  	deltaR = red( c2 ) - red( c1 )
-  	deltaG = green( c2 ) - green( c1 )
-  	deltaB = blue( c2 ) - blue( c1 )
+  def set_gradient( x, y, w, h, c1, c2, vertical )
+  	delta_r = red(c2) - red(c1)
+  	delta_g = green(c2) - green(c1)
+  	delta_b = blue(c2) - blue(c1)
   	
-	x.upto( x+w ) do |i|
-		y.upto( y+w ) do |j|
-			c = color( (red(c1)+(j-y)*(deltaR/h)),
-					  (green(c1)+(j-y)*(deltaG/h)),
-					  (blue(c1)+(j-y)*(deltaB/h)) )
-			case axis
-			when :y_axis
-				set i, j, c
-			when :x_axis
-				set j, i, c
-			end
-		end
-	end
+	  x.upto( x+w ) do |i|
+	  	y.upto( y+w ) do |j|
+	  		c = color(red(c1)+(j-y)*(delta_r/h),
+	  				      green(c1)+(j-y)*(delta_g/h),
+	  				      blue(c1)+(j-y)*(delta_b/h) )
+	  				      
+	  		vertical ? set(i, j, c) : set(j, i, c)
+	  	end
+	  end
   end
   
 end

@@ -8,7 +8,6 @@ class BackgroundImage < Processing::App
 
   def setup
     frame_rate 30
-    
     @a = 0
     
     # The background image must be the same size as the parameters

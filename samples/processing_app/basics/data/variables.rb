@@ -1,27 +1,38 @@
 require 'ruby-processing'
 
 # Variables are used for storing values. In this example, changing 
-# the values of variables 'a' and 'b' significantly changes the composition. 
+# the values of variables @one and @two significantly changes the composition. 
 
 class Variables < Processing::App
-
+  
+  load_library :control_panel
+  
   def setup
-    	background 0
-    	stroke 153
-    	
-    	a = 20	# Change these!
-    	b = 50
-    	
-    	c = a * 8
-    	d = a * 9
-    	e = b - a
-    	f = b * 2
-    	g = f + e
-    	
-    	line a, f, b, g
-    	line b, e, b, g
-    	line b, e, d, c
-    	line a, e, d-e, c
+    stroke 153
+    
+    @one = 20 # Change these with the sliders
+    @two = 50
+    
+    control_panel do |c|
+      c.slider :one, -20..100
+      c.slider :two, -20..100
+    end
+  end
+
+
+  def draw
+    background 0
+    
+    c = @one * 8
+    d = @one * 9
+    e = @two - @one
+    f = @two * 2
+    g = f  + e
+    
+    line @one, f, @two,  g
+    line @two, e, @two,  g
+    line @two, e, d,     c
+    line @one, e, d-e,   c
   end
   
 end

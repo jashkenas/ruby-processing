@@ -10,14 +10,16 @@ require 'ruby-processing'
 
 class BezierEllipse < Processing::App
 
-	attr_accessor :px, :py, :cx, :cy, :cx2, :cy2 # have Ruby add getter/setter functions for these,
-												 # so we don't have to write "@var" all the time
+  # have Ruby add getter/setter functions for these,
+	# so we don't have to write "@var" all the time
+	attr_accessor :px, :py, :cx, :cy, :cx2, :cy2 
 
   def setup
   	@color_controls = 0xFF222222
   	@color_anchors  = 0xFFBBBBBB
   	
   	smooth
+  	rect_mode CENTER
     set_ellipse 4, 65, 65
     frame_rate 1
   end
@@ -40,17 +42,16 @@ class BezierEllipse < Processing::App
   	
   	number_of_points.times do |i|
   		i2 = (i+1) % number_of_points  # wrap around to make a loop
-		bezier px[i], py[i], 
-			   cx[i], cy[i], 
-			   cx2[i], cy2[i], 
-			   px[i2], py[i2]
+		  bezier px[i], py[i], 
+			       cx[i], cy[i], 
+			       cx2[i], cy2[i], 
+			       px[i2], py[i2]
   	end
   	  	
   	# draw lines and handles
   	
   	stroke_weight 0.75
   	stroke 0
-  	rect_mode CENTER
   	
   	number_of_points.times do |i|
   		i2 = (i+1) % number_of_points
@@ -83,21 +84,21 @@ class BezierEllipse < Processing::App
   	control_angle_1 = angle/3.0
   	control_angle_2 = control_angle_1*2.0
   	points.times do |i|
-  		px[i] = width/2+cos(radians(angle))*radius
+  		px[i] = width/2+cos(self.class.radians(angle))*radius
   		
-    	py[i] = height/2+sin(radians(angle))*radius
+    	py[i] = height/2+sin(self.class.radians(angle))*radius
     	
-    	cx[i] = width/2+cos(radians(angle+control_angle_1))* 
-      			control_radius/cos(radians(control_angle_1))
+    	cx[i] = width/2+cos(self.class.radians(angle+control_angle_1))* 
+      			control_radius/cos(self.class.radians(control_angle_1))
       			
-    	cy[i] = height/2+sin(radians(angle+control_angle_1))* 
-      			control_radius/cos(radians(control_angle_1))
+    	cy[i] = height/2+sin(self.class.radians(angle+control_angle_1))* 
+      			control_radius/cos(self.class.radians(control_angle_1))
       			
-    	cx2[i] = width/2+cos(radians(angle+control_angle_2))* 
-      			control_radius/cos(radians(control_angle_1))
+    	cx2[i] = width/2+cos(self.class.radians(angle+control_angle_2))* 
+      			control_radius/cos(self.class.radians(control_angle_1))
       			
-    	cy2[i] = height/2+sin(radians(angle+control_angle_2))* 
-      			control_radius/cos(radians(control_angle_1))
+    	cy2[i] = height/2+sin(self.class.radians(angle+control_angle_2))* 
+      			control_radius/cos(self.class.radians(control_angle_1))
 
     	#increment angle so trig functions keep chugging along
     	angle += 360.0/points

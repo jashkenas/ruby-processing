@@ -11,12 +11,8 @@ require 'ruby-processing'
 class KeyboardFunctions < Processing::App
 
   def setup
-    
   	@num_chars = 26
-  	
-  	@letter_width = 10
-  	@letter_height = 10
-  	
+  	@letter_width, @letter_height = 10, 10  	
   	@x = -@letter_width
   	@y = 0
   	
@@ -46,7 +42,7 @@ class KeyboardFunctions < Processing::App
   	end
   end
   
-  def new_letter?() 
+  def new_letter?
   	@new_letter
   end
   
@@ -55,10 +51,9 @@ class KeyboardFunctions < Processing::App
   end
   
   def key_pressed
-  
   	# Try to get a String for int value in "key"
   	key_char = nil
-  	begin key_char = key.chr ;rescue ;end
+  	key_char = key.chr rescue nil
   	
   	# if the key is between 'A'(65) and 'z'(122)
   	if key_char && key_char >= "A" && key_char <= "z"

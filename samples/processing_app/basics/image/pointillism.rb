@@ -19,9 +19,8 @@ class Pointillism < Processing::App
   
   def draw
   	pointillize = map mouse_x, 0, width, 2, 18
-  	x = random(@a.width).to_i
-  	y = random(@a.height).to_i
-  	pixel = @a.get x, y
+  	x, y = rand(@a.width), rand(@a.height)
+  	pixel = @a.get(x, y)
   	fill pixel
   	ellipse x, y, pointillize, pointillize
   end

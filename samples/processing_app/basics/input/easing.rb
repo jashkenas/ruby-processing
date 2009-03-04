@@ -12,7 +12,6 @@ class Easing < Processing::App
   def setup
     @x, @y = 0.0, 0.0
     @easing = 0.05
-    
     smooth
     no_stroke
   end

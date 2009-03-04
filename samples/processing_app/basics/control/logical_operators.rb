@@ -18,7 +18,7 @@ class LogicalOperators < Processing::App
   		
   		# Logical AND
   		
-  		if (i > 35) and (i < 100)  # "and" is the same as "&&"
+  		if (i > 35) && (i < 100)
   			
   			line 5, i, 95, i
   			op = false
@@ -28,7 +28,7 @@ class LogicalOperators < Processing::App
   		
   		# Logical OR
   		
-  		if (i <= 35) or (i >= 100)  # you could write "||" instead of "or"
+  		if (i <= 35) || (i >= 100)
   			line 105, i, 195, i
   			op = true
   		end
@@ -43,9 +43,9 @@ class LogicalOperators < Processing::App
   		end
   		
 		# Testing if a boolean value is "false"
-		# The expressions "if not op" or "if !op" are equivalent to "if (op == false)"
+		# The expressions "unless op" or "if !op" are equivalent to "if (op == false)"
   		
-  		if not op
+  		unless op
   			stroke 255
   			point width/4, i
   		end

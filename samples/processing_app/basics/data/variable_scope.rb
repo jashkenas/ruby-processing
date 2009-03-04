@@ -20,8 +20,8 @@ class VariableScope < Processing::App
   		stroke 255
   		no_loop
   		
-  		@a = 20 # Use "@" before the name to create an instance variable ("a"), 
-  				# which will be available anywhere inside this instance of "VariableScope".
+  		@a = 20 # Use "@" before the name to create an instance variable ("@a"), 
+  				    # which will be available anywhere inside this instance of "VariableScope".
   end
   
   def draw

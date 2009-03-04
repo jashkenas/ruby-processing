@@ -7,14 +7,12 @@ require 'ruby-processing'
 class Reading < Processing::App
 
   def setup
-    
     no_stroke
     background 0
     
     c = load_image "cait.jpg"
     
-    xoff = 0
-    yoff = 0
+    xoff, yoff = 0, 0
     p = 2
     pix = p * 3
     

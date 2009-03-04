@@ -10,31 +10,25 @@ class Constrain < Processing::App
     smooth
     ellipse_mode RADIUS
     
-    @mx = 0.0
-    @my = 0.0
+    @mx, @my = 0.0, 0.0
     @easing = 0.05
     @ellipse_size = 25.0
     @box_size = 30
+    @together = @box_size + @ellipse_size
   end
   
   def draw
   	background 51
   	
-  	if (mouse_x - @mx).abs > 0.1
-	  	@mx += (mouse_x - @mx) * @easing
-  	end
-  	
-  	if (mouse_y - @my).abs > 0.1
-	  	@my += (mouse_y - @my) * @easing
-  	end
+	  @mx += (mouse_x - @mx) * @easing if (mouse_x - @mx).abs > 0.1
+	  @my += (mouse_y - @my) * @easing if (mouse_y - @my).abs > 0.1
   	
   	distance = @ellipse_size * 2
   	@mx = constrain @mx, (@box_size + distance), (width  - @box_size - distance)
   	@my = constrain @my, (@box_size + distance), (height - @box_size - distance)
   	
   	fill 76
-  	rect @box_size + @ellipse_size, @box_size + @ellipse_size, 
-  		 @box_size * 3, @box_size * 3
+  	rect @together, @together, @box_size * 3, @box_size * 3
   		 
   	fill 255
   	ellipse @mx, @my, @ellipse_size, @ellipse_size 

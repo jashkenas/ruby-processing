@@ -1,9 +1,8 @@
 require 'ruby-processing'
 
-# The basic shape primitive functions are triangle  ,
-# rect  , quad  , and ellipse  . Squares are made
-# with rect   and circles are made with
-# ellipse  . Each of these functions requires a number
+# The basic shape primitive functions are triangle, rect, 
+# quad, and ellipse. Squares are made with rect and circles 
+# are made with ellipse. Each of these functions requires a number
 # of parameters to determine the shape's position and size.
 
 
