@@ -257,6 +257,16 @@ module Processing
     def mouse_button; mouseButton;  end
     def key_code;     keyCode;      end
 
+    alias :old_frame_rate :frame_rate
+    def frame_rate(fps = nil)
+      if fps == nil
+        field = java_class.declared_field 'frameRate'
+        app = Java.ruby_to_java self
+        field.value app
+      else
+        old_frame_rate(fps)
+      end
+    end
 
     # Is the mouse pressed for this frame?
     def mouse_pressed?
