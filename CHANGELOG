@@ -1,3 +1,15 @@
+v1.0.3 Tweaks and Tuneups...
+  * "rp5 watch" is now a bit more robust, and tries to reload every
+  * file, global, and constant that it thinks it needs to.
+  * Many, many examples have been contributed by Marc Chung, 
+    Peter Krenn, and Florian Jenett.
+  * Andreas Haller contributed a patch that added Ruby-1.9 compatibility.
+  * The render mode now defaults to JAVA2D, as does Processing.
+  * "rp5 create" now informs you of the file it just created.
+  * "key" now returns a character, if ASCII and the integer value otherwise,
+    mirroring Processing's behavior.
+  * Numbers now have the methods 'degrees' and 'radians', for ease.
+
 v1.0.2 Bugfixes and Java Args...
   * Application exporting, long plagued, should now be a little
     closer to rock-solid. If you need to pass command-line options
