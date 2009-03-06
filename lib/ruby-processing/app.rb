@@ -175,7 +175,7 @@ module Processing
         :full_screen => false
       }.merge(options)
       @width, @height, @title = options[:width], options[:height], options[:title]
-      @render_mode = P2D
+      @render_mode = JAVA2D
       determine_how_to_display options
     end
 
@@ -235,10 +235,12 @@ module Processing
 
 
     # Fix java conversion problems getting the last key
+    # If it's ASCII, return the character, otherwise the integer
     def key
       field = java_class.declared_field 'key'
       app = Java.ruby_to_java self
-      field.value app
+      int = field.value(app)
+      int < 256 ? int.chr : int
     end
 
 
