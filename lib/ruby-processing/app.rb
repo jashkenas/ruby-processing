@@ -161,6 +161,7 @@ module Processing
     def initialize(options = {})
       super()
       $app = App.current = self
+      proxy_java_fields
       set_sketch_path unless online?
       make_accessible_to_the_browser
       options = {
@@ -184,10 +185,10 @@ module Processing
     # By default, your sketch path is the folder that your sketch is in.
     # If you'd like to do something fancy, feel free.
     def set_sketch_path(path=nil)
-      field = self.java_class.declared_field('sketchPath')
-      local = File.dirname(SKETCH_PATH)
+      field = @declared_fields['sketchPath']
+      local = SKETCH_ROOT
       default = $__windows_app_mode__ ? "#{local}/lib" : local
-      field.set_value(Java.ruby_to_java(self), path || default)
+      field.set_value(java_self, path || default)
     end
 
 
@@ -227,14 +228,18 @@ module Processing
         yield x, y
       end
     end
+    
+    
+    # Provide a convenient handle for the Java-space version of self.
+    def java_self
+      @java_self ||= Java.ruby_to_java self
+    end
 
 
     # Fix java conversion problems getting the last key
     # If it's ASCII, return the character, otherwise the integer
     def key
-      field = java_class.declared_field 'key'
-      app = Java.ruby_to_java self
-      int = field.value(app)
+      int = @declared_fields['key'].value(java_self)
       int < 256 ? int.chr : int
     end
 
@@ -254,15 +259,10 @@ module Processing
     def mouse_button; mouseButton;  end
     def key_code;     keyCode;      end
 
-    alias :old_frame_rate :frame_rate
+    # frame_rate needs to support reading and writing
     def frame_rate(fps = nil)
-      if fps == nil
-        field = java_class.declared_field 'frameRate'
-        app = Java.ruby_to_java self
-        field.value app
-      else
-        old_frame_rate(fps)
-      end
+      return @declared_fields['frameRate'].value(java_self) unless fps
+      super(fps)
     end
 
     # Is the mouse pressed for this frame?
@@ -302,19 +302,26 @@ module Processing
     
     private
     
+    # Proxy over a list of Java declared fields that have the same name as 
+    # some methods. Add to this list as needed.
+    def proxy_java_fields
+      @declared_fields = {}
+      fields = %w(sketchPath key frameRate)
+      fields.each {|f| @declared_fields[f] = java_class.declared_field(f) }
+    end
+    
+    
     # Tests to see which display method should run.
     def determine_how_to_display(options)
-      if online? # Then display it in an applet.
+      if online?                            # Then display it in an applet.
         display_in_an_applet
-      elsif options[:full_screen] # Then display it fullscreen.
-        display = java.awt.GraphicsEnvironment.get_local_graphics_environment.get_default_screen_device
+      elsif options[:full_screen]           # Then display it fullscreen.
         # linux doesn't support full screen exclusive mode, but don't worry, it works very well
-        if (java.lang.System.get_property("os.name") == "Linux") || display.full_screen_supported?
-          display_full_screen(display)
-        else
-          display_in_a_window
-        end
-      else # Then display it in a window.
+        display   = java.awt.GraphicsEnvironment.get_local_graphics_environment.get_default_screen_device
+        linux     = java.lang.System.get_property("os.name") == "Linux"
+        supported = display.full_screen_supported?
+        supported || linux ? display_full_screen(display) : display_in_a_window
+      else                                  # Then display it in a window.
         display_in_a_window
       end
     end
