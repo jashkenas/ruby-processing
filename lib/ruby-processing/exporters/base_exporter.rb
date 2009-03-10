@@ -58,19 +58,21 @@ module Processing
       match ? match[1].gsub!(/\n(\s*)?#/, "") : DEFAULT_DESCRIPTION
     end
     
-    # Searches the source any libraries that have been loaded.
+    # Searches the source for any libraries that have been loaded.
     def extract_libraries(source)
       libs = []
       code = source.dup
       loop do
-        matchdata = code.match(/load\w+librar(y|ies).+?["':](\S+?)["'\s]/)
+        matchdata = code.match(/load_librar(y|ies)\s+(.+)\n/)
         break unless matchdata
-        match = matchdata[2]
-        @opengl = true if match.match(/opengl/i)
-        local_path = "#{local_dir}/library/#{match}"
-        rp5_path = "#{RP5_ROOT}/library/#{match}"
-        File.exists?(local_path) ? libs << local_path : 
-          (libs << rp5_path if File.exists?(rp5_path))
+        candidates = matchdata[2].gsub(/[:"'\s]/, '').split(/,/)
+        candidates.each do |cand|
+          @opengl = true if cand.match(/opengl/i)
+          local_path = "#{local_dir}/library/#{cand}"
+          rp5_path = "#{RP5_ROOT}/library/#{cand}"
+          libs << rp5_path if File.exists?(rp5_path)
+          libs << local_path if File.exists?(local_path)
+        end
         code = matchdata.post_match
       end
       libs

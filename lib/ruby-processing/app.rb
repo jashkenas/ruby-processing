@@ -103,8 +103,14 @@ module Processing
     def self.load_ruby_library(dir)
       dir = dir.to_sym
       return true if @@loaded_libraries[dir]
-      return @@loaded_libraries[dir] = (require "library/#{dir}/#{dir}") if online?
-      local_path = "#{Dir.pwd}/library/#{dir}"
+      if online?
+        begin
+          return @@loaded_libraries[dir] = (require "library/#{dir}/#{dir}")
+        rescue LoadError => e
+          return false
+        end
+      end
+      local_path = "#{SKETCH_ROOT}/library/#{dir}"
       gem_path = "#{RP5_ROOT}/library/#{dir}"
       path = File.exists?(local_path) ? local_path : gem_path
       return false unless (File.exists?("#{path}/#{dir}.rb"))
@@ -122,10 +128,10 @@ module Processing
       dir = dir.to_sym
       return true if @@loaded_libraries[dir]
       return @@loaded_libraries[dir] = !!(JRUBY_APPLET.get_parameter("archive").match(%r(#{dir}))) if online?
-      local_path = "#{Dir.pwd}/library/#{dir}"
+      local_path = "#{SKETCH_ROOT}/library/#{dir}"
       gem_path = "#{RP5_ROOT}/library/#{dir}"
       path = File.exists?(local_path) ? local_path : gem_path
-      jars = Dir.glob("#{path}/**/*.jar")
+      jars = Dir["#{path}/**/*.jar"]
       return false if jars.empty?
       jars.each {|jar| require jar }
       # Here goes...
@@ -139,7 +145,7 @@ module Processing
       end
       return @@loaded_libraries[dir] = true
     end
-
+    
 
     def self.has_slider(*args) #:nodoc:
       raise "has_slider has been replaced with a nicer control_panel library. Check it out."
