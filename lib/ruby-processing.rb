@@ -7,6 +7,8 @@ unless defined? RP5_ROOT
   RP5_ROOT = File.expand_path(File.dirname(__FILE__) + "/../")
 end
 
+SKETCH_ROOT = Dir.pwd unless defined? SKETCH_ROOT
+
 require 'ruby-processing/helpers/string'
 require 'ruby-processing/helpers/numeric'
 
@@ -19,6 +21,7 @@ module Processing
     VERSION.join('.')
   end
   
+  autoload :App,                  'ruby-processing/app'
   autoload :Runner,               'ruby-processing/runner'
   autoload :Creator,              'ruby-processing/exporters/creator'
   autoload :BaseExporter,         'ruby-processing/exporters/base_exporter'
