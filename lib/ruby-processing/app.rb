@@ -254,6 +254,16 @@ module Processing
     def mouse_button; mouseButton;  end
     def key_code;     keyCode;      end
 
+    alias :old_frame_rate :frame_rate
+    def frame_rate(fps = nil)
+      if fps == nil
+        field = java_class.declared_field 'frameRate'
+        app = Java.ruby_to_java self
+        field.value app
+      else
+        old_frame_rate(fps)
+      end
+    end
 
     # Is the mouse pressed for this frame?
     def mouse_pressed?
@@ -297,8 +307,13 @@ module Processing
       if online? # Then display it in an applet.
         display_in_an_applet
       elsif options[:full_screen] # Then display it fullscreen.
-        graphics_env = java.awt.GraphicsEnvironment.get_local_graphics_environment.get_default_screen_device
-        graphics_env.is_full_screen_supported ? display_full_screen(graphics_env) : display_in_a_window
+        display = java.awt.GraphicsEnvironment.get_local_graphics_environment.get_default_screen_device
+        # linux doesn't support full screen exclusive mode, but don't worry, it works very well
+        if (java.lang.System.get_property("os.name") == "Linux") || display.full_screen_supported?
+          display_full_screen(display)
+        else
+          display_in_a_window
+        end
       else # Then display it in a window.
         display_in_a_window
       end
@@ -306,11 +321,11 @@ module Processing
     
     
     def display_full_screen(graphics_env)
-      @frame = java.awt.Frame.new
+      @frame = java.awt.Frame.new(graphics_env.default_configuration)
       mode = graphics_env.display_mode
       @width, @height = mode.get_width, mode.get_height
-      gc = graphics_env.get_default_configuration
       @frame.set_undecorated true
+      @frame.set_ignore_repaint true
       @frame.set_background java.awt.Color.black
       @frame.set_layout java.awt.BorderLayout.new
       @frame.add(self, java.awt.BorderLayout::CENTER)
