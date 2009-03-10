@@ -19,7 +19,6 @@ module Processing
     VERSION.join('.')
   end
   
-  autoload :App,                  'ruby-processing/app'
   autoload :Runner,               'ruby-processing/runner'
   autoload :Creator,              'ruby-processing/exporters/creator'
   autoload :BaseExporter,         'ruby-processing/exporters/base_exporter'
