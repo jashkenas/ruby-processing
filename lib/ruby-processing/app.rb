@@ -144,18 +144,7 @@ module Processing
     def self.has_slider(*args) #:nodoc:
       raise "has_slider has been replaced with a nicer control_panel library. Check it out."
     end
-
-
-    # Used by the Processing::Watcher to completely remove all 
-    # traces of the current sketch, so that it can be loaded afresh.
-    def self.wipe_out_current_app!
-      app = Processing::App.current
-      return unless app
-      app_class_name = app.class.to_s.to_sym
-      app.close
-      Object.send(:remove_const, app_class_name)
-    end
-
+    
 
     # When you make a new sketch, you pass in (optionally), 
     # a width, height, title, and whether or not you want to 
