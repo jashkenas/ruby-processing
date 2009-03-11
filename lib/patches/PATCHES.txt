@@ -1,0 +1,3 @@
+These patches should be applied to the JRuby and Processing sources, respectively
+before vendoring them into Ruby-Processing. It is my fervent wish that one day 
+we'll be rid of both.
