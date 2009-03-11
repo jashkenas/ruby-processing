@@ -16,6 +16,7 @@ require 'ruby-processing'
 class Lens < Processing::App
 
   def setup
+    render_mode P2D
     @lens_d            = 160
     @lens_list         = []
     @xx, @yy, @dx, @dy = 0, 0, 3, 3
