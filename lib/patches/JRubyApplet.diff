@@ -1,0 +1,24 @@
+Index: src/org/jruby/JRubyApplet.java
+===================================================================
+--- src/org/jruby/JRubyApplet.java	(revision 9392)
++++ src/org/jruby/JRubyApplet.java	(working copy)
+@@ -257,6 +257,10 @@
+         }
+     }
+ 
++    public synchronized void eval(String code) {
++        this.runtime.evalScriptlet(code);
++    }
++
+     public synchronized void setBackgroundColor(Color color) {
+         backgroundColor = color;
+         repaint();
+@@ -381,7 +385,7 @@
+         
+         public ConsoleFacade(String bannerText) {
+             textPane = new JTextPane();
+-	    textPane.setMargin(new Insets(4, 4, 0, 4));
++	          textPane.setMargin(new Insets(4, 4, 0, 4));
+             textPane.setCaretColor(new Color(0xa4, 0x00, 0x00));
+             textPane.setBackground(new Color(0xf2, 0xf2, 0xf2));
+             textPane.setForeground(new Color(0xa4, 0x00, 0x00));

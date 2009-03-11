@@ -1,0 +1,27 @@
+Index: core/src/processing/core/PApplet.java
+===================================================================
+--- core/src/processing/core/PApplet.java	(revision 5371)
++++ core/src/processing/core/PApplet.java	(working copy)
+@@ -1386,7 +1386,22 @@
+         } catch (RendererChangeException e) {
+           // Give up, instead set the new renderer and re-attempt setup()
+           return;
++
++        // Catch a JRuby exception so that the RendererChangeExceptions
++        // that we're looking for don't get stuck in Ruby-space.
++        } catch (RuntimeException e) {
++          String message = e.getMessage();
++          String name = RendererChangeException.class.getName();
++          String regex = "(?s).*" + name + ".*";
++          regex = regex.replace("$", "\\$");
++          if (message != null && message.matches(regex)) {
++            // Give up, instead set the new renderer and re-attempt setup()
++            return;
++          } else {
++            throw e;
++          }
+         }
++        
+         this.defaultSize = false;
+ 
+       } else {  // frameCount > 0, meaning an actual draw()
