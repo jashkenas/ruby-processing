@@ -21,7 +21,7 @@ class Pointillism < Processing::App
   	pointillize = map mouse_x, 0, width, 2, 18
   	x, y = rand(@a.width), rand(@a.height)
   	pixel = @a.get(x, y)
-  	fill pixel, 126.0
+  	fill pixel, 126
   	ellipse x, y, pointillize, pointillize
   end
   
