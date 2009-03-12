@@ -43,17 +43,19 @@ module Processing
     
     
     # Used to completely remove all traces of the current sketch, 
-    # so that it can be loaded afresh.
+    # so that it can be loaded afresh. Go down into modules to find it, even.
     def wipe_out_current_app!
       app = Processing::App.current
-      app_class_name = app.class.to_s.to_sym
       app.close
-      Object.send(:remove_const, app_class_name)
+      constant_names = app.class.to_s.split(/::/)
+      app_class_name = constant_names.pop
+      obj = constant_names.inject(Object) {|o, name| o.send(:const_get, name) }
+      obj.send(:remove_const, app_class_name)      
     end
     
     # The following methods were intended to make the watcher clean up all code
     # loaded in from the sketch, gems, etc, and have them be reloaded properly
-    # when the sketch is ... but it seems that this is neither a very good idea
+    # when the sketch is.... but it seems that this is neither a very good idea
     # or a very possible one. If you can make the scheme work, please do, 
     # otherwise the following methods will probably be removed soonish.
     
