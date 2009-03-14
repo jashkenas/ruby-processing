@@ -4,7 +4,7 @@
 
 require 'java'
 
-module Processing 
+module Processing   
 
   # Conditionally load core.jar
   require "#{RP5_ROOT}/lib/core/core.jar" unless Object.const_defined?(:JRUBY_APPLET)  
@@ -19,8 +19,6 @@ module Processing
   # called constantly, for every frame.
   class App < PApplet
     include Math
-
-    import "javax.swing.JFrame"
     
     # Include some processing classes that we'd like to use:
     %w(PShape PImage PGraphics PFont PVector).each do |klass|
@@ -67,8 +65,16 @@ module Processing
     end
     
 
-    def self.current=(app); @current_app = app; end
-    def self.current; @current_app; end   
+    # Handy getters and setters on the class go here:
+    def self.sketch_class; @sketch_class; end 
+    
+    
+    # Keep track of what inherits from the Processing::App, because we're going
+    # to want to instantiate one.
+    def self.inherited(subclass)
+      super(subclass)
+      @sketch_class = subclass
+    end
     
 
     # Are we running inside an applet?
@@ -158,21 +164,18 @@ module Processing
     #
     # This is a little different than Processing where height
     # and width are declared inside the setup method instead.
-    def initialize(options = {})
+    def initialize(options={})
       super()
-      $app = App.current = self
+      $app = self
       proxy_java_fields
       set_sketch_path unless online?
-      make_accessible_to_the_browser
-      options = {
-        :width => 400, 
-        :height => 400, 
-        :title => "",
-        :full_screen => false
-      }.merge(options)
-      @width, @height, @title = options[:width], options[:height], options[:title]
-      @render_mode = JAVA2D
-      determine_how_to_display options
+      make_accessible_to_the_browser if online?
+      @width  = options[:width]
+      @height = options[:height]
+      @title  = options[:title] || File.basename(Processing::SKETCH_PATH, '.rb').titleize
+      @full_screen = options[:full_screen] || false
+      self.init
+      determine_how_to_display
     end
 
 
@@ -190,6 +193,13 @@ module Processing
       default = $__windows_app_mode__ ? "#{local}/lib" : local
       field.set_value(java_self, path || default)
     end
+    
+    
+    # Specify what rendering Processing should use, without needing to pass size.
+    def render_mode(mode_const)
+      @render_mode = mode_const
+      size(@width || width, @height || height, @render_mode)
+    end
 
 
     # There's just so many functions in Processing,
@@ -197,13 +207,6 @@ module Processing
     def find_method(method_name)
       reg = Regexp.new("#{method_name}", true)
       self.methods.sort.select {|meth| reg.match(meth)}
-    end
-
-
-    # Specify what rendering Processing should use.
-    def render_mode(mode_const)
-      @render_mode = mode_const
-      size(@width, @height, @render_mode)
     end
 
 
@@ -259,11 +262,25 @@ module Processing
     def mouse_button; mouseButton;  end
     def key_code;     keyCode;      end
 
+
     # frame_rate needs to support reading and writing
     def frame_rate(fps = nil)
       return @declared_fields['frameRate'].value(java_self) unless fps
       super(fps)
     end
+    
+    
+    # Is the sketch still displaying with the default size?
+    def default_size?
+      @declared_fields['defaultSize'].value(java_self)
+    end
+    
+    
+    # Is the sketch done displaying itself?
+    def done_displaying?
+      @done_displaying
+    end
+    
 
     # Is the mouse pressed for this frame?
     def mouse_pressed?
@@ -283,20 +300,21 @@ module Processing
       args.length > 3 ? self.class.lerp_color(*args) : super(*args) 
     end
     
+    
+    # Make a request to render full screen
+    def full_screen
+      @full_screen = true
+    end
+
 
     # Cleanly close and shutter a running sketch.
     def close
-      Processing::App.current = nil
+      $app = nil
       control_panel.remove if respond_to?(:control_panel) && !online?
-      container = (@frame || JRUBY_APPLET)
+      container = online? ? JRUBY_APPLET : @frame
       container.remove(self)
       self.destroy
       container.dispose
-    end
-
-    
-    def quit
-      exit
     end
     
     
@@ -306,30 +324,35 @@ module Processing
     # some methods. Add to this list as needed.
     def proxy_java_fields
       @declared_fields = {}
-      fields = %w(sketchPath key frameRate)
+      fields = %w(sketchPath key frameRate defaultSize)
       fields.each {|f| @declared_fields[f] = java_class.declared_field(f) }
     end
     
     
     # Tests to see which display method should run.
-    def determine_how_to_display(options)
-      if online?                            # Then display it in an applet.
+    def determine_how_to_display
+      # Wait for init to get its grey tracksuit on and run a few laps.
+      sleep 0.02 while default_size?
+      
+      if online?
         display_in_an_applet
-      elsif options[:full_screen]           # Then display it fullscreen.
+      elsif @full_screen
         # linux doesn't support full screen exclusive mode, but don't worry, it works very well
         display   = java.awt.GraphicsEnvironment.get_local_graphics_environment.get_default_screen_device
         linux     = java.lang.System.get_property("os.name") == "Linux"
         supported = display.full_screen_supported?
         supported || linux ? display_full_screen(display) : display_in_a_window
-      else                                  # Then display it in a window.
+      else
         display_in_a_window
       end
+      @done_displaying = true
     end
     
     
-    def display_full_screen(graphics_env)
-      @frame = java.awt.Frame.new(graphics_env.default_configuration)
-      mode = graphics_env.display_mode
+    # Go full screen, if possible
+    def display_full_screen(display)
+      @frame = java.awt.Frame.new(display.default_configuration)
+      mode = display.display_mode
       @width, @height = mode.get_width, mode.get_height
       @frame.set_undecorated true
       @frame.set_ignore_repaint true
@@ -337,22 +360,22 @@ module Processing
       @frame.set_layout java.awt.BorderLayout.new
       @frame.add(self, java.awt.BorderLayout::CENTER)
       @frame.pack
-      graphics_env.set_full_screen_window @frame
+      display.set_full_screen_window @frame
       @frame.set_location(0, 0)
       @frame.show
-      self.init
       self.request_focus
     end
 
 
     def display_in_a_window
-      @frame = JFrame.new(@title)
+      @frame = javax.swing.JFrame.new(@title)
       @frame.add(self)
-      @frame.setSize(@width, @height + 22)
-      @frame.setDefaultCloseOperation(JFrame::EXIT_ON_CLOSE)
-      @frame.setResizable(false)
+      @frame.pack
+      @frame.set_default_close_operation(javax.swing.JFrame::EXIT_ON_CLOSE)
+      @frame.set_resizable(false)
+      # Plus 22 for the height of the window's title bar
+      @frame.set_size(@width || width, (@height || height) + 22)
       @frame.show
-      self.init
     end
 
 
@@ -365,7 +388,6 @@ module Processing
       # Add the callbacks to peacefully expire.
       JRUBY_APPLET.on_stop { self.stop }
       JRUBY_APPLET.on_destroy { self.destroy }
-      self.init
     end
     
     
@@ -373,7 +395,7 @@ module Processing
     # accessible to javascript as the 'ruby' variable. From javascript,
     # you can call evalScriptlet() to run code against the sketch.
     def make_accessible_to_the_browser
-      return unless library_loaded?('net') && online?
+      return unless library_loaded?('net')
       field = java.lang.Class.for_name("org.jruby.JRubyApplet").get_declared_field("runtime")
       field.set_accessible true
       ruby = field.get(JRUBY_APPLET)

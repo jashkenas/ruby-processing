@@ -7,4 +7,5 @@ if ARGV[1] == '--windows-app'
 end
 
 require "#{File.dirname(__FILE__)}/base.rb"
-require Processing::SKETCH_PATH
+
+Processing.load_and_run_sketch

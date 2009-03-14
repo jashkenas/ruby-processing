@@ -6,13 +6,13 @@ module Processing
   # the feedback between code and effect.
   class Watcher
     
-    # Sic a new Processing::Watcher on a given sketch.
-    def initialize(sketch)
-      @file = sketch
+    # Sic a new Processing::Watcher on the sketch
+    def initialize
+      @file = Processing::SKETCH_PATH
       @time = Time.now
       # Doesn't work well enough for now.
       # record_state_of_ruby
-      load @file
+      Processing.load_and_run_sketch unless $app
       start_watching
     end
     
@@ -30,12 +30,12 @@ module Processing
             # rewind_to_recorded_state
             GC.start
             begin
-              load @file
+              Processing.load_and_run_sketch
             rescue SyntaxError
               print "Syntax Error in your sketch: ", $!, "\n"
             end
           end
-          sleep 0.1
+          sleep 0.33
         end
       end
       thread.join
@@ -45,12 +45,12 @@ module Processing
     # Used to completely remove all traces of the current sketch, 
     # so that it can be loaded afresh. Go down into modules to find it, even.
     def wipe_out_current_app!
-      app = Processing::App.current
+      app = $app
       app.close
       constant_names = app.class.to_s.split(/::/)
       app_class_name = constant_names.pop
       obj = constant_names.inject(Object) {|o, name| o.send(:const_get, name) }
-      obj.send(:remove_const, app_class_name)      
+      obj.send(:remove_const, app_class_name)    
     end
     
     # The following methods were intended to make the watcher clean up all code
@@ -104,4 +104,4 @@ module Processing
   end
 end
 
-Processing::Watcher.new(Processing::SKETCH_PATH)
+Processing::Watcher.new
