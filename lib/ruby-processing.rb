@@ -23,6 +23,7 @@ module Processing
   
   autoload :App,                  'ruby-processing/app'
   autoload :Runner,               'ruby-processing/runner'
+  autoload :Watcher,              'ruby-processing/runners/watch'
   autoload :Creator,              'ruby-processing/exporters/creator'
   autoload :BaseExporter,         'ruby-processing/exporters/base_exporter'
   autoload :AppletExporter,       'ruby-processing/exporters/applet_exporter'

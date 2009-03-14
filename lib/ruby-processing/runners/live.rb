@@ -6,6 +6,6 @@ require "#{File.dirname(__FILE__)}/base.rb"
 
 require 'irb'
 ARGV[0] = nil # To keep IRB from trying to run it multiple times.
-require Processing::SKETCH_PATH
 IRB.setup(__FILE__)
+Processing.load_and_run_sketch
 IRB.start()
