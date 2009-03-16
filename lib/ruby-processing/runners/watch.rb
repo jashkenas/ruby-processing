@@ -46,6 +46,9 @@ module Processing
     # so that it can be loaded afresh. Go down into modules to find it, even.
     def wipe_out_current_app!
       app = $app
+      app.no_loop
+      # Wait for the animation thread to finish rendering
+      sleep 0.1
       app.close
       constant_names = app.class.to_s.split(/::/)
       app_class_name = constant_names.pop
