@@ -48,7 +48,7 @@ module Processing
       app = $app
       app.no_loop
       # Wait for the animation thread to finish rendering
-      sleep 0.1
+      sleep 0.05
       app.close
       constant_names = app.class.to_s.split(/::/)
       app_class_name = constant_names.pop

@@ -75,6 +75,7 @@ class Bezier < Processing::App
   load_library :control_panel
 
   def setup
+    size 700, 700
     smooth
     @curves = []
     
@@ -240,4 +241,4 @@ class Bezier < Processing::App
   
 end
 
-Bezier.new :title => "Bezier", :width => 700, :height => 700
+Bezier.new
