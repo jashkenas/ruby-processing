@@ -4,10 +4,10 @@
 # have the OpenGL library installed, you'll get *much* 
 # smoother and faster drawing.
 
+full_screen
 load_library :opengl
 
 def setup
-  full_screen
   library_loaded?(:opengl) ? render_mode(OPENGL) : render_mode(P3D)
   no_stroke
 end
