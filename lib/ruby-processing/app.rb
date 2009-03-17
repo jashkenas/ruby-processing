@@ -66,7 +66,9 @@ module Processing
     
 
     # Handy getters and setters on the class go here:
-    def self.sketch_class; @sketch_class; end 
+    def self.sketch_class;  @sketch_class;        end 
+    def self.full_screen;   @@full_screen = true; end
+    def full_screen?;       @@full_screen;        end
     
     
     # Keep track of what inherits from the Processing::App, because we're going
@@ -173,7 +175,7 @@ module Processing
       @width  = options[:width]
       @height = options[:height]
       @title  = options[:title] || File.basename(Processing::SKETCH_PATH, '.rb').titleize
-      @full_screen = options[:full_screen] || false
+      @@full_screen ||= options[:full_screen]
       self.init
       determine_how_to_display
     end
@@ -299,12 +301,6 @@ module Processing
     def lerp_color(*args)
       args.length > 3 ? self.class.lerp_color(*args) : super(*args) 
     end
-    
-    
-    # Make a request to render full screen
-    def full_screen
-      @full_screen = true
-    end
 
 
     # Cleanly close and shutter a running sketch.
@@ -336,7 +332,7 @@ module Processing
       
       if online?
         display_in_an_applet
-      elsif @full_screen
+      elsif full_screen?
         # linux doesn't support full screen exclusive mode, but don't worry, it works very well
         display   = java.awt.GraphicsEnvironment.get_local_graphics_environment.get_default_screen_device
         linux     = java.lang.System.get_property("os.name") == "Linux"

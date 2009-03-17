@@ -1,11 +1,11 @@
 # Description:
 # Flight Patterns is that ol' Euruko 2008 demo.
 
+full_screen
 load_libraries 'boids', 'opengl'
 import "processing.opengl" if library_loaded? "opengl"
 
 def setup
-  full_screen
   library_loaded?(:opengl) ? setup_opengl : render_mode(P3D)
   sphere_detail 8
   color_mode RGB, 1.0
