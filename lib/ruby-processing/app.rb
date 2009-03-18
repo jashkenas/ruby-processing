@@ -44,6 +44,10 @@ module Processing
       :key_released   => :keyReleased,
       :key_typed      => :keyTyped 
     }
+    
+    # Override the default width and height to make them a little larger.
+    DEFAULT_WIDTH = 200
+    DEFAULT_HEIGHT = 200
 
 
     def self.method_added(method_name) #:nodoc:
@@ -172,12 +176,19 @@ module Processing
       proxy_java_fields
       set_sketch_path unless online?
       make_accessible_to_the_browser if online?
-      @width  = options[:width]
-      @height = options[:height]
+      @width  = options[:width] || DEFAULT_WIDTH
+      @height = options[:height] || DEFAULT_HEIGHT
       @title  = options[:title] || File.basename(Processing::SKETCH_PATH, '.rb').titleize
       @@full_screen ||= options[:full_screen]
       self.init
       determine_how_to_display
+    end
+    
+    
+    # Make sure we set the size if we set it before we start the animation thread.
+    def start
+      self.size(@width, @height)
+      super()
     end
 
 
@@ -200,7 +211,7 @@ module Processing
     # Specify what rendering Processing should use, without needing to pass size.
     def render_mode(mode_const)
       @render_mode = mode_const
-      size(@width || width, @height || height, @render_mode)
+      size(@width, @height, @render_mode)
     end
 
 
@@ -370,7 +381,7 @@ module Processing
       @frame.set_default_close_operation(javax.swing.JFrame::EXIT_ON_CLOSE)
       @frame.set_resizable(false)
       # Plus 22 for the height of the window's title bar
-      @frame.set_size(@width || width, (@height || height) + 22)
+      @frame.set_size(@width, (@height) + 22)
       @frame.show
     end
 
