@@ -72,7 +72,7 @@
       width="<%= @width %>" height="<%= @height %>">
       
       <param name="archive" value="<%= @file_list %>" />
-      <param name="jruby.script" value="<%= @main_file %>" />
+      <param name="jruby.eval" value="ARGV[0] = '<%= @main_file %>'; require 'ruby-processing/runners/run.rb'" />
       <param name="image" value="images/ruby.jpg" />
       <param name="boxbgcolor" value="#000000" />   
       <param name="lang" value="en" />

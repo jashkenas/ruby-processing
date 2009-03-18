@@ -26,7 +26,7 @@ module Processing
   
   # This method is the common entry point to run a sketch, bare or complete.
   def self.load_and_run_sketch
-    source = File.read(Processing::SKETCH_PATH)
+    source = self.read_sketch_source
     has_sketch = !!source.match(/^[^#]*< Processing::App/)
     has_methods = !!source.match(/^[^#]*def setup/)
     
@@ -40,6 +40,25 @@ module Processing
       Object.class_eval code, Processing::SKETCH_PATH, 0
       Processing::App.sketch_class.new if !$app
     end
+  end
+  
+  
+  # Read in the sketch source code. Needs to work both online and offline.
+  def self.read_sketch_source
+    if Processing::App.online?
+      # Fuck the following lines. Fucking Java can go sit on broken glass.
+      source = ''
+      url = java.net.URL.new(JRUBY_APPLET.get_code_base, Processing::SKETCH_PATH)
+      input = java.io.BufferedReader.new(java.io.InputStreamReader.new(url.open_stream))
+      while line = input.read_line do
+        source << (line + "\n") if line
+      end
+      input.close
+    else
+      # Ahhh, much better.
+      source = File.read(Processing::SKETCH_PATH)
+    end
+    source
   end
   
 end
