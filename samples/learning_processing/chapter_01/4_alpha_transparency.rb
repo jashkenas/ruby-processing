@@ -1,5 +1,9 @@
-require 'ruby-processing'
+# This sketch introduces the fuller version of a Ruby-Processing sketch,
+# and demonstrates what's really going on behind the scenes when you make
+# one of the simpler sketches, with just a setup method.
 
+# A sketch is a class that inherits from the Processing::App, which works
+# very much along the lines of a PApplet in Processing. 
 class AlphaTransparency < Processing::App
 
   def setup
@@ -33,4 +37,6 @@ class AlphaTransparency < Processing::App
   
 end
 
+# After defining your sketch, you create one.
+# If you prefer, you may set the width, height, and title as you create it.
 AlphaTransparency.new :title => "Alpha Transparency", :width => 200, :height => 200

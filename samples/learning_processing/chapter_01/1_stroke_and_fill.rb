@@ -1,34 +1,18 @@
-# So, let's get started: The first thing you may notice is
-# that there is a bunch more code around the edges here 
-# than in the Learning Processing example. Ruby-Processing
-# doesn't perform any special munging or pre-processing, 
-# so what you see here is *just Ruby* taking advantage
-# of the Processing library.
+# This is the simplest form of a Ruby-Processing sketch. A simple sequence
+# of instructions that are run a single time to paint a picture.
 
-# Hence, this line, which loads in Processing.
-require 'ruby-processing'
+# Stretch the canvas to 200 pixels wide by 200 pixels tall.
+size 200, 200
 
-# Here we begin to define the Sketch by making it a 
-# Processing App.
-class StrokeAndFill < Processing::App
+# Paint the background white.
+background 255
 
-  # Now we define a setup method, for code that gets
-  # run one time when the app is started.
-  def setup
-    background 255
-    stroke 0
-    fill 150
-    rect 50, 50, 75, 100    
-  end
-  
-  # And the draw method has nothing inside of it.
-  # If it did, the code inside would be run repeatedly.
-  def draw
-  
-  end
-  
-end
+# Set the color of strokes to black.
+stroke 0
 
-# Now that the sketch is defined, we can start one up.
-# The following line does this, passing in the title, width, and height.
-StrokeAndFill.new :title => "Stroke And Fill", :width => 200, :height => 200
+# Set the color of fills to middle gray.
+fill 150
+
+# Draw a rectangle 50 pixels over and 50 pixels down from the top left corner,
+# with a width of 75 pixels and a height of 100.
+rect 50, 50, 75, 100

@@ -1,4 +1,6 @@
-require 'ruby-processing'
+# Let's do Zoog again, as part of a complete sketch, showing the class for it, 
+# with setup and draw methods, and sketch creation at the bottom.
+
 
 class ZoogAgain < Processing::App
 
