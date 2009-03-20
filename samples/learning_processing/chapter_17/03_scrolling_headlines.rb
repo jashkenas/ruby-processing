@@ -7,7 +7,7 @@ class ScrollingHeadlines < Processing::App
               "New study shows computer programming lowers cholesterol."
 
   def setup
-    # size 400, 200
+    size 400, 200
     @f     = createFont "Arial" ,16, true
     @x     = width
     @index = 0
@@ -41,4 +41,4 @@ class ScrollingHeadlines < Processing::App
 
 end
 
-ScrollingHeadlines.new :title => "03 Scrolling Headlines", :width => 400, :height => 200
+ScrollingHeadlines.new :title => "03 Scrolling Headlines"

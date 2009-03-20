@@ -12,7 +12,7 @@ class TextMirror < Processing::App
   CHARS      = "helloworld"
 
   def setup
-    # size 640, 480
+    size 640, 480
     # Set up columns and rows
     @cols  = width / VIDEOSCALE  # Number of columns and...
     @rows  = height / VIDEOSCALE # rows in our system
@@ -63,4 +63,4 @@ class TextMirror < Processing::App
 
 end
 
-TextMirror.new :title => "04 Text Mirror", :width => 640, :height => 480
+TextMirror.new :title => "04 Text Mirror"

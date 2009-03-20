@@ -4,7 +4,7 @@ require 'ruby-processing'
 class TextAlign < Processing::App
 
   def setup
-    # size 400, 200
+    size 400, 200
     @f = createFont "Arial", 16, true
   end
 
@@ -26,4 +26,4 @@ class TextAlign < Processing::App
 
 end
 
-TextAlign.new :title => "02 Text Align", :width => 400, :height => 200
+TextAlign.new :title => "02 Text Align"
