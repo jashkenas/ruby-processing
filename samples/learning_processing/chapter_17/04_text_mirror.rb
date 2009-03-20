@@ -8,8 +8,9 @@ class TextMirror < Processing::App
   # Size of each cell in the grid, ratio of window size to video size
   VIDEOSCALE = 14
 
-  # The source text used in the mosaic pattern. A longer String might produce more interesting results.
-  CHARS      = "helloworld"
+  # The source text used in the mosaic pattern. 
+  # A longer String might produce more interesting results.
+  CHARS = "helloworld"
 
   def setup
     size 640, 480
