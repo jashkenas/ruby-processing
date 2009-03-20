@@ -13,7 +13,6 @@ class TextMirror < Processing::App
 
   def setup
     # size 640, 480
-
     # Set up columns and rows
     @cols  = width / VIDEOSCALE  # Number of columns and...
     @rows  = height / VIDEOSCALE # rows in our system

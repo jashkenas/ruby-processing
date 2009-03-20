@@ -4,10 +4,10 @@ require 'ruby-processing'
 class TextAlign < Processing::App
 
   def setup
-    #size 400, 200
+    # size 400, 200
     @f = createFont "Arial", 16, true
   end
-  
+
   def draw
     background 255
     stroke 175
@@ -23,7 +23,7 @@ class TextAlign < Processing::App
     textAlign RIGHT
     text "This text is right aligned.", width / 2, 140
   end
-  
+
 end
 
 TextAlign.new :title => "02 Text Align", :width => 400, :height => 200
