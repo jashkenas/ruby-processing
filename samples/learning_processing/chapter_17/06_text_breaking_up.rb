@@ -3,11 +3,10 @@ require 'ruby-processing'
 
 class TextBreakingUp < Processing::App
 
-  MESSAGE = "click mouse to shake it up"
 
   def setup
     size 260, 200
-    # Load the font
+    @message = "click mouse to shake it up"
     textFont createFont("Arial", 20, true)
 
     # Create the array 
@@ -15,7 +14,7 @@ class TextBreakingUp < Processing::App
 
     # Initialize Letters at the correct x location
     x = 16
-    MESSAGE.each_byte do |letter|
+    @message.each_byte do |letter|
       # Letter objects are initialized with their location within 
       # the String as well as what character they should display.
       @letters << Letter.new(x, 100, letter.chr)
