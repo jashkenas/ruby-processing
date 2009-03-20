@@ -4,7 +4,7 @@ require 'ruby-processing'
 class SimpleDisplayingText < Processing::App
 
   def setup
-    # size 200, 200
+    size 200, 200
     # Load Font
     @f = loadFont "ArialMT-16.vlw"
   end
@@ -20,4 +20,4 @@ class SimpleDisplayingText < Processing::App
 
 end
 
-SimpleDisplayingText.new :title => "01 Simple Displaying Text", :width => 200, :height => 200
+SimpleDisplayingText.new :title => "01 Simple Displaying Text"

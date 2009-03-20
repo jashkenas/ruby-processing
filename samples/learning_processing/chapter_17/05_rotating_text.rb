@@ -6,7 +6,7 @@ class RotatingText < Processing::App
   MESSAGE = "this text is spinning"
 
   def setup
-    # size 200, 200
+    size 200, 200
     @theta = 0
     @f     = createFont "Arial", 20, true
   end
@@ -29,4 +29,4 @@ class RotatingText < Processing::App
 
 end
 
-RotatingText.new :title => "05 Rotating Text", :width => 200, :height => 200
+RotatingText.new :title => "05 Rotating Text"

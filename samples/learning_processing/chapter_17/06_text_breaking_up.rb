@@ -6,7 +6,7 @@ class TextBreakingUp < Processing::App
   MESSAGE = "click mouse to shake it up"
 
   def setup
-    # size 260,200
+    size 260, 200
     # Load the font
     textFont createFont("Arial", 20, true)
 
@@ -80,4 +80,4 @@ class Letter
   end
 end
 
-TextBreakingUp.new :title => "06 Text Breaking Up", :width => 260, :height => 200
+TextBreakingUp.new :title => "06 Text Breaking Up"
