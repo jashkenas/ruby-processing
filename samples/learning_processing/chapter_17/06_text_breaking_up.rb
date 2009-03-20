@@ -1,47 +1,44 @@
+#
 # Example 17-6: Text breaking up 
-require 'ruby-processing'
+#
+def setup
+  size 260, 200
+  @message = "click mouse to shake it up"
+  textFont createFont("Arial", 20, true)
 
-class TextBreakingUp < Processing::App
+  # Create the array 
+  @letters = []
 
-
-  def setup
-    size 260, 200
-    @message = "click mouse to shake it up"
-    textFont createFont("Arial", 20, true)
-
-    # Create the array 
-    @letters = []
-
-    # Initialize Letters at the correct x location
-    x = 16
-    @message.each_byte do |letter|
-      # Letter objects are initialized with their location within 
-      # the String as well as what character they should display.
-      @letters << Letter.new(x, 100, letter.chr)
-      x += textWidth(letter)
-    end
+  # Initialize Letters at the correct x location
+  x = 16
+  @message.each_byte do |letter|
+    # Letter objects are initialized with their location within 
+    # the String as well as what character they should display.
+    @letters << Letter.new(x, 100, letter.chr)
+    x += textWidth(letter)
   end
-
-  def draw
-    background 255
-    @letters.each do |letter|
-
-      # Display all letters
-      letter.display
-
-      # If the mouse is pressed the letters shake
-      # If not, they return to their original location
-      if mouse_pressed?
-        letter.shake
-      else
-        letter.home
-      end
-    end
-  end
-
 end
 
+def draw
+  background 255
+  @letters.each do |letter|
+
+    # Display all letters
+    letter.display
+
+    # If the mouse is pressed the letters shake
+    # If not, they return to their original location
+    if mouse_pressed?
+      letter.shake
+    else
+      letter.home
+    end
+  end
+end
+
+#
 # A class to describe a single Letter
+#
 class Letter
   # The letter that this instance represent
   attr_reader :letter
@@ -78,5 +75,3 @@ class Letter
     @y = @homey
   end
 end
-
-TextBreakingUp.new :title => "06 Text Breaking Up"

@@ -1,38 +1,36 @@
+#
 # Example 18-3: Creating objects from a text file
-require 'ruby-processing'
+#
+def setup
+  size 200, 200
+  smooth
 
-class CreatingObjectFromATextFile < Processing::App
+  # Load text file as an array of Strings
+  data = loadStrings("data-2.txt")
 
-  def setup
-    size 200, 200
-    smooth
-
-    # Load text file as an array of Strings
-    data = loadStrings("data-2.txt")
-
-    # The size of the array of Bubble objects is determined by the 
-    # total number of lines in the text file.
-    @bubbles = []
-    data.each do |datum|
-      # Each line is split into an array of floating point numbers.
-      values = datum.split(",").collect{ |n| n.to_f }   # XXX: float[] values = float(split(datum, "," ))
-      # The values in the array are passed into the Bubble class constructor.
-      @bubbles << Bubble.new(*values)
-    end
+  # The size of the array of Bubble objects is determined by the 
+  # total number of lines in the text file.
+  @bubbles = []
+  data.each do |datum|
+    # Each line is split into an array of floating point numbers.
+    values = datum.split(",").collect{ |n| n.to_f }   # XXX: float[] values = float(split(datum, "," ))
+    # The values in the array are passed into the Bubble class constructor.
+    @bubbles << Bubble.new(*values)
   end
-
-  def draw
-    background 255
-    # Display and move all bubbles
-    @bubbles.each do |bubble|
-      bubble.display
-      bubble.drift
-    end
-  end
-
 end
 
+def draw
+  background 255
+  # Display and move all bubbles
+  @bubbles.each do |bubble|
+    bubble.display
+    bubble.drift
+  end
+end
+
+#
 # A Class to describe a "Bubble"
+#
 class Bubble
   # The constructor initializes color and size
   # Location is filled randomly
@@ -60,5 +58,3 @@ class Bubble
     end
   end
 end
-
-CreatingObjectFromATextFile.new :title => " Creating Object From A Text File"
