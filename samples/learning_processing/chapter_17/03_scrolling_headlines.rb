@@ -4,8 +4,7 @@ require 'ruby-processing'
 class ScrollingHeadlines < Processing::App
 
   HEADLINES = "Processing downloads break downloading record.",
-    "New study shows computer programming lowers cholesterol."
-
+              "New study shows computer programming lowers cholesterol."
 
   def setup
     # size 400, 200
@@ -22,7 +21,8 @@ class ScrollingHeadlines < Processing::App
     textFont @f, 16
     textAlign LEFT
 
-    # A specific String from the array is displayed according to the value of the "@index" variable.
+    # A specific String from the array is displayed according to the value 
+    # of the "index" variable.
     text HEADLINES[@index], @x, 180
 
     # Decrement x
@@ -33,7 +33,8 @@ class ScrollingHeadlines < Processing::App
     w = textWidth(HEADLINES[@index])
     if (@x < -w) 
       @x = width
-      # @index is incremented when the current String has left the screen in order to display a new String.
+      # @index is incremented when the current String has left t
+      # the screen in order to display a new String.
       @index = (@index + 1) % HEADLINES.length 
     end
   end
