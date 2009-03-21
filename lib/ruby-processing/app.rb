@@ -381,13 +381,12 @@ module Processing
       @frame.set_default_close_operation(javax.swing.JFrame::EXIT_ON_CLOSE)
       @frame.set_resizable(false)
       # Plus 22 for the height of the window's title bar
-      @frame.set_size(@width, (@height) + 22)
+      @frame.set_size(width, height + 22)
       @frame.show
     end
 
 
     def display_in_an_applet
-      JRUBY_APPLET.set_size(@width, @height)
       JRUBY_APPLET.background_color = nil
       JRUBY_APPLET.double_buffered = false
       JRUBY_APPLET.add self

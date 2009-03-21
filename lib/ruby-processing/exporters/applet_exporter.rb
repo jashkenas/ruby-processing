@@ -61,7 +61,7 @@ module Processing
     
     def calculate_substitutions
       file_list = Dir.glob(@dest + "{/**/*.{rb,jar},/data/*.*}").map {|f| f.sub(@dest+"/","")}
-      @width_plus_14 = (@width.to_i + 14).to_s
+      @width = @width.to_i
       @file_list = file_list.join(",")
     end
     

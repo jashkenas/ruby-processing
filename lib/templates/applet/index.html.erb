@@ -24,7 +24,7 @@
       padding: 0;
     }
     #container {
-      width: <%= @width_plus_14 %>px;
+      width: <%= @width + 14 %>px;
       margin: 0 auto;
       margin-top: 20px;
     }
@@ -42,8 +42,8 @@
     }
     #description {
       font-size: 12px;
-      width: <%= @width %>px;
-      padding: 7px;
+      width: <%= @width - 16 %>px;
+      padding: 7px 15px 7px 15px;
       background: #111;
       text-align: justify;
       margin: 0 auto;
@@ -92,7 +92,7 @@
   </div>
   
   <div id="built_with">
-    <a href="http://the-shoebox.org/apps/44/">
+    <a href="http://wiki.github.com/jashkenas/ruby-processing">
       <img src="images/built_with.jpg" alt="Ruby-Processing" />
     </a>
       Via <a href="http://jruby.codehaus.org/">JRuby</a> and <a href="http://processing.org/">Processing</a><br />
