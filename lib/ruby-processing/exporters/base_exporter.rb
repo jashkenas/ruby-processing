@@ -8,12 +8,12 @@ module Processing
   class BaseExporter
     include FileUtils
     
-    DEFAULT_TITLE = "Ruby-Processing Sketch"
-    DEFAULT_DIMENSIONS = {'width' => '500', 'height' => '500'}
+    DEFAULT_DIMENSIONS = {'width' => '200', 'height' => '200'}
     DEFAULT_DESCRIPTION = ''
     
     # Returns the filepath, basename, and directory name of the sketch.
     def get_main_file(file)
+      @file = file
       return file, File.basename(file), File.dirname(file)
     end
     
@@ -37,24 +37,27 @@ module Processing
     # Searches the source for a class name.
     def extract_class_name(source)
       match = source.match(/(\w+)\s*<\s*Processing::App/)
-      match ? match[1] : nil
+      match ? match[1] : 'Sketch'
     end
     
     # Searches the source for a title.
     def extract_title(source)
       match = source.match(/#{@info[:class_name]}\.new.*?:title\s=>\s["'](.+)["']/m)
-      match ? match[1] : DEFAULT_TITLE
+      match ? match[1] : File.basename(@file, '.rb').titleize
     end
     
     # Searches the source for the width and height of the sketch.
     def extract_dimension(source, dimension)
-      match = source.match(/#{@info[:class_name]}\.new.*?:#{dimension}\s=>\s(\d+)/m)
-      match ? match[1] : DEFAULT_DIMENSIONS[dimension]
+      match = source.match(/#{@info[:class_name]}\.new.*?:#{dimension}\s?=>\s?(\d+)/m)
+      size_match = source.match(/^[^#]*size\(?\s*(\d+)\s*,\s*(\d+)\s*\)?/)
+      return match[1] if match
+      return (dimension == 'width' ? size_match[1] : size_match[2]) if size_match
+      DEFAULT_DIMENSIONS[dimension]
     end
     
     # Searches the source for a description of the sketch.
     def extract_description(source)
-      match = source.match(/# Description:(.*?)\n[^#]/m)
+      match = source.match(/\A\s*#(.*?)\n[^#]/m)
       match ? match[1].gsub!(/\n(\s*)?#/, "") : DEFAULT_DESCRIPTION
     end
     
@@ -63,7 +66,7 @@ module Processing
       libs = []
       code = source.dup
       loop do
-        matchdata = code.match(/load_librar(y|ies)\s+(.+)\n/)
+        matchdata = code.match(/^[^#]*load_librar(y|ies)\s+(.+)\n/)
         break unless matchdata
         candidates = matchdata[2].gsub(/[:"'\s]/, '').split(/,/)
         candidates.each do |cand|

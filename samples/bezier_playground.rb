@@ -1,9 +1,6 @@
-require 'ruby-processing'
-
 # A Bezier playground. Click to shape the curve. Drag to move it.
 # Arrows toggle between curves, delete removes them.
 # You can print out the parametric equations for t = 0..1
-
 
 module Math
   
