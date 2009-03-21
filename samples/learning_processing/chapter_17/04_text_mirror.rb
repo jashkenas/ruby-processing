@@ -1,5 +1,5 @@
-# Example 17-4: Text mirror 
-require 'ruby-processing'
+# This example demonstrates how to use the video library. You'll need a 
+# video camera hooked in to your computer.
 
 class TextMirror < Processing::App
   load_library "video"
@@ -10,10 +10,11 @@ class TextMirror < Processing::App
 
   # The source text used in the mosaic pattern. 
   # A longer String might produce more interesting results.
-  CHARS = "helloworld"
+  CHARS = "thetextmirror"
 
   def setup
     size 640, 480
+    smooth
     # Set up columns and rows
     @cols  = width / VIDEOSCALE  # Number of columns and...
     @rows  = height / VIDEOSCALE # rows in our system
@@ -24,15 +25,15 @@ class TextMirror < Processing::App
     # In a fixed-width font, all characters have the same width. 
     # This is useful here since we intend to display the letters one at a time spaced out evenly. 
     # See Section 17.7 for how to display text character by character with a nonfixed width font.
-    @f = loadFont "Courier-Bold-20.vlw"
+    @f = load_font "Courier-Bold-20.vlw"
   end
 
   def draw
     background 0
 
     # Read image from the camera
-    @video.read() if @video.available?
-    @video.loadPixels()
+    @video.read if @video.available?
+    @video.load_pixels
 
     # Use a variable to count through chars in String
     charcount = 0
@@ -49,7 +50,7 @@ class TextMirror < Processing::App
         c = @video.pixels[i + j * @video.width]
 
         # Displaying an individual character from the String instead of a rectangle
-        textFont @f
+        text_font @f
         fill c
 
         # One character from the source text is displayed colored accordingly to the pixel location. 
@@ -64,4 +65,4 @@ class TextMirror < Processing::App
 
 end
 
-TextMirror.new :title => "04 Text Mirror"
+TextMirror.new :title => "Text Mirror"

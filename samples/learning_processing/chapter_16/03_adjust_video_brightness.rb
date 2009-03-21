@@ -6,11 +6,11 @@ class AdjustVideoBrightness < Processing::App
   import "processing.video" 
 
   def setup
-    size 320, 240
+    size 240, 180, P3D
 
     # Initialize Capture object via Constructor
     # video is 320 x 240, @15 fps
-    @video = Capture.new self, 320, 240, 15
+    @video = Capture.new self, 240, 180, 15
     background 0
   end
 
@@ -19,39 +19,31 @@ class AdjustVideoBrightness < Processing::App
     # If so, read it.
     @video.read if @video.available?
 
-    loadPixels
-    @video.loadPixels
+    load_pixels
+    @video.load_pixels
+    pixs = @video.pixels
+    mx, my = mouse_x, mouse_y
+    max_dist  = 100
+    vid_width, vid_height = @video.width, @video.height
 
-    @video.width.times do |x|
-      @video.height.times do |y|
+    vid_width.times do |x|
+      vid_height.times do |y|
         # Calculate the 1D location from a 2D grid
-        loc = x + y * @video.width
-
-        # Get the R,G,B values from image
-        r = red(@video.pixels[loc])
-        g = green(@video.pixels[loc])
-        b = blue(@video.pixels[loc])
+        loc = x + y * vid_width
+        pix = pixs[loc]
 
         # Calculate an amount to change brightness based on proximity to the mouse
-        maxdist          = 100
-        d                = dist(x, y, mouseX, mouseY)
-        adjustbrightness = (maxdist - d) / maxdist
-        r *= adjustbrightness
-        g *= adjustbrightness
-        b *= adjustbrightness
-
-        # Constrain RGB to make sure they are within 0-255 color range
-        r = constrain(r, 0, 255)
-        g = constrain(g, 0, 255)
-        b = constrain(b, 0, 255)
+        d         = dist(x, y, mx, my)
+        fudge     = (max_dist - d) / max_dist
+        r, g, b   = red(pix) * fudge, green(pix) * fudge, blue(pix) * fudge
 
         # Make a new color and set pixel in the window
         pixels[loc] = color(r, g, b)
       end
     end
-    updatePixels
+    update_pixels
   end
 
 end
 
-AdjustVideoBrightness.new :title => "03 Adjust Video Brightness"
+AdjustVideoBrightness.new :title => "Adjust Video Brightness"
