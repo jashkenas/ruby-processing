@@ -5,7 +5,6 @@
 require 'java'
 
 module Processing   
-
   # Conditionally load core.jar
   require "#{RP5_ROOT}/lib/core/core.jar" unless Object.const_defined?(:JRUBY_APPLET)  
   import "processing.core"
@@ -300,12 +299,28 @@ module Processing
       args.length > 3 ? self.class.lerp_color(*args) : super(*args) 
     end
     
-    
     # Make a request to render full screen
     def full_screen
       @full_screen = true
     end
+    
+    # breaks a string into pieces using a character or string as the divider.
+    # The delim parameter specifies the character or characters that mark the 
+    # boundaries between each piece.
+    # A Stringarray is returned that contains each of the pieces. 
+    def split(str, delim)
+      str.split(delim)
+    end
+    
+    # Converts a primitive datatype, string, or array to its integer representation.
+    def int(value)
+      value.to_a.collect{ |v| v.to_i }
+    end
 
+    # Converts a primitive datatype, string, or array to its floating point representation.
+    def float(value)
+      value.to_a.collect{ |v| v.to_f }
+    end
 
     # Cleanly close and shutter a running sketch.
     def close
