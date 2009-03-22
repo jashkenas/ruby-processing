@@ -331,6 +331,12 @@ module Processing
       self.destroy
       container.dispose
     end
+
+    # Reads the contents of a file or url and creates a String array of its individual lines. 
+    # If a file is specified, it must be located in the sketch's "data" directory/folder. 
+    def load_strings(filename)
+      loadStrings(filename).to_a
+    end
     
     
     private
