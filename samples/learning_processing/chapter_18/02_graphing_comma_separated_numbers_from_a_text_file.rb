@@ -8,7 +8,7 @@ def setup
 
   # This array has one element because the file only has one line. 
   # Convert String into an array of integers using ',' as a delimiter
-  @data = stuff[0].split(",").collect{ |n| n.to_i }   # XXX: int(split(stuff[0], ","))
+  @data = int(split(stuff[0], ","))
 end
 
 def draw

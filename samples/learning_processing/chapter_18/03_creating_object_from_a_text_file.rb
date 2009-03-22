@@ -13,7 +13,7 @@ def setup
   @bubbles = []
   data.each do |datum|
     # Each line is split into an array of floating point numbers.
-    values = datum.split(",").collect{ |n| n.to_f }   # XXX: float[] values = float(split(datum, "," ))
+    values = float(split(datum, "," )) 
     # The values in the array are passed into the Bubble class constructor.
     @bubbles << Bubble.new(*values)
   end
