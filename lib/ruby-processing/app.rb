@@ -338,6 +338,11 @@ module Processing
       loadStrings(filename).to_a
     end
     
+    # Writes an array of strings to a file, one line per string. 
+    # This file is saved to the sketch's folder
+    def save_strings(filename, strings)
+      saveStrings(filename, strings.to_java(:String))
+    end
     
     private
     
