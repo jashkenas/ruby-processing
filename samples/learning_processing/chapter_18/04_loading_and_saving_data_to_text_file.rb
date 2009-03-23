@@ -6,7 +6,7 @@ def setup
   smooth
 
   # Load text file as an array of Strings
-  data = loadStrings("data-2.txt")
+  data = load_strings("data-2.txt")
 
   # The size of the array of Bubble objects is determined by the 
   # total number of lines in the text file.
