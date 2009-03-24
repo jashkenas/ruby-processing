@@ -1,6 +1,6 @@
+#
 # Example 18-4: Loading and saving data to text file
-require 'ruby-processing'
-
+#
 def setup
   size 200, 200
   smooth
