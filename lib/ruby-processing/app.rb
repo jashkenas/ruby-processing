@@ -309,14 +309,14 @@ module Processing
     # boundaries between each piece.
     # A Stringarray is returned that contains each of the pieces. 
     def split(str, delim)
-      PApplet.split(delim)
+      PApplet.split(str, delim)
     end
     
     # splits a String at one or many character "tokens." The tokens parameter specifies the
     # character or characters to be used as a boundary. If no tokens character is specified,
     # any whitespace character is used to split. Whitespace characters include tab (\t),
     # line feed (\n), carriage return (\r), form feed (\f), and space.
-    def split_tokens(str, tokens)
+    def split_tokens(str, tokens="\t\n\r\f ")
       PApplet.splitTokens(str, tokens)
     end
     
