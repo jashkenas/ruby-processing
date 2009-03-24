@@ -314,12 +314,14 @@ module Processing
     
     # Converts a primitive datatype, string, or array to its integer representation.
     def int(value)
-      value.to_a.collect{ |v| v.to_i }
+      value = value.to_a.collect{ |v| v.to_i }
+      value.length == 1 ? value.first : value
     end
 
     # Converts a primitive datatype, string, or array to its floating point representation.
     def float(value)
-      value.to_a.collect{ |v| v.to_f }
+      value = value.to_a.collect{ |v| v.to_f }
+      value.length == 1 ? value.first : value
     end
 
     # Cleanly close and shutter a running sketch.
