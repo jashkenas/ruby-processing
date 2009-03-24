@@ -1,4 +1,6 @@
+#
 # Example 18-6: Analyzing King Lear
+#
 def setup
   size 200, 200
 
