@@ -41,7 +41,7 @@ module Processing
       :mouse_released => :mouseReleased,
       :key_pressed    => :keyPressed,
       :key_released   => :keyReleased,
-      :key_typed      => :keyTyped 
+      :key_typed      => :keyTyped
     }
 
 
@@ -54,7 +54,8 @@ module Processing
 
     # Class methods that we should make available in the instance.
     [:map, :pow, :norm, :lerp, :second, :minute, :hour, :day, :month, :year, 
-     :sq, :constrain, :dist, :blend_color, :degrees, :radians, :mag].each do |meth|
+     :sq, :constrain, :dist, :blend_color, :degrees, :radians, :mag,
+     :split, :split_tokens].each do |meth|
       method = <<-EOS
         def #{meth}(*args)
           self.class.#{meth}(*args)
@@ -302,22 +303,6 @@ module Processing
     # Make a request to render full screen
     def full_screen
       @full_screen = true
-    end
-    
-    # breaks a string into pieces using a character or string as the divider.
-    # The delim parameter specifies the character or characters that mark the 
-    # boundaries between each piece.
-    # A Stringarray is returned that contains each of the pieces. 
-    def split(str, delim)
-      PApplet.split(str, delim)
-    end
-    
-    # splits a String at one or many character "tokens." The tokens parameter specifies the
-    # character or characters to be used as a boundary. If no tokens character is specified,
-    # any whitespace character is used to split. Whitespace characters include tab (\t),
-    # line feed (\n), carriage return (\r), form feed (\f), and space.
-    def split_tokens(str, tokens="\t\n\r\f ")
-      PApplet.splitTokens(str, tokens)
     end
     
     # Converts a primitive datatype, string, or array to its integer representation.
