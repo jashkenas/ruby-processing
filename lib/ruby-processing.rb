@@ -14,7 +14,7 @@ require 'ruby-processing/helpers/numeric'
 
 # The top-level namespace, a home for all Ruby-Processing classes.
 module Processing
-  VERSION = [1,0,3] unless defined? Processing::VERSION
+  VERSION = [1,0,4] unless defined? Processing::VERSION
   
   # Returns the current version of Ruby-Processing.
   def self.version

@@ -46,6 +46,7 @@ module Processing
     # so that it can be loaded afresh. Go down into modules to find it, even.
     def wipe_out_current_app!
       app = $app
+      return unless app
       app.no_loop
       # Wait for the animation thread to finish rendering
       sleep 0.05

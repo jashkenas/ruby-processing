@@ -1,3 +1,15 @@
+v1.0.4 Bare is Beautiful...
+  * Ruby-Processing now supports "bare" sketches, which are sketches that 
+    consist of only setup and draw methods, or sketches that contain no method
+    definitions at all (implicitly wrapping them in a 'setup'). This works
+    by pre-processing the code.
+  * Initialization heavily tweaked so that size() works as in Processing,
+    from within setup(), and so that you can call full_screen as a class method,
+    in your class definition, to avoid the need for explicit sketch instantiation.
+  * "rp5 create" has a "--bare" option.
+  * Many samples now use the bare style, and more "Learning Processing" examples
+    were contributed by Juris Galang.
+
 v1.0.3 Tweaks and Tuneups...
   * "rp5 watch" is now a bit more robust, and tries to reload every
   * file, global, and constant that it thinks it needs to.
