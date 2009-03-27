@@ -179,6 +179,7 @@ module Processing
       @width  = options[:width] || DEFAULT_WIDTH
       @height = options[:height] || DEFAULT_HEIGHT
       @title  = options[:title] || File.basename(Processing::SKETCH_PATH, '.rb').titleize
+      @render_mode  ||= JAVA2D
       @@full_screen ||= options[:full_screen]
       self.init
       determine_how_to_display
