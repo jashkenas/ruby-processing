@@ -3,6 +3,8 @@ module Processing
   # This class creates blank sketches, with the boilerplate filled in.
   class Creator < BaseExporter
     
+    ALL_DIGITS = /\A\d+\Z/
+    
     # Create a blank sketch, given a path.
     def create!(path, args)
       usage path
@@ -15,16 +17,20 @@ module Processing
       end
       
       # Get the substitutions
-      @name =       main_file.camelize
-      @file_name =  main_file.underscore
-      @title =      main_file.titleize
-      @width =      args[0] || "500"
-      @height =     args[1] || "500"
+      @name           = main_file.camelize
+      @file_name      = main_file.underscore
+      @title          = main_file.titleize
+      
+      bare            = !!args.delete('--bare')
+      @width, @height = args[0], args[1]
+      @with_size      = @width && @width.match(ALL_DIGITS) &&
+                        @height && @height.match(ALL_DIGITS)
   
       # Make the file
       dir = File.dirname path
       mkdir_p dir
-      template = File.new("#{RP5_ROOT}/lib/templates/create/blank_sketch.rb.erb")
+      template_name = bare ? 'bare_sketch.rb.erb' : 'blank_sketch.rb.erb'
+      template = File.new("#{RP5_ROOT}/lib/templates/create/#{template_name}")
       rendered = render_erb_from_string_with_binding(template.read, binding)
       full_path = File.join(dir, "#{@file_name}.rb")
       File.open(full_path, "w") {|f| f.print(rendered) }
