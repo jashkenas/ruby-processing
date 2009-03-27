@@ -17,6 +17,9 @@
   * Live Coding via JRuby's IRB. Loads in your sketch so you can futz with 
     variables and remake methods on the fly.
     
+  * Bare sketches. Write your Ruby-Processing sketches without having to define
+    a class. Without defining methods, even.
+    
   * A "Control Panel" library, so that you can easily create sliders, buttons,
     checkboxes and drop-down menus, and hook them into your sketch's instance 
     variables.
