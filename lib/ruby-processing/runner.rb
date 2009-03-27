@@ -22,7 +22,7 @@ module Processing
     rp5 watch some_new_sketch.rb
     rp5 applet some_new_sketch.rb
     
-  Further information:
+  Everything Else:
     http://wiki.github.com/jashkenas/ruby-processing    
     
       EOS
