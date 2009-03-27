@@ -99,7 +99,7 @@
       Source: <a href="<%= @main_file %>"><%= @main_file %></a>
   </div>
   
-  <% unless @description.empty? %>
+  <% if @description && !@description.empty? %>
   <div id="description">
     <h1><%= @title %></h1>
     <p><%= @description %></p>
