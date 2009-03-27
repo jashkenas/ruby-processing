@@ -339,7 +339,7 @@ module Processing
     # Tests to see which display method should run.
     def determine_how_to_display
       # Wait for init to get its grey tracksuit on and run a few laps.
-      sleep 0.02 while default_size?
+      sleep 0.02 while default_size? && !@@full_screen
       
       if online?
         display_in_an_applet
