@@ -39,7 +39,7 @@ module Processing
       case @options.action
       when 'run'    then run(@options.path)
       when 'watch'  then watch(@options.path)
-      when 'create' then create(@options.path, @options.args)
+      when 'create' then create(@options.path, @options.args, @options.bare)
       when 'live'   then live(@options.path)
       when 'app'    then app(@options.path)
       when 'applet' then applet(@options.path)
@@ -54,6 +54,7 @@ module Processing
     # Parse the command-line options. Keep it simple.
     def parse_options(args)
       @options = OpenStruct.new
+      @options.bare   = !!args.delete('--bare')
       @options.action = args[0]     || nil
       @options.path   = args[1]     || File.basename(Dir.pwd + '.rb')
       @options.args   = args[2..-1] || []
@@ -61,8 +62,8 @@ module Processing
     
     # Create a fresh Ruby-Processing sketch, with the necessary
     # boilerplate filled out.
-    def create(sketch, args)
-      Processing::Creator.new.create!(sketch, args)
+    def create(sketch, args, bare)
+      Processing::Creator.new.create!(sketch, args, bare)
     end
     
     # Just simply run a ruby-processing sketch.
