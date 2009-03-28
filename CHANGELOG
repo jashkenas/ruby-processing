@@ -1,3 +1,11 @@
+v1.0.5 Spring Cleaning...
+  * The "Learning Processing" examples are now a separate project, a 
+    long-merited change. They'll grow up on their own at 
+    http://github.com/jashkenas/learning-processing-with-ruby
+  * The watcher is now a bit better about catching recoverable exceptions.
+  * load_strings and save_strings methods have been added to Processing::App.
+  * Fixing a permissions problem with applet/application exporting.
+
 v1.0.4 Bare is Beautiful...
   * Ruby-Processing now supports "bare" sketches, which are sketches that 
     consist of only setup and draw methods, or sketches that contain no method
