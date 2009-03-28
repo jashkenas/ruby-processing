@@ -31,8 +31,8 @@ module Processing
             GC.start
             begin
               Processing.load_and_run_sketch
-            rescue SyntaxError
-              print "Syntax Error in your sketch: ", $!, "\n"
+            rescue StandardError, ScriptError
+              print "Error in your sketch: ", $!, "\n"
             end
           end
           sleep 0.33
