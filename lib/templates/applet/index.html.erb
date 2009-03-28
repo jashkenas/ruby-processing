@@ -42,7 +42,7 @@
     }
     #description {
       font-size: 12px;
-      width: <%= @width - 16 %>px;
+      width: <%= @width - 16 if @width %>px;
       padding: 7px 15px 7px 15px;
       background: #111;
       text-align: justify;

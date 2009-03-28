@@ -6,7 +6,7 @@ module Processing
     ALL_DIGITS = /\A\d+\Z/
     
     # Create a blank sketch, given a path.
-    def create!(path, args)
+    def create!(path, args, bare)
       usage path
       main_file = File.basename(path, ".rb")
       # Check to make sure that the main file exists
@@ -21,7 +21,6 @@ module Processing
       @file_name      = main_file.underscore
       @title          = main_file.titleize
       
-      bare            = !!args.delete('--bare')
       @width, @height = args[0], args[1]
       @with_size      = @width && @width.match(ALL_DIGITS) &&
                         @height && @height.match(ALL_DIGITS)
