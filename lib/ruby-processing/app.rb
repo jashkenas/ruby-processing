@@ -259,6 +259,12 @@ module Processing
       int = @declared_fields['key'].value(java_self)
       int < 256 ? int.chr : int
     end
+    
+    
+    # Get the sketch path
+    def sketch_path
+      @declared_fields['sketchPath'].value(java_self)
+    end
 
 
     # From ROP. Turns a color hash-string into hexadecimal, for Processing.
@@ -275,6 +281,19 @@ module Processing
     def frame_count;  frameCount;   end
     def mouse_button; mouseButton;  end
     def key_code;     keyCode;      end
+    
+    
+    # Ensure that load_strings returns a real Ruby array
+    def load_strings(file_or_url)
+      loadStrings(file_or_url).to_a
+    end
+    
+    
+    # Writes an array of strings to a file, one line per string. 
+    # This file is saved to the sketch's data folder
+    def save_strings(filename, strings)
+      saveStrings(filename, [strings].flatten.to_java(:String))
+    end
 
 
     # frame_rate needs to support reading and writing
