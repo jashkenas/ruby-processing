@@ -42,7 +42,7 @@ module Processing
       :mouse_released => :mouseReleased,
       :key_pressed    => :keyPressed,
       :key_released   => :keyReleased,
-      :key_typed      => :keyTyped 
+      :key_typed      => :keyTyped
     }
     
     # Override the default width and height to make them a little larger.
