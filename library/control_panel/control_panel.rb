@@ -7,7 +7,7 @@
 module ControlPanel
 
   class Slider < javax.swing.JSlider
-    def initialize(name, range, control_panel, proc=nil)
+    def initialize(name, range, control_panel, initial_value, proc=nil)
       min, max = range.begin * 100, range.end * 100
       super(min, max)
       set_minor_tick_spacing((max - min).abs / 10)
@@ -20,6 +20,8 @@ module ControlPanel
         $app.instance_variable_set("@#{name}", value) unless value.nil?
         proc.call(value) if proc
       end
+      set_value((initial_value || min)*100)
+      fire_state_changed
     end
     
     def value
@@ -35,13 +37,18 @@ module ControlPanel
   
   
   class Menu < javax.swing.JComboBox  
-    def initialize(name, elements, control_panel, proc=nil)
+    def initialize(name, elements, control_panel, initial_value, proc=nil)
       super(elements.to_java(:String))
       set_preferred_size(java.awt.Dimension.new(190, 30))
       control_panel.add_element(self, name)
       add_action_listener do
         $app.instance_variable_set("@#{name}", value) unless value.nil?
         proc.call(value) if proc
+      end
+      if initial_value
+        set_selected_index(elements.index(initial_value))
+      else
+        set_selected_index(0)
       end
     end
     
@@ -120,16 +127,19 @@ module ControlPanel
       dispose
     end
     
-    def slider(name, range=0..100, &block)
-      slider = Slider.new(name, range, self, block || nil)
+    def slider(name, range=0..100, initial_value = nil, &block)
+      slider = Slider.new(name, range, self, initial_value, block || nil)
     end
 
-    def menu(name, *elements, &block)
-      menu = Menu.new(name, elements, self, block || nil)
+    def menu(name, elements, initial_value = nil, &block)
+      menu = Menu.new(name, elements, self, initial_value, block || nil)
     end
     
-    def checkbox(name, &block)
+    def checkbox(name, initial_value = nil, &block)
       checkbox = Checkbox.new(name, self, block || nil)
+      if initial_value == true
+        checkbox.do_click
+      end
     end
     
     def button(name, &block)
