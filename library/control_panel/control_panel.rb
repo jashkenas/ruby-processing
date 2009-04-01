@@ -20,7 +20,7 @@ module ControlPanel
         $app.instance_variable_set("@#{name}", value) unless value.nil?
         proc.call(value) if proc
       end
-      set_value((initial_value || min)*100)
+      set_value(initial_value ? initial_value*100 : min)
       fire_state_changed
     end
     
