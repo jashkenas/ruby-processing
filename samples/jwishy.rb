@@ -31,6 +31,7 @@ class Sketch < Processing::App
     @magnitude = 8.15
     @background = [0.06, 0.03, 0.18]
     color_mode RGB, 1
+    ellipse_mode CORNER
     smooth
   end
   
