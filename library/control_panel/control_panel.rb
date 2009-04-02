@@ -3,11 +3,12 @@
 # These controls will set instance variables on the sketches.
 
 # You can make sliders, checkboxes, buttons, and drop-down menus.
+# (optionally) pass the range and default value.
 
 module ControlPanel
 
   class Slider < javax.swing.JSlider
-    def initialize(name, range, control_panel, initial_value, proc=nil)
+    def initialize(control_panel, name, range, initial_value, proc=nil)
       min, max = range.begin * 100, range.end * 100
       super(min, max)
       set_minor_tick_spacing((max - min).abs / 10)
@@ -37,7 +38,7 @@ module ControlPanel
   
   
   class Menu < javax.swing.JComboBox  
-    def initialize(name, elements, control_panel, initial_value, proc=nil)
+    def initialize(control_panel, name, elements, initial_value, proc=nil)
       super(elements.to_java(:String))
       set_preferred_size(java.awt.Dimension.new(190, 30))
       control_panel.add_element(self, name)
@@ -45,11 +46,7 @@ module ControlPanel
         $app.instance_variable_set("@#{name}", value) unless value.nil?
         proc.call(value) if proc
       end
-      if initial_value
-        set_selected_index(elements.index(initial_value))
-      else
-        set_selected_index(0)
-      end
+      set_selected_index(initial_value ? elements.index(initial_value) : 0)
     end
     
     def value
@@ -59,7 +56,7 @@ module ControlPanel
   
   
   class Checkbox < javax.swing.JCheckBox
-    def initialize(name, control_panel, proc=nil)
+    def initialize(control_panel, name, proc=nil)
       @control_panel = control_panel
       super(name.to_s)
       set_preferred_size(java.awt.Dimension.new(190, 64))
@@ -78,7 +75,7 @@ module ControlPanel
   
   
   class Button < javax.swing.JButton
-    def initialize(name, control_panel, proc=nil)
+    def initialize(control_panel, name, proc=nil)
       super(name.to_s)
       set_preferred_size(java.awt.Dimension.new(170, 64))
       control_panel.add_element(self, name, false, true)
@@ -128,22 +125,20 @@ module ControlPanel
     end
     
     def slider(name, range=0..100, initial_value = nil, &block)
-      slider = Slider.new(name, range, self, initial_value, block || nil)
+      slider = Slider.new(self, name, range, initial_value, block || nil)
     end
 
     def menu(name, elements, initial_value = nil, &block)
-      menu = Menu.new(name, elements, self, initial_value, block || nil)
+      menu = Menu.new(self, name, elements, initial_value, block || nil)
     end
     
     def checkbox(name, initial_value = nil, &block)
-      checkbox = Checkbox.new(name, self, block || nil)
-      if initial_value == true
-        checkbox.do_click
-      end
+      checkbox = Checkbox.new(self, name, block || nil)
+      checkbox.do_click if initial_value == true
     end
     
     def button(name, &block)
-      button = Button.new(name, self, block || nil)
+      button = Button.new(self, name, block || nil)
     end
   end
   
