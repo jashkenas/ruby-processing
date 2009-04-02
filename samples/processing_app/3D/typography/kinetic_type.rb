@@ -1,8 +1,7 @@
 # From the Processing Examples
 # by Zach Lieberman
 # Ruby version thanks to Nick Sieger
-
-require 'ruby-processing'
+# Demonstrates method-proxying for inner classes.
 
 class KineticType < Processing::App
   load_library :opengl
@@ -36,44 +35,46 @@ class KineticType < Processing::App
       pop_matrix
     end
   end
-end
-
-class Line
-  include Math
-  attr_accessor :string, :xpos, :ypos, :letters
-
-  def initialize(string, x, y)
-    @string, @xpos, @ypos = string, x, y
-    spacing = 0.0
-    @letters = @string.split('').map do |c|
-      spacing += $app.text_width(c)
-      Letter.new(c, spacing, 0.0)
+  
+  
+  class Line
+    include Math
+    attr_accessor :string, :xpos, :ypos, :letters
+  
+    def initialize(string, x, y)
+      @string, @xpos, @ypos = string, x, y
+      spacing = 0.0
+      @letters = @string.split('').map do |c|
+        spacing += text_width(c)
+        Letter.new(c, spacing, 0.0)
+      end
+    end
+    
+    def compute_curve(line_num)
+      base = millis / 10000.0 * PI * 2
+      sin((line_num + 1.0) * base) * sin((8.0 - line_num) * base)
+    end
+    
+    def draw(line_num)
+      curve = compute_curve(line_num)
+      @letters.each_with_index do |letter, i|
+        translate(text_width(@letters[i-1].char)*75, 0.0, 0.0) if i > 0
+        rotate_y(curve * 0.035)
+        push_matrix
+        scale(75.0, 75.0, 75.0)
+        text(letter.char, 0.0, 0.0)
+        pop_matrix
+      end
     end
   end
   
-  def compute_curve(line_num)
-    base = $app.millis / 10000.0 * PI * 2
-    sin((line_num + 1.0) * base) * sin((8.0 - line_num) * base)
-  end
-  
-  def draw(line_num)
-    curve = compute_curve(line_num)
-    @letters.each_with_index do |letter, i|
-      $app.translate($app.text_width(@letters[i-1].char)*75, 0.0, 0.0) if i > 0
-      $app.rotate_y(curve * 0.035)
-      $app.push_matrix
-      $app.scale(75.0, 75.0, 75.0)
-      $app.text(letter.char, 0.0, 0.0)
-      $app.pop_matrix
+  class Letter
+    attr_accessor :char, :x, :y
+    def initialize(c, x, y)
+      @char, @x, @y = c, x, y
     end
   end
-end
-
-class Letter
-  attr_accessor :char, :x, :y
-  def initialize(c, x, y)
-    @char, @x, @y = c, x, y
-  end
+  
 end
 
 KineticType.new :width => 200, :height => 200, :title => "Kinetic Type"
