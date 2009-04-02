@@ -9,6 +9,39 @@ module Processing
   # Conditionally load core.jar
   require "#{RP5_ROOT}/lib/core/core.jar" unless Object.const_defined?(:JRUBY_APPLET)  
   import "processing.core"
+  
+  # This module will get automatically mixed in to any inner class of 
+  # a Processing::App, to mimic Java's inner classes, where an inner class
+  # immediate access to the methods defined in the surrounding class.
+  module Proxy
+    
+    def self.desired_method_names
+      bad_method = /(__|[a-z][A-Z])/    # Internal JRuby and camelCased methods.
+      unwanted = PApplet.superclass.instance_methods + Object.instance_methods
+      methods = Processing::App.instance_methods
+      methods.reject {|m| unwanted.include?(m) || bad_method.match(m) }
+    end
+      
+    
+    def self.define_proxy_methods
+      desired_method_names.each do |method|
+        code = <<-EOS
+          def #{method}(*args)                # def rect(*args)
+            $app.#{method} *args              #   $app.rect *args
+          end                                 # end
+        EOS
+        module_eval(code, "Processing::Proxy", 1)
+      end
+      @proxy_methods_defined = true
+    end
+    
+    
+    def self.included(inner_class)
+      define_proxy_methods unless @proxy_methods_defined
+    end
+    
+  end
+  
 
   # This is the main Ruby-Processing class, and is what you'll
   # inherit from when you create a sketch. This class can call
@@ -189,6 +222,7 @@ module Processing
     # Make sure we set the size if we set it before we start the animation thread.
     def start
       self.size(@width, @height)
+      mix_proxy_into_inner_classes
       super()
     end
 
@@ -353,6 +387,19 @@ module Processing
       @declared_fields = {}
       fields = %w(sketchPath key frameRate defaultSize)
       fields.each {|f| @declared_fields[f] = java_class.declared_field(f) }
+    end
+    
+    
+    # Mix the Processing::Proxy into any inner classes defined for the
+    # sketch, attempting to mimic the behavior of Java's inner classes.
+    def mix_proxy_into_inner_classes
+      unwanted = /Java::ProcessingCore/
+      klass = Processing::App.sketch_class
+      klass.constants.each do |name|
+        const = klass.const_get name
+        next if const.class != Class || const.to_s.match(unwanted)
+        const.class_eval 'include Processing::Proxy'
+      end
     end
     
     
