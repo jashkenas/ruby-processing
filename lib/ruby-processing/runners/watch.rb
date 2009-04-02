@@ -49,7 +49,7 @@ module Processing
       return unless app
       app.no_loop
       # Wait for the animation thread to finish rendering
-      sleep 0.05
+      sleep 0.075
       app.close
       constant_names = app.class.to_s.split(/::/)
       app_class_name = constant_names.pop
