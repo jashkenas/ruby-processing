@@ -9,39 +9,6 @@ module Processing
   # Conditionally load core.jar
   require "#{RP5_ROOT}/lib/core/core.jar" unless Object.const_defined?(:JRUBY_APPLET)  
   import "processing.core"
-  
-  # This module will get automatically mixed in to any inner class of 
-  # a Processing::App, to mimic Java's inner classes, where an inner class
-  # immediate access to the methods defined in the surrounding class.
-  module Proxy
-    
-    def self.desired_method_names
-      bad_method = /(__|[a-z][A-Z])/    # Internal JRuby and camelCased methods.
-      unwanted = PApplet.superclass.instance_methods + Object.instance_methods
-      methods = Processing::App.instance_methods
-      methods.reject {|m| unwanted.include?(m) || bad_method.match(m) }
-    end
-      
-    
-    def self.define_proxy_methods
-      desired_method_names.each do |method|
-        code = <<-EOS
-          def #{method}(*args)                # def rect(*args)
-            $app.#{method} *args              #   $app.rect *args
-          end                                 # end
-        EOS
-        module_eval(code, "Processing::Proxy", 1)
-      end
-      @proxy_methods_defined = true
-    end
-    
-    
-    def self.included(inner_class)
-      define_proxy_methods unless @proxy_methods_defined
-    end
-    
-  end
-  
 
   # This is the main Ruby-Processing class, and is what you'll
   # inherit from when you create a sketch. This class can call
@@ -476,5 +443,39 @@ module Processing
       window.set_member('ruby', ruby)
     end
 
-  end
-end
+  end # Processing::App
+  
+  
+  # This module will get automatically mixed in to any inner class of 
+  # a Processing::App, in order to mimic Java's inner classes, which have
+  # unfettered access to the methods defined in the surrounding class.
+  module Proxy
+    
+    def self.desired_method_names
+      bad_method = /(__|[a-z][A-Z])/    # Internal JRuby and camelCased methods.
+      unwanted = PApplet.superclass.instance_methods + Object.instance_methods
+      methods = Processing::App.public_instance_methods
+      methods.reject {|m| unwanted.include?(m) || bad_method.match(m) }
+    end
+      
+    
+    def self.define_proxy_methods
+      code = desired_method_names.inject('') do |code, method|
+        code << <<-EOS
+          def #{method}(*args)                # def rect(*args)
+            $app.#{method} *args              #   $app.rect *args
+          end                                 # end
+        EOS
+      end
+      module_eval(code, "Processing::Proxy", 1)
+      @proxy_methods_defined = true
+    end
+    
+    
+    def self.included(inner_class)
+      define_proxy_methods unless @proxy_methods_defined
+    end
+    
+  end # Processing::Proxy
+  
+end # Processing
