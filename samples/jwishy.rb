@@ -20,17 +20,16 @@ class Sketch < Processing::App
   
   def setup
     control_panel do |c|
-      c.slider    :bluish, 0.0..1.0
-      c.slider    :alpha,  0.0..1.0
+      c.slider    :bluish, 0.0..1.0, 0.5
+      c.slider    :alpha,  0.0..1.0, 0.5
       c.checkbox  :go_big
       c.button    :reset
+      c.menu      :shape, ['oval', 'square']
     end
     
     @x_wiggle, @y_wiggle = 10.0, 0
     @magnitude = 8.15
-    @bluish = 0.9
     @background = [0.06, 0.03, 0.18]
-    @alpha = 1.0
     color_mode RGB, 1
     smooth
   end
@@ -70,7 +69,8 @@ class Sketch < Processing::App
       y += log10(vert)*mag + sin(vert) * 2
       fill(sin(@y_wiggle + c), rand * 0.2, rand * blu, 0.5)
       s = 42 + cos(vert) * 17
-      oval(x-s/2, y-s/2, s, s)
+      args = [x-s/2, y-s/2, s, s]
+      @shape == 'oval' ? oval(*args) : rect(*args)
       vert += rand * 0.25
       horiz += rand * 0.25
       c += 0.1
