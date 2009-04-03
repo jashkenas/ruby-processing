@@ -451,6 +451,8 @@ module Processing
   # unfettered access to the methods defined in the surrounding class.
   module Proxy
     
+    # Generate the list of method names that we'd like to proxy for inner classes. 
+    # Nothing camelCased, nothing __internal__, just the Processing API.
     def self.desired_method_names
       bad_method = /(__|[a-z][A-Z])/    # Internal JRuby and camelCased methods.
       unwanted = PApplet.superclass.instance_methods + Object.instance_methods
@@ -459,7 +461,8 @@ module Processing
     end
       
     
-    def self.define_proxy_methods
+    # Proxy methods through to the sketch. Perhaps extend this to support blocks?
+    def self.proxy_methods
       code = desired_method_names.inject('') do |code, method|
         code << <<-EOS
           def #{method}(*args)                # def rect(*args)
@@ -468,12 +471,23 @@ module Processing
         EOS
       end
       module_eval(code, "Processing::Proxy", 1)
-      @proxy_methods_defined = true
     end
     
     
+    # Proxy the sketch's constants on to the inner classes.
+    def self.proxy_constants
+      Processing::App.constants.each do |name|
+        Processing::Proxy.const_set(name, Processing::App.const_get(name))
+      end
+    end
+    
+    
+    # Don't do all of the work unless we have an inner class that needs it.
     def self.included(inner_class)
-      define_proxy_methods unless @proxy_methods_defined
+      return if @already_defined
+      proxy_methods
+      proxy_constants
+      @already_defined = true
     end
     
   end # Processing::Proxy
