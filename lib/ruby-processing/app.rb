@@ -454,7 +454,7 @@ module Processing
     # Generate the list of method names that we'd like to proxy for inner classes. 
     # Nothing camelCased, nothing __internal__, just the Processing API.
     def self.desired_method_names
-      bad_method = /(__|[a-z][A-Z])/    # Internal JRuby and camelCased methods.
+      bad_method = /__/    # Internal JRuby methods.
       unwanted = PApplet.superclass.instance_methods + Object.instance_methods
       methods = Processing::App.public_instance_methods
       methods.reject {|m| unwanted.include?(m) || bad_method.match(m) }
