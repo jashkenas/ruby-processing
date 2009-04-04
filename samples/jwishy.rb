@@ -27,6 +27,8 @@ class Sketch < Processing::App
       c.menu      :shape, ['oval', 'square']
     end
     
+    @shape = 'oval'
+    @alpha, @bluish = 0.5, 0.5
     @x_wiggle, @y_wiggle = 10.0, 0
     @magnitude = 8.15
     @background = [0.06, 0.03, 0.18]
