@@ -1,6 +1,7 @@
 # Let's define a setup method, for code that gets
 # run one time when the app is started.
 def setup
+  size 200, 200
   background 0
   no_stroke
   smooth
