@@ -11,8 +11,6 @@
 
 # -- omygawshkenas
 
-require 'ruby-processing'
-
 class Sketch < Processing::App
   load_libraries :control_panel, :net
   
