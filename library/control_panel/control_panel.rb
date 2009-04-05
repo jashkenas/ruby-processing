@@ -103,7 +103,7 @@ module ControlPanel
       set_resizable false
       # Need to wait for the sketch to finish sizing...
       Thread.new do
-        sleep 0.2 while $app.default_size? || !$app.done_displaying?
+        sleep 0.2 while $app.default_size?
         set_location($app.width + 10, 0)
         show
       end
