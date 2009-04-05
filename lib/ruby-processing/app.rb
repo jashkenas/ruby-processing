@@ -45,10 +45,6 @@ module Processing
       :key_typed      => :keyTyped
     }
     
-    # Override the default width and height to make them a little larger.
-    DEFAULT_WIDTH = 200
-    DEFAULT_HEIGHT = 200
-
 
     def self.method_added(method_name) #:nodoc:
       if METHODS_TO_WATCH_FOR.keys.include?(method_name)
@@ -176,11 +172,12 @@ module Processing
       proxy_java_fields
       set_sketch_path unless online?
       make_accessible_to_the_browser if online?
-      @width  = options[:width] || DEFAULT_WIDTH
-      @height = options[:height] || DEFAULT_HEIGHT
-      @title  = options[:title] || File.basename(Processing::SKETCH_PATH, '.rb').titleize
-      @render_mode  ||= JAVA2D
-      @@full_screen ||= options[:full_screen]
+      default_title = File.basename(Processing::SKETCH_PATH).sub(/(\.rb|\.pde)$/, '').titleize
+      @width  = options[:width]   ||  DEFAULT_WIDTH
+      @height = options[:height]  ||  DEFAULT_HEIGHT
+      @title  = options[:title]   ||  default_title
+      @render_mode                ||= JAVA2D
+      @@full_screen               ||= options[:full_screen]
       self.init
       determine_how_to_display
     end
@@ -310,9 +307,9 @@ module Processing
     end
     
     
-    # Is the sketch done displaying itself?
-    def done_displaying?
-      @done_displaying
+    # Is the sketch finished?
+    def finished?
+      @declared_fields['finished'].value(java_self)
     end
     
 
@@ -352,7 +349,7 @@ module Processing
     # some methods. Add to this list as needed.
     def proxy_java_fields
       @declared_fields = {}
-      fields = %w(sketchPath key frameRate defaultSize)
+      fields = %w(sketchPath key frameRate defaultSize finished)
       fields.each {|f| @declared_fields[f] = java_class.declared_field(f) }
     end
     
@@ -373,7 +370,7 @@ module Processing
     # Tests to see which display method should run.
     def determine_how_to_display
       # Wait for init to get its grey tracksuit on and run a few laps.
-      sleep 0.02 while default_size? && !@@full_screen
+      sleep 0.02 while default_size? && !finished? && !@@full_screen
       
       if online?
         display_in_an_applet
@@ -410,12 +407,17 @@ module Processing
 
     def display_in_a_window
       @frame = javax.swing.JFrame.new(@title)
-      @frame.add(self)
+      @frame.set_layout nil
+      @frame.add self
       @frame.pack
       @frame.set_default_close_operation(javax.swing.JFrame::EXIT_ON_CLOSE)
       @frame.set_resizable(false)
-      # Plus 22 for the height of the window's title bar
-      @frame.set_size(width, height + 22)
+      ins           = @frame.get_insets
+      hpad, vpad    = ins.left + ins.right, ins.top + ins.bottom
+      frame_width   = [width, MIN_WINDOW_WIDTH].max + hpad
+      frame_height  = [height, MIN_WINDOW_HEIGHT].max + vpad
+      @frame.set_size(frame_width, frame_height)
+      set_bounds((frame_width - width) / 2.0, (frame_height - vpad - height) / 2.0, width, height)
       @frame.show
     end
 
