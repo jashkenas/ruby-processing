@@ -28,7 +28,7 @@ module Processing
   def self.load_and_run_sketch
     source = self.read_sketch_source
     has_sketch = !!source.match(/^[^#]*< Processing::App/)
-    has_methods = !!source.match(/^[^#]*def setup/)
+    has_methods = !!source.match(/^[^#]*(def\s+setup|def\s+draw)/)
     
     if has_sketch
       load Processing::SKETCH_PATH
