@@ -24,11 +24,14 @@
       padding: 0;
     }
     #container {
-      width: <%= @width.to_i + 14 %>px;
+      width: <%= [@width.to_i, 200].max + 14 %>px;
       margin: 0 auto;
       margin-top: 20px;
+      text-align: center;
     }
     #the_applet {
+      margin: 0 auto;
+      width: <%= @width.to_i %>px;
       padding: 6px; 
       padding-top: 7px; padding-bottom: 2px;
       background: #262626 url(images/top.png) top left repeat-x;
@@ -42,7 +45,7 @@
     }
     #description {
       font-size: 12px;
-      width: <%= @width.to_i - 16 if @width %>px;
+      width: <%= [@width.to_i, 200].max - 16 %>px;
       padding: 7px 15px 7px 15px;
       background: #111;
       text-align: justify;
