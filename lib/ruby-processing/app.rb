@@ -46,6 +46,8 @@ module Processing
     }
     
 
+    # When certain special methods get added to the sketch, we need to let
+    # Processing call them by their expected Java names.
     def self.method_added(method_name) #:nodoc:
       if METHODS_TO_WATCH_FOR.keys.include?(method_name)
         alias_method METHODS_TO_WATCH_FOR[method_name], method_name
@@ -387,7 +389,6 @@ module Processing
     end
     
     
-    # Go full screen, if possible
     def display_full_screen(display)
       @frame = java.awt.Frame.new(display.default_configuration)
       mode = display.display_mode

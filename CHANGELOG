@@ -1,3 +1,11 @@
+v1.0.6 Inner Classes...
+  * Java-style inner classes. Any inner class of a sketch will now have the 
+    Processing methods and constants proxied down for convenience.
+  * Sketches with tiny sizes get displayed in a nicer fashion.
+  * New Blue Logo: Ruby-Processing, literally.
+  * Moumar contributed a patch for the control_panel library, allowing your
+    sliders and buttons to have an initial value.
+    
 v1.0.5 Spring Cleaning...
   * The "Learning Processing" examples are now a separate project, a 
     long-merited change. They'll grow up on their own at 
