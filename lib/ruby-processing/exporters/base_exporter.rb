@@ -8,7 +8,7 @@ module Processing
   class BaseExporter
     include FileUtils
     
-    DEFAULT_DIMENSIONS = {'width' => '200', 'height' => '200'}
+    DEFAULT_DIMENSIONS = {'width' => '100', 'height' => '100'}
     DEFAULT_DESCRIPTION = ''
     
     # Returns the filepath, basename, and directory name of the sketch.
