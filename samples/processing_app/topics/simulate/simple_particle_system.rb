@@ -4,9 +4,40 @@
 # time. A ParticleSystem (Array) object manages a variable size list of
 # particles.
 
-require 'ruby-processing'
+module Runnable
+  def run
+    self.reject! { |particle| particle.dead? }
+    self.each    { |particle| particle.run   }
+  end
+end
 
-class SimpleParticleSystem < Processing::App
+class Vector
+  attr_accessor :x, :y
+
+  def initialize(x, y)
+    @x, @y = x, y
+  end
+
+  def +(other)
+    if other.is_a?(Numeric)
+      Vector.new(@x + other, @y + other)
+    elsif other.is_a?(Vector)
+      Vector.new(@x + other.x, @y + other.y)
+    else
+      self
+    end
+  end
+
+  def heading
+    -1 * Math::atan2(-@y, @x)
+  end
+
+  def magnitude
+    @x * @x + @y * @y
+  end
+end
+
+class Sketch < Processing::App
   def setup
     smooth
     color_mode(RGB, 255, 255, 255, 100)
@@ -20,13 +51,6 @@ class SimpleParticleSystem < Processing::App
     background 0
     @particles.run
     @particles << Particle.new(Vector.new(mouse_x, mouse_y))
-  end
-
-  module Runnable
-    def run
-      self.reject! { |particle| particle.dead? }
-      self.each    { |particle| particle.run   }
-    end
   end
 
   class Particle
@@ -59,55 +83,29 @@ class SimpleParticleSystem < Processing::App
     end
 
     def render
-      $app.stroke(255, @lifespan)
-      $app.fill(100, @lifespan)
-      $app.ellipse(@origin.x, @origin.y, @radius, @radius)
+      stroke(255, @lifespan)
+      fill(100, @lifespan)
+      ellipse(@origin.x, @origin.y, @radius, @radius)
     end
 
     def render_velocity_vector
       scale = 10
       arrow_size = 4
 
-      $app.push_matrix
+      push_matrix
 
-      $app.translate(@origin.x, @origin.y)
-      $app.rotate(@velocity.heading)
+      translate(@origin.x, @origin.y)
+      rotate(@velocity.heading)
 
       length = @velocity.magnitude * scale
 
-      $app.line 0,      0, length,              0
-      $app.line length, 0, length - arrow_size, arrow_size / 2
-      $app.line length, 0, length - arrow_size, -arrow_size / 2
+      line 0,      0, length,              0
+      line length, 0, length - arrow_size, arrow_size / 2
+      line length, 0, length - arrow_size, -arrow_size / 2
 
-      $app.pop_matrix
-    end
-  end
-
-  class Vector
-    attr_accessor :x, :y
-
-    def initialize(x, y)
-      @x, @y = x, y
-    end
-
-    def +(other)
-      if other.is_a?(Numeric)
-        Vector.new(@x + other, @y + other)
-      elsif other.is_a?(Vector)
-        Vector.new(@x + other.x, @y + other.y)
-      else
-        self
-      end
-    end
-
-    def heading
-      -1 * Math::atan2(-@y, @x)
-    end
-
-    def magnitude
-      @x * @x + @y * @y
+      pop_matrix
     end
   end
 end
 
-$app = SimpleParticleSystem.new :width => 640, :height => 340, :title => 'SimpleParticleSystem'
+Sketch.new :width => 640, :height => 340
