@@ -17,35 +17,33 @@ class Sketch < Processing::App
   def draw
     background(0)
 
-    [@left_paddle, @right_paddle].each { |paddle| paddle.update }
+    paddles.each { |paddle| paddle.update }
 
     @ball.collide_with_boundaries
-    [@left_paddle, @right_paddle].each { |paddle| @ball.collide_with_paddle(paddle) }
+    paddles.each { |paddle| @ball.collide_with_paddle(paddle) }
     @ball.move
 
-    [@left_paddle, @right_paddle].each { |paddle| paddle.draw }
+    paddles.each { |paddle| paddle.draw }
     @ball.draw
+  end
+  
+  def paddles
+    return @left_paddle, @right_paddle
   end
 
   def key_pressed
     case key
-      when 'a':
-        @left_paddle.direction = -1
-      when 'z':
-        @left_paddle.direction = 1
-      when '\'':
-        @right_paddle.direction = -1
-      when '/':
-        @right_paddle.direction = 1
+      when 'a'  then  @left_paddle.direction = -1
+      when 'z'  then  @left_paddle.direction = 1
+      when '\'' then  @right_paddle.direction = -1
+      when '/'  then  @right_paddle.direction = 1
     end
   end
 
   def key_released
     case key
-      when 'a', 'z':
-        @left_paddle.direction = 0
-      when '\'', '/':
-        @right_paddle.direction = 0
+      when 'a',  'z' then @left_paddle.direction = 0
+      when '\'', '/' then @right_paddle.direction = 0
     end
   end
 
