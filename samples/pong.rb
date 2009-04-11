@@ -9,9 +9,9 @@ class Sketch < Processing::App
     stroke(255)
     frame_rate(60)
 
-    @left_paddle = Paddle.new(200, 200)
-    @right_paddle = Paddle.new(600, 200)
-    @ball = Ball.new(400, 200)
+    @left_paddle = Paddle.new(width / 4, height / 2)
+    @right_paddle = Paddle.new(width / 4 * 3, height / 2)
+    @ball = Ball.new(width / 2, height / 2)
   end
 
   def draw
@@ -72,7 +72,7 @@ class Sketch < Processing::App
     end
 
     def collide_with_boundaries
-      @position.y = @position.y < @radius ? @radius : @position.y > 400 - @radius ? 400 - @radius : @position.y
+      @position.y = @position.y < @radius ? @radius : @position.y > height - @radius ? height - @radius : @position.y
     end
   end
 
@@ -95,9 +95,9 @@ class Sketch < Processing::App
     end
 
     def collide_with_boundaries
-      if position.x <= radius || position.x >= 800 - radius
+      if position.x <= radius || position.x >= width - radius
         velocity.x *= -1
-      elsif position.y <= radius || position.y >= 400 - radius
+      elsif position.y <= radius || position.y >= height - radius
         velocity.y *= -1
       end
     end
