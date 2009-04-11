@@ -55,9 +55,12 @@ class Boid
   
   def limit(max=30.0)
     # Tweet, Tweet! The boid police will bust you for breaking the speed limit.
-    @vx = (@vx/@vx.abs) * max if @vx.abs > max
-    @vy = (@vy/@vy.abs) * max if @vy.abs > max
-    @vz = (@vz/@vz.abs) * max if @vz.abs > max
+    most = [@vx.abs, @vy.abs, @vz.abs].max
+    return if most < max
+    scale = max / most.to_f
+    @vx *= scale
+    @vy *= scale
+    @vz *= scale
   end
   
   def angle
