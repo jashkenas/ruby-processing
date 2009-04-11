@@ -4,7 +4,7 @@
 
 require 'java'
 
-module Processing   
+module Processing
 
   # Conditionally load core.jar
   require "#{RP5_ROOT}/lib/core/core.jar" unless Object.const_defined?(:JRUBY_APPLET)  
@@ -413,10 +413,10 @@ module Processing
       @frame.pack
       @frame.set_default_close_operation(javax.swing.JFrame::EXIT_ON_CLOSE)
       @frame.set_resizable(false)
-      ins           = @frame.get_insets
-      hpad, vpad    = ins.left + ins.right, ins.top + ins.bottom
-      frame_width   = [width, MIN_WINDOW_WIDTH].max + hpad
-      frame_height  = [height, MIN_WINDOW_HEIGHT].max + vpad
+      ins          = @frame.get_insets
+      hpad, vpad   = ins.left + ins.right, ins.top + ins.bottom
+      frame_width  = [width, MIN_WINDOW_WIDTH].max + hpad
+      frame_height = [height, MIN_WINDOW_HEIGHT].max + vpad
       @frame.set_size(frame_width, frame_height)
       set_bounds((frame_width - width) / 2.0, (frame_height - vpad - height) / 2.0, width, height)
       @frame.show
