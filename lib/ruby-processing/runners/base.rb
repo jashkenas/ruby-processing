@@ -45,7 +45,7 @@ module Processing
   
   # Read in the sketch source code. Needs to work both online and offline.
   def self.read_sketch_source
-    if Processing::App.online?
+    if Processing.online?
       # Fuck the following lines. Fucking Java can go sit on broken glass.
       source = ''
       url = java.net.URL.new(JRUBY_APPLET.get_code_base, Processing::SKETCH_PATH)
