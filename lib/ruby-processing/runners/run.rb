@@ -6,6 +6,13 @@ if ARGV[1] == '--windows-app'
   $__windows_app_mode__ = true
 end
 
-require "#{File.dirname(__FILE__)}/base.rb"
+# TODO: this is also crud. Windows applets and applications are having serious
+# trouble with absolute paths.
+
+if $__windows_app_mode__ || defined?(JRUBY_APPLET)
+  require 'ruby-processing/runners/base.rb'
+else
+  require "#{File.dirname(__FILE__)}/base.rb"
+end
 
 Processing.load_and_run_sketch
