@@ -21,6 +21,17 @@ module Processing
     VERSION.join('.')
   end
   
+  # Are we online -- inside an applet?
+  def self.online?
+    @online ||= defined?(JRUBY_APPLET)
+  end
+  
+  # Are we embedded -- inside the Processing IDE?
+  def self.embedded?
+    @embedded ||= defined?(RP5_EMBEDDED)
+  end 
+  
+  # Autoload a number of constants that we may end up using.
   autoload :App,                  'ruby-processing/app'
   autoload :Runner,               'ruby-processing/runner'
   autoload :Watcher,              'ruby-processing/runners/watch'

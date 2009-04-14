@@ -145,7 +145,7 @@ module ControlPanel
 
   module InstanceMethods
     def control_panel
-      return if Processing::App.online?
+      return if Processing.online?
       @control_panel = ControlPanel::Panel.new unless @control_panel
       return @control_panel unless block_given?
       yield(@control_panel)

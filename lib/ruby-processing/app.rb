@@ -7,7 +7,7 @@ require 'java'
 module Processing
 
   # Conditionally load core.jar
-  require "#{RP5_ROOT}/lib/core/core.jar" unless Object.const_defined?(:JRUBY_APPLET)  
+  require "#{RP5_ROOT}/lib/core/core.jar" unless Processing.online? || Processing.embedded? 
   import "processing.core"
 
   # This is the main Ruby-Processing class, and is what you'll
@@ -79,13 +79,6 @@ module Processing
       super(subclass)
       @sketch_class = subclass
     end
-    
-
-    # Are we running inside an applet?
-    def self.online?
-      @online ||= Object.const_defined?(:JRUBY_APPLET)
-    end
-    def online?; self.class.online?; end
 
 
     # Detect if a library has been loaded (for conditional loading)
@@ -113,7 +106,7 @@ module Processing
     def self.load_ruby_library(dir)
       dir = dir.to_sym
       return true if @@loaded_libraries[dir]
-      if online?
+      if Processing.online?
         begin
           return @@loaded_libraries[dir] = (require "library/#{dir}/#{dir}")
         rescue LoadError => e
@@ -137,7 +130,7 @@ module Processing
     def self.load_java_library(dir)
       dir = dir.to_sym
       return true if @@loaded_libraries[dir]
-      return @@loaded_libraries[dir] = !!(JRUBY_APPLET.get_parameter("archive").match(%r(#{dir}))) if online?
+      return @@loaded_libraries[dir] = !!(JRUBY_APPLET.get_parameter("archive").match(%r(#{dir}))) if Processing.online?
       local_path = "#{SKETCH_ROOT}/library/#{dir}"
       gem_path = "#{RP5_ROOT}/library/#{dir}"
       path = File.exists?(local_path) ? local_path : gem_path
@@ -172,8 +165,8 @@ module Processing
       super()
       $app = self
       proxy_java_fields
-      set_sketch_path unless online?
-      make_accessible_to_the_browser if online?
+      set_sketch_path unless Processing.online?
+      make_accessible_to_the_browser if Processing.online?
       default_title = File.basename(Processing::SKETCH_PATH).sub(/(\.rb|\.pde)$/, '').titleize
       @width  = options[:width]   ||  DEFAULT_WIDTH
       @height = options[:height]  ||  DEFAULT_HEIGHT
@@ -337,8 +330,8 @@ module Processing
     # Cleanly close and shutter a running sketch.
     def close
       $app = nil
-      control_panel.remove if respond_to?(:control_panel) && !online?
-      container = online? ? JRUBY_APPLET : @frame
+      control_panel.remove if respond_to?(:control_panel) && !Processing.online?
+      container = Processing.online? ? JRUBY_APPLET : @frame
       container.remove(self)
       self.destroy
       container.dispose
@@ -374,7 +367,7 @@ module Processing
       # Wait for init to get its grey tracksuit on and run a few laps.
       sleep 0.02 while default_size? && !finished? && !@@full_screen
       
-      if online?
+      if Processing.online?
         display_in_an_applet
       elsif full_screen?
         # linux doesn't support full screen exclusive mode, but don't worry, it works very well
@@ -411,8 +404,9 @@ module Processing
       @frame.set_layout nil
       @frame.add self
       @frame.pack
-      @frame.set_default_close_operation(javax.swing.JFrame::EXIT_ON_CLOSE)
-      @frame.set_resizable(false)
+      @frame.set_resizable false
+      @frame.set_default_close_operation Processing.embedded? ? 
+        javax.swing.JFrame::DISPOSE_ON_CLOSE : javax.swing.JFrame::EXIT_ON_CLOSE
       ins          = @frame.get_insets
       hpad, vpad   = ins.left + ins.right, ins.top + ins.bottom
       frame_width  = [width, MIN_WINDOW_WIDTH].max + hpad
