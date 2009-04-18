@@ -12,7 +12,7 @@
 # -- omygawshkenas
 
 class Sketch < Processing::App
-  load_libraries :control_panel, :net
+  load_library :control_panel
   
   attr_accessor :x_wiggle, :y_wiggle, :magnitude, :bluish
   
