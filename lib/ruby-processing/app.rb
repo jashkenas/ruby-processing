@@ -370,10 +370,9 @@ module Processing
       if Processing.online?
         display_in_an_applet
       elsif full_screen?
-        # linux doesn't support full screen exclusive mode, but don't worry, it works very well
         display   = java.awt.GraphicsEnvironment.get_local_graphics_environment.get_default_screen_device
-        linux     = java.lang.System.get_property("os.name") == "Linux"
-        supported = display.full_screen_supported? || (linux && display.display_mode)
+        linux     = (java.lang.System.get_property("os.name") == "Linux") && !display.display_mode.nil?
+        supported = display.full_screen_supported? || linux
         supported ? display_full_screen(display) : display_in_a_window
       else
         display_in_a_window
