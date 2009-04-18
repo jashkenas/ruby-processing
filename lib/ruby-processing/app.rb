@@ -370,8 +370,8 @@ module Processing
       if Processing.online?
         display_in_an_applet
       elsif full_screen?
-        display   = java.awt.GraphicsEnvironment.get_local_graphics_environment.get_default_screen_device
-        linux     = (java.lang.System.get_property("os.name") == "Linux") && !display.display_mode.nil?
+        display   = java.awt.GraphicsEnvironment.local_graphics_environment.default_screen_device
+        linux     = java.lang.System.get_property("os.name") == "Linux"
         supported = display.full_screen_supported? || linux
         supported ? display_full_screen(display) : display_in_a_window
       else
@@ -383,8 +383,8 @@ module Processing
     
     def display_full_screen(display)
       @frame = java.awt.Frame.new(display.default_configuration)
-      mode = display.display_mode
-      @width, @height = mode.get_width, mode.get_height
+      dimension = java.awt.Toolkit.default_toolkit.screen_size
+      @width, @height = dimension.width, dimension.height
       @frame.set_undecorated true
       @frame.set_ignore_repaint true
       @frame.set_background java.awt.Color.black
