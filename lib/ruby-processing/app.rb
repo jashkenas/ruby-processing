@@ -411,7 +411,7 @@ module Processing
       frame_width  = [width, MIN_WINDOW_WIDTH].max + hpad
       frame_height = [height, MIN_WINDOW_HEIGHT].max + vpad
       @frame.set_size(frame_width, frame_height)
-      set_bounds((frame_width - width) / 2.0, (frame_height - vpad - height) / 2.0, width, height)
+      set_bounds((frame_width - hpad - width) / 2.0, (frame_height - vpad - height) / 2.0, width, height)
       @frame.show
     end
 
