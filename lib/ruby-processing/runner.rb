@@ -122,7 +122,7 @@ module Processing
     def spin_up(starter_script, sketch)
       runner = "#{RP5_ROOT}/lib/ruby-processing/runners/#{starter_script}"
       java_args = discover_java_args(sketch)
-      command = "java #{java_args} -cp #{jruby_complete} #{dock_icon} org.jruby.Main #{runner} #{sketch}"
+      command = "java #{java_args} -cp \"#{jruby_complete}\" #{dock_icon} org.jruby.Main \"#{runner}\" #{sketch}"
       exec(command)
       # exec replaces the Ruby process with the JRuby one.
     end
