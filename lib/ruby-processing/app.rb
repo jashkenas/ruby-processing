@@ -166,7 +166,7 @@ module Processing
       $app = self
       proxy_java_fields
       set_sketch_path unless Processing.online?
-      make_accessible_to_the_browser if Processing.online?
+      # make_accessible_to_the_browser if Processing.online?
       default_title = File.basename(Processing::SKETCH_PATH).sub(/(\.rb|\.pde)$/, '').titleize
       @width  = options[:width]   ||  DEFAULT_WIDTH
       @height = options[:height]  ||  DEFAULT_HEIGHT
@@ -430,14 +430,15 @@ module Processing
     # When the net library is included, we make the Ruby interpreter
     # accessible to javascript as the 'ruby' variable. From javascript,
     # you can call evalScriptlet() to run code against the sketch.
-    def make_accessible_to_the_browser
-      return unless library_loaded?('net')
-      field = java.lang.Class.for_name("org.jruby.JRubyApplet").get_declared_field("runtime")
-      field.set_accessible true
-      ruby = field.get(JRUBY_APPLET)
-      window = Java::netscape.javascript.JSObject.get_window(JRUBY_APPLET)
-      window.set_member('ruby', ruby)
-    end
+    #
+    # def make_accessible_to_the_browser
+    #   return unless library_loaded?('net')
+    #   field = java.lang.Class.for_name("org.jruby.JRubyApplet").get_declared_field("runtime")
+    #   field.set_accessible true
+    #   ruby = field.get(JRUBY_APPLET)
+    #   window = Java::netscape.javascript.JSObject.get_window(JRUBY_APPLET)
+    #   window.set_member('ruby', ruby)
+    # end
 
   end # Processing::App
   
