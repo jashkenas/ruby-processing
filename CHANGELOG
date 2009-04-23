@@ -1,3 +1,15 @@
+v1.0.7 Stability...
+  * Added preliminary support for embedding Ruby-Processing in the Processing
+    IDE (see the ruby-processing-plugin project).
+  * Added 'width' and 'height' as methods that should get proxied down
+    to inner classes and classes that include the Processing::Proxy.
+  * Fixed a padding bug that put tiny gray margins on Windows and Linux.
+  * Updated JRuby to 1.2.0 final as well as the Processing libraries. 
+  * Got a little bit better at detecting full-screen support on Linux.
+  * Fixed some applet and app exporting problems on Windows.
+  * The Boids library had a speed limit fix that should make 'em less flighty.
+  * Peter Krenn contributed a simple Pong example.
+  
 v1.0.6 Inner Classes...
   * Java-style inner classes. Any inner class of a sketch will now have the 
     Processing methods and constants proxied down for convenience.
