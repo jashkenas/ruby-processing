@@ -196,9 +196,7 @@ module Processing
     # If you'd like to do something fancy, feel free.
     def set_sketch_path(path=nil)
       field = @declared_fields['sketchPath']
-      local = SKETCH_ROOT
-      default = $__windows_app_mode__ ? "#{local}/lib" : local
-      field.set_value(java_self, path || default)
+      field.set_value(java_self, path || SKETCH_ROOT)
     end
     
     
