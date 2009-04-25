@@ -145,7 +145,7 @@ module Processing
     
     # On the Mac, we can display a fat, shiny ruby in the Dock.
     def dock_icon
-      mac = RUBY_PLATFORM.match(/darwin/i)
+      mac = RUBY_PLATFORM.match(/darwin/i) || (RUBY_PLATFORM == 'java' && ENV_JAVA['os.name'].match(/mac/i))
       mac ? "-Xdock:name=Ruby-Processing -Xdock:icon=#{RP5_ROOT}/lib/templates/application/Contents/Resources/sketch.icns" : ""
     end
     
