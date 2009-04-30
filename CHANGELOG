@@ -1,3 +1,8 @@
+v1.0.8 Polishing the Windows...
+  * Windows Application exporting works again, merely by virtue of
+    not cluttering up the classpath.
+  * Safer Ruby Platform detection.
+  
 v1.0.7 Stability...
   * Added preliminary support for embedding Ruby-Processing in the Processing
     IDE (see the ruby-processing-plugin project).
