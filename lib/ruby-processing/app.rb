@@ -328,11 +328,15 @@ module Processing
     # Cleanly close and shutter a running sketch.
     def close
       $app = nil
-      control_panel.remove if respond_to?(:control_panel) && !Processing.online?
-      container = Processing.online? ? JRUBY_APPLET : @frame
-      container.remove(self)
-      self.destroy
-      container.dispose
+      if Processing.online?
+        JRUBY_APPLET.remove(self)
+        self.destroy
+      else
+        control_panel.remove if respond_to?(:control_panel)
+        @frame.remove(self)
+        self.destroy
+        @frame.dispose
+      end
     end
     
     
