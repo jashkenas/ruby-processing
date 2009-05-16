@@ -230,7 +230,7 @@ module Processing
     # A nice method to run a given block for a grid.
     # Lifted from action_coding/Nodebox.
     def grid(cols, rows, col_size=1, row_size=1)
-      (0..cols*rows).map do |i|
+      (0...cols*rows).map do |i|
         x = col_size * (i % cols)
         y = row_size * i.div(cols)
         yield x, y
