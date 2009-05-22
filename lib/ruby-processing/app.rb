@@ -95,15 +95,11 @@ module Processing
     # If a library is put into a 'library' folder next to the sketch it will
     # be used instead of the library that ships with Ruby-Processing.
     def self.load_libraries(*args)
-      args.each {|lib|
-        case
-        when load_ruby_library(lib)
-        when load_java_library(lib)
-        else
-          raise LoadError.new "no such file to load -- #{lib}"
-        end
-        }
-    end
+      args.each do |lib|
+        loaded = load_ruby_library(lib) || load_java_library(lib)
+        raise LoadError.new "no such file to load -- #{lib}" if !loaded
+      end
+    end    
     def self.load_library(*args); self.load_libraries(*args); end
 
 
