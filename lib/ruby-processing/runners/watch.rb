@@ -12,7 +12,6 @@ module Processing
       @time = Time.now
       # Doesn't work well enough for now.
       # record_state_of_ruby
-      Processing.load_and_run_sketch unless $app
       start_watching
     end
     
@@ -20,6 +19,7 @@ module Processing
     # Kicks off a thread to watch the sketch, reloading Ruby-Processing
     # and restarting the sketch whenever it changes.
     def start_watching
+      @runner = Thread.start { Processing.load_and_run_sketch } unless $app
       thread = Thread.start do
         loop do
           file_mtime = File.stat(@file).mtime
@@ -29,11 +29,7 @@ module Processing
             # Taking it out the reset until it can be made to work more reliably
             # rewind_to_recorded_state
             GC.start
-            begin
-              Processing.load_and_run_sketch
-            rescue StandardError, ScriptError
-              print "Error in your sketch: ", $!, "\n"
-            end
+            @runner = Thread.start { Processing.load_and_run_sketch }
           end
           sleep 0.33
         end
@@ -45,6 +41,8 @@ module Processing
     # Used to completely remove all traces of the current sketch, 
     # so that it can be loaded afresh. Go down into modules to find it, even.
     def wipe_out_current_app!
+      @runner.kill if @runner
+      @runner = nil
       app = $app
       return unless app
       app.no_loop
