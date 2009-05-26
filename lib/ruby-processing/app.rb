@@ -336,9 +336,9 @@ module Processing
         self.destroy
       else
         control_panel.remove if respond_to?(:control_panel)
-        @frame.remove(self)
+        @frame.remove(self) if @frame
         self.destroy
-        @frame.dispose
+        @frame.dispose if @frame
       end
     end
     
