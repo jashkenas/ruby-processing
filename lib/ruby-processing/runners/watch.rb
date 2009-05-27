@@ -41,8 +41,7 @@ module Processing
     # Used to completely remove all traces of the current sketch, 
     # so that it can be loaded afresh. Go down into modules to find it, even.
     def wipe_out_current_app!
-      @runner.kill if @runner
-      @runner = nil
+      @runner.kill if @runner.alive?
       app = $app
       return unless app
       app.no_loop
