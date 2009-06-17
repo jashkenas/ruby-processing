@@ -10,6 +10,7 @@ module Processing
     
     DEFAULT_DIMENSIONS = {'width' => '100', 'height' => '100'}
     DEFAULT_DESCRIPTION = ''
+    NECESSARY_FOLDERS = ['data', 'lib', 'vendor']
     
     # Returns the filepath, basename, and directory name of the sketch.
     def get_main_file(file)
@@ -42,7 +43,7 @@ module Processing
     
     # Searches the source for a title.
     def extract_title(source)
-      match = source.match(/#{@info[:class_name]}\.new.*?:title\s=>\s["'](.+)["']/m)
+      match = source.match(/#{@info[:class_name]}\.new.*?:title\s=>\s["'](.+?)["']/m)
       match ? match[1] : File.basename(@file, '.rb').titleize
     end
     

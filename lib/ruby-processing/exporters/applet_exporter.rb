@@ -40,7 +40,10 @@ module Processing
       @necessary_files = [@main_file_path]
       @necessary_files += Dir["#{RP5_ROOT}/lib/{*,**}"]
       @necessary_files += @real_requires
-      @necessary_files << "#{@main_folder}/data" if File.exists?("#{@main_folder}/data")
+      NECESSARY_FOLDERS.each do |folder| 
+        resource_path = File.join(@main_folder, folder)
+        @necessary_files << resource_path if File.exists?(resource_path)
+      end
       @necessary_files += Dir["#{RP5_ROOT}/lib/templates/applet/{*,**}"]
       @necessary_files += Dir.glob("library/{#{@libraries.join(",")}}") unless @libraries.empty?
       @necessary_files.uniq!
