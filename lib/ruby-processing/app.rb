@@ -176,8 +176,8 @@ module Processing
       @title  = options[:title]   ||  default_title
       @render_mode                ||= JAVA2D
       @@full_screen               ||= options[:full_screen]
-      self.init
       determine_how_to_display
+      self.init
     end
     
     
