@@ -55,6 +55,7 @@ module Processing
     def parse_options(args)
       @options = OpenStruct.new
       @options.bare   = !!args.delete('--bare')
+      @options.jruby  = !!args.delete('--jruby')
       @options.action = args[0]     || nil
       @options.path   = args[1]     || File.basename(Dir.pwd + '.rb')
       @options.args   = args[2..-1] || []
@@ -119,10 +120,14 @@ module Processing
     
     # Trade in this Ruby instance for a JRuby instance, loading in a 
     # starter script and passing it some arguments.
+    # If --jruby is passed, use the installed version of jruby, instead of 
+    # our vendored jarred one (useful for gems).
     def spin_up(starter_script, sketch)
       runner = "#{RP5_ROOT}/lib/ruby-processing/runners/#{starter_script}"
       java_args = discover_java_args(sketch)
-      command = "java #{java_args} -cp \"#{jruby_complete}\" #{dock_icon} org.jruby.Main \"#{runner}\" #{sketch}"
+      command = @options.jruby ? 
+                "jruby #{java_args} \"#{runner}\" #{sketch}" : 
+                "java #{java_args} -cp \"#{jruby_complete}\" org.jruby.Main \"#{runner}\" #{sketch}"
       exec(command)
       # exec replaces the Ruby process with the JRuby one.
     end
@@ -132,7 +137,10 @@ module Processing
     # then type them into a java_args.txt in your data directory next to your sketch.
     def discover_java_args(sketch)
       arg_file = "#{File.dirname(sketch)}/data/java_args.txt"
-      File.exists?(arg_file) ? File.read(arg_file).gsub("\n", " ") : ''
+      args = dock_icon
+      args += File.read(arg_file).split(/\s+/) if File.exists?(arg_file)
+      args.map! {|arg| "-J#{arg}" }            if @options.jruby
+      args.join(' ')
     end
     
     def ensure_exists(sketch)
@@ -146,7 +154,7 @@ module Processing
     # On the Mac, we can display a fat, shiny ruby in the Dock.
     def dock_icon
       mac = RUBY_PLATFORM.match(/darwin/i) || (RUBY_PLATFORM == 'java' && ENV_JAVA['os.name'].match(/mac/i))
-      mac ? "-Xdock:name=Ruby-Processing -Xdock:icon=#{RP5_ROOT}/lib/templates/application/Contents/Resources/sketch.icns" : ""
+      mac ? ["-Xdock:name=Ruby-Processing", "-Xdock:icon=#{RP5_ROOT}/lib/templates/application/Contents/Resources/sketch.icns"] : []
     end
     
   end # class Runner
