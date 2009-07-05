@@ -176,8 +176,8 @@ module Processing
       @title  = options[:title]   ||  default_title
       @render_mode                ||= JAVA2D
       @@full_screen               ||= options[:full_screen]
-      self.init
       determine_how_to_display
+      self.init
     end
     
     
@@ -388,8 +388,8 @@ module Processing
     
     def display_full_screen(display)
       @frame = java.awt.Frame.new(display.default_configuration)
-      dimension = java.awt.Toolkit.default_toolkit.screen_size
-      @width, @height = dimension.width, dimension.height
+      mode = display.display_mode
+      @width, @height = mode.get_width, mode.get_height
       @frame.set_undecorated true
       @frame.set_ignore_repaint true
       @frame.set_background java.awt.Color.black
