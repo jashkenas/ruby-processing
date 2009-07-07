@@ -105,7 +105,12 @@ module Processing
     protected
     
     def read_source_code
-      File.read(@main_file_path)
+      lines = File.readlines(@main_file_path)
+      lines.each do |line|
+        prev_version = line
+        line.sub!(/#[^\{].*/, '')
+      end
+      return lines.join("\n")
     end
     
     def local_dir
