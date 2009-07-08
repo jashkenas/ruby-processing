@@ -8,7 +8,7 @@ module Processing
     
     # Sic a new Processing::Watcher on the sketch
     def initialize
-      @file = Processing::SKETCH_PATH
+      @file = SKETCH_PATH
       @time = Time.now
       # Doesn't work well enough for now.
       # record_state_of_ruby

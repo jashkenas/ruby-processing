@@ -1,13 +1,12 @@
 $LOAD_PATH << File.expand_path(File.dirname(__FILE__) + "/../../")
-SKETCH_ROOT = File.dirname(ARGV[0]) unless defined? SKETCH_ROOT
+SKETCH_PATH = ARGV.shift
+SKETCH_ROOT = File.dirname(SKETCH_PATH) unless defined? SKETCH_ROOT
 
 require 'ruby-processing'
 require 'ruby-processing/app'
 
 
 module Processing
-  
-  SKETCH_PATH = ARGV[0]
   
   # For use with "bare" sketches that don't want to define a class or methods
   SKETCH_TEMPLATE = <<-EOS
@@ -31,13 +30,13 @@ module Processing
     has_methods = !!source.match(/^[^#]*(def\s+setup|def\s+draw)/)
     
     if has_sketch
-      load Processing::SKETCH_PATH
+      load SKETCH_PATH
       Processing::App.sketch_class.new if !$app
       return
     else
       require 'erb'
       code = ERB.new(SKETCH_TEMPLATE).result(binding)
-      Object.class_eval code, Processing::SKETCH_PATH, 0
+      Object.class_eval code, SKETCH_PATH, 0
       Processing::App.sketch_class.new if !$app
     end
   end
@@ -48,7 +47,7 @@ module Processing
     if Processing.online?
       # Fuck the following lines. Fucking Java can go sit on broken glass.
       source = ''
-      url = java.net.URL.new(JRUBY_APPLET.get_code_base, Processing::SKETCH_PATH)
+      url = java.net.URL.new(JRUBY_APPLET.get_code_base, SKETCH_PATH)
       input = java.io.BufferedReader.new(java.io.InputStreamReader.new(url.open_stream))
       while line = input.read_line do
         source << (line + "\n") if line
@@ -56,7 +55,7 @@ module Processing
       input.close
     else
       # Ahhh, much better.
-      source = File.read(Processing::SKETCH_PATH)
+      source = File.read(SKETCH_PATH)
     end
     source
   end

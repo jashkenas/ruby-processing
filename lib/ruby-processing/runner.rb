@@ -37,10 +37,10 @@ module Processing
     # Dispatch central.
     def execute!
       case @options.action
-      when 'run'    then run(@options.path)
-      when 'watch'  then watch(@options.path)
+      when 'run'    then run(@options.path, @options.args)
+      when 'watch'  then watch(@options.path, @options.args)
+      when 'live'   then live(@options.path, @options.args)
       when 'create' then create(@options.path, @options.args, @options.bare)
-      when 'live'   then live(@options.path)
       when 'app'    then app(@options.path)
       when 'applet' then applet(@options.path)
       when 'unpack' then unpack(@options.path)
@@ -68,22 +68,22 @@ module Processing
     end
     
     # Just simply run a ruby-processing sketch.
-    def run(sketch)
+    def run(sketch, args)
       ensure_exists(sketch)
-      spin_up('run.rb', sketch)
+      spin_up('run.rb', sketch, args)
     end
     
     # Run a sketch, keeping an eye on it's file, and reloading
     # whenever it changes.
-    def watch(sketch)
+    def watch(sketch, args)
       ensure_exists(sketch)
-      spin_up('watch.rb', sketch)
+      spin_up('watch.rb', sketch, args)
     end
     
     # Run a sketch, opening its guts to IRB, letting you play with it.
-    def live(sketch)
+    def live(sketch, args)
       ensure_exists(sketch)
-      spin_up('live.rb', sketch)
+      spin_up('live.rb', sketch, args)
     end
     
     # Generate a cross-platform application of a given Ruby-Processing sketch.
@@ -122,12 +122,12 @@ module Processing
     # starter script and passing it some arguments.
     # If --jruby is passed, use the installed version of jruby, instead of 
     # our vendored jarred one (useful for gems).
-    def spin_up(starter_script, sketch)
+    def spin_up(starter_script, sketch, args)
       runner = "#{RP5_ROOT}/lib/ruby-processing/runners/#{starter_script}"
       java_args = discover_java_args(sketch)
       command = @options.jruby ? 
-                "jruby #{java_args} \"#{runner}\" #{sketch}" : 
-                "java #{java_args} -cp \"#{jruby_complete}\" org.jruby.Main \"#{runner}\" #{sketch}"
+                "jruby #{java_args} \"#{runner}\" #{sketch} #{args.join(' ')}" : 
+                "java #{java_args} -cp \"#{jruby_complete}\" org.jruby.Main \"#{runner}\" #{sketch} #{args.join(' ')}"
       exec(command)
       # exec replaces the Ruby process with the JRuby one.
     end
