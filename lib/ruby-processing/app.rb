@@ -170,7 +170,7 @@ module Processing
       proxy_java_fields
       set_sketch_path unless Processing.online?
       # make_accessible_to_the_browser if Processing.online?
-      default_title = File.basename(Processing::SKETCH_PATH).sub(/(\.rb|\.pde)$/, '').titleize
+      default_title = File.basename(SKETCH_PATH).sub(/(\.rb|\.pde)$/, '').titleize
       @width  = options[:width]   ||  DEFAULT_WIDTH
       @height = options[:height]  ||  DEFAULT_HEIGHT
       @title  = options[:title]   ||  default_title
