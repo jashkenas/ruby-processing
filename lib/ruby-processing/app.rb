@@ -157,6 +157,7 @@ module Processing
       raise "has_slider has been replaced with a nicer control_panel library. Check it out."
     end
 
+
     # When you make a new sketch, you pass in (optionally),
     # a width, height, title, and whether or not you want to 
     # run in full-screen. 
@@ -175,14 +176,6 @@ module Processing
       @title  = options[:title]   ||  default_title
       @render_mode                ||= JAVA2D
       @@full_screen               ||= options[:full_screen]
-
-      # To make arbitrary options available as attributes
-      options.keys.each do |key|
-        next if [:width, :height, :title, :full_screen].include?(key)
-        self.class.send :attr_accessor, key
-        send "#{key}=".to_sym, options[key]
-      end
-
       self.init
       determine_how_to_display
     end
