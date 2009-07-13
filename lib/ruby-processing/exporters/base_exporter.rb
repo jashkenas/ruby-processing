@@ -90,7 +90,7 @@ module Processing
       requirements = []
       partial_paths = []
       loop do
-        matchdata = code.match(/^.*\b(require|load)\b.*$/)
+        matchdata = code.match(/^.*[^::|\.](require|load)\b.*$/)
         break unless matchdata
         line = matchdata[0].gsub('__FILE__', "'#{@main_file_path}'")
         line = line.gsub(/\b(require|load)\b/, 'partial_paths << ')
@@ -105,7 +105,12 @@ module Processing
     protected
     
     def read_source_code
-      File.read(@main_file_path)
+      lines = File.readlines(@main_file_path)
+      lines.each do |line|
+        prev_version = line
+        line.sub!(/#[^\{].*/, '')
+      end
+      return lines.join("\n")
     end
     
     def local_dir
