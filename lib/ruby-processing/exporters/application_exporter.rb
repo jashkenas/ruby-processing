@@ -69,6 +69,7 @@ module Processing
       move @dest + "/run.exe", "#{runnable}.exe"
       chmod 0755, runnable
       chmod 0755, "#{runnable}.exe"
+      chmod 0755, File.join(@dest, 'Contents', 'MacOS', 'JavaApplicationStub')
     end
     
     def symlink_library_into_place
