@@ -171,8 +171,8 @@ module Processing
       set_sketch_path unless Processing.online?
       # make_accessible_to_the_browser if Processing.online?
       default_title = File.basename(SKETCH_PATH).sub(/(\.rb|\.pde)$/, '').titleize
-      @width  = options[:width]   ||  DEFAULT_WIDTH
-      @height = options[:height]  ||  DEFAULT_HEIGHT
+      @width  = options[:width]
+      @height = options[:height]
       @title  = options[:title]   ||  default_title
       @render_mode                ||= JAVA2D
       @@full_screen               ||= options[:full_screen]
@@ -183,7 +183,7 @@ module Processing
     
     # Make sure we set the size if we set it before we start the animation thread.
     def start
-      self.size(@width, @height)
+      self.size(@width, @height) if @width && @height
       mix_proxy_into_inner_classes
       super()
     end
@@ -200,6 +200,18 @@ module Processing
     def set_sketch_path(path=nil)
       field = @declared_fields['sketchPath']
       field.set_value(java_self, path || SKETCH_ROOT)
+    end
+    
+    
+    # We override size to support setting full_screen and to keep our 
+    # internal @width and @height in line.
+    def size(*args)
+      args[0], args[1] = *full_screen_dimensions if @@full_screen && !args.empty?
+      w, h, mode       = *args
+      @width           = w     || @width
+      @height          = h     || @height
+      @render_mode     = mode  || @render_mode
+      super(*args)
     end
     
     
@@ -389,7 +401,7 @@ module Processing
     def display_full_screen(display)
       @frame = java.awt.Frame.new(display.default_configuration)
       mode = display.display_mode
-      @width, @height = mode.get_width, mode.get_height
+      @width, @height = *full_screen_dimensions
       @frame.set_undecorated true
       @frame.set_ignore_repaint true
       @frame.set_background java.awt.Color.black
@@ -429,6 +441,13 @@ module Processing
       # Add the callbacks to peacefully expire.
       JRUBY_APPLET.on_stop { self.stop }
       JRUBY_APPLET.on_destroy { self.destroy }
+    end
+    
+    
+    # Grab the dimensions of the main display.
+    def full_screen_dimensions
+      mode = java.awt.GraphicsEnvironment.local_graphics_environment.default_screen_device.display_mode
+      return mode.width, mode.height
     end
     
     
