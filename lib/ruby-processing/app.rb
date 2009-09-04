@@ -445,9 +445,11 @@ module Processing
     
     
     # Grab the dimensions of the main display.
+    # Some Linux variants don't have the 'display_mode'.
     def full_screen_dimensions
-      mode = java.awt.GraphicsEnvironment.local_graphics_environment.default_screen_device.display_mode
-      return mode.width, mode.height
+      screen = java.awt.GraphicsEnvironment.local_graphics_environment.default_screen_device.display_mode
+      screen = java.awt.Toolkit.default_toolkit.screen_size if !display
+      return screen.width, screen.height
     end
     
     
