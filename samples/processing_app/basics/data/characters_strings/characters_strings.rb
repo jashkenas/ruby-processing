@@ -64,18 +64,16 @@ class CharactersStrings < Processing::App
   def key_pressed
   	# The variable "key" always contains the value of the most recent key pressed.
 	  # If the key is an upper or lowercase letter between 'A' and 'z'
-	  # the image is shifted to the corresponding value of that key
-	  
-	  if (key >= "A"[0]) and (key <= "z"[0])  # should become "A".ord and "z".ord in Ruby 1.9
-		
+	  # the image is shifted to the corresponding value of that key	  
+	  if ('A'..'z').include? key
+	    
 		  # Map the index of the key pressed from the range between 'A' and 'z',
 		  # into a position for the left edge of the image. The maximum xoffset
 		  # is the width of the drawing area minus the size of the image.
-		  
-		  @xoffset = map( key, "A"[0], "z"[0], 0, width - @frog.width ).to_i
+		  @xoffset = map( key[0], "A"[0], "z"[0], 0, width - @frog.width ).to_i
 		  
 		  # Update the letter shown to the screen
-		  @letter = key.chr
+		  @letter = key
 		  
 		  # Write the letter to the console
 		  puts key
