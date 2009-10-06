@@ -28,14 +28,14 @@ class KeyboardFunctions < Processing::App
   def draw
   	if new_letter?
   		if upcase?
-  			fill (key - "A".ord).abs % 255
+  			fill (key.ord - "A".ord).abs % 255
   			rect @x, @y, @letter_width, @letter_height*2
   		else
   			# clear with letter space with background color
   			fill @num_chars/2
   			rect @x, @y, 			    @letter_width, @letter_height
   			
-  			fill (key - "a".ord).abs % 255
+  			fill (key.ord - "a".ord).abs % 255
   			rect @x, @y+@letter_height, @letter_width, @letter_height
   		end
   		@new_letter = false
@@ -51,26 +51,17 @@ class KeyboardFunctions < Processing::App
   end
   
   def key_pressed
-  	# Try to get a String for int value in "key"
-  	key_char = nil
-  	key_char = key.chr rescue nil
-  	
-  	# if the key is between 'A'(65) and 'z'(122)
-  	if key_char && key_char >= "A" && key_char <= "z"
-  		if key_char <= "Z"
-  			@upcase = true
-  		else
-  			@upcase = false
-  		end
+  	if ('A'..'z').include? key
+  		@upcase = key <= "Z"
+  		@new_letter = true
+  		
+  		# Update the "letter" position and 
+    	# wrap horizontally and vertically
+    	@y += (@letter_height*2) if @x + @letter_width >= width
+    	@y = @y % height
+    	@x += @letter_width
+    	@x = @x % width
   	end
-  	@new_letter = true
-  	
-  	# Update the "letter" position and 
-  	# wrap horizontally and vertically
-  	@y += (@letter_height*2) if @x + @letter_width >= width
-  	@y = @y % height
-  	@x += @letter_width
-  	@x = @x % width
   end
   
 end

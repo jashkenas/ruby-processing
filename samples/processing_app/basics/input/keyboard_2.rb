@@ -17,11 +17,11 @@ class Keyboard2 < Processing::App
   
   def draw
   	if key_pressed?
-  		if key.chr && key.chr >= "A" && key.chr <= "z"  # added testing 'gainst Nil
-  			if key.chr <= "Z"
-  				@key_index = key - "A".ord
+  		if ('A'..'z').include? key
+  			if key <= "Z"
+  				@key_index = key.ord - "A".ord
   			else
-  				@key_index = key - "a".ord
+  				@key_index = key.ord - "a".ord
   			end
 			fill millis % 255
 			begin_rect = @rect_width/2 + @key_index * @key_scale - @rect_width/2
