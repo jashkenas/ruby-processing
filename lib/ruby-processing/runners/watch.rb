@@ -19,7 +19,9 @@ module Processing
     # Kicks off a thread to watch the sketch, reloading Ruby-Processing
     # and restarting the sketch whenever it changes.
     def start_watching
-      @runner = Thread.start { Processing.load_and_run_sketch } unless $app
+      @runner = Thread.start do 
+        report_errors { Processing.load_and_run_sketch }
+      end unless $app
       thread = Thread.start do
         loop do
           file_mtime = File.stat(@file).mtime
@@ -29,7 +31,9 @@ module Processing
             # Taking it out the reset until it can be made to work more reliably
             # rewind_to_recorded_state
             GC.start
-            @runner = Thread.start { Processing.load_and_run_sketch }
+            @runner = Thread.start do
+              report_errors { Processing.load_and_run_sketch } 
+            end
           end
           sleep 0.33
         end
@@ -37,6 +41,19 @@ module Processing
       thread.join
     end
     
+    # Convenience function to report errors when loading and running a sketch, 
+    # instead of having them eaten by the thread they are loaded in. 
+    # Also eliminates framework lines to make the trace smaller.
+    def report_errors(&block)
+      begin
+        block.call
+      rescue Exception => e
+        trace = e.backtrace.delete_if {|b| b.match /.*ruby-processing.*/}
+        puts "Exception occured while running sketch #{File.basename SKETCH_PATH}:"
+        puts e.to_s
+        puts trace.join("\n")
+      end
+    end
     
     # Used to completely remove all traces of the current sketch, 
     # so that it can be loaded afresh. Go down into modules to find it, even.
