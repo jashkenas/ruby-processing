@@ -159,7 +159,7 @@ module Processing
 
 
     # When you make a new sketch, you pass in (optionally),
-    # a width, height, title, and whether or not you want to 
+    # a width, height, x, y, title, and whether or not you want to 
     # run in full-screen. 
     #
     # This is a little different than Processing where height
@@ -173,6 +173,8 @@ module Processing
       default_title = File.basename(SKETCH_PATH).sub(/(\.rb|\.pde)$/, '').titleize
       @width  = options[:width]
       @height = options[:height]
+      @x = options[:x]
+      @y = options[:y]
       @title  = options[:title]   ||  default_title
       @render_mode                ||= JAVA2D
       @@full_screen               ||= options[:full_screen]
@@ -429,6 +431,7 @@ module Processing
       frame_height = [height, MIN_WINDOW_HEIGHT].max + vpad
       @frame.set_size(frame_width, frame_height)
       set_bounds((frame_width - hpad - width) / 2.0, (frame_height - vpad - height) / 2.0, width, height)
+      @frame.set_location(@x, @y)
       @frame.show
     end
 
