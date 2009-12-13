@@ -173,8 +173,8 @@ module Processing
       default_title = File.basename(SKETCH_PATH).sub(/(\.rb|\.pde)$/, '').titleize
       @width  = options[:width]
       @height = options[:height]
-      @x = options[:x]
-      @y = options[:y]
+      @x = options[:x] || 0
+      @y = options[:y] || 0
       @title  = options[:title]   ||  default_title
       @render_mode                ||= JAVA2D
       @@full_screen               ||= options[:full_screen]
