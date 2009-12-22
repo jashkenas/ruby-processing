@@ -1,5 +1,5 @@
 # extrude.rb is a processing sketch that shows
-# how you can use the anar library in Ruby-Processing.
+# how you can use the Anar library in Ruby-Processing.
 
 load_libraries 'anar', 'opengl'
 import "anar"
