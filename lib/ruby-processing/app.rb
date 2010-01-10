@@ -253,7 +253,12 @@ module Processing
         yield x, y
       end
     end
-
+    
+    def shape(mode)
+      begin_shape mode
+      yield
+      end_shape
+    end
 
     # Provide a convenient handle for the Java-space version of self.
     def java_self
