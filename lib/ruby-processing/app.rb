@@ -254,8 +254,8 @@ module Processing
       end
     end
     
-    def shape(mode)
-      begin_shape mode
+    def shape(*mode)
+      begin_shape *mode
       yield
       end_shape
     end
