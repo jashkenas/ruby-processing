@@ -23,19 +23,19 @@ class TriangleStrip < Processing::App
     number_of_points = 36
     rotation = 360.0/number_of_points
     
-    begin_shape TRIANGLE_STRIP
-    number_of_points.times do |i|
-      px = x + cos(angle.radians)*outer_radius
-		  py = y + sin(angle.radians)*outer_radius
-		  angle += rotation
-		  vertex px, py
+    shape(TRIANGLE_STRIP) do
+      number_of_points.times do |i|
+        px = x + cos(angle.radians)*outer_radius
+  		  py = y + sin(angle.radians)*outer_radius
+  		  angle += rotation
+  		  vertex px, py
 		  
-		  px = x + cos(angle.radians)*inner_radius
-		  py = y + sin(angle.radians)*inner_radius
-		  angle += rotation
-		  vertex px, py
+  		  px = x + cos(angle.radians)*inner_radius
+  		  py = y + sin(angle.radians)*inner_radius
+  		  angle += rotation
+  		  vertex px, py
+      end
     end
-    end_shape
   end
   
 end
