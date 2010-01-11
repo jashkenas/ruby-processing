@@ -494,13 +494,13 @@ module Processing
     end
 
 
-    # Proxy methods through to the sketch. Perhaps extend this to support blocks?
+    # Proxy methods through to the sketch.
     def self.proxy_methods
       code = desired_method_names.inject('') do |code, method|
         code << <<-EOS
-          def #{method}(*args)                # def rect(*args)
-            $app.#{method} *args              #   $app.rect *args
-          end                                 # end
+          def #{method}(*args, &block)              # def rect(*args, &block)
+            $app.send :'#{method}', *args, &block   #   $app.send(:rect, *args, &block)
+          end                                       # end
         EOS
       end
       module_eval(code, "Processing::Proxy", 1)
