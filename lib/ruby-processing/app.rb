@@ -253,7 +253,7 @@ module Processing
         yield x, y
       end
     end
-    
+
     # Shortcut for begin_shape/end_shape pair
     def shape(*mode)
       begin_shape *mode
@@ -498,9 +498,13 @@ module Processing
     def self.proxy_methods
       code = desired_method_names.inject('') do |code, method|
         code << <<-EOS
-          def #{method}(*args, &block)              # def rect(*args, &block)
-            $app.send :'#{method}', *args, &block   #   $app.send(:rect, *args, &block)
-          end                                       # end
+          def #{method}(*args, &block)                # def rect(*args, &block)
+            if block_given?                           #   if block_given?
+              $app.send :'#{method}', *args, &block   #     $app.send(:rect, *args, &block)
+            else                                      #   else
+              $app.#{method} *args                    #     $app.rect *args
+            end                                       #   end
+          end                                         # end
         EOS
       end
       module_eval(code, "Processing::Proxy", 1)
