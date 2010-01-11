@@ -254,6 +254,7 @@ module Processing
       end
     end
     
+    # Shortcut for begin_shape/end_shape pair
     def shape(*mode)
       begin_shape *mode
       yield

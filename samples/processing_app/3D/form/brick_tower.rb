@@ -77,9 +77,9 @@ class Cubeish
   
   def create
     @vertices.each do |name, vectors|
-      begin_shape App::QUADS
-      vectors.each {|v| vertex(v.x, v.y, v.z) }
-      end_shape
+      shape(App::QUADS) do
+        vectors.each {|v| vertex(v.x, v.y, v.z) }
+      end
     end
   end
   
