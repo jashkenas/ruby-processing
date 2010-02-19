@@ -10,7 +10,7 @@ module ControlPanel
   class Slider < javax.swing.JSlider
     def initialize(control_panel, name, range, initial_value, proc=nil)
       min = range.begin * 100
-      max = ((range.exclude_end? && range.begin.respond_to?(:succ)) ? range.to_a.last : range.end) * 100
+      max = ((range.exclude_end? && range.begin.respond_to?(:succ)) ? range.max : range.end) * 100
       super(min, max)
       set_minor_tick_spacing((max - min).abs / 10)
       set_paint_ticks true
