@@ -1,3 +1,9 @@
+v1.0.9 The Yearly Update...
+  * JRuby upgraded to 1.4.0 final.
+  * Fix to allow arguments to be passed to sketches.
+  * Allow "shape" to be called with a block.
+  * Added new examples, including Monkstone's 3D Anar library and Hilbert curve.
+
 v1.0.8 Polishing the Windows...
   * Windows Application exporting works again, merely by virtue of
     not cluttering up the classpath.

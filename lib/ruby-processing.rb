@@ -14,23 +14,18 @@ require 'ruby-processing/helpers/numeric'
 
 # The top-level namespace, a home for all Ruby-Processing classes.
 module Processing
-  VERSION = [1,0,8] unless defined? Processing::VERSION
-  
-  # Returns the current version of Ruby-Processing.
-  def self.version
-    VERSION.join('.')
-  end
-  
+  VERSION = "1.0.9" unless defined? Processing::VERSION
+
   # Are we online -- inside an applet?
   def self.online?
     @online ||= defined?(JRUBY_APPLET)
   end
-  
+
   # Are we embedded -- inside the Processing IDE?
   def self.embedded?
     @embedded ||= defined?(RP5_EMBEDDED)
-  end 
-  
+  end
+
   # Autoload a number of constants that we may end up using.
   autoload :App,                  'ruby-processing/app'
   autoload :Runner,               'ruby-processing/runner'

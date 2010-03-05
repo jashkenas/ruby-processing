@@ -2,11 +2,11 @@ require 'rake'
 
 Gem::Specification.new do |s|
   s.name = "ruby-processing"
-  s.version = "1.0.8"
+  s.version = "1.0.9"
   s.authors = ["Jeremy Ashkenas", "Peter Gassner", "Martin Stannard", "Andrew Nanton",
-               "Marc Chung", "Peter Krenn", "Florian Jenett", "Andreas Haller", 
+               "Marc Chung", "Peter Krenn", "Florian Jenett", "Andreas Haller",
                "Juris Galang"]
-  s.date = "2009-4-29"
+  s.date = "2010-3-4"
   s.default_executable = "rp5"
   s.email = "jeremy@ashkenas.com"
   s.executables = ["rp5"]
@@ -19,27 +19,27 @@ Gem::Specification.new do |s|
   s.rubyforge_project = "ruby-processing"
   s.summary = "Code as Art, Art as Code. Processing and Ruby are meant for each other."
   s.description = <<-EOS
-  
-  Ruby-Processing is a Ruby wrapper for the Processing code art framework. It's 
-  this thin little shim that squeezes between Processing and JRuby, passing 
+
+  Ruby-Processing is a Ruby wrapper for the Processing code art framework. It's
+  this thin little shim that squeezes between Processing and JRuby, passing
   along some neat goodies like:
-    
-  * Applet and Application exporting of your sketches. Hand them out to 
+
+  * Applet and Application exporting of your sketches. Hand them out to
     your party guests, ready-to-run.
-    
-  * Live Coding via JRuby's IRB. Loads in your sketch so you can futz with 
+
+  * Live Coding via JRuby's IRB. Loads in your sketch so you can futz with
     variables and remake methods on the fly.
-    
+
   * Bare sketches. Write your Ruby-Processing sketches without having to define
     a class. Without defining methods, even.
-    
-  * A "Control Panel" library, so that you can easily create sliders, buttons, 
-    checkboxes and drop-down menus, and hook them into your sketch's instance 
+
+  * A "Control Panel" library, so that you can easily create sliders, buttons,
+    checkboxes and drop-down menus, and hook them into your sketch's instance
     variables.
-    
-  * "Watch" mode, where Ruby-Processing keeps an eye on your sketch and reloads 
-    it from scratch every time you make a change. A pretty nice REPL-ish way 
-    to work on your Processing sketches. 
-  
+
+  * "Watch" mode, where Ruby-Processing keeps an eye on your sketch and reloads
+    it from scratch every time you make a change. A pretty nice REPL-ish way
+    to work on your Processing sketches.
+
   EOS
 end
