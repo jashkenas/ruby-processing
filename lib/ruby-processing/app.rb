@@ -476,6 +476,7 @@ module Processing
   # a Processing::App, in order to mimic Java's inner classes, which have
   # unfettered access to the methods defined in the surrounding class.
   module Proxy
+    include Math
 
     # Generate the list of method names that we'd like to proxy for inner classes.
     # Nothing camelCased, nothing __internal__, just the Processing API.
