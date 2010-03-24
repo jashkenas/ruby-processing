@@ -2,7 +2,7 @@
 
 # 3D castle tower constructed out of individual bricks.
 # Uses the PVecor and Cube classes.
- 
+
 def setup
   @bricks_per_layer = 16
   @brick_layers = 18
@@ -27,7 +27,7 @@ end
 
 def draw_layer(layer_num)
   @layer_num = layer_num
-  @temp_y -= @brick_height                                # increment rows                 
+  @temp_y -= @brick_height                                # increment rows
   @angle = 360.0 / @bricks_per_layer * @layer_num / 2.0   # alternate brick seams
   @bricks_per_layer.times {|i| draw_bricks(i) }
 end
@@ -59,14 +59,14 @@ class Cubeish
            :back   => ['---', ' --', '  -', '- -'],
            :top    => ['-- ', '---', ' --', ' - '],
            :bottom => ['-  ', '- -', '  -', '   ']}
-           
-  SIGNS = {'-' => -1, 
+
+  SIGNS = {'-' => -1,
            ' ' =>  1}
-  
+
   def initialize(width, height, depth)
     @vertices = {}
     @w, @h, @d = width, height, depth
-    
+
     SIDES.each do |side, signs|
       @vertices[side] = signs.map do |s|
         s = s.split('').map {|el| SIGNS[el] }
@@ -74,13 +74,13 @@ class Cubeish
       end
     end
   end
-  
+
   def create
     @vertices.each do |name, vectors|
-      shape(App::QUADS) do
-        vectors.each {|v| vertex(v.x, v.y, v.z) }
-      end
+      begin_shape App::QUADS
+      vectors.each {|v| vertex(v.x, v.y, v.z) }
+      end_shape
     end
   end
-  
+
 end

@@ -254,12 +254,6 @@ module Processing
       end
     end
 
-    # Shortcut for begin_shape/end_shape pair
-    def shape(*mode)
-      begin_shape *mode
-      yield
-      end_shape
-    end
 
     # Provide a convenient handle for the Java-space version of self.
     def java_self
