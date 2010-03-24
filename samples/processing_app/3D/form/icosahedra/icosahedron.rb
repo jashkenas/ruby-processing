@@ -13,7 +13,6 @@ require 'shape_3D' 			# load shape_3D.rb
 class Icosahedron < Shape3D 		# extends Shape3D
 
 	include Processing::Proxy 	# mixin Processing::Proxy
-	include Math 			# sin, cos, ...
 
 	attr_accessor :top_point, :top_pent
 	attr_accessor :bottom_point, :bottom_pent

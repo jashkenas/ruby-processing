@@ -4,7 +4,6 @@ require 'ruby-processing/app'
 class Bird
 
 	include Processing::Proxy 	# mixin Processing commands
-	include Math			# mixin Math for sin(), cos(), ..
 
 	attr_accessor :offset_x, :offset_y, :offset_z
 	attr_accessor :w, :h
