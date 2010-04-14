@@ -17,7 +17,7 @@
 # 	'h' key _________ toggle sphere/helix 
 
 
-class Toriod < Processing::App
+class Toroid < Processing::App
 
   def setup
     
@@ -127,4 +127,4 @@ class Toriod < Processing::App
   
 end
 
-Toriod.new :title => "Toriod"
+Toroid.new :title => "Toroid"
