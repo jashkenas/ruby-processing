@@ -32,7 +32,7 @@
     #the_applet {
       margin: 0 auto;
       width: <%= @width.to_i %>px;
-      padding: 6px; 
+      padding: 6px;
       padding-top: 7px; padding-bottom: 2px;
       background: #262626 url(images/top.png) top left repeat-x;
       border: 1px solid #363636; border-top: 0;
@@ -48,7 +48,6 @@
       width: <%= [@width.to_i, 200].max - 16 %>px;
       padding: 7px 15px 7px 15px;
       background: #111;
-      text-align: justify;
       margin: 0 auto;
       margin-top: 30px; margin-bottom: 10px;
       border: 1px solid #363636;
@@ -65,7 +64,7 @@
 
 <body>
 <div id="container">
-  
+
   <div id="the_applet">
     <object
       type="application/x-java-applet"
@@ -73,7 +72,7 @@
       codebase="."
       style="margin: 0; padding: 0;"
       width="<%= @width %>" height="<%= @height %>">
-      
+
       <param name="archive" value="<%= @file_list %>" />
       <param name="jruby.eval" value="ARGV[0] = '<%= @main_file %>'; require 'ruby-processing/runners/run.rb'" />
       <param name="image" value="images/ruby.jpg" />
@@ -82,18 +81,18 @@
       <param name="mayscript" value="true" />
       <param name="scriptable" value="true" />
       <param name="progressbar" value="true" />
-      
+
       <% if @opengl %>
         <param name="codebase_lookup" value="false" />
         <param name="subapplet.classname" value="org.jruby.JRubyApplet" />
         <param name="subapplet.displayname" value="<%= @title %>" />
       <% end %>
-      
+
       <!-- And if you don't have java.  -->
       To view this content, you need to install Java from <a href="http://java.com">java.com</a>
     </object>
   </div>
-  
+
   <div id="built_with">
     <a href="http://wiki.github.com/jashkenas/ruby-processing">
       <img src="images/built_with.jpg" alt="Ruby-Processing" />
@@ -101,14 +100,14 @@
       Via <a href="http://jruby.codehaus.org/">JRuby</a> and <a href="http://processing.org/">Processing</a><br />
       Source: <a href="<%= @main_file %>"><%= @main_file %></a>
   </div>
-  
+
   <% if @description && !@description.empty? %>
   <div id="description">
     <h1><%= @title %></h1>
     <p><%= @description %></p>
   </div>
   <% end %>
-  
+
 </div>
 </body>
 </html>
