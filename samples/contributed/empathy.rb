@@ -2,7 +2,7 @@
 # original by Kyle McDonald
 # http://www.openprocessing.org/visuals/?visualID=1182
 
-# This sketch takes advantage of multiple processors by running calculations 
+# This sketch takes advantage of multiple processors by running calculations
 # in a separate thread.
 
 CELL_COUNT      = 5000
@@ -11,7 +11,7 @@ ROTATION        = 0.004
 LINE_LENGTH     = 37
 MULTI_THREADED  = true
 
-def setup  
+def setup
   size(500, 500, P3D)
   stroke(0, 0, 0, 25)
   initialize_cells
@@ -46,28 +46,28 @@ def mouse_pressed
 end
 
 class Cell
-    
+
   def initialize(x, y)
     @x, @y  = x, y
     @spin   = 0
     @angle  = 0
   end
-  
+
   def reset
     @spin, @angle = 0, 0
   end
-  
+
   def update
     det = ((pmouse_x-@x) * (mouse_y-@y) - (mouse_x-@x) * (pmouse_y-@y)).to_f
     @spin += ROTATION * det / dist(@x, @y, mouse_x, mouse_y).to_f
     @spin *= SLOW_DOWN
     @angle += @spin
   end
-  
+
   def sense
     update unless MULTI_THREADED
     d = LINE_LENGTH * @spin + 0.001
     line(@x, @y, @x + d * Math.cos(@angle), @y + d * Math.sin(@angle))
   end
-  
+
 end
