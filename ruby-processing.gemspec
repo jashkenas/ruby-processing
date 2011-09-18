@@ -1,8 +1,9 @@
 require 'rake'
+require "lib/ruby-processing"
 
 Gem::Specification.new do |s|
   s.name = "ruby-processing"
-  s.version = "1.0.9"
+  s.version = Processing::VERSION
   s.authors = ["Jeremy Ashkenas", "Peter Gassner", "Martin Stannard", "Andrew Nanton",
                "Marc Chung", "Peter Krenn", "Florian Jenett", "Andreas Haller",
                "Juris Galang"]
