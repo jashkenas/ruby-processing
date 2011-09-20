@@ -1,5 +1,22 @@
+syntax: glob
 .DS_Store
 *.sw*
 *.gem
 extras
 test.rb
+vendors/orig/
+vendors/*.tar.gz
+vendors/processing-*/
+vendors/jruby-*/
+vendors/sources_has_been_patched
+library/dxf/
+library/javascript/
+library/minim/
+library/net/
+library/opengl/
+library/opengl2/
+library/pdf/
+library/serial/
+library/video/
+lib/core/core.jar
+lib/core/jruby-complete.jar
