@@ -22,14 +22,17 @@ module Processing
       @runner = Thread.start { report_errors { Processing.load_and_run_sketch } } unless $app
       thread = Thread.start do
         loop do
-          file_mtime = File.stat(@file).mtime
-          if file_mtime > @time
-            @time = file_mtime
-            wipe_out_current_app!
-            # Taking it out the reset until it can be made to work more reliably
-            # rewind_to_recorded_state
-            GC.start
-            @runner = Thread.start { report_errors { Processing.load_and_run_sketch } }
+          if File.exists?(@file)
+            file_mtime = File.stat(@file).mtime
+            if file_mtime > @time
+              @time = file_mtime
+              wipe_out_current_app!
+              puts "reloading sketch..."
+              # Taking it out the reset until it can be made to work more reliably
+              # rewind_to_recorded_state
+              GC.start
+              @runner = Thread.start { report_errors { Processing.load_and_run_sketch } }
+            end
           end
           sleep 0.33
         end
