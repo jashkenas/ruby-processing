@@ -8,6 +8,7 @@ module Processing
   class Runner
 
     HELP_MESSAGE = <<-EOS
+  version: #{Processing::VERSION}
 
   Ruby-Processing is a little shim between Processing and JRuby that helps
   you create sketches of code art.
