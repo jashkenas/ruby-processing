@@ -8,13 +8,25 @@ module Processing
   class Runner
 
     HELP_MESSAGE = <<-EOS
-  version: #{Processing::VERSION}
+  Version: #{Processing::VERSION}
 
   Ruby-Processing is a little shim between Processing and JRuby that helps
   you create sketches of code art.
 
   Usage:
-    rp5 [run | watch | live | create | app | applet | unpack] path/to/sketch
+    rp5 [run | watch | live | create [width height] | app | applet | unpack] path/to/sketch
+
+    run:        run sketch once
+    watch:      watch for changes on the file and relaunch it on the fly
+    live:       launch sketch and give an interactive IRB shell
+    create:     create new sketch. Use --bare to generate simpler sketches without a class
+    app:        create an application version of the sketch
+    applet:     create an applet version of the sketch
+    unpack:     unpack samples or library
+
+  Common options:
+    --jruby:    passed, use the installed version of jruby, instead of
+                our vendored jarred one (useful for gems).
 
   Examples:
     rp5 unpack samples
