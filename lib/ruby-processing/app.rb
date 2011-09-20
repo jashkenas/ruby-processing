@@ -398,11 +398,11 @@ module Processing
       $app = nil
       if Processing.online?
         JRUBY_APPLET.remove(self)
-        self.destroy
+        self.dispose
       else
         control_panel.remove if respond_to?(:control_panel)
         @frame.remove(self) if @frame
-        self.destroy
+        self.dispose
         @frame.dispose if @frame
       end
     end
@@ -501,7 +501,7 @@ module Processing
       JRUBY_APPLET.validate
       # Add the callbacks to peacefully expire.
       JRUBY_APPLET.on_stop { self.stop }
-      JRUBY_APPLET.on_destroy { self.destroy }
+      JRUBY_APPLET.on_destroy { self.dispose }
     end
 
 
