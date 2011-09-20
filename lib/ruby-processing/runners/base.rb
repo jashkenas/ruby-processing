@@ -31,14 +31,12 @@ module Processing
 
     if has_sketch
       load SKETCH_PATH
-      Processing::App.sketch_class.new if !$app
-      return
     else
       require 'erb'
       code = ERB.new(SKETCH_TEMPLATE).result(binding)
-      Object.class_eval code, SKETCH_PATH, 0
-      Processing::App.sketch_class.new if !$app
+      Object.class_eval code, SKETCH_PATH, -1
     end
+    Processing::App.sketch_class.new if !$app
   end
 
 
