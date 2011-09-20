@@ -1,4 +1,10 @@
 #!/usr/bin/env ruby
 
-require File.expand_path(File.dirname(__FILE__) + "/../lib/ruby-processing")
+file = __FILE__
+if test(?l, file)
+  require "pathname"
+  file = Pathname.new(file).realpath
+end
+
+require File.expand_path(File.dirname(file) + "/../lib/ruby-processing")
 Processing::Runner.execute
