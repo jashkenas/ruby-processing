@@ -1,0 +1,13 @@
+--- jruby-1.6.4/src/org/jruby/JRubyApplet.java	2011-08-23 18:57:19.000000000 +0200
++++ ../jruby-1.6.4/src/org/jruby/JRubyApplet.java	2011-09-20 15:32:13.162486838 +0200
+@@ -257,6 +257,10 @@
+         }
+     }
+ 
++    public synchronized void eval(String code) {
++      this.runtime.evalScriptlet(code);
++    }
++
+     public synchronized void setBackgroundColor(Color color) {
+         backgroundColor = color;
+         repaint();

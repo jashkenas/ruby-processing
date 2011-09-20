@@ -1,0 +1,90 @@
+desc "download, patch, build and copy to ruby-processing"
+task :default => [:download, :patch, :build, :copy]
+
+desc "download Processing & JRuby upstream sources"
+task :download => ["processing-1.5.1.tar.gz", "jruby-src-1.6.4.tar.gz"]
+
+file "processing-1.5.1.tar.gz" do
+  sh "svn export http://processing.googlecode.com/svn/tags/processing-1.5.1"
+  sh "tar cvzf processing-1.5.1.tar.gz processing-1.5.1/"
+  #check_md5("processing-1.5.1.tar.gz", "d911f73c693b2f548c7fa3b402876dff")
+end
+
+task "processing-1.5.1" => "processing-1.5.1.tar.gz" do
+  sh "tar xzf processing-1.5.1.tar.gz" unless test(?d, "processing-1.5.1" )
+end
+
+file "jruby-src-1.6.4.tar.gz" do
+  sh "wget -O jruby-src-1.6.4.tar.gz http://jruby.org.s3.amazonaws.com/downloads/1.6.4/jruby-src-1.6.4.tar.gz"
+  check_md5("jruby-src-1.6.4.tar.gz", "fe5f38867b1c15b6c9db13ff97ffa98a")
+end
+
+task "jruby-1.6.4" => "jruby-src-1.6.4.tar.gz" do
+  sh "tar xzf jruby-src-1.6.4.tar.gz" unless test(?d, "jruby-1.6.4" )
+end
+
+directory 'orig'
+
+desc "create diffs for processing & jruby"
+task :diff => 'orig' do 
+  Dir.chdir("orig") do
+    sh "tar xzf ../processing-1.5.1.tar.gz" unless test(?d, "processing-1.5.1")
+    sh "tar xzf ../jruby-src-1.6.4.tar.gz" unless test(?d, "jruby-1.6.4")
+
+    # ignore exit status, since diff always exit with code 1 if files are different
+    sh "diff -u processing-1.5.1/core/src/processing/core/PApplet.java  ../processing-1.5.1/core/src/processing/core/PApplet.java > ../patches/processing-1.5.1.patch" do; end
+    sh "diff -u jruby-1.6.4/src/org/jruby/JRubyApplet.java ../jruby-1.6.4/src/org/jruby/JRubyApplet.java > ../patches/jruby-1.6.4.patch" do; end
+  end
+end
+
+desc "patch sources"
+task :patch => "sources_has_been_patched"
+
+file "sources_has_been_patched" => ["processing-1.5.1", "jruby-1.6.4"] do
+  sh "cd processing-1.5.1/ && patch -p1 < ../patches/processing-1.5.1.patch"
+  sh "cd jruby-1.6.4/ && patch -p1 < ../patches/jruby-1.6.4.patch"
+  touch "sources_has_been_patched"
+end
+
+desc "build"
+task :build => ["processing-1.5.1/core/core.jar", "jruby-1.6.4/lib/jruby-complete.jar"]
+
+file "jruby-1.6.4/lib/jruby-complete.jar" do
+  sh "cd jruby-1.6.4 && ant jar-jruby-complete"
+end
+
+file "processing-1.5.1/core/core.jar" do
+  sh "cd processing-1.5.1/build && ant build"
+end
+
+directory "../lib/core"
+
+desc "copy libs & jars"
+task :copy => ["../lib/core", "processing-1.5.1/core/core.jar", "jruby-1.6.4/lib/jruby-complete.jar"] do
+  Dir.chdir("processing-1.5.1") do
+    sh "cp core/core.jar ../../lib/core/"
+  end
+  Dir.chdir("jruby-1.6.4") do
+    sh "cp -v lib/jruby-complete.jar ../../lib/core/"
+  end
+  Dir.chdir("processing-1.5.1/java/libraries") do
+    dirs = Dir.glob("*")
+    dirs.each do |d|
+      dst = "../../../../library/#{d}"
+      sh "rm -fr #{dst} && rsync --relative -r --exclude .svn --exclude .cvsignore #{d}/library/ ../../../../library"
+    end
+  end
+end
+
+def check_md5(filename, expected_hash)
+  require "digest/md5"
+  md5 = Digest::MD5.new
+  File.open(filename, "r") do |f|
+    while buf = f.read(4096)
+      md5.update(buf)
+    end
+  end
+  if md5.hexdigest != expected_hash
+    raise "bad md5 checksum for #{filename} (expected #{expected_hash} got #{md5.hexdigest})"
+  end
+end

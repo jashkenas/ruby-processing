@@ -1,12 +1,18 @@
 require 'rake'
 
 desc 'Build and install gem'
-task :install do
-  sh "sudo gem build ruby-processing.gemspec"
-  sh "sudo gem install #{Dir.glob('*.gem').join(' ')} --no-ri --no-rdoc"
+task :install => :build do
+  sh "gem install #{Dir.glob('*.gem').join(' ')} --no-ri --no-rdoc"
 end
 
 desc 'Uninstall gem'
 task :uninstall do
-  sh "sudo gem uninstall -x ruby-processing"
+  sh "gem uninstall -x ruby-processing"
 end
+
+task :build do
+  sh "cd vendors && rake"
+  sh "gem build ruby-processing.gemspec"
+end
+
+task :default => :build

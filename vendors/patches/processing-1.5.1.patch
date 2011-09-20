@@ -1,8 +1,6 @@
-Index: core/src/processing/core/PApplet.java
-===================================================================
---- core/src/processing/core/PApplet.java	(revision 5371)
-+++ core/src/processing/core/PApplet.java	(working copy)
-@@ -1386,7 +1386,22 @@
+--- processing-1.5.1/core/src/processing/core/PApplet.java	2011-05-15 19:02:53.000000000 +0200
++++ ../processing-1.5.1/core/src/processing/core/PApplet.java	2011-09-20 15:19:23.009455091 +0200
+@@ -1611,7 +1611,22 @@
          } catch (RendererChangeException e) {
            // Give up, instead set the new renderer and re-attempt setup()
            return;
@@ -25,3 +23,13 @@ Index: core/src/processing/core/PApplet.java
          this.defaultSize = false;
  
        } else {  // frameCount > 0, meaning an actual draw()
+@@ -1665,6 +1680,9 @@
+     }
+   }
+ 
++  public boolean isAnimationThreadTerminated() {
++    return thread.getState() == Thread.State.TERMINATED;
++  }
+ 
+   //////////////////////////////////////////////////////////////
+ 
