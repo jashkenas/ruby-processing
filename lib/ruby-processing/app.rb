@@ -435,7 +435,15 @@ module Processing
     # Tests to see which display method should run.
     def determine_how_to_display
       # Wait for init to get its grey tracksuit on and run a few laps.
-      sleep 0.02 while default_size? && !finished? && !@@full_screen
+      while default_size? && !finished? && !@@full_screen && !isAnimationThreadTerminated
+        sleep 0.02 
+      end
+
+      # Animation thread has terminated before starting
+      if isAnimationThreadTerminated
+        close
+        return
+      end
 
       if Processing.online?
         display_in_an_applet
@@ -447,7 +455,6 @@ module Processing
       else
         display_in_a_window
       end
-      @done_displaying = true
     end
 
 
