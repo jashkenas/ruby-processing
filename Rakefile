@@ -15,4 +15,8 @@ task :build do
   sh "gem build ruby-processing.gemspec"
 end
 
-task :default => :build
+task :test do
+  ruby "test/rp5_test.rb"
+end
+
+task :default => [:build, :test]
