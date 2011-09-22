@@ -32,9 +32,15 @@ task :diff => 'orig' do
     sh "tar xzf ../jruby-src-1.6.4.tar.gz" unless test(?d, "jruby-1.6.4")
 
     # ignore exit status, since diff always exit with code 1 if files are different
-    sh "diff -u processing-1.5.1/core/src/processing/core/PApplet.java  ../processing-1.5.1/core/src/processing/core/PApplet.java > ../patches/processing-1.5.1.patch" do; end
-    sh "diff -u jruby-1.6.4/src/org/jruby/JRubyApplet.java ../jruby-1.6.4/src/org/jruby/JRubyApplet.java > ../patches/jruby-1.6.4.patch" do; end
+    sh "diff -u processing-1.5.1/core/src/processing/core/PApplet.java  ../processing-1.5.1/core/src/processing/core/PApplet.java | tee ../patches/processing-1.5.1.patch"
+    sh "diff -u jruby-1.6.4/src/org/jruby/JRubyApplet.java ../jruby-1.6.4/src/org/jruby/JRubyApplet.java | tee ../patches/jruby-1.6.4.patch"
   end
+end
+
+desc "delete sources, extract, and repatch"
+task :repatch do
+  sh "rm -rf sources_has_been_patched processing-1.5.1 jruby-1.6.4"
+  Rake::Task['patch'].invoke
 end
 
 desc "patch sources"
