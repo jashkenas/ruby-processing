@@ -230,9 +230,25 @@ module Processing
       @render_mode                    ||= JAVA2D
       @@full_screen                   ||= options[:full_screen]
       self.init
+
+      all_threads = java.lang.Thread.all_stack_traces.keys
+      @animation_thread = all_threads.detect {|thread| thread.name == "Animation Thread" } #:sh; p th.state == java.lang.Thread::State::WAITING}
+
+      if @animation_thread
+        @animation_thread.uncaught_exception_handler = self
+      else 
+        # the animation thread didn't start because there was a problem with setup()
+        close
+      end
       determine_how_to_display
     end
 
+    include java.lang.Thread::UncaughtExceptionHandler
+
+    def uncaughtException(thread, exception)
+      exception.printStackTrace();
+      close
+    end
 
     # Make sure we set the size if we set it before we start the animation thread.
     def start
@@ -431,29 +447,32 @@ module Processing
       end
     end
 
+    def animation_thread_alive?
+      @animation_thread && @animation_thread.state != java.lang.Thread::State::TERMINATED
+    end
 
     # Tests to see which display method should run.
     def determine_how_to_display
       # Wait for init to get its grey tracksuit on and run a few laps.
-      while default_size? && !finished? && !@@full_screen && !isAnimationThreadTerminated
+      while default_size? && !finished? && !@@full_screen && animation_thread_alive?
         sleep 0.02 
       end
-
-      # Animation thread has terminated before starting
-      if isAnimationThreadTerminated
+    
+      # Animation thread has terminated before starting most of the time because of an
+      # exception in setup() 
+      if !animation_thread_alive?
         close
-        return
-      end
-
-      if Processing.online?
-        display_in_an_applet
-      elsif full_screen?
-        display   = java.awt.GraphicsEnvironment.local_graphics_environment.default_screen_device
-        linux     = java.lang.System.get_property("os.name") == "Linux"
-        supported = display.full_screen_supported? || linux
-        supported ? display_full_screen(display) : display_in_a_window
       else
-        display_in_a_window
+        if Processing.online?
+          display_in_an_applet
+        elsif full_screen?
+          display   = java.awt.GraphicsEnvironment.local_graphics_environment.default_screen_device
+          linux     = java.lang.System.get_property("os.name") == "Linux"
+          supported = display.full_screen_supported? || linux
+          supported ? display_full_screen(display) : display_in_a_window
+        else
+          display_in_a_window
+        end
       end
     end
 
@@ -473,7 +492,6 @@ module Processing
       @frame.show
       self.request_focus
     end
-
 
     def display_in_a_window
       @frame = javax.swing.JFrame.new(@title)
@@ -501,7 +519,7 @@ module Processing
       JRUBY_APPLET.validate
       # Add the callbacks to peacefully expire.
       JRUBY_APPLET.on_stop { self.stop }
-      JRUBY_APPLET.on_destroy { self.dispose }
+      JRUBY_APPLET.on_destroy { self.destroy }
     end
 
 
