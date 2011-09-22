@@ -23,13 +23,3 @@
          this.defaultSize = false;
  
        } else {  // frameCount > 0, meaning an actual draw()
-@@ -1665,6 +1680,9 @@
-     }
-   }
- 
-+  public boolean isAnimationThreadTerminated() {
-+    return thread.getState() == Thread.State.TERMINATED;
-+  }
- 
-   //////////////////////////////////////////////////////////////
- 
