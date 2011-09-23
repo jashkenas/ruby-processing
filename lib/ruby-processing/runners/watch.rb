@@ -8,7 +8,7 @@ module Processing
 
     # Sic a new Processing::Watcher on the sketch
     def initialize
-      @file = SKETCH_PATH
+      @files = Dir.glob(File.dirname(SKETCH_PATH) + "/*.rb")
       @time = Time.now
       # Doesn't work well enough for now.
       # record_state_of_ruby
@@ -22,16 +22,18 @@ module Processing
       @runner = Thread.start { report_errors { Processing.load_and_run_sketch } } unless $app
       thread = Thread.start do
         loop do
-          if File.exists?(@file)
-            file_mtime = File.stat(@file).mtime
-            if file_mtime > @time
-              @time = file_mtime
-              wipe_out_current_app!
-              puts "reloading sketch..."
-              # Taking it out the reset until it can be made to work more reliably
-              # rewind_to_recorded_state
-              GC.start
-              @runner = Thread.start { report_errors { Processing.load_and_run_sketch } }
+          @files.each do |file|
+            if File.exists?(file)
+              file_mtime = File.stat(file).mtime
+              if file_mtime > @time
+                @time = file_mtime
+                wipe_out_current_app!
+                puts "reloading sketch..."
+                # Taking it out the reset until it can be made to work more reliably
+                # rewind_to_recorded_state
+                GC.start
+                @runner = Thread.start { report_errors { Processing.load_and_run_sketch } }
+              end
             end
           end
           sleep 0.33
