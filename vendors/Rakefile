@@ -74,11 +74,14 @@ task :copy => ["../lib/core", "processing-1.5.1/core/core.jar", "jruby-1.6.4/lib
     sh "cp -v lib/jruby-complete.jar ../../lib/core/"
   end
   Dir.chdir("processing-1.5.1/java/libraries") do
-    dirs = Dir.glob("*")
-    dirs.each do |d|
-      dst = "../../../../library/#{d}"
-      sh "rm -fr #{dst} && rsync --relative -r --exclude .svn --exclude .cvsignore #{d}/library/ ../../../../library"
+    what_to_sync = []
+    dirs_to_delete = []
+    Dir.glob("*").each do |d| 
+      what_to_sync << "'#{d}/library/'"
+      dirs_to_delete << "../../../../library/#{d}"
     end
+    sh "rm -rf #{dirs_to_delete.join(" ")}"
+    sh "rsync --relative -r --exclude .svn --exclude .cvsignore #{what_to_sync.join(" ")} ../../../../library"
   end
 end
 
