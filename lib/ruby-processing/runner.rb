@@ -140,7 +140,7 @@ module Processing
       java_args = discover_java_args(sketch)
       command = @options.jruby ?
                 ['jruby', java_args, runner, sketch, args].flatten :
-                ['java', java_args, '-cp', jruby_complete, 'org.jruby.Main', runner, sketch, args].flatten
+                ['java', java_args, '-d32', '-cp', jruby_complete, 'org.jruby.Main', runner, sketch, args].flatten
       exec *command
       # exec replaces the Ruby process with the JRuby one.
     end
