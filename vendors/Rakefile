@@ -1,3 +1,8 @@
+require 'rake/clean'
+
+CLEAN.include("processing-1.5.1", "jruby-1.6.4", "sources_has_been_patched", "orig")
+CLOBBER.include("processing-1.5.1.tar.gz", "jruby-src-1.6.4.tar.gz")
+
 desc "download, patch, build and copy to ruby-processing"
 task :default => [:download, :patch, :build, :copy]
 
