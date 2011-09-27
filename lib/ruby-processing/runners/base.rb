@@ -35,8 +35,8 @@ module Processing
       require 'erb'
       code = ERB.new(SKETCH_TEMPLATE).result(binding)
       Object.class_eval code, SKETCH_PATH, -1
+      Processing::App.sketch_class.new
     end
-    Processing::App.sketch_class.new
   end
 
 
