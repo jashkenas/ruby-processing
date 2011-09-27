@@ -19,7 +19,7 @@ module Processing
     # Kicks off a thread to watch the sketch, reloading Ruby-Processing
     # and restarting the sketch whenever it changes.
     def start_watching
-      @runner = Thread.start { report_errors { Processing.load_and_run_sketch } } unless $app
+      start_runner
       thread = Thread.start do
         loop do
           if @files.detect { |file| File.exists?(file) && File.stat(file).mtime > @time }
@@ -29,8 +29,7 @@ module Processing
             # Taking it out the reset until it can be made to work more reliably
             # rewind_to_recorded_state
             GC.start
-            @runner = Thread.start { report_errors { Processing.load_and_run_sketch } }
-            break
+            start_runner
           end
           sleep 0.33
         end
@@ -48,15 +47,20 @@ module Processing
       puts e.backtrace.join("\n")
     end
 
+    def start_runner 
+      @runner.kill if @runner && @runner.alive?
+      @runner = Thread.start do 
+        report_errors do 
+          Processing.load_and_run_sketch
+        end
+      end
+    end
+
     # Used to completely remove all traces of the current sketch,
     # so that it can be loaded afresh. Go down into modules to find it, even.
     def wipe_out_current_app!
-      @runner.kill if @runner.alive?
+      return unless $app
       app = $app
-      return unless app
-      app.no_loop
-      # Wait for the animation thread to finish rendering
-      sleep 0.075
       app.close
       constant_names = app.class.to_s.split(/::/)
       app_class_name = constant_names.pop
