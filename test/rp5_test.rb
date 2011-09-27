@@ -9,7 +9,6 @@ class Rp5Test < Test::Unit::TestCase
   OUTPUT_FILE = File.join(Dir.pwd, "output.txt")
   
   def test_normal
-    FileUtils.rm_f(OUTPUT_FILE)
     output = write_and_run_sketch <<EOF
 def setup
   size(300, 300)
@@ -68,6 +67,27 @@ EOF
     assert output.index("undefined method `unknown_method'")
   end
   
+  def test_inner_classes_proxy
+    output = write_and_run_sketch <<EOF
+def setup
+  size(300, 300)
+  begin
+    MyInnerClass.new 
+  rescue
+    println("inner class proxy doesn't work")
+  end
+  exit
+end
+   
+class MyInnerClass
+  def initialize
+    println(width)
+  end
+end
+EOF
+    assert_equal "300\n", output
+  end
+
   def test_rp5_watch
     tf = Tempfile.new("rp5_watch_tester")
     sketch_source = <<EOF
