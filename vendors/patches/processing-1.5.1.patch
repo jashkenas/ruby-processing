@@ -1,6 +1,6 @@
 --- processing-1.5.1/core/src/processing/core/PApplet.java	2011-05-15 19:02:53.000000000 +0200
-+++ ../processing-1.5.1/core/src/processing/core/PApplet.java	2011-09-20 15:19:23.009455091 +0200
-@@ -1611,7 +1611,22 @@
++++ ../processing-1.5.1/core/src/processing/core/PApplet.java	2011-09-25 19:44:19.000000000 +0200
+@@ -1611,7 +1611,18 @@
          } catch (RendererChangeException e) {
            // Give up, instead set the new renderer and re-attempt setup()
            return;
@@ -8,11 +8,7 @@
 +        // Catch a JRuby exception so that the RendererChangeExceptions
 +        // that we're looking for don't get stuck in Ruby-space.
 +        } catch (RuntimeException e) {
-+          String message = e.getMessage();
-+          String name = RendererChangeException.class.getName();
-+          String regex = "(?s).*" + name + ".*";
-+          regex = regex.replace("$", "\\$");
-+          if (message != null && message.matches(regex)) {
++          if(e.getCause() instanceof RendererChangeException) {
 +            // Give up, instead set the new renderer and re-attempt setup()
 +            return;
 +          } else {
