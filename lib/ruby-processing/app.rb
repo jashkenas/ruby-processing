@@ -160,7 +160,7 @@ module Processing
       library_paths.concat(platform_specific_library_paths.collect { |d| "#{sketchbook_libraries_path}/#{library_name}/library/#{d}" } )
       #p library_paths
       library_paths = library_paths.select do |path|
-        test(?d, path)
+        test(?d, path) && !Dir.glob(File.join(path, "*.{so,dll,jnilib}")).empty?
       end
 
       #p library_paths
