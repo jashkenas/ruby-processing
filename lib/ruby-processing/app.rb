@@ -351,13 +351,6 @@ module Processing
       @declared_fields['sketchPath'].value(java_self)
     end
 
-
-    # From ROP. Turns a color hash-string into hexadecimal, for Processing.
-    def hex(value)
-      value[1..-1].hex + 0xff000000
-    end
-
-
     # Fields that should be made accessible as under_scored.
     def mouse_x;      mouseX;       end
     def mouse_y;      mouseY;       end

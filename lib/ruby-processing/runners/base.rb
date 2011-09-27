@@ -36,7 +36,7 @@ module Processing
       code = ERB.new(SKETCH_TEMPLATE).result(binding)
       Object.class_eval code, SKETCH_PATH, -1
     end
-    Processing::App.sketch_class.new if !$app
+    Processing::App.sketch_class.new
   end
 
 
