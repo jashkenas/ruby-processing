@@ -38,8 +38,8 @@ module Processing
           return false
         end
       else
-        path = get_library_path(library_name)
-        return false unless (File.exists?("#{path}/#{library_name}.rb"))
+        path = get_library_path(library_name, "rb")
+        return false unless path
         return @loaded_libraries[library_name] = (require "#{path}/#{library_name}")
       end
     end
@@ -57,7 +57,7 @@ module Processing
       if Processing.online?
         return @loaded_libraries[library_name] = !!(JRUBY_APPLET.get_parameter("archive").match(%r(#{library_name}))) 
       end
-      path = get_library_path(library_name)
+      path = get_library_path(library_name, "jar")
       jars = Dir["#{path}/*.jar"]
       return false if jars.empty?
       jars.each {|jar| require jar }
@@ -126,15 +126,15 @@ module Processing
       end
     end
     
-    def get_library_path(dir)
-      paths = [ 
-        "#{SKETCH_ROOT}/library/#{dir}", 
-        "#{RP5_ROOT}/library/#{dir}/library", 
-        "#{RP5_ROOT}/library/#{dir}", 
-        "#{@sketchbook_library_path}/#{dir}/library",
-        "#{@sketchbook_library_path}/#{dir}" 
-      ]
-      path = paths.detect { |p| test(?d, p) }
+    def get_library_path(library_name, extension)
+      [ "#{SKETCH_ROOT}/library/#{library_name}", 
+        "#{RP5_ROOT}/library/#{library_name}/library", 
+        "#{RP5_ROOT}/library/#{library_name}", 
+        "#{@sketchbook_library_path}/#{library_name}/library",
+        "#{@sketchbook_library_path}/#{library_name}" 
+      ].detect do |path| 
+        File.exists?("#{path}/#{library_name}.#{extension}")
+      end
     end
   end
 end
