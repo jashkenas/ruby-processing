@@ -5,12 +5,16 @@
 require 'java'
 require 'ruby-processing/helper_methods'
 
+# Conditionally load core.jar
+require "#{RP5_ROOT}/lib/core/core.jar" unless Processing.online? || Processing.embedded?
+
+# Include some processing classes that we'd like to use:
+%w(PShape PImage PGraphics PFont PVector).each do |klass|
+  import "processing.core.#{klass}"
+end
+
 module Processing
-
-  # Conditionally load core.jar
-  require "#{RP5_ROOT}/lib/core/core.jar" unless Processing.online? || Processing.embedded?
   import "processing.core"
-
   # This is the main Ruby-Processing class, and is what you'll
   # inherit from when you create a sketch. This class can call
   # all of the methods available in Processing, and has two
@@ -21,11 +25,6 @@ module Processing
   class App < PApplet
     include Math
     include HelperMethods
-
-    # Include some processing classes that we'd like to use:
-    %w(PShape PImage PGraphics PFont PVector).each do |klass|
-      import "processing.core.#{klass}"
-    end
 
     # Alias some methods for familiarity for Shoes coders.
     #attr_accessor :frame, :title
