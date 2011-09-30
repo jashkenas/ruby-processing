@@ -42,7 +42,7 @@ module Processing
 
   Examples:
     rp5 unpack samples
-    rp5 run samples/jwishy.rb
+    rp5 run samples/contributed/jwishy.rb
     rp5 create some_new_sketch --bare 640 480
     rp5 watch some_new_sketch.rb
     rp5 applet some_new_sketch.rb
