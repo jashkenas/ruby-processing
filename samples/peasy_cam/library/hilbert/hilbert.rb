@@ -39,9 +39,9 @@ end
 ###########################
 class Hilbert
   include Processing::Proxy
-
+  ADJUSTMENT = [0,  0.5,  1.5,  3.5,  7.5, 15]
   attr_reader :grammar, :axiom, :production, :premis, :rule,
-  :theta, :scale_factor, :distance, :phi, :len
+  :theta, :distance, :phi, :gen
 
   def initialize(len)
     @axiom = "X"
@@ -49,16 +49,14 @@ class Hilbert
     @production = axiom
     @premis = "X"
     @rule = "^<XF^<XFX-F^>>XFX&F+>>XFX-F>X->"
-    @len = len
-    @distance = len/12      # distance value relative to screen height
+    @distance = len
     @theta = Math::PI/180 * 90
-    @phi = Math::PI/180 * 90
+    @phi = Math::PI/180 * 90  
     grammar.add_rule(premis, rule)
-    no_stroke()
   end
 
-  def render()
-    translate(-len/42, len/42, -len/42)  # use the "answer?" to center the Hilbert
+  def render()    
+    translate( -distance * ADJUSTMENT[gen], distance *  ADJUSTMENT[gen], -distance * ADJUSTMENT[gen])
     fill(0, 75, 152)
     light_specular(204, 204, 204)
     specular(255, 255, 255)
@@ -93,7 +91,10 @@ class Hilbert
   ##############################
 
   def create_grammar(gen)
-    @distance *= 0.5**gen
+    @gen = gen    # required for depth adjustment
+    @distance *= 1/(pow(2, gen) - 1)
     @production = @grammar.generate gen
   end
+  
+
 end
