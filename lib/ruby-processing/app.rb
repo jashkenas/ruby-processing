@@ -4,6 +4,7 @@
 
 require 'java'
 require 'ruby-processing/helper_methods'
+require 'ruby-processing/library_loader'
 
 # Conditionally load core.jar
 require "#{RP5_ROOT}/lib/core/core.jar" unless Processing.online? || Processing.embedded?
@@ -84,139 +85,29 @@ module Processing
     def self.has_slider(*args) #:nodoc:
       raise "has_slider has been replaced with a nicer control_panel library. Check it out."
     end
-
-
-    # When you make a new sketch, you pass in (optionally),
-    # a width, height, x, y, title, and whether or not you want to
-    # run in full-screen.
-    #
-    # This is a little different than Processing where height
-    # and width are declared inside the setup method instead.
-    # Detect if a library has been loaded (for conditional loading)
-    @@loaded_libraries = Hash.new(false)
-    def self.library_loaded?(folder)
-      @@loaded_libraries[folder.to_sym]
-    end
-    def library_loaded?(folder); self.class.library_loaded?(folder); end
-
-
-    # Load a list of Ruby or Java libraries (in that order)
-    # Usage: load_libraries :opengl, :boids
-    #
-    # If a library is put into a 'library' folder next to the sketch it will
-    # be used instead of the library that ships with Ruby-Processing.
-    def self.load_libraries(*args)
-      args.each do |lib|
-        loaded = load_ruby_library(lib) || load_java_library(lib)
-        raise LoadError.new "no such file to load -- #{lib}" if !loaded
+    
+    @@library_loader = LibraryLoader.new
+    class << self
+      def load_libraries(*args)
+        @@library_loader.load_library(*args)
       end
-    end
-    def self.load_library(*args); self.load_libraries(*args); end
+      alias :load_library :load_libraries 
 
-
-    # For pure ruby libraries.
-    # The library should have an initialization ruby file
-    # of the same name as the library folder.
-    def self.load_ruby_library(dir)
-      dir = dir.to_sym
-      return true if @@loaded_libraries[dir]
-      if Processing.online?
-        begin
-          return @@loaded_libraries[dir] = (require "library/#{dir}/#{dir}")
-        rescue LoadError => e
-          return false
-        end
-      end
-      local_path = "#{SKETCH_ROOT}/library/#{dir}"
-      gem_path = "#{RP5_ROOT}/library/#{dir}"
-      path = File.exists?(local_path) ? local_path : gem_path
-      return false unless (File.exists?("#{path}/#{dir}.rb"))
-      return @@loaded_libraries[dir] = (require "#{path}/#{dir}")
-    end
-
-
-    # For pure java libraries, such as the ones that are available
-    # on this page: http://processing.org/reference/libraries/index.html
-    #
-    # P.S. -- Loading libraries which include native code needs to
-    # hack the Java ClassLoader, so that you don't have to
-    # futz with your PATH. But it's probably bad juju.
-    def self.load_java_library(library_name)
-      library_name = library_name.to_sym
-      return true if @@loaded_libraries[library_name]
-      return @@loaded_libraries[library_name] = !!(JRUBY_APPLET.get_parameter("archive").match(%r(#{library_name}))) if Processing.online?
-      local_path = "#{SKETCH_ROOT}/library/#{library_name}"
-      gem_path = "#{RP5_ROOT}/library/#{library_name}"
-      path = File.exists?(local_path) ? local_path : gem_path
-      jars = Dir["#{path}/**/*.jar"]
-      sketchbook_libraries_path = sketchbook_path + "/libraries"
-      if File.exists?(sketchbook_libraries_path)
-        jars.concat(Dir["#{sketchbook_libraries_path}/#{library_name}/library/*.jar"])
-      end
-      return false if jars.empty?
-      jars.each {|jar| require jar }
-
-      library_paths = [path, "#{path}/library"]
-      library_paths.concat(platform_specific_library_paths.collect { |d| "#{path}/library/#{d}" } )
-      library_paths.concat(platform_specific_library_paths.collect { |d| "#{sketchbook_libraries_path}/#{library_name}/library/#{d}" } )
-      #p library_paths
-      library_paths = library_paths.select do |path|
-        test(?d, path) && !Dir.glob(File.join(path, "*.{so,dll,jnilib}")).empty?
+      def library_loaded?(library_name)
+        @@library_loader.library_loaded?(library_name)
       end
 
-      #p library_paths
-      library_paths << java.lang.System.getProperty("java.library.path")
-      new_library_path = library_paths.join(java.io.File.pathSeparator)
-
-      java.lang.System.setProperty("java.library.path", new_library_path)
-
-      field = java.lang.Class.for_name("java.lang.ClassLoader").get_declared_field("sys_paths")
-      if field
-        field.accessible = true
-        field.set(java.lang.Class.for_name("java.lang.System").get_class_loader, nil)
+      def load_ruby_library(*args)
+        @@library_loader.load_ruby_library(*args)
       end
-      return @@loaded_libraries[library_name] = true
-    end
 
-    def self.sketchbook_path
-      preferences_paths = []
-      sketchbook_paths = []
-      ["Application Data/Processing", "AppData/Roaming/Processing", 
-       "Library/Processing", "Documents/Processing", 
-       ".processing", "sketchbook"].each do |prefix|
-        path = "#{ENV["HOME"]}/#{prefix}"
-        pref_path = path+"/preferences.txt"
-        if test(?f, pref_path)
-          preferences_paths << pref_path
-        end
-        if test(?d, path)
-          sketchbook_paths << path
-        end
-      end
-      if !preferences_paths.empty?
-        matched_lines = File.readlines(preferences_paths.first).grep(/^sketchbook\.path=(.+)/) { $1 }
-        return matched_lines.first
-      else
-        sketchbook_paths.first
+      def load_java_library(*args)
+        @@library_loader.load_java_library(*args)
       end
     end
 
-    def self.platform_specific_library_paths
-      bits = "32"
-      if java.lang.System.getProperty("sun.arch.data.model") == "64" || 
-         java.lang.System.getProperty("java.vm.name").index("64")
-        bits = "64"
-      end
-
-      match_string, platform = {"Mac" => "macosx", "Linux" => "linux", "Windows" => "windows" }.detect do |string, platform_|
-        java.lang.System.getProperty("os.name").index(string)
-      end
-      platform ||= "other"
-      [ platform, platform+bits ]
-    end
-
-    def self.has_slider(*args) #:nodoc:
-      raise "has_slider has been replaced with a nicer control_panel library. Check it out."
+    def library_loaded?(library_name)
+      self.class.library_loaded?(library_name)
     end
 
     # When you make a new sketch, you pass in (optionally),
