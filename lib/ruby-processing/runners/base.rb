@@ -31,6 +31,7 @@ module Processing
 
     if has_sketch
       load SKETCH_PATH
+      Processing::App.sketch_class.new if !$app
     else
       require 'erb'
       code = ERB.new(SKETCH_TEMPLATE).result(binding)
