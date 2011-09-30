@@ -3,6 +3,7 @@
 # web applets, going fullscreen and so on.
 
 require 'java'
+require 'ruby-processing/config'
 require 'ruby-processing/helper_methods'
 require 'ruby-processing/library_loader'
 
@@ -16,6 +17,7 @@ end
 
 module Processing
   import "processing.core"
+
   # This is the main Ruby-Processing class, and is what you'll
   # inherit from when you create a sketch. This class can call
   # all of the methods available in Processing, and has two

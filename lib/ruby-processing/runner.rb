@@ -1,5 +1,6 @@
 require 'ostruct'
 require 'fileutils'
+require 'ruby-processing/config'
 
 module Processing
 
@@ -27,6 +28,17 @@ module Processing
   Common options:
     --jruby:    passed, use the installed version of jruby, instead of
                 our vendored jarred one (useful for gems).
+  
+  Configuration file:
+    A YAML configuration file is located at #{Processing::CONFIG_FILE_PATH}
+    
+    Possible options are:
+
+      java_args:        pass additionnals arguments to Java VM upon launching. 
+                        Useful for increasing available memory (for example:
+                        -Xms256m -Xmx256m) or force 32 bits mode (-d32).
+      sketchbook_path:  specify Processing sketchbook path to load additionnal 
+                        libraries
 
   Examples:
     rp5 unpack samples
@@ -150,8 +162,13 @@ module Processing
     # then type them into a java_args.txt in your data directory next to your sketch.
     def discover_java_args(sketch)
       arg_file = "#{File.dirname(sketch)}/data/java_args.txt"
-      args = dock_icon
-      args += File.read(arg_file).split(/\s+/) if File.exists?(arg_file)
+      args = []
+      args += dock_icon
+      if File.exists?(arg_file)
+        args += File.read(arg_file).split(/\s+/)
+      elsif CONFIG["java_args"]
+        args += CONFIG["java_args"].split(/\s+/)
+      end
       args.map! {|arg| "-J#{arg}" }            if @options.jruby
       args
     end
