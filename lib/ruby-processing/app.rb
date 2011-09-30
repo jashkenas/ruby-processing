@@ -124,6 +124,7 @@ module Processing
       mix_proxy_into_inner_classes
 
       java.lang.Thread.default_uncaught_exception_handler = proc do |thread, exception|
+        puts(exception.class.to_s)
         puts(exception.message)
         puts(exception.backtrace.collect { |trace| "\t" + trace })
         close
@@ -183,6 +184,14 @@ module Processing
       super(*args)
     rescue Exception => e
       raise e.cause
+    end
+
+    def handleDraw()
+      super
+    rescue Exception => exception
+      puts(exception.message)
+      puts(exception.backtrace.collect { |trace| "\t" + trace })
+      close
     end
 
     # Specify what rendering Processing should use, without needing to pass size.
