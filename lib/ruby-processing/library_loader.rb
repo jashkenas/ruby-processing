@@ -101,25 +101,29 @@ module Processing
     def find_sketchbook_path
       preferences_paths = []
       sketchbook_paths = []
-      ["Application Data/Processing", "AppData/Roaming/Processing", 
-       "Library/Processing", "Documents/Processing", 
-       ".processing", "sketchbook"].each do |prefix|
-        path = "#{ENV["HOME"]}/#{prefix}"
-        pref_path = path+"/preferences.txt"
-        if test(?f, pref_path)
-          preferences_paths << pref_path
-        end
-        if test(?d, path)
-          sketchbook_paths << path
-        end
-      end
-      if !preferences_paths.empty?
-        matched_lines = File.readlines(preferences_paths.first).grep(/^sketchbook\.path=(.+)/) { $1 }
-        sketchbook_path = matched_lines.first
+      if sketchbook_path = CONFIG["sketchbook_path"]
+        return File.expand_path(sketchbook_path)
       else
-        sketchbook_path = sketchbook_paths.first
+        ["Application Data/Processing", "AppData/Roaming/Processing", 
+         "Library/Processing", "Documents/Processing", 
+         ".processing", "sketchbook"].each do |prefix|
+          path = "#{ENV["HOME"]}/#{prefix}"
+          pref_path = path+"/preferences.txt"
+          if test(?f, pref_path)
+            preferences_paths << pref_path
+          end
+          if test(?d, path)
+            sketchbook_paths << path
+          end
+        end
+        if !preferences_paths.empty?
+          matched_lines = File.readlines(preferences_paths.first).grep(/^sketchbook\.path=(.+)/) { $1 }
+          sketchbook_path = matched_lines.first
+        else
+          sketchbook_path = sketchbook_paths.first
+        end
+        return sketchbook_path
       end
-      sketchbook_path
     end
     
     def get_library_path(dir)
