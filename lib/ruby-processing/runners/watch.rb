@@ -8,7 +8,7 @@ module Processing
 
     # Sic a new Processing::Watcher on the sketch
     def initialize
-      @files = ([SKETCH_PATH] + Dir.glob(File.dirname(SKETCH_PATH) + "/*.rb")).uniq
+      reload_files_to_watch
       @time = Time.now
       start_watching
     end
@@ -21,10 +21,11 @@ module Processing
       loop do
         if @files.detect { |file| File.exists?(file) && File.stat(file).mtime > @time }
           puts "reloading sketch..."
-          $app.close
+          $app && $app.close
           @time = Time.now
           GC.start
           start_runner
+          reload_files_to_watch
         end
         sleep 0.33
       end
@@ -47,6 +48,10 @@ module Processing
           Processing.load_and_run_sketch
         end
       end
+    end
+
+    def reload_files_to_watch
+      @files = ([SKETCH_PATH] + Dir.glob(File.dirname(SKETCH_PATH) + "/*.rb")).uniq
     end
   end
 end
