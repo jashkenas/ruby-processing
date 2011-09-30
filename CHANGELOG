@@ -1,3 +1,15 @@
+v1.0.10 Solidifying before Processing 2.0 ...
+  * JRuby upgraded to 1.6.4
+  * Processing upgraded to 1.5.1
+  * load_library now works for Ruby and Java libraries present in the libraries Processing sketchbook
+  * test suite created
+  * removed ruby-processing specific hex() and shape() methods in favor of Processing ones
+  * added some missing methods from Processing: println(), min(), max(), abs(), binary(), nf*(), etc...
+  * watcher: watch for *.rb files inside sketch directory
+  * linux opengl bugs fixed
+  * samples/peasy_cam/hilbert_fractal example now allow the possibility of changing the fractal depth and to more correctly centre the fractal
+  * added configuration file in $HOME/.rp5rc to configure java_args and sketchbook_path
+
 v1.0.9 The Yearly Update...
   * JRuby upgraded to 1.4.0 final.
   * Fix to allow arguments to be passed to sketches.

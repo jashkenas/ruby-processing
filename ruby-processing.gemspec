@@ -6,8 +6,8 @@ Gem::Specification.new do |s|
   s.version = Processing::VERSION
   s.authors = ["Jeremy Ashkenas", "Peter Gassner", "Martin Stannard", "Andrew Nanton",
                "Marc Chung", "Peter Krenn", "Florian Jenett", "Andreas Haller",
-               "Juris Galang"]
-  s.date = "2010-03-04"
+               "Juris Galang", "Guillaume Pierronnet"]
+  s.date = "2011-09-30"
   s.default_executable = "rp5"
   s.email = "jeremy@ashkenas.com"
   s.executables = ["rp5"]
