@@ -123,6 +123,7 @@ module Processing
       proxy_java_fields
       set_sketch_path unless Processing.online?
       mix_proxy_into_inner_classes
+      @started = false
 
       java.lang.Thread.default_uncaught_exception_handler = proc do |thread, exception|
         puts(exception.class.to_s)
@@ -144,7 +145,6 @@ module Processing
 
       @render_mode  ||= JAVA2D
 
-
       x = options[:x] || 0
       y = options[:y] || 0
       args << "--location=#{x},#{y}"
@@ -152,6 +152,10 @@ module Processing
       title = options[:title] || File.basename(SKETCH_PATH).sub(/(\.rb|\.pde)$/, '').titleize
       args << title
       PApplet.run_sketch(args, self)
+    end
+
+    def started?
+      @started
     end
 
     def hint(*args)
@@ -182,6 +186,7 @@ module Processing
       @width           = w     || @width
       @height          = h     || @height
       @render_mode     = mode  || @render_mode
+      @started = true
       super(*args)
     rescue Exception => e
       raise e.cause
