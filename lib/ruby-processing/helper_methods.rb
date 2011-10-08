@@ -37,6 +37,16 @@ module Processing
       super(*args)
     end
 
+    def loop(&block)
+      if block_given?
+        while true do
+          yield
+        end
+      else
+        super
+      end
+    end
+
     # There's just so many functions in Processing,
     # Here's a convenient way to look for them.
     def find_method(method_name)
