@@ -31,8 +31,17 @@ module Processing
     def color(*args)
       a = args[0]
       # convert to signed int
-      if args.length == 1 && a.is_a?(Fixnum) && a >= 2**31
-        args = [ a - 2**32 ]
+      if args.length == 1 
+        if a.is_a?(Fixnum) && a >= 2**31
+          args = [ a - 2**32 ]
+        elsif a.is_a?(String) && a[0] == ?#
+          h = a[1..-1]
+          # add opaque alpha channel
+          if h.size <= 6
+            h = "ff" + "0"*(6-h.size) + h
+          end
+          return color(h.hex)
+        end
       end
       super(*args)
     end
