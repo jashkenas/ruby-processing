@@ -77,8 +77,6 @@ module Processing
     def self.full_screen;   @@full_screen = true; end
     def full_screen?;       @@full_screen;        end
 
-    @@dont_mix_proxy_into_inner_classes = false
-    def self.dont_mix_proxy_into_inner_classes;   @@dont_mix_proxy_into_inner_classes = true; end
 
     # Keep track of what inherits from the Processing::App, because we're going
     # to want to instantiate one.
@@ -126,9 +124,7 @@ module Processing
       $app = self
       proxy_java_fields
       set_sketch_path unless Processing.online?
-      unless @@dont_mix_proxy_into_inner_classes
-        mix_proxy_into_inner_classes
-      end
+      mix_proxy_into_inner_classes
       @started = false
 
       java.lang.Thread.default_uncaught_exception_handler = proc do |thread, exception|
