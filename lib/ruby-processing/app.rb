@@ -255,18 +255,18 @@ module Processing
 
     # Generate the list of method names that we'd like to proxy for inner classes.
     # Nothing camelCased, nothing __internal__, just the Processing API.
-    def self.desired_method_names
+    def self.desired_method_names(inner_class)
       bad_method = /__/    # Internal JRuby methods.
       unwanted = PApplet.superclass.instance_methods + Object.instance_methods
       unwanted -= ['width', 'height', 'cursor', 'create_image', 'background', 'size', 'resize']
       methods = Processing::App.public_instance_methods
-      methods.reject {|m| unwanted.include?(m) || bad_method.match(m) }
+      methods.reject {|m| unwanted.include?(m) || bad_method.match(m) || inner_class.method_defined?(m) }
     end
 
 
     # Proxy methods through to the sketch.
-    def self.proxy_methods
-      code = desired_method_names.inject('') do |code, method|
+    def self.proxy_methods(inner_class)
+      code = desired_method_names(inner_class).inject('') do |code, method|
         code << <<-EOS
           def #{method}(*args, &block)                # def rect(*args, &block)
             if block_given?                           #   if block_given?
@@ -277,24 +277,23 @@ module Processing
           end                                         # end
         EOS
       end
-      module_eval(code, "Processing::Proxy", 1)
+      inner_class.class_eval(code)
     end
 
 
     # Proxy the sketch's constants on to the inner classes.
-    def self.proxy_constants
+    def self.proxy_constants(inner_class)
       Processing::App.constants.each do |name|
-        Processing::Proxy.const_set(name, Processing::App.const_get(name))
+        next if inner_class.const_defined?(name)
+        inner_class.const_set(name, Processing::App.const_get(name))
       end
     end
 
 
     # Don't do all of the work unless we have an inner class that needs it.
     def self.included(inner_class)
-      return if @already_defined
-      proxy_methods
-      proxy_constants
-      @already_defined = true
+      proxy_methods(inner_class)
+      proxy_constants(inner_class)
     end
 
   end # Processing::Proxy
