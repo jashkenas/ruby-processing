@@ -11,7 +11,6 @@ task :uninstall do
 end
 
 task :build do
-  sh "cd vendors && rake"
   sh "gem build ruby-processing.gemspec"
 end
 
