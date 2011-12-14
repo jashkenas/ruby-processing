@@ -126,12 +126,14 @@ module Processing
       set_sketch_path unless Processing.online?
       mix_proxy_into_inner_classes
       @started = false
-
-      java.lang.Thread.default_uncaught_exception_handler = proc do |thread, exception|
-        puts(exception.class.to_s)
-        puts(exception.message)
-        puts(exception.backtrace.collect { |trace| "\t" + trace })
-        close
+     
+      unless Processing.online?
+        java.lang.Thread.default_uncaught_exception_handler = proc do |thread, exception|
+          puts(exception.class.to_s)
+          puts(exception.message)
+          puts(exception.backtrace.collect { |trace| "\t" + trace })
+          close
+        end
       end
 
       # for the list of all available args, see 
@@ -147,13 +149,24 @@ module Processing
 
       @render_mode  ||= JAVA2D
 
-      x = options[:x] || 0
-      y = options[:y] || 0
-      args << "--location=#{x},#{y}"
+      if Processing.online?
+        JRUBY_APPLET.background_color = nil
+        JRUBY_APPLET.double_buffered = false
+        JRUBY_APPLET.add self
+        JRUBY_APPLET.validate
+        # Add the callbacks to peacefully expire.
+        JRUBY_APPLET.on_stop { self.stop }
+        JRUBY_APPLET.on_destroy { self.destroy }
+        init
+      else
+        x = options[:x] || 0
+        y = options[:y] || 0
+        args << "--location=#{x},#{y}"
 
-      title = options[:title] || File.basename(SKETCH_PATH).sub(/(\.rb|\.pde)$/, '').titleize
-      args << title
-      PApplet.run_sketch(args, self)
+        title = options[:title] || File.basename(SKETCH_PATH).sub(/(\.rb|\.pde)$/, '').titleize
+        args << title
+        PApplet.run_sketch(args, self)
+      end
     end
 
     def started?
@@ -235,15 +248,6 @@ module Processing
       end
     end
 
-    def display_in_an_applet
-      JRUBY_APPLET.background_color = nil
-      JRUBY_APPLET.double_buffered = false
-      JRUBY_APPLET.add self
-      JRUBY_APPLET.validate
-      # Add the callbacks to peacefully expire.
-      JRUBY_APPLET.on_stop { self.stop }
-      JRUBY_APPLET.on_destroy { self.destroy }
-    end
   end # Processing::App
 
 

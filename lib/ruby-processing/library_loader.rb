@@ -40,7 +40,7 @@ module Processing
       else
         path = get_library_path(library_name, "rb")
         return false unless path
-        return @loaded_libraries[library_name] = (require "#{path}/#{library_name}")
+        return @loaded_libraries[library_name] = (require path)
       end
     end
 
@@ -57,7 +57,7 @@ module Processing
       if Processing.online?
         return @loaded_libraries[library_name] = !!(JRUBY_APPLET.get_parameter("archive").match(%r(#{library_name}))) 
       end
-      path = get_library_path(library_name, "jar")
+      path = get_library_directory_path(library_name, "jar")
       jars = Dir["#{path}/*.jar"]
       return false if jars.empty?
       jars.each {|jar| require jar }
@@ -96,6 +96,29 @@ module Processing
       [ platform, platform+bits ].collect { |p| File.join(basename, p) }
     end
 
+    def get_library_directory_path(library_name, extension = nil)
+      extensions = extension ? [extension] : %w{jar rb}
+      extensions.each do |ext|
+        [ "#{SKETCH_ROOT}/library/#{library_name}", 
+          "#{RP5_ROOT}/library/#{library_name}/library", 
+          "#{RP5_ROOT}/library/#{library_name}", 
+          "#{@sketchbook_library_path}/#{library_name}/library",
+          "#{@sketchbook_library_path}/#{library_name}" 
+        ].each do |path| 
+          if File.exists?(path) && !Dir.glob(path + "/*.#{ext}").empty?
+            return path
+          end
+        end
+      end
+      nil
+    end
+
+    def get_library_path(library_name, extension)
+      dir = get_library_directory_path(library_name, extension) 
+      fn = "#{dir}/#{library_name}.#{extension}"
+      test(?f, fn) ? fn : nil
+    end
+
     protected
 
     def find_sketchbook_path
@@ -126,15 +149,5 @@ module Processing
       end
     end
     
-    def get_library_path(library_name, extension)
-      [ "#{SKETCH_ROOT}/library/#{library_name}", 
-        "#{RP5_ROOT}/library/#{library_name}/library", 
-        "#{RP5_ROOT}/library/#{library_name}", 
-        "#{@sketchbook_library_path}/#{library_name}/library",
-        "#{@sketchbook_library_path}/#{library_name}" 
-      ].detect do |path| 
-        File.exists?("#{path}/#{library_name}.#{extension}")
-      end
-    end
   end
 end

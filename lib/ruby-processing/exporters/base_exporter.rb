@@ -1,5 +1,6 @@
 require 'fileutils'
 require 'erb'
+require 'ruby-processing/library_loader'
 
 module Processing
   
@@ -53,6 +54,7 @@ module Processing
       size_match = source.match(/^[^#]*size\(?\s*(\d+)\s*,\s*(\d+)\s*\)?/)
       return match[1] if match
       return (dimension == 'width' ? size_match[1] : size_match[2]) if size_match
+      warn "using default dimensions for export, please use constants integer values in size() call instead of computed ones"
       DEFAULT_DIMENSIONS[dimension]
     end
     
@@ -64,22 +66,14 @@ module Processing
     
     # Searches the source for any libraries that have been loaded.
     def extract_libraries(source)
-      libs = []
-      code = source.dup
-      loop do
-        matchdata = code.match(/^[^#]*load_librar(y|ies)\s+(.+)\n/)
-        break unless matchdata
-        candidates = matchdata[2].gsub(/[:"'\s]/, '').split(/,/)
-        candidates.each do |cand|
-          @opengl = true if cand.match(/opengl/i)
-          local_path = "#{local_dir}/library/#{cand}"
-          rp5_path = "#{RP5_ROOT}/library/#{cand}"
-          libs << rp5_path if File.exists?(rp5_path)
-          libs << local_path if File.exists?(local_path)
+      lines = source.split("\n")
+      libs = lines.grep(/^[^#]*load_(?:java_|ruby_)?librar(?:y|ies)\s+(.+)/) do
+        $1.split(/\s*,\s*/).collect do |raw_library_name| 
+          raw_library_name.tr("\"':", '') 
         end
-        code = matchdata.post_match
-      end
-      libs
+      end.flatten
+      lib_loader = LibraryLoader.new
+      libs.map { |lib| lib_loader.get_library_path(lib) }.compact
     end
     
     # Looks for all of the codes require or load commands, checks 
@@ -95,10 +89,14 @@ module Processing
         line = matchdata[0].gsub('__FILE__', "'#{@main_file_path}'")
         line = line.gsub(/\b(require|load)\b/, 'partial_paths << ')
         eval(line)
-        requirements += Dir["{#{local_dir}/,}{#{partial_paths.join(',')}}.{rb,jar}"]
+        where = "{#{local_dir}/,}{#{partial_paths.join(',')}}"
+        unless line =~ /\.[^.]+$/
+          where += ".{rb,jar}"
+        end
+        requirements += Dir[where]
         code = matchdata.post_match
       end
-      return requirements
+      requirements
     end
     
     
