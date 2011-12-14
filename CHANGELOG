@@ -1,3 +1,8 @@
+v1.0.11 Fixing broken stuffs...
+  * JRuby upgraded to 1.6.5
+  * applet export fixed
+  * application export fixed
+
 v1.0.10 Solidifying before Processing 2.0 ...
   * JRuby upgraded to 1.6.4
   * Processing upgraded to 1.5.1
