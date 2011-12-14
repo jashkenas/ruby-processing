@@ -69,11 +69,11 @@ module Processing
       lines = source.split("\n")
       libs = lines.grep(/^[^#]*load_(?:java_|ruby_)?librar(?:y|ies)\s+(.+)/) do
         $1.split(/\s*,\s*/).collect do |raw_library_name| 
-          raw_library_name.tr("\"':", '') 
+          raw_library_name.tr("\"':\r\n", '') 
         end
       end.flatten
       lib_loader = LibraryLoader.new
-      libs.map { |lib| lib_loader.get_library_path(lib) }.compact
+      libs.map { |lib| lib_loader.get_library_paths(lib) }.flatten.compact
     end
     
     # Looks for all of the codes require or load commands, checks 

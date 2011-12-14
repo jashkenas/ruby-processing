@@ -38,7 +38,7 @@ module Processing
           return false
         end
       else
-        path = get_library_path(library_name, "rb")
+        path = get_library_paths(library_name, "rb").first
         return false unless path
         return @loaded_libraries[library_name] = (require path)
       end
@@ -58,7 +58,7 @@ module Processing
         return @loaded_libraries[library_name] = !!(JRUBY_APPLET.get_parameter("archive").match(%r(#{library_name}))) 
       end
       path = get_library_directory_path(library_name, "jar")
-      jars = Dir["#{path}/*.jar"]
+      jars = get_library_paths(library_name, "jar")
       return false if jars.empty?
       jars.each {|jar| require jar }
 
@@ -96,6 +96,13 @@ module Processing
       [ platform, platform+bits ].collect { |p| File.join(basename, p) }
     end
 
+    def get_library_paths(library_name, extension = nil)
+      dir = get_library_directory_path(library_name, extension) 
+      Dir.glob("#{dir}/*.{rb,jar}")
+    end
+
+    protected
+
     def get_library_directory_path(library_name, extension = nil)
       extensions = extension ? [extension] : %w{jar rb}
       extensions.each do |ext|
@@ -112,14 +119,6 @@ module Processing
       end
       nil
     end
-
-    def get_library_path(library_name, extension)
-      dir = get_library_directory_path(library_name, extension) 
-      fn = "#{dir}/#{library_name}.#{extension}"
-      test(?f, fn) ? fn : nil
-    end
-
-    protected
 
     def find_sketchbook_path
       preferences_paths = []
