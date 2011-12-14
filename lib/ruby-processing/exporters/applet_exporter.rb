@@ -7,8 +7,8 @@ module Processing
     USAGE = <<-EOS
     
     The applet generator will generate a web-ready applet for you.
-    Usage: script/applet <path_to_sketch>
-    Example: script/applet samples/jwishy.rb
+    Usage: rp5 applet <path_to_sketch>
+    Example: rp5 applet samples/jwishy.rb
     
     EOS
     
@@ -33,7 +33,7 @@ module Processing
     end
     
     def compute_destination_name
-      @dest = "#{@main_file.sub(".rb", "")}"
+      @dest = "#{@main_file.sub(".rb", "")}_applet"
     end
     
     def copy_over_necessary_files

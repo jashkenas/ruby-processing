@@ -5,7 +5,6 @@ SKETCH_ROOT = File.dirname(SKETCH_PATH) unless defined? SKETCH_ROOT
 require 'ruby-processing'
 require 'ruby-processing/app'
 
-
 module Processing
 
   # For use with "bare" sketches that don't want to define a class or methods
@@ -46,9 +45,9 @@ module Processing
     if Processing.online?
       # Fuck the following lines. Fucking Java can go sit on broken glass.
       source = ''
-      url = java.net.URL.new(JRUBY_APPLET.get_code_base, SKETCH_PATH)
-      input = java.io.BufferedReader.new(java.io.InputStreamReader.new(url.open_stream))
-      while line = input.read_line do
+      url = java.net.URL.new(JRUBY_APPLET.java_send(:getCodeBase), SKETCH_PATH)
+      input = java.io.BufferedReader.new(java.io.InputStreamReader.new(url.java_send(:openStream)))
+      while line = input.java_send(:readLine) do
         source << (line + "\n") if line
       end
       input.close
