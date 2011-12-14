@@ -1,5 +1,5 @@
 require 'rake'
-require "lib/ruby-processing"
+require "./lib/ruby-processing"
 
 Gem::Specification.new do |s|
   s.name = "ruby-processing"
