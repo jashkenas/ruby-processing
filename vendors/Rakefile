@@ -1,0 +1,60 @@
+require 'rake/clean'
+
+CLOBBER.include("processing-1.5.1-windows-expert.zip", "jruby-complete-1.6.5.jar")
+
+desc "download, sign and copy to ruby-processing"
+task :default => [:download, :signjar, :copy]
+
+desc "download Processing & JRuby upstream sources"
+task :download => ["processing-1.5.1-windows-expert.zip", "jruby-complete-1.6.5.jar"]
+
+# taking this version is because this is the smallest build available with all the librairies we need
+file "processing-1.5.1-windows-expert.zip" do
+  # /home/moumar/src/processing-1.5.1/build/linux/work/modes/java/libraries
+  sh "wget http://processing.googlecode.com/files/processing-1.5.1-windows-expert.zip"
+  check_sha1("processing-1.5.1-windows-expert.zip", "d3044e07c34b6eda2360987d67faf8c1cd687ffa")
+  #unzip -o /home/moumar/src/processing-1.5.1-windows-expert.zip 'processing-1.5.1/modes/java/libraries/opengl/library/*' 'processing-1.5.1/modes/java/libraries/minim/library/*'"
+end
+
+file "jruby-complete-1.6.5.jar" do
+  sh "wget http://jruby.org.s3.amazonaws.com/downloads/1.6.5/jruby-complete-1.6.5.jar"
+  check_sha1("jruby-complete-1.6.5.jar", "c1fb0df18f4fbc6dcb3221feea0cbd37eb7ad37e")
+end
+
+task :signjar => "jruby-complete-1.6.5.jar" do
+  unless `jarsigner -verify jruby-complete-1.6.5.jar`.chop == "jar verified."
+    sh "cat ~/.keystore_pass | jarsigner jruby-complete-1.6.5.jar ruby-processing"
+  end
+end
+
+directory "../lib/core"
+
+desc "copy libs & jars"
+task :copy => ["../lib/core", :signjar ] do
+  sh "cp -v jruby-complete-1.6.5.jar ../lib/core/jruby-complete.jar"
+
+  processing_zip = File.expand_path("processing-1.5.1-windows-expert.zip")
+  sh "cd ../lib/core && unzip -qoj #{processing_zip} processing-1.5.1/lib/core.jar"
+
+  dirs = %w{dxf javascript minim net opengl pdf serial video}
+  Dir.chdir("../library/") do
+    sh "rm -rf processing-1.5.1/ #{dirs.join(" ")}"
+    inside_zip_dirs = dirs.collect { |d| "processing-1.5.1/modes/java/libraries/#{d}/library/*" }
+    sh "unzip -q #{processing_zip} #{inside_zip_dirs.join(" ")}"
+    sh "mv processing-1.5.1/modes/java/libraries/* ."
+    sh "rm -r processing-1.5.1/"
+  end
+end
+
+def check_sha1(filename, expected_hash)
+  require "digest/sha1"
+  sha1 = Digest::SHA1.new
+  File.open(filename, "r") do |f|
+    while buf = f.read(4096)
+      sha1.update(buf)
+    end
+  end
+  if sha1.hexdigest != expected_hash
+    raise "bad sha1 checksum for #{filename} (expected #{expected_hash} got #{sha1.hexdigest})"
+  end
+end
