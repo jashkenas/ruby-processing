@@ -126,7 +126,7 @@ module Processing
       if sketchbook_path = CONFIG["sketchbook_path"]
         return File.expand_path(sketchbook_path)
       else
-        ["Application Data/Processing", "AppData/Roaming/Processing", 
+        ["'Application Data/Processing'", "AppData/Roaming/Processing", 
          "Library/Processing", "Documents/Processing", 
          ".processing", "sketchbook"].each do |prefix|
           path = "#{ENV["HOME"]}/#{prefix}"
