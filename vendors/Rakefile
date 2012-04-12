@@ -1,6 +1,6 @@
 require 'rake/clean'
 
-JRUBY_VERSION      = "1.6.5"
+JRUBY_VERSION      = "1.6.7"
 PROCESSING_VERSION = "1.5.1"
 
 CLOBBER.include("processing-#{PROCESSING_VERSION}-windows-expert.zip", "jruby-complete-#{JRUBY_VERSION}.jar")
@@ -21,7 +21,7 @@ end
 
 file "jruby-complete-#{JRUBY_VERSION}.jar" do
   sh "wget http://jruby.org.s3.amazonaws.com/downloads/#{JRUBY_VERSION}/jruby-complete-#{JRUBY_VERSION}.jar"
-  check_sha1("jruby-complete-#{JRUBY_VERSION}.jar", "c1fb0df18f4fbc6dcb3221feea0cbd37eb7ad37e")
+  check_sha1("jruby-complete-#{JRUBY_VERSION}.jar", "455e6a0a0068fbcc52e8f419c8a40fa8bca68a2f")
 end
 
 task :signjar => "jruby-complete-#{JRUBY_VERSION}.jar" do
