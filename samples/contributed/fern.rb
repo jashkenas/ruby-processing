@@ -16,7 +16,7 @@ def draw
   max_iterations = 200000
   
   max_iterations.times do
-    r = rand * 100
+    r = rand(100.0)
     if r <= 1
       x = 0.0
       y = 0.16 * y0
