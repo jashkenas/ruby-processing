@@ -1,5 +1,5 @@
-load_library 'PeasyCam'
-import 'peasy'
+load_library 'peasycam'
+include_package 'peasy'
 
 attr_reader :cam
 
