@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bubbles>
+  <bubble>
+    <position x="160" y="103"/>
+    <diameter>43.19838</diameter>
+    <label>Happy</label>
+  </bubble>
+  <bubble>
+    <position x="372" y="137"/>
+    <diameter>52.42526</diameter>
+    <label>Sad</label>
+  </bubble>
+  <bubble>
+    <position x="273" y="235"/>
+    <diameter>61.14072</diameter>
+    <label>Joyous</label>
+  </bubble>
+  <bubble>
+    <position x="121" y="179"/>
+    <diameter>44.758068</diameter>
+    <label>Melancholy</label>
+  </bubble>
+  <bubble>
+    <position x="556" y="224"/>
+    <diameter>46.89752406647077</diameter>
+    <label>New label</label>
+  </bubble>
+  <bubble>
+    <position x="433" y="239"/>
+    <diameter>47.570771727260535</diameter>
+    <label>New label</label>
+  </bubble>
+  <bubble>
+    <position x="479" y="91"/>
+    <diameter>65.08462326872998</diameter>
+    <label>New label</label>
+  </bubble>
+</bubbles>

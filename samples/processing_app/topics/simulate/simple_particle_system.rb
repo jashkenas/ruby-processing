@@ -4,108 +4,71 @@
 # time. A ParticleSystem (Array) object manages a variable size list of
 # particles.
 
+attr_reader :ps
+
+def setup
+  size(640,360)
+  @ps = ParticleSystem.new(PVector.new(width/2, 50))
+  @ps.extend Runnable
+end
+
+def draw
+  background(0)
+  ps.add_particle
+  ps.run
+end
+
 module Runnable
   def run
-    self.reject! { |particle| particle.dead? }
-    self.each    { |particle| particle.run   }
+    self.reject! { |item| item.lifespan <= 0 }
+    self.each    { |item| item.run   }
   end
 end
 
-class Vector
-  attr_accessor :x, :y
+class ParticleSystem < Array  
+  include Runnable
+  attr_reader :origin
 
-  def initialize(x, y)
-    @x, @y = x, y
+  def initialize(loc)
+    super() # paren required to prevent array trying to initialize with PVector
+    @origin = loc.get
   end
 
-  def +(other)
-    if other.is_a?(Numeric)
-      Vector.new(@x + other, @y + other)
-    elsif other.is_a?(Vector)
-      Vector.new(@x + other.x, @y + other.y)
-    else
-      self
-    end
+  def add_particle
+    self << Particle.new(origin) # ParticleSytem is extending Array
   end
 
-  def heading
-    -1 * Math::atan2(-@y, @x)
-  end
-
-  def magnitude
-    @x * @x + @y * @y
-  end
 end
 
-class Sketch < Processing::App
-  def setup
-    smooth
-    color_mode(RGB, 255, 255, 255, 100)
-    ellipse_mode(CENTER)
+# A simple Particle class
 
-    @particles = []
-    @particles.extend Runnable
+class Particle 
+  include Processing::Proxy    
+  attr_reader :loc, :vel, :acc, :lifespan
+  def initialize(l) 
+    @acc = PVector.new(0, 0.05)
+    @vel = PVector.new(rand * 2 - 1, rand * 2 - 2)
+    @loc = l.get
+    @lifespan = 255.0
   end
 
-  def draw
-    background 0
-    @particles.run
-    @particles << Particle.new(Vector.new(mouse_x, mouse_y))
+  def run
+    update
+    display
   end
 
-  class Particle
-    def initialize(origin)
-      @origin = origin
-      @velocity = Vector.new(rand * 2 - 1, rand * 2 - 2)
-      @acceleration = Vector.new(0, 0.05)
-      @radius = 10
-      @lifespan = 100
-    end
-
-    def run
-      update
-      grow
-      render
-      render_velocity_vector
-    end
-    
-    def update
-      @velocity += @acceleration
-      @origin += @velocity
-    end
-
-    def grow
-      @lifespan -= 1
-    end
-
-    def dead?
-      @lifespan <= 0
-    end
-
-    def render
-      stroke(255, @lifespan)
-      fill(100, @lifespan)
-      ellipse(@origin.x, @origin.y, @radius, @radius)
-    end
-
-    def render_velocity_vector
-      scale = 10
-      arrow_size = 4
-
-      push_matrix
-
-      translate(@origin.x, @origin.y)
-      rotate(@velocity.heading)
-
-      length = @velocity.magnitude * scale
-
-      line 0,      0, length,              0
-      line length, 0, length - arrow_size, arrow_size / 2
-      line length, 0, length - arrow_size, -arrow_size / 2
-
-      pop_matrix
-    end
+  # Method to update loc
+  def update
+    vel.add(acc)
+    loc.add(vel)
+    @lifespan -= 1.0
   end
+
+  # Method to display
+  def display
+    stroke(255,lifespan)
+    fill(255,lifespan)
+    ellipse(loc.x, loc.y, 8, 8)
+  end
+  
 end
-
-Sketch.new :width => 640, :height => 340

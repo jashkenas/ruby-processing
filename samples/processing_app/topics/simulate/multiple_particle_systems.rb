@@ -49,119 +49,117 @@ class ParticleSystem < Array
 end
 
 
-class Sketch < Processing::App
-  def setup
+def setup
+    size 640, 580	  
     smooth
     color_mode(RGB, 255, 255, 255, 100)
     ellipse_mode(CENTER)
-
+    
     @particle_systems = []
     @particle_systems.extend Runnable
-  end
+end
 
-  def draw
+def draw
     background 0
     @particle_systems.run
-  end
+end
 
-  def mouse_pressed
+def mouse_pressed
     origin = rand(21) + 5
     vector = Vector.new(mouse_x, mouse_y)
     @particle_systems << ParticleSystem.new(origin, vector)
-  end
-  
-  
-  class Particle
+end
+
+
+class Particle
     def initialize(origin)
-      @origin = origin
-      @velocity = Vector.new(rand * 2 - 1, rand * 2 - 2)
-      @acceleration = Vector.new(0, 0.05)
-      @radius = 10
-      @lifespan = 100
+        @origin = origin
+        @velocity = Vector.new(rand * 2 - 1, rand * 2 - 2)
+        @acceleration = Vector.new(0, 0.05)
+        @radius = 10
+        @lifespan = 100
     end
-
+    
     def run
-      update
-      grow
-      render
-      render_velocity_vector
-    end
-
-    def update
-      @velocity += @acceleration
-      @origin += @velocity
-    end
-
-    def grow
-      @lifespan -= 1
-    end
-
-    def dead?
-      @lifespan <= 0
-    end
-
-    def render
-      stroke(255, @lifespan)
-      fill(100, @lifespan)
-      ellipse(@origin.x, @origin.y, @radius, @radius)
-    end
-
-    def render_velocity_vector
-      scale = 10
-      arrow_size = 4
-
-      push_matrix
-      
-      translate(@origin.x, @origin.y)
-      rotate(@velocity.heading)
-
-      length = @velocity.magnitude * scale
-
-      line 0, 0, length, 0
-      line length, 0, length - arrow_size, arrow_size / 2
-      line length, 0, length - arrow_size, -arrow_size / 2
-      
-      pop_matrix
-    end
-  end
-  
-  
-  class CrazyParticle < Particle
-    def initialize(origin)
-      super
-      @theta = 0
-    end
-
-    def run
-      update
-      grow
-      render
-      render_rotation_line
+        update
+        grow
+        render
+        render_velocity_vector
     end
     
     def update
-      super
-      @theta += @velocity.x * @velocity.magnitude / 10
+        @velocity += @acceleration
+        @origin += @velocity
     end
-
+    
     def grow
-      @lifespan -= 0.8
+        @lifespan -= 1
     end
-
-    def render_rotation_line
-      push_matrix
-      
-      translate(@origin.x, @origin.y)
-      rotate(@theta)
-      
-      stroke(255, @lifespan)
-      
-      line(0, 0, 25, 0)
-      
-      pop_matrix
+    
+    def dead?
+        @lifespan <= 0
     end
-  end
-  
+    
+    def render
+        stroke(255, @lifespan)
+        fill(100, @lifespan)
+        ellipse(@origin.x, @origin.y, @radius, @radius)
+    end
+    
+    def render_velocity_vector
+        scale = 10
+        arrow_size = 4
+        
+        push_matrix
+        
+        translate(@origin.x, @origin.y)
+        rotate(@velocity.heading)
+        
+        length = @velocity.magnitude * scale
+        
+        line 0, 0, length, 0
+        line length, 0, length - arrow_size, arrow_size / 2
+        line length, 0, length - arrow_size, -arrow_size / 2
+        
+        pop_matrix
+    end
 end
 
-Sketch.new :width => 640, :height => 340
+
+class CrazyParticle < Particle
+    def initialize(origin)
+        super
+        @theta = 0
+    end
+    
+    def run
+        update
+        grow
+        render
+        render_rotation_line
+    end
+    
+    def update
+        super
+        @theta += @velocity.x * @velocity.magnitude / 10
+    end
+    
+    def grow
+        @lifespan -= 0.8
+    end
+    
+    def render_rotation_line
+        push_matrix
+        
+        translate(@origin.x, @origin.y)
+        rotate(@theta)
+        
+        stroke(255, @lifespan)
+        
+        line(0, 0, 25, 0)
+        
+        pop_matrix
+    end
+end
+
+
