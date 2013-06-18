@@ -1,51 +1,45 @@
 require 'rake/clean'
 
-JRUBY_VERSION      = "1.6.7"
-PROCESSING_VERSION = "1.5.1"
+JRUBY_VERSION      = "1.7.4"
+PROCESSING_VERSION = "2.0"
 
-CLOBBER.include("processing-#{PROCESSING_VERSION}-windows-expert.zip", "jruby-complete-#{JRUBY_VERSION}.jar")
+CLOBBER.include("processing-#{PROCESSING_VERSION}-macosx.zip", "jruby-complete-#{JRUBY_VERSION}.jar")
 
-desc "download, sign and copy to ruby-processing"
-task :default => [:download, :signjar, :copy]
+desc "download, and copy to ruby-processing"
+task :default => [:download, :copy]
 
 desc "download Processing & JRuby upstream sources"
-task :download => ["processing-#{PROCESSING_VERSION}-windows-expert.zip", "jruby-complete-#{JRUBY_VERSION}.jar"]
-
-# taking this version is because this is the smallest build available with all the librairies we need
-file "processing-#{PROCESSING_VERSION}-windows-expert.zip" do
-  # /home/moumar/src/processing-#{PROCESSING_VERSION}/build/linux/work/modes/java/libraries
-  sh "wget http://processing.googlecode.com/files/processing-#{PROCESSING_VERSION}-windows-expert.zip"
-  check_sha1("processing-#{PROCESSING_VERSION}-windows-expert.zip", "d3044e07c34b6eda2360987d67faf8c1cd687ffa")
-  #unzip -o /home/moumar/src/processing-#{PROCESSING_VERSION}-windows-expert.zip 'processing-#{PROCESSING_VERSION}/modes/java/libraries/opengl/library/*' 'processing-#{PROCESSING_VERSION}/modes/java/libraries/minim/library/*'"
+task :download => ["processing-#{PROCESSING_VERSION}-macosx.zip", "jruby-complete-#{JRUBY_VERSION}.jar"]
+######
+# Using the macosx version as the smallest download to provide the jars we require 
+# Rakefile tested on MacOSX and linux
+######
+file "processing-#{PROCESSING_VERSION}-macosx.zip" do
+  sh "wget http://processing.googlecode.com/files/processing-#{PROCESSING_VERSION}-macosx.zip"
+  check_sha1("processing-#{PROCESSING_VERSION}-macosx.zip", "8c88c840be2cd2d5579609c4d67a71b6ec163763")
 end
 
 file "jruby-complete-#{JRUBY_VERSION}.jar" do
   sh "wget http://jruby.org.s3.amazonaws.com/downloads/#{JRUBY_VERSION}/jruby-complete-#{JRUBY_VERSION}.jar"
-  check_sha1("jruby-complete-#{JRUBY_VERSION}.jar", "455e6a0a0068fbcc52e8f419c8a40fa8bca68a2f")
-end
-
-task :signjar => "jruby-complete-#{JRUBY_VERSION}.jar" do
-  unless `jarsigner -verify jruby-complete-#{JRUBY_VERSION}.jar`.chop == "jar verified."
-    sh "cat ~/.keystore_pass | jarsigner jruby-complete-#{JRUBY_VERSION}.jar ruby-processing"
-  end
+  check_sha1("jruby-complete-#{JRUBY_VERSION}.jar", "a117e28e715184074980d6228962b9fb6b5607ac")
 end
 
 directory "../lib/core"
 
 desc "copy libs & jars"
-task :copy => ["../lib/core", :signjar ] do
+task :copy => ["../lib/core"] do
   sh "cp -v jruby-complete-#{JRUBY_VERSION}.jar ../lib/core/jruby-complete.jar"
 
-  processing_zip = File.expand_path("processing-#{PROCESSING_VERSION}-windows-expert.zip")
-  sh "cd ../lib/core && unzip -qoj #{processing_zip} processing-#{PROCESSING_VERSION}/lib/core.jar"
+  processing_zip = File.expand_path("processing-#{PROCESSING_VERSION}-macosx.zip")
+  sh "cd ../lib/core && unzip -qoj #{processing_zip} Processing.app/Contents/Resources/Java/core/library/*.jar"
 
-  dirs = %w{dxf javascript minim net opengl pdf serial video}
+  dirs = %w{dxf minim net pdf serial video}
   Dir.chdir("../library/") do
-    sh "rm -rf processing-#{PROCESSING_VERSION}/ #{dirs.join(" ")}"
-    inside_zip_dirs = dirs.collect { |d| "processing-#{PROCESSING_VERSION}/modes/java/libraries/#{d}/library/*" }
+    sh "rm -rf Processing.app/ #{dirs.join(" ")}"
+    inside_zip_dirs = dirs.collect { |d| "Processing.app/Contents/Resources/Java/modes/java/libraries/#{d}/library/*" }
     sh "unzip -q #{processing_zip} #{inside_zip_dirs.join(" ")}"
-    sh "mv processing-#{PROCESSING_VERSION}/modes/java/libraries/* ."
-    sh "rm -r processing-#{PROCESSING_VERSION}/"
+    sh "mv Processing.app/Contents/Resources/Java/modes/java/libraries/* ."
+    sh "rm -r Processing.app/"
   end
 end
 

@@ -33,7 +33,7 @@ module ControlPanel
     def update_label(label, name, value)
       value = value.to_s
       value << "0" if value.length < 4
-      label.set_text "<html><br>#{name.to_s}: #{value}</html>"
+      label.set_text "<html><br><b>#{name.to_s}: #{value}</b></html>"
     end
   end
 
@@ -89,11 +89,19 @@ module ControlPanel
 
 
   class Panel < javax.swing.JFrame
+    java_import javax.swing.UIManager
+    
     attr_accessor :elements
 
-    def initialize
+    def initialize lf = "Metal"
       super()
       @elements = []
+      UIManager::getInstalledLookAndFeels.each do |info|
+        if (info.getName.eql? lf)
+          UIManager::setLookAndFeel(info.getClassName)
+          break
+        end
+      end
       @panel = javax.swing.JPanel.new(java.awt.FlowLayout.new(1, 0, 0))
     end
 
@@ -102,17 +110,12 @@ module ControlPanel
       set_size 200, 30 + (64 * @elements.size)
       set_default_close_operation javax.swing.JFrame::DISPOSE_ON_CLOSE
       set_resizable false
-      # Need to wait for the sketch to finish sizing...
-      Thread.new do
-        sleep 0.2 while !$app.started?
-        set_location($app.width + 10, 0)
-        show
-      end
+      @panel.visible = true
     end
 
     def add_element(element, name, has_label=true, button=false)
       if has_label
-        label = javax.swing.JLabel.new("<html><br>#{name}</html>")
+        label = javax.swing.JLabel.new("<html><br><b>#{name}</b></html>")
         @panel.add label
       end
       @elements << element
@@ -145,9 +148,8 @@ module ControlPanel
 
 
   module InstanceMethods
-    def control_panel
-      return if Processing.online?
-      @control_panel = ControlPanel::Panel.new unless @control_panel
+    def control_panel lf = "Metal"
+      @control_panel = ControlPanel::Panel.new lf unless @control_panel
       return @control_panel unless block_given?
       yield(@control_panel)
       @control_panel.display
