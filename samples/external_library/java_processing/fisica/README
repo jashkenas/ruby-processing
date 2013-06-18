@@ -1,0 +1,1 @@
+For some reason several methods in the fisica ar not recongized when ruby-processing is run using the included jruby-complete.  However at least on my linux box these examples run OK using an external jruby (version 1.7.3).

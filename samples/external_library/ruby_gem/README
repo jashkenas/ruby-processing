@@ -1,0 +1,12 @@
+The absolute belt and brace way to use external ruby libraries ie gems:
+
+1. Install ruby-processing using jruby
+   jruby -S gem install ruby-processing (or from a local gem currently)
+2. Install required library the same way
+3. "require" the library in your sketch
+4. Run ruby-processing starting from jruby
+   jruby -S rp5 run --jruby sketch.rb
+
+See worked perlin_noise in this folder 
+NB: library will need to work with jruby this excludes most native libraries
+but pure ruby libraries should be fine

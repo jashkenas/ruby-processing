@@ -1,0 +1,2 @@
+-Xmn128m -Xms512m -Xmx512m -XX:CompileCommand=dontinline,org.jruby.runtime.invokedynamic.InvokeDynamicSupport::invocationFallback 
+
