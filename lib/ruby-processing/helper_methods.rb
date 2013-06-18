@@ -67,7 +67,7 @@ module Processing
     # some methods. Add to this list as needed.
     def proxy_java_fields
       @declared_fields = {}
-      fields = %w(sketchPath key frameRate frame)
+      fields = %w(sketchPath key frameRate frame mousePressed keyPressed)
       fields.each {|f| @declared_fields[f] = java_class.declared_field(f) }
     end
 
@@ -89,7 +89,7 @@ module Processing
 
     # Provide a convenient handle for the Java-space version of self.
     def java_self
-      @java_self ||= Java.ruby_to_java self
+      @java_self ||= self.to_java(Java::ProcessingCore::PApplet)
     end
 
 
@@ -127,13 +127,12 @@ module Processing
 
     # Is the mouse pressed for this frame?
     def mouse_pressed?
-      Java.java_to_primitive(java_class.field("mousePressed").value(java_object))
+      field =  @declared_fields['mousePressed'].value(java_self)
     end
 
     # Is a key pressed for this frame?
-    def key_pressed?
-      Java.java_to_primitive(java_class.field("keyPressed").value(java_object))
+    def key_pressed? 
+      field =  @declared_fields['keyPressed'].value(java_self)
     end
-
   end
 end

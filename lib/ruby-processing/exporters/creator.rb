@@ -6,7 +6,7 @@ module Processing
     ALL_DIGITS = /\A\d+\Z/
     
     # Create a blank sketch, given a path.
-    def create!(path, args, bare)
+    def create!(path, args, p3d)
       usage path
       main_file = File.basename(path, ".rb")
       # Check to make sure that the main file exists
@@ -28,12 +28,12 @@ module Processing
       # Make the file
       dir = File.dirname path
       mkdir_p dir
-      template_name = bare ? 'bare_sketch.rb.erb' : 'blank_sketch.rb.erb'
+      template_name = p3d ? 'p3d_sketch.rb.erb' : 'blank_sketch.rb.erb'
       template = File.new("#{RP5_ROOT}/lib/templates/create/#{template_name}")
       rendered = render_erb_from_string_with_binding(template.read, binding)
       full_path = File.join(dir, "#{@file_name}.rb")
       File.open(full_path, "w") {|f| f.print(rendered) }
-      puts "Created Sketch \"#{@title}\" in #{full_path.sub(/\A\.\//, '')}"
+      puts "Created Sketch \"#{@name}\" in #{full_path.sub(/\A\.\//, '')}"
     end
     
     # Show the help/usage message for create.

@@ -20,7 +20,7 @@ module Processing
     def load_libraries(*args)
       args.each do |lib|
         loaded = load_ruby_library(lib) || load_java_library(lib)
-        raise LoadError.new "no such file to load -- #{lib}" if !loaded
+        raise LoadError.new( "no such file to load -- #{lib}") if !loaded
       end
     end
     alias :load_library :load_libraries
@@ -31,17 +31,9 @@ module Processing
     def load_ruby_library(library_name)
       library_name = library_name.to_sym
       return true if @loaded_libraries[library_name]
-      if Processing.online?
-        begin
-          return @loaded_libraries[library_name] = (require "library/#{library_name}/#{library_name}")
-        rescue LoadError => e
-          return false
-        end
-      else
-        path = get_library_paths(library_name, "rb").first
-        return false unless path
-        return @loaded_libraries[library_name] = (require path)
-      end
+      path = get_library_paths(library_name, "rb").first
+      return false unless path
+      return @loaded_libraries[library_name] = (require path)
     end
 
 
@@ -54,9 +46,6 @@ module Processing
     def load_java_library(library_name)
       library_name = library_name.to_sym
       return true if @loaded_libraries[library_name]
-      if Processing.online?
-        return @loaded_libraries[library_name] = !!(JRUBY_APPLET.get_parameter("archive").match(%r(#{library_name}))) 
-      end
       path = get_library_directory_path(library_name, "jar")
       jars = get_library_paths(library_name, "jar")
       return false if jars.empty?
