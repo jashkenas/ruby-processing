@@ -11,8 +11,8 @@
   this thin little shim that squeezes between Processing and JRuby, passing 
   along some neat goodies like:
   
-  * Applet and Application exporting of your sketches. Hand them out to 
-    your party guests, ready-to-run.
+  * Application exporting of your sketches. Hand them out to your party guests,
+    ready-to-run.
     
   * Live Coding via JRuby's IRB. Loads in your sketch so you can futz with 
     variables and remake methods on the fly.
