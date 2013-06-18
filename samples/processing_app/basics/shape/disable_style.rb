@@ -1,3 +1,4 @@
+
 # Ignore Styles. 
 # Illustration by George Brower. 
 # 
@@ -5,32 +6,27 @@
 # to draw (the color, stroke weight, etc.) The disableStyle() 
 # method of PShape turns off this information. The enableStyle()
 # method turns it back on.
+#
 
-class DisableStyle < Processing::App
+attr_reader :bot
 
-  def setup
-    
-    size 640, 360
-    smooth
-    
-    @bot = load_shape "bot1.svg"
-    
-    no_loop
-  end
-  
-  def draw
-  	
-  	background 102
-  	
-  	@bot.disable_style
-  	fill 0, 102, 153
-  	stroke 255
-  	shape @bot, 20, 25
-  	
-  	@bot.enable_style
-  	shape @bot, 320, 25
-  end
-  
+def setup
+  size(640, 360)
+  # The file "bot1.svg" must be in the data folder
+  # of the current sketch to load successfully
+  @bot = load_shape("bot1.svg")
 end
 
-DisableStyle.new :title => "Disable Style"
+def draw
+  background(102)  
+  # Draw left bot
+  bot.disableStyle()  # Ignore the colors in the SVG
+  fill(0, 102, 153)    # Set the SVG fill to blue
+  stroke(255)          # Set the SVG fill to white
+  shape(bot, 20, 25, 300, 300)
+  # Draw right bot
+  bot.enableStyle()
+  shape(bot, 320, 25, 300, 300)
+end
+
+

@@ -1,12 +1,10 @@
-require 'ruby-processing'
-
 # An image is recreated from its individual component colors.
 # The many colors of the image are created through modulating the 
 # red, green, and blue values. This is an exageration of an LCD display. 
 
-class Reading < Processing::App
 
-  def setup
+def setup
+    size 200, 200  
     no_stroke
     background 0
     
@@ -36,8 +34,5 @@ class Reading < Processing::App
     	end
     end
     
-  end
-  
 end
 
-Reading.new :title => "Reading", :width => 200, :height => 200

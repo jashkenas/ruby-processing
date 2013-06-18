@@ -20,47 +20,34 @@
 # def my_method2 ( *args ) # can be called with any number of arguments, args is an array
 # end
 
-class MultipleConstructors < Processing::App
 
-  def setup
-  	
-  	size 200, 200
-  	
-  	background 204
-  	smooth
-  	no_loop
-  	
-  	sp1 = Spot.new
-  	sp2 = Spot.new 122, 100, 40
-  	
-  	sp1.display
-  	sp2.display
-  end
-  
-  def draw
-  
-  end
-  
-  # vvv CLASS SPOT
-  
-  class Spot
-  
-  	attr_accessor :x, :y, :radius
-  	
-  	def initialize ( x = 66, y = 100, r = 16 ) # can be called with 0 to 3 arguments
-  	
-  		@x, @y, @radius = x, y, r
-  	end
-  	
-  	def display
-  	
-  		ellipse @x, @y, @radius*2, @radius*2
-  	end
-  
-  end
-  
-  # ^^^ CLASS SPOT
+def setup    
+  size 200, 200    
+  background 204
+  smooth(8)
+  no_loop    
+  sp1 = Spot.new
+  sp2 = Spot.new 122, 100, 40    
+  sp1.display
+  sp2.display
+end
+
+def draw
   
 end
 
-MultipleConstructors.new :title => "Multiple Constructors"
+# vvv CLASS SPOT
+
+class Spot    
+  attr_accessor :x, :y, :radius    
+  def initialize ( x = 66, y = 100, r = 16 ) # can be called with 0 to 3 arguments
+    @x, @y, @radius = x, y, r
+  end
+  
+  def display        
+    ellipse @x, @y, @radius*2, @radius*2
+  end    
+end
+
+# ^^^ CLASS SPOT
+

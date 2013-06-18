@@ -1,4 +1,3 @@
-require 'ruby-processing'
 
 #  * Click on the image to give it focus and then type letters to
 #  * shift the location of the image. 
@@ -12,11 +11,9 @@ require 'ruby-processing'
 #  * Chars and strings are most often used with the keyboard methods, 
 #  * to display text to the screen, and to load images or files. 
 
-class CharactersStrings < Processing::App
 
-  def setup
-    
-    render_mode P2D
+def setup
+    size 200, 200, P2D
     
     @xoffset = 0
     @letter = ""
@@ -42,11 +39,11 @@ class CharactersStrings < Processing::App
   	
   	# The parameter for the loadImage() method must be a string
   	# This line could also be written "frog = load_image "rathausFrog.jpg"
-
+  	
   	@frog = load_image name
-  end
-  
-  def draw
+end
+
+def draw
   	background 51 # Set background to dark gray
   	
   	# Same as "image @frog, @xoffset, 0", but more efficient 
@@ -59,27 +56,24 @@ class CharactersStrings < Processing::App
   	
   	# Draw the letter to the center of the screen
   	text @letter, width/2, height/2
-  end
-  
-  def key_pressed
-  	# The variable "key" always contains the value of the most recent key pressed.
-	  # If the key is an upper or lowercase letter between 'A' and 'z'
-	  # the image is shifted to the corresponding value of that key	  
-	  if ('A'..'z').include? key
-	    
-		  # Map the index of the key pressed from the range between 'A' and 'z',
-		  # into a position for the left edge of the image. The maximum xoffset
-		  # is the width of the drawing area minus the size of the image.
-		  @xoffset = map( key[0], "A"[0], "z"[0], 0, width - @frog.width ).to_i
-		  
-		  # Update the letter shown to the screen
-		  @letter = key
-		  
-		  # Write the letter to the console
-		  puts key
-	  end
-  end
-  
 end
 
-CharactersStrings.new :title => "Characters Strings", :width => 200, :height => 200
+def key_pressed
+  	# The variable "key" always contains the value of the most recent key pressed.
+  	# If the key is an upper or lowercase letter between 'A' and 'z'
+  	# the image is shifted to the corresponding value of that key	  
+  	if ('A'..'z').include? key
+	    
+  	    # Map the index of the key pressed from the range between 'A' and 'z',
+  	    # into a position for the left edge of the image. The maximum xoffset
+  	    # is the width of the drawing area minus the size of the image.
+  	    @xoffset = map( key[0], "A"[0], "z"[0], 0, width - @frog.width ).to_i
+  	    
+  	    # Update the letter shown to the screen
+  	    @letter = key
+  	    
+  	    # Write the letter to the console
+  	    puts key
+  	end
+end
+
