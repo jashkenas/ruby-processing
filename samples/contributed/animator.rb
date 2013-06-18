@@ -6,12 +6,12 @@
 FRAME_COUNT = 12
 
 def setup
+  size 350, 350
   @frames         = []
   @last_time      = 0
   @current_frame  = 0
   @draw           = false
-  @back_color     = 204
-  size 350, 350
+  @back_color     = 204  
   stroke_weight 4
   smooth
   background @back_color

@@ -1,14 +1,12 @@
 # Description:
-# This full-screen demo can demonstrate the kinds of speedups 
-# that are possible with OpenGL-accelerated rendering. If you
-# have the OpenGL library installed, you'll get *much* 
-# smoother and faster drawing.
+# This is a full-screen demo 
+# Since processing-2.0 it is opengl
 
 full_screen
-load_library :opengl
+
 
 def setup
-  library_loaded?(:opengl) ? render_mode(OPENGL) : render_mode(P3D)
+  size 1000, 1000, P3D
   no_stroke
 end
 
