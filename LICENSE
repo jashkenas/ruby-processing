@@ -32,6 +32,6 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ====================================================
 
 Ruby-Processing also distributes core components 
-of both JRuby and Processing, which are licensed 
-under the GNU Lesser General Public License.
+of both JRuby and Processing (see license.txt), which 
+are licensed under the GNU Lesser General Public License.
 
