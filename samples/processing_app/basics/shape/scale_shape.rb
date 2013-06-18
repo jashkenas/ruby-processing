@@ -5,29 +5,19 @@
 # This shows how, unlike an imported image, the lines
 # remain smooth at any size.
 
-class ScaleShape < Processing::App
+attr_reader :bot
 
-  def setup
-    
-    size 640, 360
-    
-    smooth
-    
-    @bot = load_shape "bot1.svg"
-  end
-  
-  def draw
-  
-  	background 102
-  	
-  	translate width/2, height/2
-  	
-  	zoom = map( mouse_x, 0, width, 0.1, 4.5 )
-  	scale zoom
-  	
-  	shape @bot, -140, -140
-  end
-  
+def setup
+  size(640, 360)
+  # The file "bot1.svg" must be in the data folder
+  # of the current sketch to load successfully
+  @bot = load_shape("bot1.svg")
 end
 
-ScaleShape.new :title => "Scale Shape"
+def draw
+  background(102)
+  translate(width/2, height/2)
+  zoom = map(mouse_x, 0, width, 0.1, 4.5)
+  scale(zoom)
+  shape(bot, -140, -140)
+end

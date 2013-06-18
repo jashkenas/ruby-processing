@@ -5,13 +5,10 @@
 # The origin [0, 0] is the coordinate is in the upper left of the window
 # and the coordinate in the lower right is [width-1, height-1].
 
-class Coordinates < Processing::App
 
-  def setup
-    
-    # Sets the screen to be 200, 200, so the width of the window is 200 pixels
-	# and the height of the window is 200 pixels
-	
+def setup    
+  # Sets the screen to be 200, 200, so the width of the window is 200 pixels
+	# and the height of the window is 200 pixels	
 	size 200, 200
 	background 0
 	no_fill 
@@ -47,9 +44,6 @@ class Coordinates < Processing::App
 	# and the second two are the width and height
 	
 	rect 110, 55, 40, 36
-    
-  end
-  
+	
 end
 
-Coordinates.new :title => "Coordinates"
