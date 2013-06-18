@@ -8,7 +8,7 @@ module Processing
   # code-munging needed to generate apps and applets.
   class BaseExporter
     include FileUtils
-    
+    ## hashes with strings as keys need to retain old hash syntax
     DEFAULT_DIMENSIONS = {'width' => '100', 'height' => '100'}
     DEFAULT_DESCRIPTION = ''
     NECESSARY_FOLDERS = ['data', 'lib', 'vendor']

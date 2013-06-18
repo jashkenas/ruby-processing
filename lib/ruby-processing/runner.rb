@@ -5,7 +5,7 @@ require 'ruby-processing/config'
 module Processing
 
   # Utility class to handle the different commands that the 'rp5' command
-  # offers. Able to run, watch, live, create, app, applet, and unpack
+  # offers. Able to run, watch, live, create, app, and unpack
   class Runner
 
     HELP_MESSAGE = <<-EOS
@@ -15,14 +15,13 @@ module Processing
   you create sketches of code art.
 
   Usage:
-    rp5 [run | watch | live | create [width height] | app | applet | unpack] path/to/sketch
+    rp5 [run | watch | live | create [width height] | app | unpack] path/to/sketch
 
     run:        run sketch once
     watch:      watch for changes on the file and relaunch it on the fly
     live:       launch sketch and give an interactive IRB shell
     create:     create new sketch. Use --bare to generate simpler sketches without a class
     app:        create an application version of the sketch
-    applet:     create an applet version of the sketch
     unpack:     unpack samples or library
 
   Common options:
@@ -43,9 +42,9 @@ module Processing
   Examples:
     rp5 unpack samples
     rp5 run samples/contributed/jwishy.rb
-    rp5 create some_new_sketch --bare 640 480
+    rp5 create some_new_sketch 640 480
+    rp5 create some_new_sketch --p3d 640 480
     rp5 watch some_new_sketch.rb
-    rp5 applet some_new_sketch.rb
 
   Everything Else:
     http://wiki.github.com/jashkenas/ruby-processing
@@ -65,9 +64,8 @@ module Processing
       when 'run'    then run(@options.path, @options.args)
       when 'watch'  then watch(@options.path, @options.args)
       when 'live'   then live(@options.path, @options.args)
-      when 'create' then create(@options.path, @options.args, @options.bare)
+      when 'create' then create(@options.path, @options.args, @options.p3d)
       when 'app'    then app(@options.path)
-      when 'applet' then applet(@options.path)
       when 'unpack' then unpack(@options.path)
       when /-v/     then show_version
       when /-h/     then show_help
@@ -79,7 +77,7 @@ module Processing
     # Parse the command-line options. Keep it simple.
     def parse_options(args)
       @options = OpenStruct.new
-      @options.bare   = !!args.delete('--bare')
+      @options.p3d   = !!args.delete('--p3d')
       @options.jruby  = !!args.delete('--jruby')
       @options.action = args[0]     || nil
       @options.path   = args[1]     || File.basename(Dir.pwd + '.rb')
@@ -88,8 +86,8 @@ module Processing
 
     # Create a fresh Ruby-Processing sketch, with the necessary
     # boilerplate filled out.
-    def create(sketch, args, bare)
-      Processing::Creator.new.create!(sketch, args, bare)
+    def create(sketch, args, p3d)
+      Processing::Creator.new.create!(sketch, args, p3d)
     end
 
     # Just simply run a ruby-processing sketch.
@@ -114,11 +112,6 @@ module Processing
     # Generate a cross-platform application of a given Ruby-Processing sketch.
     def app(sketch)
       Processing::ApplicationExporter.new.export!(sketch)
-    end
-
-    # Generate an applet and HTML page for a given sketch.
-    def applet(sketch)
-      Processing::AppletExporter.new.export!(sketch)
     end
 
     # Install the included samples to a given path, where you can run and

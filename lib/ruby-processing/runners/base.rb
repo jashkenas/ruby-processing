@@ -29,7 +29,7 @@ module Processing
     has_methods = !!source.match(/^[^#]*(def\s+setup|def\s+draw)/)
 
     if has_sketch
-      load SKETCH_PATH
+      load File.join(SKETCH_ROOT, SKETCH_PATH)      
       Processing::App.sketch_class.new if !$app
     else
       require 'erb'
@@ -42,19 +42,7 @@ module Processing
 
   # Read in the sketch source code. Needs to work both online and offline.
   def self.read_sketch_source
-    if Processing.online?
-      # Fuck the following lines. Fucking Java can go sit on broken glass.
-      source = ''
-      url = java.net.URL.new(JRUBY_APPLET.java_send(:getCodeBase), SKETCH_PATH)
-      input = java.io.BufferedReader.new(java.io.InputStreamReader.new(url.java_send(:openStream)))
-      while line = input.java_send(:readLine) do
-        source << (line + "\n") if line
-      end
-      input.close
-    else
-      # Ahhh, much better.
       source = File.read(SKETCH_PATH)
-    end
     source
   end
 
