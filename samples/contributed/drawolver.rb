@@ -1,8 +1,9 @@
 # Drawolver: draw 2D & revolve 3D
 
 # Example to show how to extend Ruby classes in a useful way and how to
-# use PVector and the Array is extended to yield each_pair one_of_each 
-# pair of pts. See drawolver library
+# use PVector and the Array is extended to yield one_of_each 
+# pair of pts. See the drawolver library. Also features the use each_cons, 
+# possibly a rare use for this ruby Enumerable method?
 # 2010-03-22 - fjenett
 
 load_library 'drawolver'
