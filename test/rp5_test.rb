@@ -58,26 +58,6 @@ EOF
     assert_equal "ok", queue.pop
   end
 
-  def test_PDF
-    skip("Can cause deadlock...")
-    queue = write_and_run_sketch <<EOF
-load_library 'pdf'
-include_package 'processing.pdf'
-
-def setup
-  size(2000, 2000, PDF, "Line.pdf")
-end
-
-def draw
-  background(255)
-  stroke(0, 20)
-  strokeWeight(20.0)
-  line(200, 0, width/2, height)
-  exit  
-end
-EOF
-    assert_equal "created", queue.pop[0, 7]
-  end
   
   def test_setup_exception
     queue = write_and_run_sketch <<EOF
@@ -113,26 +93,16 @@ EOF
     assert queue.pop.index("undefined method `unknown_method'")
   end
   
-  def test_inner_classes_proxy
-    skip("Need to debug this...")
+  def test_opengl_version
+    skip("Higher end graphics card could start 4.2")
     queue = write_and_run_sketch <<EOF
 def setup
-  size(300, 300)
-  begin
-    MyInnerClass.new 
-  rescue
-    println("inner class proxy doesn't work")
-  end
-  exit
+  size(100, 100, P3D)
+  puts Java::Processing::opengl::PGraphicsOpenGL.OPENGL_VERSION
 end
    
-class MyInnerClass
-  def initialize
-    println(width)
-  end
-end
 EOF
-    assert_equal "300", queue.pop
+    assert queue.pop.start_with? '3.3'
   end
 
 
