@@ -15,7 +15,7 @@ task :download => ["processing-#{PROCESSING_VERSION}-macosx.zip", "jruby-complet
 # Rakefile tested on MacOSX and linux
 ######
 file "processing-#{PROCESSING_VERSION}-macosx.zip" do
-  sh "wget http://processing.googlecode.com/files/processing-#{PROCESSING_VERSION}-macosx.zip"
+  sh "wget http://download.processing.org/processing--#{PROCESSING_VERSION}-macosx.zip"
   check_sha1("processing-#{PROCESSING_VERSION}-macosx.zip", "be5313dac0b85387ed0ee6e652fd26bbfb749a85")
 end
 
