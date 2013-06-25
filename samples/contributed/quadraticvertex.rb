@@ -7,27 +7,34 @@
 # this is different from vanilla processing
 #
 
-attr_reader :debug, :save_one, :step_angle, :cr, :data
+load_library :control_panel
+
+attr_reader :debug, :save_one, :step_angle, :cr, :detail, :panel
 
 def setup
-  size 450, 320 
+  size 450, 320
+  control_panel do |c|
+    c.title = "controller"
+    c.menu(:detail, ['4', '5', '6', '7', '8', '9', '10' ], '7')
+    c.button :toggle_debug
+    c.button :save_image
+    @panel = c
+  end
   @debug = false
-  @save_one = false
-  @step_angle = TWO_PI / 6
-  @data = Array.new(6){ |i| i + 1 }
-  @data.unshift(0)
+  @save_one = false  
   smooth 8
 end
 
 def draw
+  panel.set_visible true
   background color('#BDF018')
   translate width / 2, height / 2 
-  
+  @step_angle = TWO_PI / (detail.to_i - 1)
   fill color('#ffffff')
   no_stroke
   @cr = map(mouse_x, 0, width, 20, 200)
   begin_shape
-  data.each { |i|  
+  detail.to_i.times { |i|  
     if (i == 0) 
       vertex cos_x(i), sin_y(i) 
     else 
@@ -43,18 +50,15 @@ def draw
     stroke(0)
     
     begin_shape
-    data.each { |i|    
-      if ( i > 0 ) 
-        vertex cos_cx(i), sin_cy(i) 
-      end
+    detail.to_i.times { |i|          
+      vertex cos_cx(i), sin_cy(i) unless i == 0          
       vertex cos_x(i), sin_y(i) 
     }
     end_shape CLOSE
     
     # draw points
-    stroke_weight 8
-    
-    data.each { |i|  
+    stroke_weight 8    
+    detail.to_i.times { |i|  
       stroke 0 
       point cos_x(i), sin_y(i)      
       stroke 255, 0, 0 
@@ -84,11 +88,10 @@ def sin_cy(n)
   sin(step_angle * n - (step_angle / 2 )) * cr
 end
 
-def key_pressed
-  case key
-  when 's'
-    @save_one = true
-  when 'd'
-    @debug = !debug
-  end
+def toggle_debug
+  @debug = !debug
+end
+
+def save_image
+  @save_one = true
 end
