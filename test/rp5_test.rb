@@ -94,7 +94,7 @@ EOF
   end
   
   def test_opengl_version
-    skip("Higher end graphics card could start 4.2")
+    skip("May need run this test with jruby")
     queue = write_and_run_sketch <<EOF
 def setup
   size(100, 100, P3D)
@@ -102,7 +102,8 @@ def setup
 end
    
 EOF
-    assert queue.pop.start_with? '3.3'
+    result = queue.pop
+    assert result[0].to_i >= 3, "Graphics capability #{result} may be sub-optimal" 
   end
 
 
