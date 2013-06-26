@@ -9,7 +9,7 @@ It is entirely possible that any issues you may experience with this version of 
 What's new
 ----------------
 
-New capabilities since processing-2.0 include ability to use OPENGL VBO (PShape) and GLSL shaderd (PShader), worked examples are included the samples. The update to the latest jruby is also significant as the default is to run with ruby-1.9 support, and there have been many performance improvements. To use the invoke-dynamic java support for dynamic language, use java-7+ (NB: on the Mac need Intel-based Mac running Mac OS X version 10.7.3 and above to install java 7 otherwise use java 6). Many more worked examples are included.
+New capabilities since processing-2.0 include ability to use OPENGL VBO (PShape) and GLSL shaders (PShader), worked examples are included the samples. The update to the latest jruby is also significant as the default is to run with ruby-1.9 support, and there have been many performance improvements. To use the invoke-dynamic java support for dynamic language, use java-7+ (NB: on the Mac need Intel-based Mac running Mac OS X version 10.7.3 and above to install java 7 otherwise use java 6). Many more worked examples are included.
 
 The original version
 --------------------------- 
