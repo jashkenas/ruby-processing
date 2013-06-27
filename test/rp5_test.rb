@@ -67,6 +67,7 @@ def setup
     unknown_method()
   rescue NoMethodError => e
     println e
+    exit
   end
 end
 
@@ -87,6 +88,7 @@ def draw
     unknown_method()
   rescue NoMethodError => e
     println e
+    exit
   end
 end
 EOF
@@ -94,11 +96,13 @@ EOF
   end
   
   def test_opengl_version
-    skip("May need run this test with jruby")
+    # uncomment line below to skip this test
+    #skip("May need run this test with jruby")
     queue = write_and_run_sketch <<EOF
 def setup
   size(100, 100, P3D)
   puts Java::Processing::opengl::PGraphicsOpenGL.OPENGL_VERSION
+  exit
 end
    
 EOF
