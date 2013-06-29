@@ -1,3 +1,4 @@
+gem "minitest"      # don't use bundled minitest
 require "minitest/autorun"
 require "fileutils"
 require "tempfile"
@@ -5,8 +6,6 @@ require "timeout"
 require "thread"
 
 Dir.chdir(File.dirname(__FILE__))
-# for compatibility
-Minitest::Test = MiniTest::Unit::TestCase unless defined?(Minitest::Test)
 
 class Rp5Test < Minitest::Test
  # OUTPUT_FILE = File.join(Dir.pwd, "output.txt")
