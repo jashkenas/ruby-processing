@@ -23,7 +23,7 @@ module Processing
           puts "reloading sketch..."
           $app && $app.close
           @time = Time.now
-          GC.start
+          java.lang.System.gc
           start_runner
           reload_files_to_watch
         end
