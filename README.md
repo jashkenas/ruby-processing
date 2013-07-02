@@ -9,7 +9,7 @@ It is entirely possible that any issues you may experience with this version of 
 OS requirements to run processing
 ------------------------------------
 
-[Requirements according to processing developers](http://wiki.processing.org/w/Supported_Platforms)
+[Requirements according to processing developers](http://wiki.processing.org/w/Supported_Platforms), personally I've found ruby-processing runs just fine with both Oracle java 7 and OpenJDK 7, so I take their recommendations with a pinch of salt. In fact to get InvokeDynamic improvements you should do just that...
 
 What's new
 ----------------
