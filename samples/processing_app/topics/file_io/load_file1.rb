@@ -5,7 +5,8 @@
 # A new pair of numbers is loaded each frame and used to draw a point on the screen.
 #
 
-attr_reader :lines, :count
+attr_reader :points, :count
+X, Y = 0, 1
 
 def setup
   size(200, 200)
@@ -14,19 +15,18 @@ def setup
   stroke_weight 3
   frame_rate(12)
   @count = 0
-  @lines = []
+  @points = []
   # The use of vanilla processing load_strings convenience method is
-  # of dubious value in ruby processing, uncomment following to try it.
-  #@lines = load_strings("positions.txt".to_java)  
-  File.read("data/positions.txt").each_line do |line|
-    lines << line.chop
-  end
+  # of dubious value in ruby processing when you can do this
+  
+  File.open("data/positions.txt").each_line do |line|
+    points << line.split(/\t/).map! { |i| i.to_i * 2 }
+  end    
 end
 
 def draw
-  if count < lines.length
-    pieces = lines[count].scan(/\d+/)  
-    point(Integer(pieces[1][0]) * 5, Integer(pieces[1][1]) * 5) if (pieces.length == 2)
+  if count < points.size
+    point(points[count][X], points[count][Y]) 
+    @count += 1 
   end
-  @count += 1
 end
