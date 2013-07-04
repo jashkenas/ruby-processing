@@ -1,14 +1,11 @@
-v1.0.13 Updating to Processing-2.0.1 ...
-  * Processing updated to processing-2.0.1
-
-v1.0.12 Updating to Processing-2.0 ...
-  * Processing updated to processing-2.0 as with processing-2.0 export to applet has disappeared, also P3D is 
+v2.0.0 A major revision, now based on processing-2.0 and JRuby 1.7+
+  * Processing updated to processing-2.0.1 export to applet has disappeared, also P3D is 
   * the new OPENGL (except Jogl2 instead of Jogl1.1) if you've got an old graphics card or even some new netbook 
   * with onboard graphics you may have issues.
   * https://forum.processing.org/topic/processing-2-0-won-t-run-on-netbooks-and-older-cheaper-hardware. 
   * Processing-2.0  has its own event system (replacing java.awt.event), ruby-processing sketches will normally 
   * use this event system.
-  * JRuby upgraded to 1.7.4 (default is ruby 1.9 and 2.0 may be possible with a switch)
+  * JRuby upgraded to 1.7.4 (default is ruby 1.9 and 2.0 is possible with a switch)
   * NB: bare sketches replace class wrapped sketches see samples...
   * Samples have been extended to include vanilla processing library examples.
   * References to the 'online' variable have been removed (deprecated in processing-2.0 slated for removal)
