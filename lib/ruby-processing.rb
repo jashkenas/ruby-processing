@@ -14,7 +14,7 @@ require 'ruby-processing/helpers/numeric'
 
 # The top-level namespace, a home for all Ruby-Processing classes.
 module Processing
-  VERSION = "1.0.13" unless defined? Processing::VERSION
+  VERSION = "2.0.0" unless defined? Processing::VERSION
   # Autoload a number of constants that we may end up using.
   autoload :App,                  'ruby-processing/app'
   autoload :Runner,               'ruby-processing/runner'
