@@ -4,16 +4,15 @@
 
 
 def setup
-  size 200, 200
+  size 640, 360
   no_stroke
-  smooth
   ellipse_mode RADIUS
-  
+  rect_mode CORNERS
   @mx, @my = 0.0, 0.0
   @easing = 0.05
-  @ellipse_size = 25.0
-  @box_size = 30
-  @together = @box_size + @ellipse_size
+  @ellipse_size = 24.0
+  @edge = 100
+  @inner = @edge + @ellipse_size
 end
 
 def draw
@@ -23,11 +22,11 @@ def draw
   @my += (mouse_y - @my) * @easing if (mouse_y - @my).abs > 0.1
   
   distance = @ellipse_size * 2
-  @mx = constrain @mx, (@box_size + distance), (width  - @box_size - distance)
-  @my = constrain @my, (@box_size + distance), (height - @box_size - distance)
+  @mx = constrain @mx, @inner, (width  - @inner)
+  @my = constrain @my, @inner, (height - @inner)
   
   fill 76
-  rect @together, @together, @box_size * 3, @box_size * 3
+  rect @edge, @edge, width - @edge, height - @edge 
   
   fill 255
   ellipse @mx, @my, @ellipse_size, @ellipse_size 

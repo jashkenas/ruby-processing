@@ -10,10 +10,9 @@
 
 
 def setup
-  size 200, 200
+  size 640, 360
   @x, @y = 0.0, 0.0
   @easing = 0.05
-  smooth
   no_stroke
 end
 
@@ -26,7 +25,7 @@ def draw
   dy = mouse_y - @y
   @y += dy * @easing if dy.abs > 1
   
-  ellipse @x, @y, 33, 33
+  ellipse @x, @y, 66, 66
 end
 
 
