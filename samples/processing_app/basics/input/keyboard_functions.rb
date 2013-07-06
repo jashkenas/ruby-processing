@@ -1,67 +1,59 @@
 # Modified from code by Martin. 
 # Original 'Color Typewriter' concept by John Maeda. 
 # 
-# Click on the window to give it focus and press the letter keys to type colors. 
-# The keyboard function keyPressed() is called whenever
-# a key is pressed. keyReleased() is another keyboard
-# function that is called when a key is released.
+# Click on the window to give it focus and press the letter keys to type 
+# colors. The keyboard function keyPressed() is called whenever a key is 
+# pressed.
+ 
 
+MAX_HEIGHT = 40
+MIN_HEIGHT = 20
+NUM_CHARS = 26
+attr_reader :colours, :letter_width, :letter_height, :x, :y
+attr_reader :new_letter
 
 def setup
-  size 200, 200
-  @num_chars = 26
-  @letter_width, @letter_height = 10, 10  	
-  @x = -@letter_width
+  size(640, 360)
+  @letter_width = MIN_HEIGHT
+  @letter_height = MAX_HEIGHT  	
+  @x = -letter_width
   @y = 0
-  
-  no_stroke
-  color_mode RGB, @num_chars
-  background @num_chars/2
-  
-  # Set a gray value for each key
-  @colors = []
-  @num_chars.times { |i| @colors[i] = color i }
+  @new_letter = false
+  color_mode(HSB, NUM_CHARS)
+  background(NUM_CHARS / 2)
+  @colours = []
+  NUM_CHARS.times do |i|
+    colours << color(i, NUM_CHARS, NUM_CHARS)
+  end
 end
 
 def draw
-  if new_letter?
-    if upcase?
-      fill (key.ord - "A".ord).abs % 255
-      rect @x, @y, @letter_width, @letter_height*2
+  if new_letter
+    if letter_height == MAX_HEIGHT
+      rect( x, y, letter_width, letter_height )
     else
-      # clear with letter space with background color
-      fill @num_chars/2
-      rect @x, @y, 	@letter_width, @letter_height      
-      fill (key.ord - "a".ord).abs % 255
-      rect @x, @y+@letter_height, @letter_width, @letter_height
+      rect( x, y + MIN_HEIGHT, letter_width, letter_height )
     end
     @new_letter = false
   end
 end
 
-def new_letter?
-  @new_letter
-end
-
-def upcase?
-  @upcase
-end
 
 def key_pressed
   if ('A'..'z').include? key
-    @upcase = key <= "Z"
-    @new_letter = true
-    
-    # Update the "letter" position and 
-    # wrap horizontally and vertically
-    @y += (@letter_height*2) if @x + @letter_width >= width
-    @y = @y % height
-    @x += @letter_width
-    @x = @x % width
+    key_index = key.ord - (key <= 'Z' ? 'A'.ord : 'a'.ord)
+    fill colours[key_index]     
+    @letter_height = (key <= 'Z' ? MAX_HEIGHT : MIN_HEIGHT)
+  else
+    fill 0
+    letter_height = 10
   end
+  @new_letter = true
+  # update letter position
+  @x += letter_width
+  # wrap vertically
+  if (x > width - letter_width)
+    @x = 0
+    @y += MAX_HEIGHT
+  end  
 end
-
-
-
-
-

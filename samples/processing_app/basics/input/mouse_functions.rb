@@ -1,12 +1,13 @@
 # Click on the box and drag it across the screen. 
 
 def setup
-  size 200, 200
-  @block = {"x" => width/2.0, "y" => height/2.0}
-  @block_diff = {"x" => 0.0, "y" => 0.0}
+  size 640, 360
+  smooth 4
+  @block = {x: width/2.0, y: height/2.0}
+  @block_diff = {x: 0.0, y: 0.0}
   @locked = false
   @over_block = false
-  @block_width = 20
+  @block_width = 75
   
   rect_mode RADIUS
 end
@@ -16,10 +17,10 @@ def draw
   
   fill 153
   
-  if (mouse_x > @block["x"]-@block_width &&	# Test if the cursor is over the box 
-    mouse_x < @block["x"]+@block_width &&
-    mouse_y > @block["y"]-@block_width &&
-    mouse_y < @block["y"]+@block_width )
+  if (mouse_x > @block[:x] - @block_width &&	# Test if the cursor is over the box 
+    mouse_x < @block[:x] + @block_width &&
+    mouse_y > @block[:y] - @block_width &&
+    mouse_y < @block[:y] +  @block_width )
   
   @over_block = true
   
@@ -32,7 +33,7 @@ else
 end
 
 # Draw the box
-rect @block["x"], @block["y"], @block_width, @block_width
+rect @block[:x], @block[:y], @block_width, @block_width
 end
 
 def block_locked?
@@ -50,14 +51,14 @@ def mouse_pressed
   else
     @block_locked = false
   end
-  @block_diff["x"] = mouse_x - @block["x"]
-  @block_diff["y"] = mouse_y - @block["y"]
+  @block_diff[:x] = mouse_x - @block[:x]
+  @block_diff[:y] = mouse_y - @block[:y]
 end
 
 def mouse_dragged
   if block_locked?
-    @block["x"] = mouse_x - @block_diff["x"]
-    @block["y"] = mouse_y - @block_diff["y"]
+    @block[:x] = mouse_x - @block_diff[:x]
+    @block[:y] = mouse_y - @block_diff[:y]
   end
 end
 
