@@ -3,15 +3,11 @@
 # you'd be using iterators with blocks (do-end, {}) in Ruby.
 
 def setup
-  size 200, 200  
+  size 640, 360  
   background 102
   no_stroke
-  
-  xpos1 = 100
-  xpos2 = 118 
-  count = 0
-  timey = 0
-  num = 12
+
+  num = 14
   
   # Draw white bars
   
@@ -19,8 +15,8 @@ def setup
   k = 60
   
   (num/3).times do |i|  # Loop using the "times" iterator of a number
-    rect 25, k, 155, 5
-    k += 10
+    rect 40, k, 475, 10
+    k += 20
 	end
 	
 	# Dark grey bars
@@ -29,26 +25,26 @@ def setup
 	k = 40
 	
 	0.upto( num-1 ) do |i|  # Loop using "upto" of a number
-	  rect 105, k, 30, 5
-	  k += 10
+	  rect 405, k, 30, 10
+	  k += 20
 	end
 	
-	k = 15
+	k = 50
 	
 	arr = (0...num).to_a  # Create an array with increasing numbers from a Range to
 	
 	arr.each do |i|  	    # use with the "each" iterator of Array
-	  rect 125, k, 30, 5
-	  k += 10
+	  rect 425, k, 30, 10
+	  k += 20
 	end
 	
 	# Thin lines
 	
 	fill 0
-	k = 42
+	k = 45
 	
 	(0...num-1).step(1) do |i|  # Loop using a Range with its "step" iterator
-	  rect 36, k, 20, 1
-	  k += 10
+	  rect 120, k, 40, 1
+	  k += 20
 	end
 end

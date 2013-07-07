@@ -5,11 +5,12 @@
 
 def setup
   
-  background 126
+  size 640, 360  
+  background 156
   
   op = false
   
-  (5..195).step(5) do |i|
+  (5...width).step(5) do |i|
     
     stroke 0
     
@@ -17,7 +18,7 @@ def setup
     
     if (i > 35) && (i < 100)
       
-      line 5, i, 95, i
+      line width / 4, i, width / 2, i
       op = false
     end
     
@@ -26,7 +27,7 @@ def setup
     # Logical OR
     
     if (i <= 35) || (i >= 100)
-      line 105, i, 195, i
+      line width / 2, i, width, i
       op = true
     end
     
@@ -35,18 +36,20 @@ def setup
 		# The expression "if op" is equivalent to "if (op == true)"
 		
 		if op
+		  stroke_weight 2
 		  stroke 0
-		  point width/2, i
+		  point width / 3, i
 		end
 		
 		# Testing if a boolean value is "false"
 		# The expressions "unless op" or "if !op" are equivalent to "if (op == false)"
 		
 		unless op
+		  stroke_weight 3
 		  stroke 255
 		  point width/4, i
 		end
-		
+		stroke_weight 1
 	end
 	
 end
