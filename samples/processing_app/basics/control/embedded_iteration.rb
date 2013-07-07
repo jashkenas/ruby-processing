@@ -1,7 +1,7 @@
 # Embedding "for" structures allows repetition in two dimensions. 
 
 def setup
-  size 200, 200
+  size 640, 360
   background 0
   no_stroke
   
@@ -25,7 +25,7 @@ def setup
       
     end
     
-    box_size -= 0.6
+    box_size -= 0.3
     
     # for java loops, don't forget to increment with while:
     # i += box_space

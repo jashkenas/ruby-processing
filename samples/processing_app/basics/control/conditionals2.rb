@@ -7,29 +7,29 @@
 
 
 def setup
-  size 200, 200
+  size 640, 360
   background 0  	
-  1.upto( width / 2 ) do |i|
+  (2 ... width - 2 ).step(2) do |i|
     
-    # If 'i' divides by 10 with no remainder 
+    # If 'i' divides by 20 with no remainder 
     # draw the first line .. 
-    # else if 'i' devides by 5 with no remainder 
-    # draw second line else draw third
+    # else if 'i' divides by 10 with no remainder 
+    # draw second line, else draw third line
     
-    if (i % 10) == 0
+    if (i % 20) == 0
       
       stroke 255
-      line i*2, 40, i*2, height/2
+      line i, 80, i, height/2
       
-    elsif (i % 5) == 0
+    elsif (i % 10) == 0
       
       stroke 153
-      line i*2, 20, i*2, 180
+      line i, 20, i, 180
       
     else
       
       stroke 102
-      line i*2, height/2, i*2, height-40
+      line i, height/2, i, height-20
       
     end
     
