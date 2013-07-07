@@ -11,7 +11,7 @@
 # SHADE or TINT parameters.
 
 def setup
-  size 200, 200  
+  size 640, 360  
   background 127
   smooth
   ellipse_mode RADIUS
@@ -25,9 +25,9 @@ end
 def create_wheel( x, y, value_shift )
   
   segs        = 12
-  steps       = 6
+  steps       = 11
   rot_adjust  = (360.0 / segs / 2.0) * PI / 180
-  radius      = 95.0
+  radius      = 170.0
   seg_width   = radius / steps
   interval    = TWO_PI / segs
   
@@ -35,18 +35,18 @@ def create_wheel( x, y, value_shift )
   when :shade
     steps.times do |j|
       cols = [
-      color(255-(255/steps)*j, 255-(255/steps)*j, 0), 
-      color(255-(255/steps)*j, (255/1.5)-((255/1.5)/steps)*j, 0), 
-        color(255-(255/steps)*j, (255/2)-((255/2)/steps)*j, 0), 
-        color(255-(255/steps)*j, (255/2.5)-((255/2.5)/steps)*j, 0), 
-        color(255-(255/steps)*j, 0, 0), 
-      color(255-(255/steps)*j, 0, (255/2)-((255/2)/steps)*j), 
-        color(255-(255/steps)*j, 0, 255-(255/steps)*j), 
-      color((255/2)-((255/2)/steps)*j, 0, 255-(255/steps)*j), 
-      color(0, 0, 255-(255/steps)*j),
-      color(0, 255-(255/steps)*j, (255/2.5)-((255/2.5)/steps)*j), 
-        color(0, 255-(255/steps)*j, 0), 
-      color((255/2)-((255/2)/steps)*j, 255-(255/steps)*j, 0)
+      color(255 - (255 / steps) * j, 255 - (255 / steps) * j, 0), 
+      color(255 - (255 / steps) * j, (255/1.5) - ((255/1.5) / steps) * j, 0), 
+      color(255 - (255 / steps) * j, (255 / 2) - ((255 / 2) / steps) * j, 0), 
+      color(255 - (255 / steps) * j, (255 / 2.5) - ((255 / 2.5) / steps) * j, 0), 
+      color(255 - (255 / steps) * j, 0, 0), 
+      color(255 - (255 / steps) * j, 0, (255 / 2) - ((255 / 2) / steps) * j), 
+      color(255 - (255 / steps) * j, 0, 255 - (255 / steps) * j), 
+      color((255 / 2) - ((255 / 2) / steps) * j, 0, 255 - (255 / steps) * j), 
+      color(0, 0, 255 - (255 / steps) * j),
+      color(0, 255 - (255 / steps) * j, (255 / 2.5) - ((255 / 2.5) / steps) * j), 
+      color(0, 255 - (255 / steps) * j, 0), 
+      color((255 / 2) - ((255 / 2) / steps) * j, 255 - (255 / steps) * j, 0)
       ]
       segs.times do |i|
         fill cols[i]
@@ -58,18 +58,18 @@ def create_wheel( x, y, value_shift )
   when :tint
     steps.times do |j|
       cols = [
-      color((255/steps)*j, (255/steps)*j, 0), 
-      color((255/steps)*j, ((255/1.5)/steps)*j, 0), 
-        color((255/steps)*j, ((255/2)/steps)*j, 0), 
-        color((255/steps)*j, ((255/2.5)/steps)*j, 0), 
-        color((255/steps)*j, 0, 0), 
-      color((255/steps)*j, 0, ((255/2)/steps)*j), 
-        color((255/steps)*j, 0, (255/steps)*j), 
-      color(((255/2)/steps)*j, 0, (255/steps)*j), 
-      color(0, 0, (255/steps)*j),
-      color(0, (255/steps)*j, ((255/2.5)/steps)*j), 
-        color(0, (255/steps)*j, 0), 
-      color(((255/2)/steps)*j, (255/steps)*j, 0)
+      color((255 / steps) * j, (255 / steps) * j, 0), 
+      color((255 / steps) * j, ((255/1.5) / steps) * j, 0), 
+      color((255 / steps) * j, ((255 / 2) / steps) * j, 0), 
+      color((255 / steps) * j, ((255 / 2.5) / steps) * j, 0), 
+      color((255 / steps) * j, 0, 0), 
+      color((255 / steps) * j, 0, ((255 / 2) / steps) * j), 
+      color((255 / steps) * j, 0, (255 / steps) * j), 
+      color(((255 / 2) / steps) * j, 0, (255 / steps) * j), 
+      color(0, 0, (255 / steps) * j),
+      color(0, (255 / steps) * j, ((255 / 2.5) / steps) * j), 
+      color(0, (255 / steps) * j, 0), 
+      color(((255 / 2) / steps) * j, (255 / steps) * j, 0)
       ]
       segs.times do |i|
         fill cols[i]
@@ -81,7 +81,7 @@ def create_wheel( x, y, value_shift )
 end
 
 def draw
-  # Empty draw method. Things only change when you click.
+  # Empty draw method. Things only change when you mouse click.
 end
 
 def mouse_pressed

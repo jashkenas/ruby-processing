@@ -6,10 +6,10 @@
 
 
 def setup
-  size 200, 200  
+  size 640, 480  
   no_stroke
   color_mode HSB, 360, height, height
-  @bar_width = 5
+  @bar_width = 20
   @brightness = Array.new(width/@bar_width, 0)
 end
 

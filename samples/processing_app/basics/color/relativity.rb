@@ -1,11 +1,9 @@
-require 'ruby-processing'
-
 # Each color is perceived in relation to other colors. 
 # The top and bottom bars each contain the same component colors,
 # but a different display order causes individual colors to appear differently. 
 
 def setup
-  size(200, 200)
+  size 640, 480
   a = color 165, 167, 20
   b = color 77,  86,  59
   c = color 42,  106, 105
