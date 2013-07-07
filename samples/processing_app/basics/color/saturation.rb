@@ -5,10 +5,10 @@
 # Move the cursor vertically over each bar to alter its saturation. 
 
 def setup
-  size 200, 200
-  color_mode HSB, 360, height, height
+  size 640, 360
+  color_mode HSB, 360
   no_stroke    
-  @bar_width = 5
+  @bar_width = 20
   @saturation = Array.new( width/@bar_width, 0 )    
 end
 

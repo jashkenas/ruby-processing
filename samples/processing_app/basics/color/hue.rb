@@ -4,11 +4,12 @@
 
 
 def setup
-  size(200, 200)  
-  @bar_width = 5
+  size 640, 360  
+  @bar_width = 20
   @hue = Array.new( (width/@bar_width), 0 )    
-  color_mode HSB, 360, height, height
+  color_mode HSB, height
   no_stroke
+  background 0
 end
 
 def draw
