@@ -6,24 +6,23 @@
 
 
 def setup    
-  size 200, 200    
+  size 640, 360    
   no_stroke
-  smooth
   no_loop
 end
 
 def draw    
   background 51    
-  draw_target  68,  34, 200, 10
-  draw_target 152,  16, 100,  3
-  draw_target 100, 144,  80,  5
+  draw_target width * 0.25, height * 0.4, 200, 4
+  draw_target width * 0.50, height * 0.5, 300, 10
+  draw_target width * 0.75, height * 0.3,  120, 6
 end
 
 def draw_target ( x, y, size, num )    
   greys = 255 / num
   steps = size / num  	
   (0...num).each do |i|  		
-    fill greys * i
+    fill color(greys * i)
     ellipse x, y, size - i*steps, size - i*steps
   end
 end

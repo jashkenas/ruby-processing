@@ -5,7 +5,7 @@
 
 
 def setup    
-  size 200, 200    
+  size 640, 360    
   @y = 100    
   stroke 255
   frame_rate 30

@@ -8,8 +8,8 @@
 
 
 def setup    
-  size 200, 200, P2D   
-  @pg = create_graphics 80, 80, P2D
+  size 640, 380 
+  @pg = create_graphics 400, 200
 end
 
 def draw  
@@ -19,11 +19,11 @@ def draw
   no_stroke
   ellipse mouse_x, mouse_y, 60, 60  	
   @pg.begin_draw
-  @pg.background 102
+  @pg.background 51
   @pg.no_fill
   @pg.stroke 255
   @pg.ellipse mouse_x-60, mouse_y-60, 60, 60
   @pg.end_draw  	
-  image @pg, 60, 60
+  image @pg, 120, 60
 end
 
