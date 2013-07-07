@@ -7,43 +7,36 @@
 
 
 def setup    
-  # Sets the screen to be 200, 200, so the width of the window is 200 pixels
-	# and the height of the window is 200 pixels	
-	size 200, 200
+  # Sets the screen to be 640, 360, so the width of the window is 640 pixels
+	# and the height of the window is 360 pixels	
+	size 640, 360
 	background 0
 	no_fill 
+	stroke_weight 2
 	stroke 255
 	
 	# The two parameters of the point() method each specify coordinates.
-	# This call to point() draws at the position [100, 100]
+	# This call to point() draws at the position [320, 180]
 	
 	point width/2, height/2
 	
-	# Draws to the position [100, 50]
+	# Draws to the position [320, 80]
 	
 	point width/2, height/4 
-	
-	# It is also possible to specify a point with any parameter, 
-	# but only coordinates on the screen are visible
-	
-	point 60, 30
-	point 60, 134
-	point 160, 50
-	point 280, -800
-	point 201, 100
 	
 	# Coordinates are used for drawing all shapes, not just points.
 	# Parameters for different methods are used for different purposes.
 	# For example, the first two parameters to line() specify the coordinates of the 
 	# first point and the second two parameters specify the second point
 	
-	stroke 204
-	line 0, 73, width, 73
+	stroke color(0, 153, 255)
+  line(0, height * 0.33, width, height*0.33)
 	
 	# The first two parameters to rect() are coordinates
 	# and the second two are the width and height
-	
-	rect 110, 55, 40, 36
+
+	stroke color(255, 153, 0)
+  rect(width*0.25, height*0.1, width * 0.5, height * 0.8)
 	
 end
 

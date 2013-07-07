@@ -5,10 +5,10 @@
 
 
 def setup    
-  size 200, 200     
+  size 640, 360     
 	background 127 
 	no_stroke	
-	(0...height).step( 20 ) do |i|
+	(0...height).step(20) do |i|
 		fill 0 
 		rect 0, i, width, 10 
 		fill 255 
