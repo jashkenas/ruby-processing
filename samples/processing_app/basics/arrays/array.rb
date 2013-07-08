@@ -9,7 +9,7 @@
 
 
 def setup
-  size 200, 200
+  size 640, 360
   coswave = []
   
   0.upto( width ) do |i|
