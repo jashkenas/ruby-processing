@@ -4,14 +4,15 @@
 
 
 def setup
-  size 200, 200  
-	d = 40
+  size 640, 360  
+	d = 70
 	p1 = d
-	p2 = p1+d
-	p3 = p2+d
-	p4 = p3+d
+	p2 = p1 + d
+	p3 = p2 + d
+	p4 = p3 + d
 	
 	background 0
+	translate(140, 0)
 	
 	# Draw gray box
 	stroke 153 
@@ -19,7 +20,7 @@ def setup
 	line p2, p3, p2, p2 
 	line p2, p2, p3, p2 
 	line p3, p2, p3, p3 
-	
+	stroke_weight 2
 	# Draw white points
 	stroke 255 
 	point p1, p1 
