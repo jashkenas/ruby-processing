@@ -14,25 +14,25 @@ def setup
   size 640, 360, P3D
   
   lights
-  
+  smooth 4
   @cube_count = 20
   @cubes = []
   
   0.upto( @cube_count ) { |i|
     
-    cube_size = random( 5, 15 )
+    cube_size = rand(5 .. 15)
     
-    c = Cube.new cube_size, cube_size, cube_size
+    c = Cube.new(cube_size, cube_size, cube_size)
     
-    c.position = PVector.new 0.0, 0.0, 0.0
-    c.speed    = PVector.new rand(-1 .. 1), rand(-1 .. 1), rand(-1 .. 1)
-    c.rotation = PVector.new rand(40 .. 100), rand(40 .. 100), rand(40 .. 100)
+    c.position = PVector.new(0.0, 0.0, 0.0)
+    c.speed    = PVector.new(rand(-1 .. 1), rand(-1 .. 1), rand(-1 .. 1)) 
+    c.rotation = PVector.new(rand(40 .. 100), rand(40 .. 100), rand(40 .. 100)) 
     
-    @cubes.push c
+    @cubes << c
   }
   
   @cube_colors = [
-  color( 0 ), color( 51 ), color( 102 ), color( 153 ), color( 204 ), color( 255 )
+  color(0), color(51), color(102), color(153), color(204), color(255)
   ]
   @cube_colors.reverse
   
@@ -89,9 +89,9 @@ def draw
 		
 		# collision
 		s2 = @stage_size / 2
-		c.speed.x *= -1 if ( c.position.x / s2 ).abs > 1  # note that in Ruby abs(-12) is -12.abs
-		c.speed.y *= -1 if ( c.position.y / s2 ).abs > 1
-		c.speed.z *= -1 if ( c.position.z / s2 ).abs > 1
+		c.speed.x *= -1 if (c.position.x / s2).abs > 1  # note that in Ruby abs(-12) is -12.abs
+		c.speed.y *= -1 if (c.position.y / s2).abs > 1
+		c.speed.z *= -1 if (c.position.z / s2).abs > 1
 	}
 	
 end

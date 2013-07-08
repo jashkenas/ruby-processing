@@ -6,16 +6,16 @@
 # the same push_matrix and pop_matrix group.
 
 def setup    
-  size 200, 200    
-  @x, @y = 50, 100
+  size 640, 360    
+  @x, @y = width * 0.3, height * 0.5
   @angle1, @angle2 = 0.0, 0.0
-  @seg_length = 50
-  stroke_weight 20
-  stroke 0, 100
+  @seg_length = 100
+  stroke_weight 30
+  stroke 255, 160
 end
 
 def draw    
-  background 226  	
+  background 0  	
   @angle1 = (mouse_x / width.to_f - 0.5) * -PI
   @angle2 = (mouse_y / height.to_f - 0.5) * PI  	
   push_matrix  	

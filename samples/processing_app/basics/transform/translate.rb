@@ -7,11 +7,11 @@
 
 
 def setup    
-  size 200, 200
+  size 640, 360
   no_stroke
   frame_rate 30    
   @x, @y = 0.0, 0.0
-  @size = 40.0
+  @size = 80.0
 end
 
 def draw    
