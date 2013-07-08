@@ -3,24 +3,25 @@
 # An object can include several other objects. Creating such composite objects 
 # is a good way to use the principles of modularity and build higher levels of 
 # abstraction within a program.
+attr_reader :rings
 
 def setup    
-  size 200, 200
-  smooth
-  @er1 = EggRing.new 66, 132, 0.1, 66
-  @er2 = EggRing.new 132, 180, 0.05, 132
+  size 640, 360
+  @rings = []
+  rings << EggRing.new(width*0.45, height*0.5, 0.1, 120) 
+  rings << EggRing.new(width*0.65, height*0.8, 0.05, 180) 
 end
 
 def draw    
   background 0  	
-  [@er1, @er2].each do |er| er.transmit end
+  rings.each {|er| er.transmit} 
 end
 
 # vvv CLASS EGG RING
 
 class EggRing    
-  def initialize ( x, y, t, sp )  		
-    @ovoid = Egg.new x, y, t, sp
+  def initialize(x, y, t, sp)  		
+    @ovoid = Egg.new(x, y, t, sp) 
     @circle = Ring.new
     @circle.start x, y - sp/2
   end
@@ -79,21 +80,23 @@ end
   
 # ^^^ CLASS EGG
 
-# vvv CLASS RING # could be ruby-1.9 thing but width not directly available to Ring?
+# vvv CLASS RING # note width not directly available in Ring class
 
 class Ring    
   attr_accessor :x, :y
   attr_accessor :diameter
-  attr_accessor :on    
-  def start ( xpos, ypos )        
+  attr_accessor :on
+  attr_accessor :max_diameter
+  def start (xpos, ypos)        
     @x, @y = xpos, ypos
     @on = true
     @diameter = 1.0
+    @max_diameter = $app.width * 2
   end
   
   def grow        
     @diameter += 0.5 if on
-    @diameter = 0.0 if diameter > $app.width*2
+    @diameter = 0.0 if diameter > max_diameter
   end
   
   def display        

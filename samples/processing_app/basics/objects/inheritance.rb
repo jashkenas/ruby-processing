@@ -7,9 +7,9 @@
 
 
 def setup    
-  size 200, 200
+  size 640, 360
   @arm = SpinArm.new width/2, height/2, 0.01
-  @spots = SpinSpots.new width/2, height/2, -0.02, 33.0
+  @spots = SpinSpots.new width/2, height/2, -0.02, 90.0
 end
 
 def draw
@@ -25,14 +25,14 @@ class Spin
   attr_accessor :x, :y, :speed
   attr_accessor :angle
   
-  def initialize ( x, y, s )  	    
+  def initialize(x, y, s)  	    
     @x, @y = x, y
     @speed = s
     @angle = 0.0
   end
   
   def update  	    
-    @angle += @speed
+    @angle += speed
   end
   
 end
@@ -41,15 +41,17 @@ end
 
 # vvv CLASS SPINARM
 
-class SpinArm < Spin # inherit from (or "extend") class Spin    
+class SpinArm < Spin # inherit from (or "extend") class Spin
+  # NB: initialize inherited from Spin class
+  
   def display  		
     stroke_weight 1
     stroke 0  		
     push_matrix  		
-    translate @x, @y
+    translate x, y
     update
-    rotate @angle
-    line 0, 0, 66, 0
+    rotate angle
+    line 0, 0, 165, 0
     pop_matrix
   end  	
 end
@@ -60,19 +62,19 @@ end
 
 class SpinSpots < Spin    
   attr_accessor :dim  	
-  def initialize ( x, y, s, d )  	    
-    super( x, y, s )
+  def initialize (x, y, s, d)  	    
+    super(x, y, s)
     @dim = d
   end
   
   def display  	    
     no_stroke  		
     push_matrix  		
-    translate @x, @y
+    translate x, y
     update
-    rotate @angle
-    ellipse -@dim/2, 0, @dim, @dim
-    ellipse  @dim/2, 0, @dim, @dim
+    rotate angle
+    ellipse(-dim/2, 0, dim, dim) 
+    ellipse(dim/2, 0, dim, dim)  
     pop_matrix
   end  	
 end
