@@ -22,12 +22,12 @@
 
 
 def setup    
-  size 200, 200    
+  size 640, 360    
   background 204
   smooth(8)
   no_loop    
   sp1 = Spot.new
-  sp2 = Spot.new 122, 100, 40    
+  sp2 = Spot.new width*0.5, height*0.5, 120    
   sp1.display
   sp2.display
 end
@@ -40,7 +40,7 @@ end
 
 class Spot    
   attr_accessor :x, :y, :radius    
-  def initialize ( x = 66, y = 100, r = 16 ) # can be called with 0 to 3 arguments
+  def initialize (x = 160, y = 180, r = 40) # can be called with 0 to 3 arguments
     @x, @y, @radius = x, y, r
   end
   
