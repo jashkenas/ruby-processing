@@ -1,5 +1,3 @@
-require 'ruby-processing/app' # require Processing::Proxi
-
 class Cube
 
 	include Processing::Proxy # mixin Processing::Proxi
@@ -8,7 +6,7 @@ class Cube
 	attr_accessor :w, :h, :d
 	attr_accessor :position, :speed, :rotation # PVector
 	
-	def initialize ( w, h, d )
+	def initialize (w, h, d)
 	
 		@w, @h, @d = w, h, d
 		
@@ -16,15 +14,15 @@ class Cube
 		h2 = @h/2
 		d2 = @d/2
 		
-		tfl = PVector.new -w2, h2, d2	# four points making the top quad:
-		tfr = PVector.new  w2, h2, d2	# "tfl" is "top front left", etc
-		tbr = PVector.new  w2, h2,-d2
-		tbl = PVector.new -w2, h2,-d2
+		tfl = PVector.new(-w2, h2, d2) 	# four points making the top quad:
+		tfr = PVector.new(w2, h2, d2)  	# "tfl" is "top front left", etc
+		tbr = PVector.new(w2, h2,-d2)  
+		tbl = PVector.new(-w2, h2,-d2) 
 		
-		bfl = PVector.new -w2,-h2, d2	# bottom quad points
-		bfr = PVector.new  w2,-h2, d2
-		bbr = PVector.new  w2,-h2,-d2
-		bbl = PVector.new -w2,-h2,-d2
+		bfl = PVector.new(-w2,-h2, d2) 	# bottom quad points
+		bfr = PVector.new(w2,-h2, d2)  
+		bbr = PVector.new(w2,-h2,-d2)  
+		bbl = PVector.new(-w2,-h2,-d2) 
 		
 		@vertices = [
 			[tfl, tfr, tbr, tbl],		# top
@@ -36,7 +34,7 @@ class Cube
 		]
 	end
 	
-	def draw ( side_colors = nil )
+	def draw (side_colors = nil)
 		
 		@vertices.each_with_index { |quad, i| # each face
 				
