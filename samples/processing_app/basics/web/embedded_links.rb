@@ -5,7 +5,7 @@
 
 def setup
   
-  size 200, 200
+  size 640, 360
   
 end
 
@@ -29,8 +29,8 @@ def draw
 end
 
 def mouse_pressed
-  link "http://www.processing.org"         if @over_left_button
-  link "http://www.processing.org", "_new" if @over_right_button
+  link "https://github.com/jashkenas/ruby-processing/wiki" if @over_left_button
+  link "https://github.com/jashkenas/ruby-processing/wiki", "_new" if @over_right_button
 end
 
 def mouse_moved 
