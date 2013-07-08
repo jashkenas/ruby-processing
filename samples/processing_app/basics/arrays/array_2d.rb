@@ -4,9 +4,9 @@
 #  * is colored in relation to its distance from the center of the image.
 
 def setup
-  size
+  size 640, 360
   distances = Array.new( width ) { Array.new( height ) } # [width][height]
-	
+	stroke_weight 2
   max_distance = dist( width/2, height/2, width, height )
   
   width.times do |x|
