@@ -5,16 +5,16 @@
 
 
 def setup    
-  size 200, 200
+  size 640, 360
   no_stroke
   frame_rate 60
   
   @thin = 8
   @thick = 36
-  @xpos1 = 134
-  @xpos2 = 44
-  @xpos3 = 58
-  @xpos4 = 120
+  @xpos1 = width / 2
+  @xpos2 = width / 2
+  @xpos3 = width / 2
+  @xpos4 = width / 2
   
 end
 
