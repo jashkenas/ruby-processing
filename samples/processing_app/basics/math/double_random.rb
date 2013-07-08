@@ -7,28 +7,25 @@
 # and to return min as vanilla processing does 
 # (NB: the sawtooth relies on this)
 
+attr_reader :steps
 
+def setup  
+  size 640, 360  
+  frame_rate(1) 
+  total_pts = 300  
+  @steps = total_pts + 1.0
+  stroke_weight 2
+  stroke 255  
+end
 
-def setup
-  
-  size 200, 200
-  
+def draw
   background 0
-  
-  total_pts = 400
-  
-  steps = total_pts + 1.0
-
-  stroke 255
-  
-  rand_y = 0
-
-  (1 ... steps).each { |i|
-    noise_y = (rand_y > 0)? rand(-rand_y .. rand_y): rand_y    
-    point( (width/steps) * i, height/2 +  noise_y )
-    rand_y += rand( -5.0 .. 5 )  # one as float get float range  
-  }
-  
+  rand_y = 0.0  
+  (1 ... steps).each do |i|
+    noise_y = (rand_y > 0)? rand(-rand_y .. rand_y) : rand(rand_y .. -rand_y)    
+    point( (width/steps) * i, (height/2) + noise_y )
+    rand_y += rand(-5 .. 5)  
+  end
 end
 
 

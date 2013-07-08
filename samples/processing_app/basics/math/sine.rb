@@ -4,7 +4,7 @@
 
 
 def setup    
-  size 200, 200
+  size 640, 360
   no_stroke
   @diameter = 84.0
   @sin = 0.0
@@ -15,7 +15,7 @@ end
 
 def draw  
   background 153  	
-  translate 130, 65  	
+  translate width / 2, height / 2  	
   fill 255
   ellipse 0, 0, 16, 16  	
   angle_rot = 0.0
@@ -24,7 +24,7 @@ def draw
     
     push_matrix
     rotate angle_rot - 45
-    ellipse -116, 0, @diameter, @diameter
+    ellipse(-116, 0, @diameter, @diameter)
     pop_matrix
     angle_rot += TWO_PI/5
   }  	
