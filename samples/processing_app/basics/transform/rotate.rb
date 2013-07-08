@@ -9,7 +9,7 @@
 
 
 def setup    
-  size 200, 200  
+  size 640, 360  
   no_stroke
   fill 255
   frame_rate 30
@@ -20,11 +20,10 @@ def setup
 end
 
 def draw    
-  background 102  	
+  background 51  	
   @jitter = rand(-0.1 .. 0.1) if second % 2 == 0  	
   @angle += @jitter
-  @cosine = cos( @angle )  	
   translate width/2, height/2
-  rotate @cosine  	
-  rect 0, 0, 115, 115
+  rotate cos(@angle)   	
+  rect 0, 0, 180, 180
 end

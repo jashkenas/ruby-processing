@@ -7,7 +7,7 @@
 # Objects always scale from the origin. 
 
 def setup    
-  size 200, 200    
+  size 640, 360    
   no_stroke
   rect_mode CENTER    
   frame_rate 30    
@@ -17,7 +17,7 @@ end
 def draw    
   background 102  	
   @a += 0.04
-  @s = cos( @a ) * 2  	
+  @s = cos(@a) * 2  	
   translate width/2, height/2
   scale @s  	
   fill 51
