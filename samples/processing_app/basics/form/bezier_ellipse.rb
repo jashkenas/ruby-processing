@@ -1,5 +1,3 @@
-
-
 # Bezier Ellipse  
 # By Ira Greenberg 
 # 
@@ -14,7 +12,7 @@
 attr_accessor :px, :py, :cx, :cy, :cx2, :cy2, :color_controls, :color_anchors 
 
 def setup
-  size 200, 200  
+  size 640, 360  
   @color_controls = 0xFF222222
   @color_anchors  = 0xFFBBBBBB 	
   rect_mode CENTER
@@ -25,7 +23,7 @@ end
 def draw
   background 145
   draw_ellipse
-  set_ellipse random(3, 12).to_i, random(-100, 150), random(-100, 150)
+  set_ellipse rand(3 .. 12), rand(-100 .. 150), rand(-100 .. 150)
 end
 
 def draw_ellipse    
@@ -67,7 +65,7 @@ def draw_ellipse
   end
 end
 
-def set_ellipse( points, radius, control_radius )
+def set_ellipse(points, radius, control_radius)
   
 	# first time we come here the instance variables are created
 	# therefore we need to use "@" or "self.". the former will access the variable

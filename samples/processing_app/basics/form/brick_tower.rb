@@ -4,12 +4,12 @@
 # Uses the PVector and Cube classes.
 
 def setup
+  size 640, 360, P3D
   @bricks_per_layer = 16
   @brick_layers = 18
   @brick_width, @brick_height, @brick_depth = 60, 25, 25
   @radius = 175.0
-  @angle = 0
-  size 640, 360, P3D
+  @angle = 0  
   @brick = Cubeish.new(@brick_width, @brick_height, @brick_depth)
 end
 

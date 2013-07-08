@@ -8,12 +8,12 @@
 
 
 def setup
-  size 200, 200
+  size 640, 360
   background 100
   smooth
   no_stroke
   
-  diameter = 150
+  diameter = min(width, height) * 0.75
   angles = [30, 10, 45, 35 ,60, 38, 75, 67]
   last_angle = 0.0
   

@@ -5,12 +5,16 @@
 
 
 def setup
-  size 200, 200  
-  background 0
+  size 640, 360  
+  
   stroke 255
-  no_fill  
-  (0..100).step(20) do |i|
-    bezier 90-(i/2.0), 20+i, 210, 10, 220, 150, 120-(i/8.0), 150+(i/4.0)
+  no_fill
+end
+
+def draw
+  background 0
+  (0..200).step(20) do |i|
+    bezier(mouse_x - (i/2.0), 40+i, 410, 20, 440, 300, 240-(i/16.0), 300+(i/8.0))
   end
 end
 

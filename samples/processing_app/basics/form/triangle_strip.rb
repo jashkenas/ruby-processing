@@ -7,21 +7,25 @@
 # mode. outerRad and innerRad variables
 # control ring's outer/inner radii respectively.
 # Trig functions generate ring.
-
+attr_reader :x, :y, :outer_radius, :inner_radius
 
 def setup
-  size 200, 200
+  size 640, 360
+  
+  @x = width/2
+  @y = height/2
+  @outer_radius = min(width, height) * 0.4
+  @inner_radius = outer_radius * 0.6
+end
+
+def draw
   background 204
-  x = width/2
-  y = height/2
-  outer_radius = 80
-  inner_radius = 50
-  px, py, angle = 0.0, 0.0, 0.0
-  number_of_points = 36
-  rotation = 360.0/number_of_points
+  pts = map(mouse_x, 0, width, 6, 60).to_i
+  angle = 0.0
+  rotation = 180.0/pts
   
   begin_shape TRIANGLE_STRIP
-  number_of_points.times do |i|
+  (0 .. pts).each do |i|
     px = x + cos(angle.radians)*outer_radius
     py = y + sin(angle.radians)*outer_radius
     angle += rotation
