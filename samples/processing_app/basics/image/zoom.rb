@@ -15,12 +15,12 @@ def setup
     @res = 5    
     @img = load_image "ystone08.jpg"
     @img_pixels = []
-    (0...@img.height).each { |y|
-    	@img_pixels.push []
-    	(0...@img.width).each { |x|
-    		@img_pixels.last.push @img.get y, x
-    	}
-    }    
+    (0...@img.height).each do |y|
+    	@img_pixels << []
+    	(0...@img.width).each do |x|
+    		@img_pixels.last << @img.get(y, x)
+    	end
+    end    
 end
 
 def draw    
