@@ -14,7 +14,7 @@ def setup
 end
 
 def draw
-  background 102  	
+  background 102    
   difx = mouse_x - @xpos - @teddy.width/2
   if difx.abs > 1.0
     @xpos += difx/@drag
