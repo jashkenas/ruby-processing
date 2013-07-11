@@ -57,8 +57,8 @@ module Processing
     def calculate_substitutions
       file_list = ['lib/core/jruby-complete.jar']
       @class_path = file_list.map {|f| "$JAVAROOT/" + f.sub(@prefix+"/", "") }.join(":")
-      @linux_class_path = file_list.map{|f| f.sub(@prefix+"/", "")}.join(":")
-      @windows_class_path = file_list.map{|f| f.sub(@prefix+"/", "")}.join(",")
+      @linux_class_path = ".:../lib/core/*:../lib/library/*"
+      @windows_class_path = ".;../lib/core/*;../lib/library/*"
     end
     
     def create_executables

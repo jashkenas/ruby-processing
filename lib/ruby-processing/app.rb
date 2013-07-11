@@ -146,7 +146,8 @@ module Processing
       end
       
       # for the list of all available args, see 
-      # http://processing.googlecode.com/svn/trunk/processing/build/javadoc/core/processing/core/PApplet.html#runSketch%28java.lang.String[],%20processing.core.PApplet%29
+      # http://processing.org/reference/
+
       args = []
       
       @width, @height = options[:width], options[:height]
