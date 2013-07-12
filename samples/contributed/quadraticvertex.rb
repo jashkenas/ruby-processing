@@ -20,6 +20,7 @@ def setup
     c.button :save_image
     @panel = c
   end
+  
   @debug = false
   @save_one = false  
   smooth 8
@@ -34,13 +35,13 @@ def draw
   no_stroke
   @cr = map(mouse_x, 0, width, 20, 200)
   begin_shape
-  detail.to_i.times { |i|  
+  detail.to_i.times do |i|  
     if (i == 0) 
       vertex cos_x(i), sin_y(i) 
     else 
       quadratic_vertex cos_cx(i), sin_cy(i), cos_x(i), sin_y(i)
     end
-  }
+  end
   end_shape(CLOSE)
   
   if (debug)    
@@ -50,20 +51,20 @@ def draw
     stroke(0)
     
     begin_shape
-    detail.to_i.times { |i|          
+    detail.to_i.times do |i|          
       vertex cos_cx(i), sin_cy(i) unless i == 0          
       vertex cos_x(i), sin_y(i) 
-    }
+    end
     end_shape CLOSE
     
     # draw points
     stroke_weight 8    
-    detail.to_i.times { |i|  
+    detail.to_i.times do |i|  
       stroke 0 
       point cos_x(i), sin_y(i)      
       stroke 255, 0, 0 
       point cos_cx(i), sin_cy(i) 
-    }
+    end
   end
   
   if (save_one) 

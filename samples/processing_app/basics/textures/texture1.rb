@@ -18,10 +18,10 @@ def draw
   
   begin_shape  
   texture @img  
-  vertex -100, -100, 0, 0,          0
-  vertex  100, -100, 0, @img.width, 0
-  vertex  100,  100, 0, @img.width, @img.height
-  vertex -100,  100, 0, 0, 	  @img.height  
+  vertex(-100, -100, 0, 0, 0)
+  vertex(100, -100, 0, @img.width, 0)  
+  vertex(100, 100, 0, @img.width, @img.height)  
+  vertex(-100, 100, 0, 0, @img.height) 
   end_shape
   
 end
