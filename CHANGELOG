@@ -1,3 +1,7 @@
+v2.0.1 First minor revision for ruby-processing-2.0
+  * Changes for application export on Windows and linux
+  * Added support for 'require_relative' on export
+
 v2.0.0 A major revision, now based on processing-2.0 and JRuby 1.7+
   * Processing updated to processing-2.0.1 export to applet has disappeared, also P3D is 
   * the new OPENGL (except Jogl2 instead of Jogl1.1) if you've got an old graphics card or even some new netbook 
