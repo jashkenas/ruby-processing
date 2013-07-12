@@ -19,11 +19,11 @@ New capabilities since processing-2.0 include ability to use OPENGL VBO (PShape)
 The original version
 --------------------------- 
 
-NB: Version 1.0.11 is still available as a rubygem (processing-1.5.1, jruby-1.6.5)
+NB: Version 1.0.11 is the last version to be available as a rubygem (processing-1.5.1, jruby-1.6.5)
 <pre><code>
 gem install ruby-processing
 </pre></code>
-See text README (however no-one has shown any interest in maintaining it, so after some testing, and possibly after jruby-1.7.5 release it will be replaced!!!).
+The current version 2.0.1 is available as autobuild archive download [here](https://github.com/jashkenas/ruby-processing/releases/tag/2.0.1), or you really might as well clone the development version. NB: the gem is too big to be hosted at rubygem.org.
 
 Get Involved
 ------------------
