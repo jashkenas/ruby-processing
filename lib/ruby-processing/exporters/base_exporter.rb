@@ -84,10 +84,10 @@ module Processing
       requirements = []
       partial_paths = []
       loop do
-        matchdata = code.match(/^.*[^::\.\w](require|load)\b.*$/)
+        matchdata = code.match(/^.*[^::\.\w](require_relative|require|load)\b.*$/)
         break unless matchdata
         line = matchdata[0].gsub('__FILE__', "'#{@main_file_path}'")
-        line = line.gsub(/\b(require|load)\b/, 'partial_paths << ')
+        line = line.gsub(/\b(require_relative|require|load)\b/, 'partial_paths << ')
         eval(line)
         where = "{#{local_dir}/,}{#{partial_paths.join(',')}}"
         unless line =~ /\.[^.]+$/
