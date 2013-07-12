@@ -27,21 +27,21 @@ def draw
   end 
   no_fill
   stroke 0  
-  points.each_cons(2) { |ps, pe|   
+  points.each_cons(2) do |ps, pe|   
     line ps.x, ps.y, pe.x, pe.y
-  } 
+  end 
   if (!drawing_mode)    
     no_stroke
     fill 120
     lights    
-    vertices.each_cons(2) { |r1, r2|     
+    vertices.each_cons(2) do |r1, r2|     
       begin_shape(TRIANGLE_STRIP)       
-        [r1,r2].one_of_each { |v1, v2|          
+        [r1,r2].one_of_each do |v1, v2|          
           vertex v1.x, v1.y, v1.z
           vertex v2.x, v2.y, v2.z
-        }
-        end_shape
-    }
+        end
+      end_shape
+    end
   end 
 end
 
@@ -68,7 +68,7 @@ end
 
 def recalculate_shape  
   @vertices = []
-  points.each_cons(2) { |ps, pe|   
+  points.each_cons(2) do |ps, pe|   
     b = points.last - points.first
     len = b.mag
     b.normalize   
@@ -78,14 +78,14 @@ def recalculate_shape
     normal = points.first + b    
     c = ps - normal
     nlen = c.mag    
-    vertices.push []    
-    (0..360).step( 12 ) { |deg|     
+    vertices << []    
+    (0..360).step(12) do |deg|     
       ang = radians deg
       e = normal + c * cos(ang)
       e.z = c.mag * sin(ang)      
-      vertices.last.push e
-    }
-  }
+      vertices.last << e
+    end
+  end
   @drawing_mode = false
 end
 

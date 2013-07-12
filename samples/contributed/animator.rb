@@ -27,8 +27,13 @@ def draw
   line(pmouse_x, pmouse_y, mouse_x, mouse_y) if @draw
 end
 
-def mouse_pressed; @draw = true; end
-def mouse_released; @draw = false; end
+def mouse_pressed
+  @draw = true
+end
+
+def mouse_released
+  @draw = false
+end
 
 def key_pressed
   background @back_color

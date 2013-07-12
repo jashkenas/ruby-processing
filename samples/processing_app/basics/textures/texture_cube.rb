@@ -6,7 +6,7 @@
 
 
 def setup  
-  size 649, 360, P3D  
+  size 640, 360, P3D  
   @rotx = PI/4
   @roty = PI/4  
   @tex = load_image "berlin-1.jpg"
