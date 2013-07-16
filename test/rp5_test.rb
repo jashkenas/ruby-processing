@@ -40,7 +40,9 @@ end
 
 def draw
   println "ok"
-  exit
+  if frame_count == 3
+    exit
+  end
 end
 EOF
     assert_equal "ok", queue.pop
@@ -54,7 +56,9 @@ end
 
 def draw
   println "ok"
-  exit
+  if frame_count == 3
+    exit
+  end
 end
 EOF
     assert_equal "ok", queue.pop
@@ -112,29 +116,23 @@ EOF
     assert result[0].to_i >= 3, "Graphics capability #{result} may be sub-optimal" 
   end
 
-
   def write_and_run_sketch(sketch_content)
     queue = Queue.new
-    Thread.new do
+    sketch_thread = Thread.new do
       Tempfile.open("rp5_tester") do |tf|
         tf.write(sketch_content)
         tf.close
-        #FileUtils.cp(tf.path, "/tmp/sketch.rb", :verbose => true)
+        # FileUtils.cp(tf.path, "/tmp/sketch.rb", :verbose => true)
         output = nil
-        begin
-          Timeout.timeout(15) do 
-            open("|../bin/rp5 run #{tf.path}", "r") do |io|
-              while l = io.gets
-                queue.push(l.chop)
-              end
-            end
+          open("|../bin/rp5 run #{tf.path}", "r") do |io|
+          while l = io.gets
+            queue.push(l.chop)
           end
-          assert $?.exited?
-        rescue Timeout::Error
-          assert false, "rp5 timed out"
         end
       end
     end
+    sketch_thread.join 20
     return queue
   end
+
 end
