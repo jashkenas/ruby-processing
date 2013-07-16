@@ -90,6 +90,6 @@ def load_data
   }
 end
 
-def mouse_pressed
-  load_data
+def mouse_pressed   # guard against calling load_data when running
+  load_data unless !finished 
 end
