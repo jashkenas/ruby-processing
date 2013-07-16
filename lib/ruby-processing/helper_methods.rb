@@ -45,7 +45,9 @@ module Processing
       end
       super(*args)
     end
-
+    
+    # Overrides convenience function loop, to add ability to loop over a block 
+    # if supplied, otherwise perform as the PApplet class would
     def loop(&block)
       if block_given?
         while true do
@@ -53,6 +55,16 @@ module Processing
         end
       else
         super
+      end
+    end
+    
+    # Overrides Processing convenience function thread, which takes a String
+    # arg (for a function) to more rubylike version, takes a block...    
+    def thread(*args, &block)
+      if block_given?
+        Thread.new *args, &block
+      else
+        raise ArgumentError, "thread must be called with a block" , caller    
       end
     end
 
