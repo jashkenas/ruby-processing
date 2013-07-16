@@ -2,17 +2,18 @@
 # Thread function example
 # by Martin Prout (after a Dan Schiffman vanilla processing version).  
 # 
-# This example demonstrates how to use thread() to spawn
+# This example demonstrates how to use Thread.new to spawn
 # a process that happens outside of the main animation thread.
 #
-# When thread() is called, the draw() loop will continue while
-# the code inside the function passed to thread() will operate
+# When Thread.new is called, the draw() loop will continue while
+# the code inside the block passed to the thread will operate
 # in the background.
 #
 # For more about threads, see: http://wiki.processing.org/w/Threading
 #
 
 # This sketch will load data from all of these URLs in a separate thread
+
 URLS = [
 "http://processing.org", 
 "http://www.processing.org/exhibition/", 
