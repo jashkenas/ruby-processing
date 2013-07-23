@@ -3,7 +3,6 @@ v2.1.0 gc-pruned ruby-processing-2.0
  * This fork is not compatible with forks of jashkenas repository
  *
 
-
 v2.0.1 First minor revision for ruby-processing-2.0
   * Changes for application export on Windows and linux
   * Added support for 'require_relative' on export
