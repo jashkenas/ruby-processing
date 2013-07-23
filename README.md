@@ -23,7 +23,7 @@ NB: Version 1.0.11 is the last version to be available as a rubygem (processing-
 ```bash
 gem install ruby-processing
 ```
-The current version 2.1.0 is available as autobuild archive download [here](https://github.com/monkstone/ruby-processing/releases/tag/2.1.0), or you really might as well clone the development version. NB: the gem is too big to be hosted at rubygems.org, so it will never be located there.
+The current version 2.1.0 is available as autobuild archive download [here](https://github.com/monkstone/ruby-processing/releases/tag/2.1.0), or you really might as well clone this development version. NB: the gem is too big to be hosted at rubygems.org, so it will never be located there.
 
 Get Involved
 ------------------
