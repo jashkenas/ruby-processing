@@ -22,8 +22,7 @@ the bug, including your gem version, Ruby version, and operating system.
 
 ## Submitting a Pull Request
 1. [Fork the repository.][fork]
-2. [Create a topic branch.][branch]
-3. [Submit a pull request.][pr]
+2. [Submit a pull request.][pr]
 
 [free-sw]: http://www.fsf.org/licensing/essays/free-sw.html
 [issues]: https://github.com/rubygems/gems/issues
