@@ -1,6 +1,6 @@
 # Ruby-Processing
 
-A ruby wrapper around [Processing][] built using [JRuby][], which allows you code processing sketches in ruby.
+Is a ruby wrapper around [Processing][] built using [JRuby][], that allows you to code processing sketches in ruby.
 [processing]: http://www.processing.org/
 
 ## Installation
@@ -20,6 +20,9 @@ jruby -S gem ruby-processing-2.1.0.gem # to install gem
 ```
 
 ## Documentation
+
+See [Wiki][]
+See also [Contributing][] and [Samples][]
 
 # Usage Example
 
@@ -48,12 +51,13 @@ This library has been tested with the following ruby implementations
 * Ruby 2.0.0
 * [JRuby][]
 
-[jruby]: http://www.jruby.org/
-
 [License][]
 
 [license]: LICENSE.md
-
+[contributing]: CONTRIBUTING.md
+[jruby]: http://www.jruby.org/
+[samples]: https://github.org/monkstone/code/samples/
+[wiki]: https://github.org/monkstone/wiki/
 ## What's new
 
 New capabilities since processing-2.0 include ability to use OPENGL VBO (PShape) and GLSL shaders (PShader), to keep abreast of latest developments check out the [codeanticode blog](http://codeanticode.wordpress.com/2013/06/04/processing-2-0-is-out-processing-2-0-is-in/). Some worked examples using new feature are included in the samples. The update to the latest jruby is also significant as the default is to run with ruby-1.9 support, and there have been many performance improvements. To use the invoke-dynamic java support for dynamic language, use java-7+ (NB: on the Mac need Intel-based Mac running Mac OS X version 10.7.3 and above to install java 7 otherwise use java 6). Many more worked examples are included.
