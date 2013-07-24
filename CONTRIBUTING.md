@@ -5,7 +5,7 @@ Here are some ways *you* can contribute:
 
 * by reporting bugs
 * by suggesting new features
-* by writing or editing documentation
+* by writing or editing documentation (expert Windows users could help write install instructions)
 * by contributing examples
 * by refactoring examples to be more rubyfied
 * by closing [issues][]
