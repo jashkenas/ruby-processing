@@ -1,6 +1,6 @@
 # Ruby-Processing
 
-Is a ruby wrapper around [Processing][] Processing code art framework, built using [JRuby][].
+Is a ruby wrapper around the [Processing][] code art framework, built using [JRuby][].
 
 [Processing][] provides a tidy API, with a bunch of handy methods you can call 
   from Ruby-Processing. Here's a smattering:
