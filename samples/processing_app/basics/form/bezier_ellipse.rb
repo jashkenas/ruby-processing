@@ -13,8 +13,9 @@ attr_accessor :px, :py, :cx, :cy, :cx2, :cy2, :color_controls, :color_anchors
 
 def setup
   size 640, 360  
-  @color_controls = 0xFF222222
-  @color_anchors  = 0xFFBBBBBB 	
+  # wrap as color else complain too big for int
+  @color_controls = color(0xFF222222)
+  @color_anchors  = color(0xFFBBBBBB) 	
   rect_mode CENTER
   set_ellipse 4, 65, 65
   frame_rate 1
@@ -52,13 +53,13 @@ def draw_ellipse
   end
   
   number_of_points.times do |i|
-    fill color(color_controls) # wrap as color else complain too big for int
+    fill color_controls
     no_stroke
     
     ellipse cx[i], cy[i], 4, 4
     ellipse cx2[i], cy2[i], 4, 4
     
-    fill color(color_anchors) # wrap as color else complain too big for int
+    fill color_anchors 
     stroke 0
     
     rect px[i], py[i], 5, 5
@@ -69,7 +70,7 @@ def set_ellipse(points, radius, control_radius)
   
 	# first time we come here the instance variables are created
 	# therefore we need to use "@" or "self.". the former will access the variable
-	# directly the later will use the setter function created by "attr_accessor".
+	# directly the latter will use the setter function created by "attr_accessor".
 	@px, self.py, @cx, @cy, @cx2, @cy2 = [], [], [], [], [], [] 
 	
 	angle = 360.0/points
