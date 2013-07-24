@@ -8,7 +8,7 @@ Either clone this repo to your local Mac/Linux/Windows system
 ```bash
 git clone https://github.com/monkstone/ruby-processing.git
 ```
-Or download a [Release] snapshot and unzip that followed by
+Or download a [Release][] snapshot and unzip that followed by
 ```bash
 cd ruby-processing
 rake # build and test gem
