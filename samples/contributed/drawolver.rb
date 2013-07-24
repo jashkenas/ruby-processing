@@ -50,12 +50,12 @@ def draw
     fill 120
     lights    
     vertices.each_cons(2) do |r1, r2|     
-		  begin_shape(TRIANGLE_STRIP)
-			ext_array = [r1,r2].extend ExtendedArray # extend an instance of Array
-			ext_array.one_of_each do |v1, v2|          
-				vertex v1.x, v1.y, v1.z
-				vertex v2.x, v2.y, v2.z
-			end
+      begin_shape(TRIANGLE_STRIP)
+      ext_array = [r1,r2].extend ExtendedArray # extend an instance of Array
+      ext_array.one_of_each do |v1, v2|          
+        vertex v1.x, v1.y, v1.z
+        vertex v2.x, v2.y, v2.z
+      end
       end_shape
     end
   end 
