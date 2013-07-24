@@ -30,4 +30,4 @@ the bug, including your gem version, Ruby version, and operating system.
 [gist]: https://gist.github.com/
 [fork]: http://help.github.com/fork-a-repo/
 [pr]: http://help.github.com/send-pull-requests/
-[processing]: http://processing.org/foundation/
+[processing.org]: http://processing.org/foundation/
