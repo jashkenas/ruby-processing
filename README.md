@@ -8,7 +8,7 @@ Either clone this repo to your local Mac/Linux/Windows system
 ```bash
 git clone https://github.com/monkstone/ruby-processing.git
 ```
-Or download an release snapshot and unzip that followed by
+Or download a [Release] snapshot and unzip that followed by
 ```bash
 cd ruby-processing
 rake # build and test gem
@@ -56,8 +56,9 @@ This library has been tested with the following ruby implementations
 [license]: LICENSE.md
 [contributing]: CONTRIBUTING.md
 [jruby]: http://www.jruby.org/
-[samples]: https://github.org/monkstone/code/samples/
+[samples]: https://github.com/monkstone/ruby-processing/tree/master/samples/
 [wiki]: https://github.org/monkstone/wiki/
+[release]: https://github.com/monkstone/ruby-processing/releases/
 ## What's new
 
 New capabilities since processing-2.0 include ability to use OPENGL VBO (PShape) and GLSL shaders (PShader), to keep abreast of latest developments check out the [codeanticode blog](http://codeanticode.wordpress.com/2013/06/04/processing-2-0-is-out-processing-2-0-is-in/). Some worked examples using new feature are included in the samples. The update to the latest jruby is also significant as the default is to run with ruby-1.9 support, and there have been many performance improvements. To use the invoke-dynamic java support for dynamic language, use java-7+ (NB: on the Mac need Intel-based Mac running Mac OS X version 10.7.3 and above to install java 7 otherwise use java 6). Many more worked examples are included.
