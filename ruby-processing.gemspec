@@ -7,21 +7,20 @@ Gem::Specification.new do |s|
   s.authors = ["Jeremy Ashkenas", "Peter Gassner", "Martin Stannard", "Andrew Nanton",
                "Marc Chung", "Peter Krenn", "Florian Jenett", "Andreas Haller",
                "Juris Galang", "Guillaume Pierronnet", "Martin Prout"]
-  s.date = "2013-07-04"
+  s.date = "2013-07-22"
   s.default_executable = "rp5"
   s.email = "jeremy@ashkenas.com"
   s.executables = ["rp5"]
   s.license = 'MIT'
-  s.extra_rdoc_files = ["README", "CHANGELOG", "LICENSE"]
   s.files = FileList['bin/**/*', 'lib/**/*', 'library/**/*', 'samples/**/*'].to_a
-  s.has_rdoc = true
   s.homepage = "http://wiki.github.com/jashkenas/ruby-processing"
-  s.rdoc_options = ["--line-numbers", "--inline-source", "--title", "Ruby-Processing", "--main", "README"]
   s.required_ruby_version = '>= 1.9.3'
   s.require_paths = ["lib"]
   s.rubyforge_project = "ruby-processing"
   s.requirements << 'A decent graphics card'
   s.requirements << 'java runtime >= 1.6 preferably 1.7+ for invoke dynamic'
+  s.add_development_dependency 'minitest'
+  s.add_development_dependency 'rake'
   s.summary = "Code as Art, Art as Code. Processing and Ruby are meant for each other."
   s.description = <<-EOS
 
