@@ -24,7 +24,7 @@ Or if using jruby
 ```bash
 jruby -S gem ruby-processing-2.1.0.gem # to install gem
 ```
-Previously we were able to allow a simple install from rubygems, unfortunately this is no longer possible, owing to a policy change at rubygems.org (this gem is way too big) I don't think we could use bundler but I'm prepared to be proved wrong. A legacy version ruby-processing-1.0.11 is still available, but no-one is prepared to maintain, and it would also fall foul of the policy change at rubygems.org
+Previously we were able to provide a simple install from rubygems, unfortunately this is no longer possible, owing to a policy change at rubygems.org (this gem is way too big), I don't think we could use bundler but I'm prepared to be proved wrong. A legacy version ruby-processing-1.0.11 is still available, but no-one is prepared to maintain it, and it would also fall foul of the policy change at rubygems.org
 
 ## Documentation
 
