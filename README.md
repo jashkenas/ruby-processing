@@ -1,7 +1,13 @@
 # Ruby-Processing
 
-Is a ruby wrapper around [Processing][] built using [JRuby][], that allows you to code processing sketches in ruby.
-[processing]: http://www.processing.org/
+Is a ruby wrapper around [Processing][] Processing code art framework, built using [JRuby][].
+
+[Processing][] provides a tidy API, with a bunch of handy methods you can call 
+  from Ruby-Processing. Here's a smattering:
+  
+  alpha, arc, background, blend, blue, ellipse, frame_rate, hue, lerp, 
+  load_image, load_pixels, mouse_pressed, noise, rect, saturation, shape, 
+  smooth, text_align, translate, triangle...
 
 ## Installation
 Either clone this repo to your local Mac/Linux/Windows system
@@ -57,6 +63,7 @@ This library has been tested with the following ruby implementations
 [license]: LICENSE.md
 [contributing]: CONTRIBUTING.md
 [jruby]: http://www.jruby.org/
+[processing]: http://www.processing.org/
 [samples]: https://github.com/monkstone/ruby-processing/tree/master/samples/
 [wiki]: https://github.org/monkstone/wiki/
 [release]: https://github.com/monkstone/ruby-processing/releases/
