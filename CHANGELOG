@@ -1,7 +1,9 @@
+v2.1.1 Added Gemfile
+* Support bundler usage
+
 v2.1.0 gc-pruned ruby-processing-2.0
  * Since BFG tool was used for archive pruning
- * This fork is not compatible with forks of jashkenas repository
- *
+ * This repo is not compatible with forks of jashkenas prior to this release
 
 v2.0.1 First minor revision for ruby-processing-2.0
   * Changes for application export on Windows and linux
