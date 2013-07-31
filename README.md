@@ -100,7 +100,7 @@ This library has been tested with the following ruby implementations
 [release]: https://github.com/jashkenas/ruby-processing/releases/
 ## What's new
 
-Well for a start the repo has been drastically reduced in size, this was done by deleting unused binaries in the repos history. Anyone who has previously cloned/forked this repo ( _before 27 July 2013_ ), is advised to delete their clone/fork and clone/fore anew.
+Well for a start the repo has been drastically reduced in size, this was done by deleting unused binaries in the repos history. Anyone who has previously cloned/forked this repo ( _before 27 July 2013_ ), is advised to delete their clone/fork and clone/fork anew.
 
 New capabilities since processing-2.0 include ability to use OPENGL VBO (PShape) and GLSL shaders (PShader), to keep abreast of latest shader developments for processing check out the [codeanticode blog](http://codeanticode.wordpress.com/2013/06/04/processing-2-0-is-out-processing-2-0-is-in/). Some worked examples using new feature are included in the samples. The update to the latest jruby is also significant as the default is to run with ruby-1.9 support, and there have been many performance improvements. To use the invoke-dynamic java support for dynamic language, use java-7+ (NB: on the Mac need Intel-based Mac running Mac OS X version 10.7.3 and above to install java 7 otherwise use java 6). Many more worked examples are included in the [Samples][].
 
