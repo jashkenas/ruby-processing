@@ -11,7 +11,7 @@ attr_reader :grp
 def setup
   size 800, 600
   smooth 4
-  # VERY IMPORTANT: Allways initialize the library before using it
+  # VERY IMPORTANT: Always initialize the library before using it
   RG::init self
   @grp = RG::load_shape "Toucan.svg"
   grp.center_in g
