@@ -4,9 +4,9 @@ In the spirit of [free software][free-sw], **everyone** is encouraged to help im
 Here are some ways *you* can contribute:
 
 * by reporting bugs
-* by suggesting new features
-* by writing or editing documentation (expert Windows users could help write install instructions)
-* by contributing examples
+* by suggesting/implementing new features ( _export to ruboto would be cool_ )
+* by writing or editing documentation ( _expert Windows users could help write install instructions_ )
+* by contributing examples ( _show your creativity, or translate someone elses masterpiece_ )
 * by refactoring examples to be more rubyfied
 * by closing [issues][]
 * by proselytizing ruby-processing, we need more champions
