@@ -151,7 +151,7 @@ module Processing
     end
 
     # If you need to pass in arguments to Java, such as the ones on this page:
-    # http://java.sun.com/j2se/1.4.2/docs/tooldocs/windows/java.html
+    # http://docs.oracle.com/javase/1.5.0/docs/tooldocs/windows/java.html
     # then type them into a java_args.txt in your data directory next to your sketch.
     def discover_java_args(sketch)
       arg_file = "#{File.dirname(sketch)}/data/java_args.txt"
