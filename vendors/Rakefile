@@ -24,15 +24,20 @@ file "jruby-complete-#{JRUBY_VERSION}.jar" do
   check_sha1("jruby-complete-#{JRUBY_VERSION}.jar", "a117e28e715184074980d6228962b9fb6b5607ac")
 end
 
+directory "../lib/ruby"
+
+desc "copy jruby-complete"
+task :copy_ruby => ["../lib/ruby"] do
+  sh "cp -v jruby-complete-#{JRUBY_VERSION}.jar ../lib/ruby/jruby-complete.jar"
+end
+
 directory "../lib/core"
 
 desc "copy libs & jars"
-task :copy => ["../lib/core"] do
-  sh "cp -v jruby-complete-#{JRUBY_VERSION}.jar ../lib/core/jruby-complete.jar"
-
+task :copy=> ["../lib/core"] do
   processing_zip = File.expand_path("processing-#{PROCESSING_VERSION}-macosx.zip")
   sh "cd ../lib/core && unzip -qoj #{processing_zip} Processing.app/Contents/Resources/Java/core/library/*.jar"
-
+  
   dirs = %w{dxf minim net pdf serial video}
   Dir.chdir("../library/") do
     sh "rm -rf Processing.app/ #{dirs.join(" ")}"

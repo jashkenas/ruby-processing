@@ -12,11 +12,11 @@ Dir["#{RP5_ROOT}/lib/core/\*.jar"].each { |jar| require jar }
 
 
 # Include some processing classes that we'd like to use:
-%w(PShape PImage PGraphics PFont PVector).each do |klass|
+%w(PShape PImage PGraphics PFont PVector PMatrix2D PMatrix3D).each do |klass|
   java_import "processing.core.#{klass}"
 end
 
-%w(PGraphics2D PGraphics3D PShader PShapeOpenGL).each do |klass|
+%w(PGL PGraphics2D PGraphics3D PShader PShapeOpenGL FrameBuffer).each do |klass|
   java_import "processing.opengl.#{klass}"
 end
 
@@ -167,18 +167,6 @@ module Processing
       #end
     end
     
-    # def started?
-      # @started
-    # end
-    # 
-    # def hint(*args)
-      # begin
-        # super(*args)
-      # rescue Exception => e
-        # raise e.cause
-      # end
-    # end
-    
     
     # Make sure we set the size if we set it before we start the animation thread.
     def start
@@ -191,11 +179,6 @@ module Processing
       "#<Processing::App:#{self.class}:#{@title}>"
     end
    
-    # Specify what rendering Processing should use, without needing to pass size.
-#    def render_mode(mode_const)
-#      @render_mode = mode_const
-#      size(@width, @height, @render_mode)
-#    end
     
     # Cleanly close and shutter a running sketch.
     def close

@@ -7,4 +7,4 @@ syntax: glob
 *.tgz
 *.jar
 *.zip
-
+Gemfile.lock

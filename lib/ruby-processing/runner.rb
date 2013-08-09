@@ -25,8 +25,8 @@ module Processing
     unpack:     unpack samples or library
 
   Common options:
-    --jruby:    passed, use the installed version of jruby, instead of
-                our vendored jarred one (useful for gems).
+    --nojruby:  do not use the installed version of jruby, instead use our vendored
+                jarred one (required for shader sketches, and some others).
   
   Configuration file:
     A YAML configuration file is located at #{Processing::CONFIG_FILE_PATH}
@@ -78,7 +78,8 @@ module Processing
     def parse_options(args)
       @options = OpenStruct.new
       @options.p3d   = !!args.delete('--p3d')
-      @options.jruby  = !!args.delete('--jruby')
+      #@options.jruby  = !!args.delete('--jruby')
+      @options.nojruby  = !!args.delete('--nojruby')
       @options.action = args[0]     || nil
       @options.path   = args[1]     || File.basename(Dir.pwd + '.rb')
       @options.args   = args[2..-1] || []
@@ -143,9 +144,13 @@ module Processing
     def spin_up(starter_script, sketch, args)
       runner = "#{RP5_ROOT}/lib/ruby-processing/runners/#{starter_script}"
       java_args = discover_java_args(sketch)
-      command = @options.jruby ?
-                ['jruby', java_args, runner, sketch, args].flatten :
-                ['java', java_args, '-cp', jruby_complete, 'org.jruby.Main', runner, sketch, args].flatten
+      # command = @options.jruby ?
+                # ['jruby', java_args, runner, sketch, args].flatten :
+                # ['java', java_args, '-cp', jruby_complete, 'org.jruby.Main', runner, sketch, args].flatten
+      # exec *command
+      command = @options.nojruby ?
+         ['java', java_args, '-cp', jruby_complete, 'org.jruby.Main', runner, sketch, args].flatten :
+         ['jruby', java_args, runner, sketch, args].flatten                
       exec *command
       # exec replaces the Ruby process with the JRuby one.
     end
@@ -162,7 +167,7 @@ module Processing
       elsif CONFIG["java_args"]
         args += CONFIG["java_args"].split(/\s+/)
       end
-      args.map! {|arg| "-J#{arg}" }            if @options.jruby
+      args.map! {|arg| "-J#{arg}" }   unless @options.nojruby
       args
     end
 
@@ -171,7 +176,7 @@ module Processing
     end
 
     def jruby_complete
-      File.join(RP5_ROOT, 'lib/core/jruby-complete.jar')
+      File.join(RP5_ROOT, 'lib/ruby/jruby-complete.jar')
     end
 
     # On the Mac, we can display a fat, shiny ruby in the Dock.
