@@ -100,13 +100,13 @@ This library has been tested with the following ruby implementations
 
 [License][]
 
-[license]: LICENSE.md
-[contributing]: CONTRIBUTING.md
-[jruby]: http://www.jruby.org/
+[license]:LICENSE.md
+[contributing]:CONTRIBUTING.md
+[jruby]:http://www.jruby.org/
 [processing]: http://www.processing.org/
-[samples]: https://github.com/jashkenas/ruby-processing/tree/master/samples/
-[wiki]: https://github.org/jashkenas/wikis/
-[release]: https://github.com/jashkenas/ruby-processing/releases/
+[samples]:https://github.com/jashkenas/ruby-processing/tree/master/samples/
+[wiki]:http://github.com/jashkenas/ruby-processing/wikis/
+[release]:https://github.com/jashkenas/ruby-processing/releases/
 ## What's new
 
 Well for a start the repo has been drastically reduced in size, this was done by deleting unused binaries in the repos history. Anyone who has previously cloned/forked this repo ( _before 27 July 2013_ ), is advised to delete their clone/fork and clone/fork anew.
