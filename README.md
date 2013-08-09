@@ -37,8 +37,15 @@ See also [Contributing][] and [Samples][]
 # Usage Example
 
 ```bash
+jruby -S rp5 run my_sketch.rb
+```
+
+or possibly depending on your setup or if no using jruby
+
+```bash
 rp5 run my_sketch.rb
 ```
+
 where a simple my_sketch.rb could look like this
 
 ```ruby
