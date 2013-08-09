@@ -40,7 +40,7 @@ See also [Contributing][] and [Samples][]
 jruby -S rp5 run my_sketch.rb
 ```
 
-or possibly depending on your setup or if no using jruby
+or possibly depending on your setup, or if not using system jruby
 
 ```bash
 rp5 run my_sketch.rb
@@ -96,7 +96,7 @@ This library has been tested with the following ruby implementations
 
 * Ruby 1.9.3
 * Ruby 2.0.0
-* [JRuby][]
+* [JRuby][] preffered
 
 [License][]
 
