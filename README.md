@@ -105,7 +105,7 @@ This library has been tested with the following ruby implementations
 [jruby]: http://www.jruby.org/
 [processing]: http://www.processing.org/
 [samples]: https://github.com/jashkenas/ruby-processing/tree/master/samples/
-[wiki]: https://github.org/jashkenas/wiki/
+[wiki]: https://github.org/jashkenas/wikis/
 [release]: https://github.com/jashkenas/ruby-processing/releases/
 ## What's new
 
