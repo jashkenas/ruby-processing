@@ -96,7 +96,7 @@ This library has been tested with the following ruby implementations
 
 * Ruby 1.9.3
 * Ruby 2.0.0
-* [JRuby][] preffered
+* [JRuby][] preferred (required to use rubygems in sketches)
 
 [License][]
 
