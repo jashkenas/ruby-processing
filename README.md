@@ -32,7 +32,7 @@ Previously we were able to provide a simple install from rubygems, unfortunately
 
 See [Wiki][]
 
-See also [Contributing][] and [Samples][]
+See also [FAQs][], [Contributing][] and [Samples][]
 
 # Usage Example
 
@@ -106,6 +106,7 @@ This library has been tested with the following ruby implementations
 [processing]: http://www.processing.org/
 [samples]:https://github.com/jashkenas/ruby-processing/tree/master/samples/
 [wiki]:http://github.com/jashkenas/ruby-processing/wikis/
+[FAQs]:http://github.com/jashkenas/ruby-processing/wikis/FAQs/
 [release]:https://github.com/jashkenas/ruby-processing/releases/
 ## What's new
 
