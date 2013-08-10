@@ -78,7 +78,7 @@ module Processing
     def parse_options(args)
       @options = OpenStruct.new
       @options.p3d   = !!args.delete('--p3d')
-      #@options.jruby  = !!args.delete('--jruby')
+      @options.jruby  = !!args.delete('--jruby')
       @options.nojruby  = !!args.delete('--nojruby')
       @options.action = args[0]     || nil
       @options.path   = args[1]     || File.basename(Dir.pwd + '.rb')
@@ -144,10 +144,7 @@ module Processing
     def spin_up(starter_script, sketch, args)
       runner = "#{RP5_ROOT}/lib/ruby-processing/runners/#{starter_script}"
       java_args = discover_java_args(sketch)
-      # command = @options.jruby ?
-                # ['jruby', java_args, runner, sketch, args].flatten :
-                # ['java', java_args, '-cp', jruby_complete, 'org.jruby.Main', runner, sketch, args].flatten
-      # exec *command
+      warn("The --jruby flag is no longer required") if @options.jruby
       command = @options.nojruby ?
          ['java', java_args, '-cp', jruby_complete, 'org.jruby.Main', runner, sketch, args].flatten :
          ['jruby', java_args, runner, sketch, args].flatten                
