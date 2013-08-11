@@ -1,6 +1,7 @@
 v2.1.2 Moved JRuby-Complete.jar (avoids classpath conflict)
 * Change to using external jruby as default, introduce --nojruby
 * flag to use provided jruby-complete
+* Tests revised to me more compatible with minitest ethos (capture_io)
 
 v2.1.1 Added Gemfile
 * Support bundler usage
