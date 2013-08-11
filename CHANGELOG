@@ -1,4 +1,4 @@
-v2.1.2 Added Gemfile
+v2.1.2 Moved JRuby-Complete.jar (avoids classpath conflict)
 * Change to using external jruby as default, introduce --nojruby
 * flag to use provided jruby-complete
 
