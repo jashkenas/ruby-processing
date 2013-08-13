@@ -12,6 +12,16 @@ load_library 'cube'
 # Size of outer cube
 BOUNDS = 300
 CUBE_NO = 20
+
+# using java_alias to give signatures to overloaded java methods
+# in the sketch class
+java_alias :background_int, :background, [Java::int]
+java_alias :stroke_int, :stroke, [Java::int]
+
+# using java_alias to give signatures to overloaded java method
+# in the cube class, need to call $app.fill_int in cube
+java_alias :fill_int, :fill, [Java::int]
+
 attr_reader :cubies
 
 def setup
@@ -22,11 +32,11 @@ def setup
     cubie_size = rand(5 .. 15)
     cubies << Cube.new(cubie_size, cubie_size, cubie_size)
   end
-  
+  smooth 8
 end
 
 def draw
-  background(50)
+  background_int(50)
   lights
   
   # Center in display window
@@ -36,7 +46,7 @@ def draw
   rotate_x(frame_count * 0.001)
   rotate_y(frame_count * 0.002)
   rotate_z(frame_count * 0.001)
-  stroke(255)
+  stroke_int(255)
   
   
   # Outer transparent cube, just using box method

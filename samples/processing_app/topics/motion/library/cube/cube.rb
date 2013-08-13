@@ -10,19 +10,19 @@ class Cube
   
   # Position, velocity vectors
   attr_reader :position, :velocity, :rotation, :vertices, :w, :h, :d
-  
+  attr_reader :boundary
   def initialize(w, h, d)
     @w = w
     @h = h
     @d = d
-    
+    @boundary = Boundary.new(-BOUNDS/2, BOUNDS/2)
     @vertices = []
     # Start in center
-    @position = PVector.new
+    @position = Vect.new 0, 0, 0
     # Random velocity vector
-    @velocity = PVector.random3D
+    @velocity = Vect.random_3d
     # Random rotation
-    @rotation = PVector.new(rand(40 .. 100), rand(40 .. 100), rand(40 .. 100))
+    @rotation = Vect.new(rand(40 .. 100), rand(40 .. 100), rand(40 .. 100))
     
     # cube composed of 6 quads
     #front
@@ -61,7 +61,7 @@ class Cube
   def draw_cube
     # Draw cube
     COLORS.length.times do |i|
-      fill(COLORS[i])
+      $app.fill_int(COLORS[i])
       begin_shape(QUADS)
         4.times do |j|
           vertex(*vertices[j + 4 * i]) # splat vertices
@@ -75,13 +75,13 @@ class Cube
     position.add(velocity)
     
     # Check wall collisions
-    if (position.x > BOUNDS/2 || position.x < -BOUNDS/2)
+    unless boundary.include? position.x
       velocity.x *= -1
     end
-    if (position.y > BOUNDS/2 || position.y < -BOUNDS/2)
+    unless boundary.include? position.y
       velocity.y *= -1
     end
-    if (position.z > BOUNDS/2 || position.z < -BOUNDS/2)
+    unless boundary.include? position.z
       velocity.z *= -1
     end
   end
@@ -99,5 +99,30 @@ class Cube
     pop_matrix
   end
 end
+
+# Abstract boundary checking to this
+# lightweight class
+#
   
+class Boundary < Struct.new(:lower, :upper)
+  def include? x
+    (lower ... upper).cover? x
+  end
+end
+
+# Leaner meaner substitute for vanilla processings
+# PVector class, provides only functionality we need
+#
+class Vect < Struct.new(:x, :y, :z)
+
+  def self.random_3d
+    Vect.new(rand(-1 .. 1.0), rand(-1 .. 1.0), rand(-1 .. 1.0))
+  end
+
+  def add v
+    self.x += v.x
+    self.y += v.y
+    self.z += v.z
+  end
+end
 

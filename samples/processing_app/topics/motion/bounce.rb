@@ -29,10 +29,10 @@ def draw
   @ypos = ypos + ( Y_SPEED * ydirection )  
   # Test to see if the shape exceeds the boundaries of the screen
   # If it does, reverse its direction by multiplying by -1
-  if (xpos > width-RAD || xpos < RAD)
+  unless (RAD ... width - RAD).cover? xpos 
     @xdirection *= -1
   end
-  if (ypos > height - RAD || ypos < RAD)
+  unless (RAD ... height - RAD).cover? ypos 
     @ydirection *= -1
   end  
   # Draw the shape

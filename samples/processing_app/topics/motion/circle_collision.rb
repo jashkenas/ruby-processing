@@ -174,18 +174,10 @@ end
 
 
 def check_boundary_collision(ball)
-  if ball.x > width-ball.r
-    ball.x = width-ball.r
-    ball.vec.x *= -1
-  elsif ball.x < ball.r
-    ball.x = ball.r
+  unless (ball.r ... width - ball.r).cover? ball.x 
     ball.vec.x *= -1
   end
-  if ball.y > height-ball.r
-    ball.y = height-ball.r
-    ball.vec.y *= -1
-  elsif ball.y < ball.r
-    ball.y = ball.r
+  unless (ball.r ... height - ball.r).cover? ball.y 
     ball.vec.y *= -1
   end
 end
