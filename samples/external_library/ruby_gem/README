@@ -9,4 +9,4 @@ The absolute belt and brace way to use external ruby libraries ie gems:
 
 See worked perlin_force and mdarray_test in this folder 
 NB: library will need to work with jruby this excludes most native libraries
-but pure ruby libraries should be fine
+but pure ruby libraries (+java) should be fine

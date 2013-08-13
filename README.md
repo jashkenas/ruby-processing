@@ -18,7 +18,7 @@ Or download a [Release][] snapshot and unzip that followed by
 ```bash
 cd ruby-processing
 rake # build and test gem
-jruby -S gem ruby-processing-2.1.2.gem # to install gem, may need sudo
+jruby -S gem install ruby-processing-2.1.2.gem # to install gem, may need sudo
 ```
 
 Or if not using jruby
