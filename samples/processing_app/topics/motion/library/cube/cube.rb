@@ -104,7 +104,7 @@ end
 # lightweight class
 #
   
-class Boundary < Struct.new(:lower, :upper)
+Boundary = Struct.new(:lower, :upper) do
   def include? x
     (lower ... upper).cover? x
   end
@@ -113,7 +113,7 @@ end
 # Leaner meaner substitute for vanilla processings
 # PVector class, provides only functionality we need
 #
-class Vect < Struct.new(:x, :y, :z)
+Vect = Struct.new(:x, :y, :z) do
 
   def self.random_3d
     Vect.new(rand(-1 .. 1.0), rand(-1 .. 1.0), rand(-1 .. 1.0))
