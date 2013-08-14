@@ -1,7 +1,7 @@
 # Original by Ira Greenberg
 
 # 3D castle tower constructed out of individual bricks.
-# Uses the PVector and Cube classes.
+# Uses the Vect struct and Cube class.
 attr_reader :angle, :brick, :bricks_per_layer, :brick_layers
 attr_reader :radius, :layer_num, :temp_y
 
