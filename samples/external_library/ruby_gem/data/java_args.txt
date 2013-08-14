@@ -1,0 +1,2 @@
+-Xmn128m -Xms1024m -Xmx1024m -XX:+OptimizeStringConcat -XX:CompileCommand=dontinline,org.jruby.runtime.invokedynamic.InvokeDynamicSupport::invocationFallback 
+
