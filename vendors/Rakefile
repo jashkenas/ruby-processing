@@ -6,7 +6,7 @@ PROCESSING_VERSION = "2.0.2"
 CLOBBER.include("processing-#{PROCESSING_VERSION}-macosx.zip", "jruby-complete-#{JRUBY_VERSION}.jar")
 
 desc "download, and copy to ruby-processing"
-task :default => [:download, :copy]
+task :default => [:download, :copy_ruby, :copy]
 
 desc "download Processing & JRuby upstream sources"
 task :download => ["processing-#{PROCESSING_VERSION}-macosx.zip", "jruby-complete-#{JRUBY_VERSION}.jar"]
