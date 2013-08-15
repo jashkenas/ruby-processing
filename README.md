@@ -18,12 +18,12 @@ Or download a [Release][] snapshot and unzip that followed by
 ```bash
 cd ruby-processing
 rake # build and test gem
-jruby -S gem install ruby-processing-2.1.2.gem # to install gem, may need sudo
+jruby -S gem install ruby-processing-2.1.3.gem # to install gem, may need sudo
 ```
 
 Or if not using jruby
 ```bash
-gem install ruby-processing-2.1.2.gem # to install gem, may need sudo
+gem install ruby-processing-2.1.3.gem # to install gem, may need sudo
 
 ```
 Previously we were able to provide a simple install from rubygems, unfortunately this is no longer possible, owing to a policy change at rubygems.org (this gem is way too big), I don't think we could use bundler but I'm prepared to be proved wrong. A legacy version ruby-processing-1.0.11 is still available, but no-one is prepared to maintain it, and it would also fall foul of the policy change at rubygems.org
