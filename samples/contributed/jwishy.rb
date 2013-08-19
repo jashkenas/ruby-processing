@@ -13,12 +13,13 @@
 
 load_library :control_panel
 
-attr_accessor :x_wiggle, :y_wiggle, :magnitude, :bluish, :panel
+attr_accessor :x_wiggle, :y_wiggle, :magnitude, :bluish, :panel, :laf
 
 def setup
   size 600, 600  
   @show = false
   control_panel do |c|
+    c.look_feel "Nimbus"
     c.slider    :bluish, 0.0..1.0, 0.5
     c.slider    :alpha,  0.0..1.0, 0.5
     c.checkbox  :go_big

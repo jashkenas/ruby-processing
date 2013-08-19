@@ -70,6 +70,7 @@ def setup
   size 300, 300
   @curves = []    
   control_panel do |c|
+    c.look_feel "Nimbus"
     c.button :new_curve
     c.button :print_equations
     @panel = c

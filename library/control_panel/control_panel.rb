@@ -93,16 +93,15 @@ module ControlPanel
     
     attr_accessor :elements
 
-    def initialize lf = "Metal"
+    def initialize 
       super()
       @elements = []
-      UIManager::getInstalledLookAndFeels.each do |info|
-        if (info.getName.eql? lf)
-          UIManager::setLookAndFeel(info.getClassName)
-          break
-        end
-      end
       @panel = javax.swing.JPanel.new(java.awt.FlowLayout.new(1, 0, 0))
+    end
+    
+    def look_feel lf = "Metal"
+      lafs = javax.swing.UIManager::getInstalledLookAndFeels.select{|info| info.getName.eql? lf}
+      javax.swing.UIManager::setLookAndFeel(lafs[0].getClassName) if lafs.size > 0
     end
 
     def display
@@ -148,8 +147,8 @@ module ControlPanel
 
 
   module InstanceMethods
-    def control_panel lf = "Metal"
-      @control_panel = ControlPanel::Panel.new lf unless @control_panel
+    def control_panel 
+      @control_panel = ControlPanel::Panel.new unless @control_panel
       return @control_panel unless block_given?
       yield(@control_panel)
       @control_panel.display
