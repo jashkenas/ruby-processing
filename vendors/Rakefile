@@ -1,4 +1,5 @@
 require 'rake/clean'
+require 'shellwords'
 
 JRUBY_VERSION      = "1.7.4"
 PROCESSING_VERSION = "2.0.2"
@@ -36,13 +37,13 @@ directory "../lib/core"
 desc "copy libs & jars"
 task :copy=> ["../lib/core"] do
   processing_zip = File.expand_path("processing-#{PROCESSING_VERSION}-macosx.zip")
-  sh "cd ../lib/core && unzip -qoj #{processing_zip} Processing.app/Contents/Resources/Java/core/library/*.jar"
+  sh "cd ../lib/core && unzip -qoj #{Shellwords.shellescape(processing_zip)} Processing.app/Contents/Resources/Java/core/library/*.jar"
   
   dirs = %w{dxf minim net pdf serial video}
   Dir.chdir("../library/") do
     sh "rm -rf Processing.app/ #{dirs.join(" ")}"
     inside_zip_dirs = dirs.collect { |d| "Processing.app/Contents/Resources/Java/modes/java/libraries/#{d}/library/*" }
-    sh "unzip -q #{processing_zip} #{inside_zip_dirs.join(" ")}"
+    sh "unzip -q #{Shellwords.shellescape(processing_zip)} #{inside_zip_dirs.join(" ")}"
     sh "mv Processing.app/Contents/Resources/Java/modes/java/libraries/* ."
     sh "rm -r Processing.app/"
   end
