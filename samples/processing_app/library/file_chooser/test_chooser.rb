@@ -3,7 +3,9 @@ attr_reader :choose, :my_file, :img
 
 ###########
 # example file chooser (in this case image file chooser) you could
-# of course encapsulate image loading and resizing in the block
+# of course encapsulate image loading and resizing in the block.
+# borrow heavily off control_panel. Currently you need to cancel
+# file chooser after selection to move on, we'll fix it one day
 ###########
 
 def setup
