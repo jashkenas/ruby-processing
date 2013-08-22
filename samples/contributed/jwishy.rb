@@ -13,7 +13,7 @@
 
 load_library :control_panel
 
-attr_accessor :x_wiggle, :y_wiggle, :magnitude, :bluish, :panel, :laf
+attr_accessor :x_wiggle, :y_wiggle, :magnitude, :bluish, :panel, :laf, :hide  
 
 def setup
   size 600, 600  
@@ -27,6 +27,7 @@ def setup
     c.menu      :shape, ['oval', 'square']
     @panel = c
   end
+  @hide = false
   
   @shape = 'oval'
   @alpha, @bluish = 0.5, 0.5
@@ -42,6 +43,7 @@ def background=(*args)
   @background = args.flatten
 end
 
+
 def draw_background
   @background[3] = @alpha
   fill *@background if @background[0]
@@ -53,8 +55,11 @@ def reset
 end
 
 def draw
-  # panel is visible if sketch shown  
-  panel.visible = true if self.visible  
+  # only make control_panel visible once, or again when hide is false
+  unless hide
+    @hide = true
+    panel.setVisible(hide)    
+  end
   draw_background
   
   # Seed the random numbers for consistent placement from frame to frame
@@ -85,5 +90,9 @@ def draw
   @x_wiggle += 0.05
   @y_wiggle += 0.1
 
+end
+
+def mouse_pressed
+  @hide = false if hide
 end
 

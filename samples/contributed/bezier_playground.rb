@@ -225,7 +225,7 @@ end
 
 
 def draw
-  panel.visible = visible if self.visible
+  panel.visible = self.visible
   background 50
   draw_control_tangent_lines
   draw_curves

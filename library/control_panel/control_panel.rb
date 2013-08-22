@@ -107,9 +107,10 @@ module ControlPanel
     def display
       add @panel
       set_size 200, 30 + (64 * @elements.size)
-      set_default_close_operation javax.swing.JFrame::DISPOSE_ON_CLOSE
+      set_default_close_operation javax.swing.JFrame::HIDE_ON_CLOSE
       set_resizable false
-      @panel.visible = true
+      # offset the control_panel unless running full screen (or almost fullscreen)
+      set_location($app.width + 10, 0) unless ($app.width + 10 > $app.displayWidth)
     end
 
     def add_element(element, name, has_label=true, button=false)
@@ -120,11 +121,6 @@ module ControlPanel
       @elements << element
       @panel.add element
       return has_label ? label : nil
-    end
-
-    def remove
-      remove_all
-      dispose
     end
 
     def slider(name, range=0..100, initial_value = nil, &block)
