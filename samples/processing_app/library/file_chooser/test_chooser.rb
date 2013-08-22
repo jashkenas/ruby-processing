@@ -2,7 +2,8 @@ load_library :file_chooser
 attr_reader :choose, :my_file, :img
 
 ###########
-# example file chooser (in this case image file chooser)
+# example file chooser (in this case image file chooser) you could
+# of course encapsulate image loading and resising in the block
 ###########
 
 def setup
