@@ -1,9 +1,12 @@
 load_library :file_chooser
 attr_reader :choose, :my_file, :img
 
-def setup
-  size 600, 600  
+###########
+# example file chooser (in this case image file chooser)
+###########
 
+def setup
+  size 600, 600 
   file_chooser do |fc|
     fc.look_feel "Nimbus" 
     fc.set_filter "Image Files",  [".png", ".jpg"]
@@ -14,6 +17,5 @@ def setup
 end
 
 def draw
-
   image img, 0, 0
 end
