@@ -1,3 +1,8 @@
+v2.1.5 Update to processing-2.0.3
+* Minor changes to control_panel
+* Introducing file_chooser, deprecate select_input
+* Added display_width and display_height aliases
+
 v2.1.4 Improved build file
 * Build corrected to work on systems with directories containing spaces/etc
 * Control panel extra feature to allow setting of look and feel
