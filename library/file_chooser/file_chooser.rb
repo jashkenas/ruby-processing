@@ -1,5 +1,5 @@
-# Here's a little library for using a custom swing JFileChooser.
-# in ruby-processing, borrowing heavily from control_panel
+# Here's a little library for using swing JFileChooser.
+# in ruby-processing, borrose heavily from control_panel
 
 module FileChooser
   ##
@@ -64,13 +64,18 @@ module FileChooser
       else
         @chooser.setCurrentDirectory(JFile.new(System.getProperty(UHOME)))
       end      
-      success = @chooser.show_open_dialog($app) # could be nil instaed of &app
+      success = @chooser.show_open_dialog($app)
       if success == JXChooser::APPROVE_OPTION
-        return Pathname.new(@chooser.get_selected_file.get_absolute_path)
+        return Pathname.new(@chooser.get_selected_file.get_absolute_path).to_s
       else
         nil
       end
     end
+
+    def dispose
+      @chooser = nil
+    end
+
   end
   
   module InstanceMethods
@@ -78,7 +83,6 @@ module FileChooser
       @chooser = RXChooser.new
       return @chooser unless block_given?
       yield(@chooser)
-      @chooser.display
     end
   end
 end
