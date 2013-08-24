@@ -17,12 +17,12 @@ module FileChooser
       @description = description
       @extensions = extensions
     end
-    
-    def accept fobj
-      return extensions.include?(File.extname(fobj.to_s).downcase) if extensions 
-      return true unless fobj.isDirectory || extensions 
+
+    def accept fobj  # careful do not get too cute with next line
+      return true if extensions.include? File.extname(fobj.to_s).downcase
       return fobj.isDirectory
     end
+
     
     def getDescription
       description
