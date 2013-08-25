@@ -10,7 +10,7 @@ attr_reader :img
 def setup
   size 600, 600 
   file_chooser do |fc|
-    fc.look_feel "Nimbus" 
+    fc.look_feel "Nimbus" # or "Gtk+" might work better on linux 
     fc.set_filter "Image Files",  [".png", ".jpg"]
     my_file = fc.display
     @img = load_image(my_file)
