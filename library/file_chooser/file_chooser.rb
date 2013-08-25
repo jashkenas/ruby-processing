@@ -19,9 +19,8 @@ module FileChooser
     end
     
     def accept fobj
-      return extensions.include?(File.extname(fobj.to_s).downcase) if extensions 
-      return true unless fobj.isDirectory || extensions 
-      return fobj.isDirectory
+      return true if extensions.include?(File.extname(fobj.to_s).downcase)
+      return true if fobj.isDirectory
     end
     
     def getDescription
