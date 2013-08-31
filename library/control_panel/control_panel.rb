@@ -105,6 +105,7 @@ module ControlPanel
     end
 
     def display
+      add @panel
       set_size 200, 30 + (64 * @elements.size)
       set_default_close_operation javax.swing.JFrame::HIDE_ON_CLOSE
       set_resizable false
