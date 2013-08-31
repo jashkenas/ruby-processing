@@ -91,35 +91,36 @@ module ControlPanel
   class Panel < javax.swing.JFrame
     java_import javax.swing.UIManager
     
-    attr_accessor :elements
+    attr_accessor :elements, :panel
 
     def initialize 
       super()
       @elements = []
       @panel = javax.swing.JPanel.new(java.awt.FlowLayout.new(1, 0, 0))
     end
-    
-    def look_feel lf = "Metal"
-      lafs = javax.swing.UIManager::getInstalledLookAndFeels.select{|info| info.getName.eql? lf}
-      javax.swing.UIManager::setLookAndFeel(lafs[0].getClassName) if lafs.size > 0
-    end
 
     def display
-      set_size 200, 30 + (64 * @elements.size)
+      add panel
+      set_size 200, 30 + (64 * elements.size)
       set_default_close_operation javax.swing.JFrame::HIDE_ON_CLOSE
       set_resizable false
-      # offset the control_panel unless running full screen (or almost fullscreen)
       set_location($app.width + 10, 0) unless ($app.width + 10 > $app.displayWidth)
+      panel.visible = true
     end
 
     def add_element(element, name, has_label=true, button=false)
       if has_label
         label = javax.swing.JLabel.new("<html><br><b>#{name}</b></html>")
-        @panel.add label
+        panel.add label
       end
-      @elements << element
-      @panel.add element
+      elements << element
+      panel.add element
       return has_label ? label : nil
+    end
+
+    def remove
+      remove_all
+      dispose
     end
 
     def slider(name, range=0..100, initial_value = nil, &block)
@@ -138,6 +139,12 @@ module ControlPanel
     def button(name, &block)
       button = Button.new(self, name, block || nil)
     end
+
+    def look_feel lf = "Metal"
+      lafs = javax.swing.UIManager::getInstalledLookAndFeels.select{|info| info.getName.eql? lf}
+      javax.swing.UIManager::setLookAndFeel(lafs[0].getClassName) if lafs.size > 0
+    end
+
   end
 
 
