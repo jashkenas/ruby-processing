@@ -8,6 +8,8 @@
  
 attr_reader :landscape
 
+java_alias :background_int, :background, [Java::int]
+
 def setup
   size(640, 360, P2D)
   no_stroke
@@ -19,7 +21,7 @@ def setup
 end
 
 def draw
-  background(0)
+  background_int 0
     
   landscape.set("time", (millis/1000.0).to_f)
   shader(landscape) 
