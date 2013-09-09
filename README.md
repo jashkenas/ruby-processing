@@ -27,7 +27,7 @@ gem install ruby-processing-2.1.5.gem # to install gem, may need sudo
 
 ```
 
-For windows users in particular, who may not have wget installed you could manually download jruby-complete and the mac version of processing and put them in the vendors folder. Also it may be better to just rake install (skipping tests).
+For windows users in particular, who may not have wget installed you could manually download jruby-complete and the mac version of processing and put them in the vendors folder (see vendors Rakefile to confirm versions reqd). Also it may be better to just rake install (skipping tests).
 ```bash
 rake install
 ```
