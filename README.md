@@ -26,6 +26,12 @@ Or if not using jruby
 gem install ruby-processing-2.1.5.gem # to install gem, may need sudo
 
 ```
+
+For windows users in particular, who may not have wget installed you could manually download jruby-complete and the mac version of processing and put them in the vendors folder. Also it may be better to just rake install (skipping tests).
+```bash
+rake install
+```
+
 Previously we were able to provide a simple install from rubygems, unfortunately this is no longer possible, owing to a policy change at rubygems.org (this gem is way too big), I don't think we could use bundler but I'm prepared to be proved wrong. A legacy version ruby-processing-1.0.11 is still available, but no-one is prepared to maintain it, and it would also fall foul of the policy change at rubygems.org
 
 ## Documentation
