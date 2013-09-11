@@ -16,7 +16,7 @@ git clone https://github.com/jashkenas/ruby-processing.git
 ```
 Or download a [Release][] snapshot and unzip that followed by
 
-Following special instructions for [Windows]:http://github.com/jashkenas/ruby-processing/wikis/For Windows Users/ Users
+See special instructions for Windows Users in the [Wiki][]
 
 ```bash
 cd ruby-processing
