@@ -117,7 +117,7 @@ This library has been tested with the following ruby implementations
 [wiki]:http://github.com/jashkenas/ruby-processing/wikis/
 [FAQs]:http://github.com/jashkenas/ruby-processing/wikis/FAQs/
 [release]:https://github.com/jashkenas/ruby-processing/releases/
-[Windows Users]:http://github.com/jashkenas/ruby-processing/wikis/Install Instructions for Windows Users/
+[Windows Users]:http://github.com/jashkenas/ruby-processing/wikis/For Windows Users/
 
 ## What's new
 
