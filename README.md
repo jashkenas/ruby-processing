@@ -15,6 +15,9 @@ Either clone this repo to your local Mac/Linux/Windows system
 git clone https://github.com/jashkenas/ruby-processing.git
 ```
 Or download a [Release][] snapshot and unzip that followed by
+
+Following special instructions for [Windows][]
+
 ```bash
 cd ruby-processing
 rake # build and test gem
@@ -114,6 +117,7 @@ This library has been tested with the following ruby implementations
 [wiki]:http://github.com/jashkenas/ruby-processing/wikis/
 [FAQs]:http://github.com/jashkenas/ruby-processing/wikis/FAQs/
 [release]:https://github.com/jashkenas/ruby-processing/releases/
+[Windows]:https://github.com/jashkenas/ruby-processing/wikis/int/
 ## What's new
 
 Well for a start the repo has been drastically reduced in size, this was done by deleting unused binaries in the repos history. Anyone who has previously cloned/forked this repo ( _before 27 July 2013_ ), is advised to delete their clone/fork and clone/fork anew.  The other major change (since ruby-processing-2.1.2) is that using an external jruby is the default (jruby-complete is retained for those sketches, mainly shader that need it, and for application export), which simplifies the use of rubygems. To revert to using the vendored jruby-complete, just use use the --nojruby flag.
