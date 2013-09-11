@@ -16,7 +16,7 @@ git clone https://github.com/jashkenas/ruby-processing.git
 ```
 Or download a [Release][] snapshot and unzip that followed by
 
-Following special instructions for [Windows Users][]
+Following special instructions for [Windows]:http://github.com/jashkenas/ruby-processing/wikis/For Windows Users/ Users
 
 ```bash
 cd ruby-processing
@@ -28,11 +28,6 @@ Or if not using jruby
 ```bash
 gem install ruby-processing-2.1.5.gem # to install gem, may need sudo
 
-```
-
-For windows users in particular, who may not have wget installed you could manually download jruby-complete and the mac version of processing and put them in the vendors folder (see vendors Rakefile to confirm versions reqd). Also it may be better to just rake install (skipping tests).
-```bash
-rake install
 ```
 
 Previously we were able to provide a simple install from rubygems, unfortunately this is no longer possible, owing to a policy change at rubygems.org (this gem is way too big), I don't think we could use bundler but I'm prepared to be proved wrong. A legacy version ruby-processing-1.0.11 is still available, but no-one is prepared to maintain it, and it would also fall foul of the policy change at rubygems.org
@@ -117,7 +112,6 @@ This library has been tested with the following ruby implementations
 [wiki]:http://github.com/jashkenas/ruby-processing/wikis/
 [FAQs]:http://github.com/jashkenas/ruby-processing/wikis/FAQs/
 [release]:https://github.com/jashkenas/ruby-processing/releases/
-[Windows Users]:http://github.com/jashkenas/ruby-processing/wikis/For Windows Users/
 
 ## What's new
 
