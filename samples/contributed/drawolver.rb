@@ -4,7 +4,7 @@
 # use PVector and the Array is extended to yield one_of_each 
 # pair of pts. See the drawolver library. Also features the use each_cons, 
 # possibly a rare use for this ruby Enumerable method?
-# 2010-03-22 - fjenett (revised monkstone 2013-07-22)
+# 2010-03-22 - fjenett (last revised by monkstone 2013-09-13)
 
 attr_reader :drawing_mode, :points, :rot_x, :rot_y, :vertices
 
@@ -19,20 +19,20 @@ module ExtendedArray
     mi = one.length > two.length ? two.length : one.length
     while i < mi do
       yield( one[i], two[i] )
-      i = i + 1
+      i += 1
     end
   end
 end
 
 
 def setup 
-  size 640, 360, P3D
+  size 1024, 768, P3D
   frame_rate 30 
   reset_scene
 end
 
 def draw  
-  background 255    
+  background 0    
   if (!drawing_mode)      
     translate(width/2, height/2)
     rotate_x rot_x
@@ -42,21 +42,22 @@ def draw
     translate(-width/2, -height/2)
   end 
   no_fill
-  stroke 0  
+  stroke 255
   points.each_cons(2) { |ps, pe| line ps.x, ps.y, pe.x, pe.y}
 
   if (!drawing_mode)    
-    no_stroke
+    stroke 125
     fill 120
-    lights    
-    vertices.each_cons(2) do |r1, r2|     
+    lights 
+    ambient_light 120, 120, 120
+    vertices.each_cons(2) do |r1, r2|
       begin_shape(TRIANGLE_STRIP)
       ext_array = [r1,r2].extend ExtendedArray # extend an instance of Array
       ext_array.one_of_each do |v1, v2|          
         vertex v1.x, v1.y, v1.z
         vertex v2.x, v2.y, v2.z
       end
-      end_shape
+      end_shape 
     end
   end 
 end
@@ -95,8 +96,7 @@ def recalculate_shape
     c = ps - normal
     nlen = c.mag    
     vertices << []    
-    (0..360).step(12) do |deg|     
-      ang = radians deg
+    (0..TWO_PI).step(PI/15) do |ang|     
       e = normal + c * cos(ang)
       e.z = c.mag * sin(ang)      
       vertices.last << e
@@ -109,24 +109,20 @@ end
 #
 class RPVector < Java::ProcessingCore::PVector
 
-  def + ( other )
-    v = RPVector.add( self, other )
-    RPVector.new v.x, v.y, v.z
+  def + (vect)
+    RPVector.new self.x + vect.x, self.y + vect.y, self.z + vect.z
   end
 
-  def - ( other )
-    v = RPVector.sub( self, other )
-    RPVector.new v.x, v.y, v.z
+  def - (vect)
+    RPVector.new self.x - vect.x, self.y - vect.y, self.z - vect.z
   end
 
-  def * ( other )
-    v = RPVector.mult( self, other )
-    RPVector.new v.x, v.y, v.z
+  def * (scalar)
+    RPVector.new self.x * scalar, self.y * scalar, self.z * scalar
   end
 
-  def / ( other )
-    v = RPVector.div( self, other )
-    RPVector.new v.x, v.y, v.z
+  def / (scalar)
+    RPVector.new(self.x / scalar, self.y / scalar, self.z / scalar) unless scalar == 0
   end
 
 end
