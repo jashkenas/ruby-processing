@@ -56,7 +56,6 @@ class Bubble
       fill 0
       text_align CENTER
       text(name, x, y + diameter / 2.0 +20)
-      no_loop
     end
   end
   
