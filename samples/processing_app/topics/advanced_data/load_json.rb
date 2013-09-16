@@ -1,21 +1,23 @@
 require "json"
 
-attr_reader :data, :bubbles
+attr_reader :bubbles
 
 def setup()
   size(640, 360)
   # read source_string from file
   source_string = open("data/data.json", "r").read
-  # parse the source string and get the "bubbles" data
-  @data = JSON(source_string)["bubbles"]
+  # parse the source string
+  data = JSON.parse(source_string)
+  # get the bubble_data from the top level hash
+  bubble_data = data["bubbles"]
   @bubbles = []
-  # create an array of bubbles from the data
-  data.each do |point|
-     bubbles << Bubble.new(
-     point["position"]["x"],
-     point["position"]["y"],
-     point["diameter"],
-     point["label"])
+  # iterate the bubble_data array, and create an array of bubbles
+  bubble_data.each do |point|
+    bubbles << Bubble.new(
+      point["position"]["x"],
+      point["position"]["y"],
+      point["diameter"],
+      point["label"])
   end
 end
 
@@ -28,9 +30,12 @@ def draw
 end
 
 def mouse_pressed
+  # create a new bubble instance, where mouse was clicked
   bubble = Bubble.new(mouse_x, mouse_y, rand(40 .. 80), "new label")
+  # demonstrate how easy it is to create json object from a hash in ruby
   source_object = bubble.to_hash.to_json
-  puts JSON(source_object)
+  puts JSON.parse(source_object)
+  # add the newly created bubble to array of bubbles
   @bubbles << bubble
 end
 
