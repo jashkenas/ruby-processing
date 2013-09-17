@@ -34,13 +34,17 @@ def load_data
   end
 end
 
-def mouse_pressed
-  # create a new bubble instance, where mouse was clicked
-  @bubble_data.add_bubble(Bubble.new(mouse_x, mouse_y, rand(40 .. 80), "new label"))
+def save_data
   # demonstrate how easy it is to create json object from a hash in ruby
   json = bubble_data.to_hash.to_json
   # overwite existing 'data.json' 
   open("data/data.json", 'w') {|f| f.write(json) }
+end
+
+def mouse_pressed
+  # create a new bubble instance, where mouse was clicked
+  @bubble_data.add_bubble(Bubble.new(mouse_x, mouse_y, rand(40 .. 80), "new label"))
+  save_data
   # reload the json data from the freshly created file
   load_data
 end
