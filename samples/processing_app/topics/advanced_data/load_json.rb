@@ -1,24 +1,11 @@
 require "json"
 
-attr_reader :bubbles
+attr_reader :bubbles, :bubble_data
 
 def setup()
   size(640, 360)
   # read source_string from file
-  source_string = open("data/data.json", "r").read
-  # parse the source string
-  data = JSON.parse(source_string)
-  # get the bubble_data from the top level hash
-  bubble_data = data["bubbles"]
-  @bubbles = []
-  # iterate the bubble_data array, and create an array of bubbles
-  bubble_data.each do |point|
-    bubbles << Bubble.new(
-      point["position"]["x"],
-      point["position"]["y"],
-      point["diameter"],
-      point["label"])
-  end
+  load_data
 end
 
 def draw
@@ -29,14 +16,54 @@ def draw
   end
 end
 
+def load_data
+  source_string = open("data/data.json", "r").read
+  # parse the source string
+  @bubble_data = BubbleData.new
+
+  # get the bubble_data from the top level hash
+  data = bubble_data.extract_data source_string
+  @bubbles = []
+  # iterate the bubble_data array, and create an array of bubbles
+  data.each do |point|
+    bubbles << Bubble.new(
+      point["position"]["x"],
+      point["position"]["y"],
+      point["diameter"],
+      point["label"])
+  end
+end
+
 def mouse_pressed
   # create a new bubble instance, where mouse was clicked
-  bubble = Bubble.new(mouse_x, mouse_y, rand(40 .. 80), "new label")
+  @bubble_data.add_bubble(Bubble.new(mouse_x, mouse_y, rand(40 .. 80), "new label"))
   # demonstrate how easy it is to create json object from a hash in ruby
-  source_object = bubble.to_hash.to_json
-  puts JSON.parse(source_object)
-  # add the newly created bubble to array of bubbles
-  @bubbles << bubble
+  json = bubble_data.to_hash.to_json
+  # overwite existing 'data.json' 
+  open("data/data.json", 'w') {|f| f.write(json) }
+  # reload the json data from the freshly created file
+  load_data
+end
+
+class BubbleData
+  attr_reader :name, :data
+  def initialize name = "bubbles"
+    @name = name
+    @data = []
+  end
+
+  def add_bubble bubble
+    data << bubble  	  
+  end
+
+  def extract_data source_string
+    @data = JSON.parse(source_string)[name]
+  end
+  
+  def to_hash
+    {name => data.map{|point| point.to_hash}}
+  end
+
 end
 
 class Bubble
@@ -60,7 +87,7 @@ class Bubble
     if over
       fill 0
       text_align CENTER
-      text(name, x, y + diameter / 2.0 +20)
+      text(name, x, y + diameter / 2.0 + 20)
     end
   end
   
@@ -68,3 +95,4 @@ class Bubble
     {"position" => {"x" => x, "y" => y}, "diameter" => diameter, "label" => name}	  
   end
 end
+
