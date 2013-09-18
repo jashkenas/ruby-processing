@@ -36,7 +36,8 @@ end
 
 def save_data
   # demonstrate how easy it is to create json object from a hash in ruby
-  json = bubble_data.to_hash.to_json
+  # json = bubble_data.to_hash.to_json # if you don't require pretty output
+  json = JSON.pretty_generate(bubble_data.to_hash) # pretty output
   # overwite existing 'data.json' 
   open("data/data.json", 'w') {|f| f.write(json) }
 end
