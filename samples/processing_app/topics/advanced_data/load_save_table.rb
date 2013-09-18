@@ -14,10 +14,11 @@
 #   273,235,61.14072,Joyous
 #   121,179,44.758068,Melancholy
 #
- 
+require 'csv'
+
 load_library "bubble"
 
-attr_reader :bubbles, :table
+attr_reader :bubbles, :data
 
 def setup
   size(640, 360)
@@ -31,7 +32,7 @@ def draw
     b.display
     b.rollover(mouse_x, mouse_y)
   end
-
+  
   text_align(LEFT)
   fill(0)
   text("Click to add bubbles.", 10, height - 10)
@@ -40,40 +41,44 @@ end
 def load_data
   # Load CSV file into a Table object
   # "header" option indicates the file has a header row
-  table = load_table("data.csv","header")
-
+  @data = CSV.read("data/data.csv", :headers => true).map{|row| row.to_hash}
+  
   # The size of the array of Bubble objects is determined by the total number of rows in the CSV
   @bubbles = [] 
-
-  table.rows.each do |row|
+  
+  data.each do |row|
     # You can access the fields via their column name (or index)
-    x = row.getFloat("x")
-    y = row.getFloat("y")
-    d = row.getFloat("diameter")
-    n = row.getString("name")
+    x = row["x"].to_f
+    y = row["y"].to_f
+    d = row["diameter"].to_f
+    n = row["name"] 
     # Make a Bubble object out of the data read
     bubbles << Bubble.new(x, y, d, n)
   end  
-
+  
 end
 
 def mousePressed
   # Create a new row
-  row = table.addRow
+  row = {"x" => mouse_x.to_s, "y" => mouse_y.to_s, "diameter" => random(40, 80).to_s, "name" => "Blah"}
   # Set the values of that row
-  row.setFloat("x", mouseX)
-  row.setFloat("y", mouseY)
-  row.setFloat("diameter", random(40, 80))
-  row.setString("name", "Blah")
+  data << row
   
   # If the table has more than 10 rows
-  if (table.getRowCount > 10)
+  if (data.size > 10)
     # Delete the oldest row
-    table.removeRow(0) 
+    
+    data.delete_at(0)
+  end    
+  column_names = data.first.keys
+  s = CSV.generate do |csv|
+    csv << column_names
+    data.each do |row|
+      csv << row.values
+    end
   end
-
   # Writing the CSV back to the same file
-  save_table(table, "data/data.csv")
+  File.write("data/data.csv", s)  
   # And reloading it
   load_data
 end
