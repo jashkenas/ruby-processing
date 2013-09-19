@@ -1,8 +1,8 @@
 #
 # Loading Tabular Data
-# by Daniel Shiffman.  
+# after Daniel Shiffman, by Martin Prout.  
 # 
-# This example demonstrates how to use loadTable
+# This example demonstrates how to use CSV
 # to retrieve data from a CSV file and make objects 
 # from that data.
 #
@@ -39,15 +39,15 @@ def draw
 end
 
 def load_data
-  # Load CSV file into a Table object
-  # "header" option indicates the file has a header row
+  # Load CSV file into an Array of Hash objects
+  # :headers option indicates the file has a header row
   @data = CSV.read("data/data.csv", :headers => true).map{|row| row.to_hash}
   
-  # The size of the array of Bubble objects is determined by the total number of rows in the CSV
+  # The size of the array of Bubble objects is determined by the total number of "rows" in the CSV
   @bubbles = [] 
   
   data.each do |row|
-    # You can access the fields via their column name (or index)
+    # You access the values via their column name (set by using headers option above)
     x = row["x"].to_f
     y = row["y"].to_f
     d = row["diameter"].to_f
@@ -59,17 +59,17 @@ def load_data
 end
 
 def mousePressed
-  # Create a new row
+  # Create a new "row" hash
   row = {"x" => mouse_x.to_s, "y" => mouse_y.to_s, "diameter" => random(40, 80).to_s, "name" => "Blah"}
-  # Set the values of that row
+  # add the row to the existing data array
   data << row
   
   # If the table has more than 10 rows
   if (data.size > 10)
     # Delete the oldest row
-    
-    data.delete_at(0)
-  end    
+    data.shift 
+  end
+  # read column names from data, and generate csv "string" that can be written to file  
   column_names = data.first.keys
   s = CSV.generate do |csv|
     csv << column_names
@@ -77,8 +77,8 @@ def mousePressed
       csv << row.values
     end
   end
-  # Writing the CSV back to the same file
-  File.write("data/data.csv", s)  
+  # Writing the csv data back to the same file, (also specify UTF-8 format)
+  File.open("data/data.csv", 'w:UTF-8') { |file| file.write(s)}  
   # And reloading it
   load_data
 end
