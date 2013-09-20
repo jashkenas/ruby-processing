@@ -9,7 +9,7 @@ attr_reader :bubbles, :bubble_data
 
 def setup()
   size(640, 360)
-  # read source_string from file
+  # load data from file
   load_data
 end
 
@@ -40,9 +40,9 @@ def load_data
 end
 
 def save_data
-  # demonstrate how easy it is to create json object from a hash in ruby
+  # demonstrate how easy it is to create yaml object from a hash in ruby
   yaml = bubble_data.to_hash.to_yaml
-  # overwite existing 'data.json' 
+  # overwite existing 'data.yaml' 
   open("data/data.yaml", 'w') {|f| f.write(yaml) }
 end
 
@@ -50,7 +50,7 @@ def mouse_pressed
   # create a new bubble instance, where mouse was clicked
   @bubble_data.add_bubble(Bubble.new(mouse_x, mouse_y, rand(40 .. 80), "new label"))
   save_data
-  # reload the json data from the freshly created file
+  # reload the yaml data from the freshly created file
   load_data
 end
 
