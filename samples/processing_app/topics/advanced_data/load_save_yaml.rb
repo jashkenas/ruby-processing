@@ -1,7 +1,7 @@
 ######################################
 # Yet another examples of reading and
-# writing to soma form of markup
-# appropriatetly yaml
+# writing to some form of markup,
+# appropriatetly yaml.
 # by Martin Prout after Dan Shiffman
 # ###################################
 
