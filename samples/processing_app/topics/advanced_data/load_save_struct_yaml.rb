@@ -66,7 +66,7 @@ class BubbleData
     end
   end
 
-  # Using symbol as hash key for a change.  Thus demonstrating only to show we can store 
+  # Using symbol as hash key for a change.  Thus demonstrating we can store 
   # more complex data strucures quite readily.
   def to_hash
     {bubbles: data.map{|point| point.to_struct}}
