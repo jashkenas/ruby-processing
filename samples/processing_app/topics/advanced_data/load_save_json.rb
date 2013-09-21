@@ -1,4 +1,5 @@
 require "json"
+load_library :bubble
 
 attr_reader :bubbles, :bubble_data
 
@@ -17,7 +18,7 @@ def draw
 end
 
 def load_data
-  source_string = open("data/data.json", "r").read
+  source_string = open("data/data.json", "r"){|file| file.read}
   # parse the source string
   @bubble_data = BubbleData.new
 
@@ -71,33 +72,4 @@ class BubbleData
 
 end
 
-class Bubble
-  attr_reader :x, :y, :diameter, :name, :over	
-
-  def initialize(x, y, diameter, name)
-    @x, @y, @diameter, @name = x, y, diameter, name
-    @over = false
-  end
-
-  def rollover px, py
-    d = dist px, py, x, y
-    @over = (d < diameter / 2.0)
-  end
-
-  def display
-    stroke 0
-    stroke_weight 2
-    no_fill
-    ellipse x, y, diameter, diameter
-    if over
-      fill 0
-      text_align CENTER
-      text(name, x, y + diameter / 2.0 + 20)
-    end
-  end
-  
-  def to_hash
-    {"position" => {"x" => x, "y" => y}, "diameter" => diameter, "label" => name}	  
-  end
-end
 

@@ -1,0 +1,22 @@
+---
+:bubbles:
+- !ruby/struct:BubbleStruct
+  x: 160
+  y: 103
+  diameter: 43.2
+  label: Happy
+- !ruby/struct:BubbleStruct
+  x: 372
+  y: 137
+  diameter: 52.4
+  label: Sad
+- !ruby/struct:BubbleStruct
+  x: 273
+  y: 235
+  diameter: 61.0
+  label: Joyous
+- !ruby/struct:BubbleStruct
+  x: 121
+  y: 179
+  diameter: 44.7
+  label: Melancholy

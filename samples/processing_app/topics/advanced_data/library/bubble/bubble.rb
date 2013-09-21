@@ -1,4 +1,4 @@
-# A Bubble class
+# The bubble library, include BubbleStruct
 
 class Bubble
   include Processing::Proxy
@@ -32,4 +32,14 @@ class Bubble
       text(name, x, y + diameter/2 + 20)
     end
   end
+
+  def to_hash
+    {"position" => {"x" => x, "y" => y}, "diameter" => diameter, "label" => name}  
+  end
+
+  def to_struct
+    BubbleStruct.new(x, y, diameter, name)	  
+  end
 end
+
+BubbleStruct = Struct.new(:x, :y, :diameter, :label)
