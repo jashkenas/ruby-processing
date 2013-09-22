@@ -1,5 +1,6 @@
 v2.1.6 In anticipation of JRuby-1.7.5
 * Minor release to crystalize changes before JRuby-1.7.5
+* Rakefile tries to detect Windows OS & warn possibly missing 'wget'
 * Rubified and expanded Shiffmans advanced data examples
 
 v2.1.5 Update to processing-2.0.3
