@@ -39,7 +39,7 @@ def save_data
   # demonstrate how easy it is to create yaml object from a hash in ruby
   yaml = bubble_data.to_hash.to_yaml
   # overwite existing 'data.yaml' 
-  open("data/struct_data.yml", 'w') {|f| f.write(yaml) }
+  open("data/struct_data.yml", 'w:UTF-8') {|f| f.write(yaml) }
 end
 
 def mouse_pressed

@@ -1,3 +1,7 @@
+v2.1.6 In anticipation of JRuby-1.7.5
+* Minor release to crystalize changes before JRuby-1.7.5
+* Rubified and expanded Shiffmans advanced data examples
+
 v2.1.5 Update to processing-2.0.3
 * Minor changes to control_panel
 * Introducing file_chooser, deprecate select_input
@@ -13,7 +17,7 @@ v2.1.3 Update to processing-2.0.2
 v2.1.2 Moved JRuby-Complete.jar (avoids classpath conflict)
 * Change to using external jruby as default, introduce --nojruby
 * flag to use provided jruby-complete
-* Tests revised to me more compatible with minitest ethos (capture_io)
+* Tests revised to be more compatible with minitest ethos (capture_io)
 
 v2.1.1 Added Gemfile
 * Support bundler usage
