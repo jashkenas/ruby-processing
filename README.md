@@ -20,13 +20,13 @@ See special instructions for Windows Users in the [Wiki][]
 
 ```bash
 cd ruby-processing
-rake # build and test gem
-jruby -S gem install ruby-processing-2.1.5.gem # to install gem, may need sudo
+rake # build and test gem (actually build and install if windows)
+jruby -S gem install ruby-processing-2.1.6.gem # to install gem, may need sudo
 ```
 
 Or if not using jruby
 ```bash
-gem install ruby-processing-2.1.5.gem # to install gem, may need sudo
+gem install ruby-processing-2.1.6.gem # to install gem, may need sudo
 
 ```
 
