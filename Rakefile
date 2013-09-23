@@ -12,7 +12,16 @@ task :platform do
     puts "You might be better using the alternative vendors/Rakefile see Wiki"
     Rake::Task["build"].execute
     Rake::Task["install"].execute
+  when /linux/i
+    # check for wget in the usual place this is the simplest test	  
+    if File.exists?('/usr/bin/wget')
+      Rake::Task["build"].execute
+      Rake::Task["test"].execute
+    else
+      raise "You need to install wget"
+    end
   else
+    # assuming Mac users konw they require wget or have installed Brew	  
     Rake::Task["build"].execute
     Rake::Task["test"].execute
   end

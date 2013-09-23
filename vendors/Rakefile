@@ -50,8 +50,8 @@ task :copy=> ["../lib/core"] do
 end
 
 def check_sha1(filename, expected_hash)
-  require "digest/sha1"
-  sha1 = Digest::SHA1.new
+  require "openssl"
+  sha1 = OpenSSL::Digest::SHA1.new
   File.open(filename, "r") do |f|
     while buf = f.read(4096)
       sha1.update(buf)
