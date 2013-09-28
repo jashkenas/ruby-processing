@@ -1,76 +1,85 @@
 ######################################
 # Yet another examples of reading and
 # writing to some form of markup,
-# appropriatetly yaml using ruby structs 
+# appropriately yaml using ruby structs 
 # by Martin Prout after Dan Shiffman
 ####################################
 load_library :bubble
 
-attr_reader :bubbles, :bubble_data
+attr_reader :bubble_data
 
 
 def setup()
   size(640, 360)
-  # load data from file
-  load_data
+  @bubble_data = BubbleData.new :bubbles
+  bubble_data.load_data "data/struct_data.yml"
 end
 
 def draw
   background 255
-  bubbles.each do|bubble|
-    bubble.display
-    bubble.rollover(mouse_x, mouse_y)
-  end
+  bubble_data.display mouse_x, mouse_y
 end
 
-def load_data
-  yaml = Psych.load_file("data/struct_data.yml")
-  # we are storing the data as an array of RubyStruct, in a hash with
-  # a symbol as the key (the latter only to show we can, it makes no sense)
-  data = yaml[:bubbles] 
-  @bubbles = []
-  # iterate the bubble_data array, and populate the array of bubbles
-  data.each do |pt|
-    bubbles << Bubble.new(pt.x, pt.y, pt.diameter, pt.label)
-  end
-end
-
-def save_data
-  # demonstrate how easy it is to create yaml object from a hash in ruby
-  yaml = bubble_data.to_hash.to_yaml
-  # overwite existing 'data.yaml' 
-  open("data/struct_data.yml", 'w:UTF-8') {|f| f.write(yaml) }
-end
 
 def mouse_pressed
   # create a new bubble instance, where mouse was clicked
-  @bubble_data = BubbleData.new bubbles
-  @bubble_data.add_bubble(Bubble.new(mouse_x, mouse_y, rand(40 .. 80), "new label"))
-  save_data
-  # reload the yaml data from the freshly created file
-  load_data
+  bubble_data.create_new_bubble(mouse_x, mouse_y)
 end
 
 
 class BubbleData
-  attr_reader :data
-  def initialize data
-    @data = data
+  include Enumerable
+  
+  MAX_BUBBLE = 10
+
+  attr_reader :path, :bubble_array
+  def initialize key
+    @bubble_array = []
+    @key = key
+  end
+  
+  def each &block
+    bubble_array.each &block
+  end  
+  
+  def create_new_bubble x, y
+    self.add Bubble.new(x, y, rand(40 .. 80), "new label")    
+    save_data 
+    load_data path
   end
 
-  def add_bubble bubble
-    data << bubble
-    if (data.size > 10)
-    # Delete the oldest bubble
-      data.shift
+  def add bubble
+    bubble_array << bubble
+    bubble_array.shift if bubble_array.size > MAX_BUBBLE
+  end 
+ 
+   def load_data path
+     @path = path
+     yaml = Psych.load_file(path)
+     # we are storing the data as an array of RubyStruct, in a hash with
+     # a symbol as the key (the latter only to show we can, it makes no sense)
+     data = yaml[@key]      
+     bubble_array.clear
+     # iterate the bubble_data array, and populate the array of bubbles
+     data.each do |pt|
+       self.add Bubble.new(pt.x, pt.y, pt.diameter, pt.label)
+     end
+  end
+
+  def display x, y
+    self.each do |bubble|
+      bubble.display
+      bubble.rollover(x, y)
     end
-  end
+  end  
 
-  # Using symbol as hash key for a change.  Thus demonstrating we can store 
-  # more complex data strucures quite readily.
-  def to_hash
-    {bubbles: data.map{|point| point.to_struct}}
+  private   
+  
+  def save_data
+    hash = { @key =>  self.map{ |point| point.to_struct } }
+    yaml = hash.to_yaml
+    # overwite existing 'struct_data.yaml' 
+    open(path, 'w:UTF-8') {|f| f.write(yaml) }
   end
 
 end
-

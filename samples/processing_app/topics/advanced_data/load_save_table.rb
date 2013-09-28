@@ -58,7 +58,7 @@ def load_data
   
 end
 
-def mousePressed
+def mouse_pressed
   # Create a new "row" hash
   row = {"x" => mouse_x.to_s, "y" => mouse_y.to_s, "diameter" => random(40, 80).to_s, "name" => "Blah"}
   # add the row to the existing data array

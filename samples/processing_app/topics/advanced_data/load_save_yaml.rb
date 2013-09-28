@@ -1,79 +1,89 @@
 ######################################
 # Yet another examples of reading and
 # writing to some form of markup,
-# appropriatetly yaml.
+# appropriately yaml.
 # by Martin Prout after Dan Shiffman
 # ###################################
 load_library :bubble
 
-attr_reader :bubbles, :bubble_data
+attr_reader :bubble_data
 
 def setup()
   size(640, 360)
   # load data from file
-  load_data
+  @bubble_data = BubbleData.new "bubbles"
+  bubble_data.load_data "data/data.yml"
 end
 
 def draw
   background 255
-  bubbles.each do|bubble|
-    bubble.display
-    bubble.rollover(mouse_x, mouse_y)
-  end
-end
-
-def load_data
-  yaml = Psych.load_file("data/data.yml")
-  # parse the source string
-  @bubble_data = BubbleData.new "bubbles"
-
-  # get the bubble_data from the top level hash
-  data = bubble_data.extract_data yaml
-  @bubbles = []
-  # iterate the bubble_data array, and create an array of bubbles
-  data.each do |point|
-    bubbles << Bubble.new(
-      point["position"]["x"],
-      point["position"]["y"],
-      point["diameter"],
-      point["label"])
-  end
-end
-
-def save_data
-  # demonstrate how easy it is to create yaml object from a hash in ruby
-  yaml = bubble_data.to_hash.to_yaml
-  # overwite existing 'data.yaml' 
-  open("data/data.yml", 'w') {|f| f.write(yaml) }
+  bubble_data.display mouse_x, mouse_y
 end
 
 def mouse_pressed
   # create a new bubble instance, where mouse was clicked
-  @bubble_data.add_bubble(Bubble.new(mouse_x, mouse_y, rand(40 .. 80), "new label"))
-  save_data
-  # reload the yaml data from the freshly created file
-  load_data
+  @bubble_data.create_new_bubble(mouse_x, mouse_y)
 end
 
-class BubbleData
-  attr_reader :name, :data
-  def initialize name = "bubbles"
-    @name = name
-    @data = []
+class BubbleData 
+  include Enumerable
+  
+  MAX_BUBBLE = 10
+  
+  attr_reader :key, :path, :bubbles
+  def initialize key
+    @key = key
+    @bubbles = []
   end
-
-  def add_bubble bubble
-    data << bubble
+  
+  def each &block
+    bubbles.each &block
+  end  
+  
+  def create_new_bubble x, y
+    self.add Bubble.new(x, y, rand(40 .. 80), "new label")    
+    save_data 
+    load_data path
   end
-
-  def extract_data yaml
-    @data = yaml[name]
+  
+  def display x, y
+    self.each do |bubble|
+      bubble.display
+      bubble.rollover(x, y)
+    end
   end
-
-  def to_hash
-    {name => data.map{|point| point.to_hash}}
+  
+  # @param path to yaml file
+  
+  def load_data path
+    @path = path
+    yaml = Psych.load_file("data/data.yml")
+    data = yaml[key]
+    bubbles.clear
+    # iterate the bubble_data array, and create an array of bubbles
+    data.each do |point|
+      self.add Bubble.new(
+        point["position"]["x"],
+        point["position"]["y"],
+        point["diameter"],
+        point["label"])
+    end
   end
-
+  
+  
+  def add bubble
+    bubbles << bubble
+    bubbles.shift if bubbles.size > MAX_BUBBLE
+  end 
+  
+  private   
+  
+  def save_data
+    hash = { key => self.map{ |point| point.to_hash } }
+    yaml = hash.to_yaml
+    # overwite existing 'data.yaml' 
+    open("data/data.yml", 'w:UTF-8') {|f| f.write(yaml) }
+  end
+  
 end
-
 
