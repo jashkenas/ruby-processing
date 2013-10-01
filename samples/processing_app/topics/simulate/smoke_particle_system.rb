@@ -1,5 +1,6 @@
 # Ported from http://processing.org/learning/topics/smokeparticlesystem.html
-
+# For some reason this sketch needs to be run with the --nojruby flag
+#
 # A ParticleSystem (Array) object manages a variable size list of
 # particles.
 
@@ -7,9 +8,8 @@ attr_reader :ps, :img, :wind
 
 def setup
   size(640,360)
-  @img = loadImage("texture.png")
-  @ps = ParticleSystem.new(0, PVector.new(width/2,height-60), img)
-  @ps.extend Runnable
+  @img = load_image("texture.png")
+  @ps = ParticleSystem.new(0, PVector.new(width/2, height - 60), img)
 end
 
 def draw
@@ -55,21 +55,31 @@ module Runnable
 end
 
 
-class ParticleSystem < Array
+class ParticleSystem 
+  extend Enumerable
   include Runnable
+  
   attr_reader :particles, :origin, :image, :generator
+  
   def initialize(num, location, image)
-    super()
-    @origin = location.get
-    @image = image
     @particles = []
+    @origin = location.get
+    @image = image    
     (0 ... num).each do
-      self << Particle.new(origin, image)
+      particles << Particle.new(origin, image)
     end
   end
   
+  def each &block
+    particles.each &block    
+  end
+
+  def reject! &block
+    particles.reject! &block
+  end
+  
   def add_particle(p = Particle.new(origin, image))
-    self << p
+    particles << p
   end
   
   # Method to add a force vector to all particles currently in the system
@@ -88,7 +98,7 @@ class Particle
   attr_reader :loc, :acc, :vel, :lifespan, :img, :generator
   
   def initialize(l, img_) 
-    @acc = PVector.new(0,0)
+    @acc = PVector.new(0, 0)
     vx = random_gaussian * 0.3
     vy = random_gaussian * 0.3 - 1.0
     @vel = PVector.new(vx, vy)
@@ -110,10 +120,10 @@ class Particle
   end
   
   # Method to display
-  def render() 
+  def render 
     image_mode(CENTER)
     tint(255,lifespan)
-    image(img,loc.x,loc.y)
+    image(img, loc.x, loc.y)
   end
   
   # Method to add a force vector to all particles currently in the system

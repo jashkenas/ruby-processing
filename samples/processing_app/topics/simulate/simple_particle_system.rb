@@ -9,7 +9,6 @@ attr_reader :ps
 def setup
   size(640,360)
   @ps = ParticleSystem.new(PVector.new(width/2, 50))
-  @ps.extend Runnable
 end
 
 def draw
@@ -25,29 +24,44 @@ module Runnable
   end
 end
 
-class ParticleSystem < Array  
+class ParticleSystem 
+  extend Enumerable 
   include Runnable
-  attr_reader :origin
+  
+  attr_reader :origin, :particle_system
 
   def initialize(loc)
-    super() # paren required to prevent array trying to initialize with PVector
+    @particle_system = []
     @origin = loc.get
   end
-
-  def add_particle
-    self << Particle.new(origin) # ParticleSytem is extending Array
+  
+  def each &block
+    particle_system.each &block    
   end
+  
+  def add_particle
+    particle_system << Particle.new(origin) 
+  end
+  
+  def reject! &block
+    particle_system.reject! &block
+  end
+  
+  def dead?
+    particle_systems.empty?
+  end 
 
 end
 
 # A simple Particle class
 
 class Particle 
-  include Processing::Proxy    
+  include Processing::Proxy 
+  
   attr_reader :loc, :vel, :acc, :lifespan
   def initialize(l) 
     @acc = PVector.new(0, 0.05)
-    @vel = PVector.new(rand * 2 - 1, rand * 2 - 2)
+    @vel = PVector.new(rand(-1.0 .. 1), rand(-2.0 .. 0))
     @loc = l.get
     @lifespan = 255.0
   end

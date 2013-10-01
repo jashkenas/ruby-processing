@@ -77,14 +77,36 @@ end
 
 
 
-class Boids < Array  
+class Boids
+  extend Enumerable
+
   attr_accessor :boids, :x, :y, :w, :h, 
                 :scattered, :has_goal, :flee
                 
   attr_reader :scatter, :scatter_time, :scatter_i,
               :perch, :perch_y, :perch_t,
               :goal_x, :goal_y, :goal_z
-              
+  
+  def initialize
+    @boids = []	  
+  end
+
+  def each &block
+    boids.each &block	  
+  end
+
+  def shuffle!
+    boids.shuffle!	  
+  end
+
+  def << obj
+    boids << obj	  
+  end
+
+  def length
+    boids.length	  
+  end
+
   def self.flock(n, x, y, w, h)
     return Boids.new.setup(n, x, y, w, h)
   end
@@ -102,7 +124,7 @@ class Boids < Array
     @scatter_i = 0.0
     @perch = 1.0 # Lower this number to divebomb.
     @perch_y = @h
-    @perch_time = -> {rand(25.0 .. 75.0)}
+    @perch_time = -> {rand(25.0 .. 75.0)} # so we can call perch_time
     @has_goal = false
     @flee = false
     @goal_x = @goal_y = @goal_z = 0.0
@@ -118,11 +140,11 @@ class Boids < Array
     @scatter = 0.0
   end
   
-  def perch(ground = nil, chance = 1.0, frames = nil)
-    frames ||= -> {rand(25.0 .. 75.0)}
-    ground ||= @h
-    @perch, @perch_y, @perch_time = chance, ground, frames
-  end
+  # def perch(ground = nil, chance = 1.0, frames = nil)
+    # frames ||= -> {rand(25.0 .. 75.0)}
+    # ground ||= @h
+    # @perch, @perch_y, @perch_time = chance, ground, frames
+  # end
   
   def no_perch
     @perch = 0.0
@@ -153,15 +175,12 @@ class Boids < Array
         b.y = @perch_y
         b.vy = -(b.vy.abs) * 0.2
         b.is_perching = true
-        @perch_time.respond_to?(:call) ? b.perch_time = @perch_time.call : b.perch_time = @perch_time
+        @perch_time.respond_to?(:call) ? b.perch_time = @perch_time.call : b.perch_time = @perch
       end
     end
   end
   
-  def shuffle
-    self.sort! { rand }
-  end
-  
+
   def update(opts={})
     # Just flutter, little boids ... just flutter away.
     # Shuffling keeps things flowing smooth.
@@ -173,7 +192,7 @@ class Boids < Array
                limit: 30.0}
     options.merge! opts
     
-    self.shuffle if options[:shuffled]
+    self.shuffle! if options[:shuffled]
     m1 = 1.0 # cohesion
     m2 = 1.0 # separation
     m3 = 1.0 # alignment

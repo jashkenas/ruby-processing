@@ -1,6 +1,21 @@
 # The Flock (a list of Boid objects)
 
-class Flock < Array  
+class Flock 
+  extend Enumerable
+  
+  attr_reader :boids
+  
+  def initialize
+    @boids = []	  
+  end
+
+  def each &block
+    boids.each &block	  
+  end
+  
+  def << obj
+    boids << obj
+  end
 
   def run
     self.each do |bird|
@@ -39,7 +54,7 @@ class Boid
   end
   
   # We accumulate a new acceleration each time based on three rules
-  def flock(boids)
+  def flock boids
     sep = separate(boids)   # Separation
     ali = align(boids)      # Alignment
     coh = cohesion(boids)   # Cohesion
@@ -111,7 +126,7 @@ class Boid
           
   # Separation
   # Method checks for nearby boids and steers away
-  def separate(boids)
+  def separate boids
     desiredseparation = 25.0
     steer = PVector.new(0, 0, 0)
     count = 0
@@ -146,7 +161,7 @@ class Boid
     
   # Alignment
   # For every nearby boid in the system, calculate the average velocity
-  def align (boids)
+  def align boids
     neighbordist = 50
     sum = PVector.new(0, 0)
     count = 0
@@ -171,7 +186,7 @@ class Boid
     
   # Cohesion
   # For the average location (i.e. center) of all nearby boids, calculate steering vector towards that location
-  def cohesion (boids)
+  def cohesion boids
     neighbordist = 50
     sum = PVector.new(0, 0)   # Start with empty vector to accumulate all locations
     count = 0
