@@ -10,24 +10,12 @@ require 'ruby-processing/library_loader'
 
 Dir["#{RP5_ROOT}/lib/core/\*.jar"].each { |jar| require jar }
 
-
-# Include some processing classes that we'd like to use:
-%w(PShape PImage PGraphics PFont PVector PMatrix2D PMatrix3D).each do |klass|
+# Include some core processing classes that we'd like to use:
+%w(PApplet PConstants PFont PImage PShape PShapeOBJ PShapeSVG PStyle PGraphicsJava2D PGraphics PFont PVector PMatrix2D PMatrix3D).each do |klass|
   java_import "processing.core.#{klass}"
 end
 
-%w(PGL PGraphics2D PGraphics3D PShader PShapeOpenGL FrameBuffer).each do |klass|
-  java_import "processing.opengl.#{klass}"
-end
-
-%w(Event MouseEvent KeyEvent TouchEvent).each do |klass|
-  java_import "processing.event.#{klass}"
-end
-
 module Processing
-  include_package 'processing.core'
-  include_package 'processing.opengl'
-  include_package 'processing.event'
   
   # This is the main Ruby-Processing class, and is what you'll
   # inherit from when you create a sketch. This class can call
@@ -159,14 +147,27 @@ module Processing
       @render_mode  ||= JAVA2D
         x = options[:x] || 0
         y = options[:y] || 0
-        args << "--location=#{x},#{y}"
+        args << "--location=#{x}, #{y}"
         
-        title = options[:title] || File.basename(SKETCH_PATH).sub(/(\.rb|\.pde)$/, '').titleize
+        title = options[:title] || File.basename(SKETCH_PATH).sub(/(\.rb)$/, '').titleize
         args << title
         PApplet.run_sketch(args, self)
       #end
     end
-    
+
+    def size(*args)
+      w, h, mode       = *args
+      @width           ||= w     unless @width
+      @height          ||= h     unless @height
+      @render_mode     ||= mode  unless @render_mode
+      if [P3D, P2D].include? @render_mode
+        # Include some opengl processing classes that we'd like to use:
+        %w(FontTexture FrameBuffer LinePath LineStroker PGL PGraphics2D PGraphics3D PGraphicsOpenGL PShader PShapeOpenGL Texture).each do |klass|
+          java_import "processing.opengl.#{klass}"
+        end
+      end
+      super(*args)
+    end 
     
     # Make sure we set the size if we set it before we start the animation thread.
     def start
