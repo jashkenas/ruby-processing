@@ -21,12 +21,12 @@ See special instructions for Windows Users in the [Wiki][]
 ```bash
 cd ruby-processing
 rake # build and test gem (actually build and install if windows)
-jruby -S gem install ruby-processing-2.1.6.gem # to install gem, may need sudo
+jruby -S gem install ruby-processing-2.2.0.gem # to install gem, may need sudo
 ```
 
 Or if not using jruby
 ```bash
-gem install ruby-processing-2.1.6.gem # to install gem, may need sudo
+gem install ruby-processing-2.2.0.gem # to install gem, may need sudo
 
 ```
 
@@ -41,7 +41,7 @@ See also [FAQs][], [Contributing][] and [Samples][]
 # Usage Example
 
 ```bash
-jruby -S rp5 run my_sketch.rb
+jruby -S rp5 run my_sketch.rb # depending on your OS/setup you might not really need jruby -S
 ```
 
 or if not using system jruby
@@ -50,7 +50,7 @@ or if not using system jruby
 rp5 --nojruby run my_sketch.rb
 ```
 
-where a simple my_sketch.rb could look like this
+where a simple ``my_sketch.rb`` could look like this
 
 ```ruby
 def setup
@@ -64,7 +64,7 @@ def draw
 end
 ```
 
-or a simple 3D sketch cube.rb
+or a simple 3D sketch ``cube.rb``
 
 ```ruby
 def setup
