@@ -1,3 +1,8 @@
+v2.2.0 Update to JRuby-1.7.5
+* Changed app.rb to only java_import used, core classes thus when mode JAVA2D
+* ie default mode do not java_import opengl classes, removed event classes
+* since we failed to address the directly
+
 v2.1.6 In anticipation of JRuby-1.7.5
 * Minor release to crystalize changes before JRuby-1.7.5
 * Rakefile tries to detect Windows OS & warn possibly missing 'wget'
