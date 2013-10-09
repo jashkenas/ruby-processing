@@ -11,6 +11,7 @@ Here are some ways *you* can contribute:
 * by closing [issues][]
 * by proselytizing ruby-processing, we need more champions
 * by supporting [Processing.org][], nothing to do with us but we rely on them
+* by figuring out if we could replace swing javafx for control_panel etc
 
 ## Submitting an Issue
 We use the [GitHub issue tracker][issues] to track bugs and features. Before
