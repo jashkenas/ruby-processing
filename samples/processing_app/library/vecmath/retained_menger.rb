@@ -4,8 +4,8 @@
 # author Martin Prout
 ##########################
 
-load_library 'arcball'
-import "arcball"
+load_library 'vecmath'
+import "vecmath"
 
 PTS = [-1, 0, 1]
 MIN_SIZE = 20

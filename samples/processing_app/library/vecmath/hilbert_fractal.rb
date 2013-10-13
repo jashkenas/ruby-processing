@@ -6,8 +6,8 @@
 # intuitive rotation with dragged mouse.
 ########################################################
 
-load_libraries 'hilbert', 'arcball'
-import 'arcball'
+load_libraries :hilbert, :vecmath
+import 'vecmath'
 attr_reader :hilbert, :arcball
 
 def setup

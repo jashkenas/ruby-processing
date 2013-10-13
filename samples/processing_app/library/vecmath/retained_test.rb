@@ -1,5 +1,5 @@
-load_library 'arcball'
-import "arcball"
+load_library :vecmath
+import "vecmath"
 
 X = 0
 Y = 1
