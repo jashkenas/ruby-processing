@@ -1,4 +1,4 @@
-load_libraries 'generativedesign'
+load_library :GenerativeDesign
 
 java_import "generativedesign.Mesh"
 

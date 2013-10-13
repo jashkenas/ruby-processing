@@ -7,7 +7,7 @@ class Grammar
 
   def initialize axiom
     @axiom = axiom
-    @rules = Hash.new
+    @rules = {}
   end
 
   def add_rule premise, rule

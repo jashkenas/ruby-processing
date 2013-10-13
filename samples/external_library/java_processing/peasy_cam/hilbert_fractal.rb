@@ -2,17 +2,17 @@
 # A 3D Hilbert fractal implemented using a
 # Lindenmayer System in ruby-processing by Martin Prout
 #
-# Whilst mouse doesn't work use right mouse button drag for 
+# Use right mouse button drag or mousewheel for 
 # zoom even then needs a customised forked peasycam to work
 ########################################################
 
 
-load_libraries 'hilbert', 'peasycam'
+load_libraries :hilbert, :peasycam
 include_package 'peasy'
 attr_reader :hilbert, :cam
 
 def setup
-  size 1280, 1024, P3D
+  size displayWidth, displayHeight, P3D
   configure_peasycam
   @hilbert = Hilbert.new(height/10)
   hilbert.create_grammar 3

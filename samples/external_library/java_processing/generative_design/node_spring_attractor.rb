@@ -1,4 +1,4 @@
-load_libraries 'generativedesign'
+load_libraries :GenerativeDesign
 
 ######################################
 # node_spring_attractor.rb

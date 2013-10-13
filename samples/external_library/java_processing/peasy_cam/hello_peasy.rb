@@ -15,8 +15,8 @@ def configure_camera
 end
 
 def draw
-  rotate_x -0.5
-  rotate_y -0.5
+  rotate_x(-0.5)
+  rotate_y(-0.5) 
   background 0
   fill 255, 0, 0
   box 30
