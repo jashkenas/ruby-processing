@@ -1,3 +1,9 @@
+v2.2.1 Replacing 'arcball' library with 'vecmath' library
+* Arcball funtionality is retained (in vecmath library), Vec2D and Vec3D 
+* have been added to 'vecmath' library, they provide a pure ruby alternative 
+* to processings PVector class, and hence a more ruby like interface
+
+
 v2.2.0 Update to JRuby-1.7.5
 * Changed app.rb to only java_import used, core classes thus when mode JAVA2D
 * ie default mode do not java_import opengl classes, removed event classes
