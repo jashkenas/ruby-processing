@@ -8,7 +8,7 @@
 # 3. press x, y, or z to constrain arcball rotation to that axis
 #
 
-load_library :arcball
+load_library :vecmath
 import "arcball"
 
 X = 0
@@ -112,11 +112,11 @@ end
 def init_sphere(num)  
   (0 .. num).each do |i| 
     lon = GA * i
-    lon /= TWO_PI 
+    lon /= TAU 
     lon -= lon.floor 
-    lon *= TWO_PI 
+    lon *= TAU 
     if (lon > PI)
-      lon -= TWO_PI
+      lon -= TAU
     end    
     # Convert dome height (which is proportional to surface area) to latitude
     # lat = asin(-1 + 2 * i / num.to_f)    
