@@ -14,6 +14,10 @@ class Vec
     (x - vec.x).abs < EPSILON && (y - vec.y).abs < EPSILON && (z - vec.z).abs < EPSILON
   end
 
+  def to_a
+    [x, y, z]
+  end
+  
   def self.dist_squared(vec_a, vec_b)
     (vec_a.x - vec_b.x)**2 + (vec_a.y - vec_b.y)**2 + (vec_a.z - vec_b.z)**2
   end
@@ -33,6 +37,10 @@ end
 
 
 class Vec2D < Vec
+
+  def to_a
+    [x, y]
+  end
   
   def self.from_angle scalar
     Vec2D.new(Math.cos(scalar), Math.sin(scalar))
@@ -148,6 +156,10 @@ class Vec3D < Vec
   
   def collinear_with?(vec)
     cross(vec) == Vec3D.new
+  end
+
+  def to_a
+    [x, y, z]
   end
   
   def +(vec)
