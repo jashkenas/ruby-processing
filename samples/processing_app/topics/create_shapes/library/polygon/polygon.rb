@@ -15,10 +15,8 @@ class Polygon
   
   # Simple motion
   def move
-    @y + =speed
-    if (y > height + 100)
-      @y = -100
-    end
+    @y +=speed
+    @y = -100 if (y > height + 100)
   end
   
   # Draw the object
