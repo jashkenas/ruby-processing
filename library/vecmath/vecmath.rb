@@ -1,6 +1,8 @@
+EPSILON = 9.999999747378752e-05     # a value used by processing.org
+
 class Vec 
   attr_accessor :x, :y, :z  
-  EPSILON = 9.999999747378752e-05     # a value used by processing.org
+  
   def initialize(x = 0 ,y = 0, z = 0)
     @x, @y, @z = x, y, z
     post_initialize
@@ -197,3 +199,125 @@ class Vec3D < Vec
   alias :mag :modulus 
 
 end
+
+
+class Quaternion
+    
+  attr_reader :w, :x, :y, :z
+
+  def initialize(w = 1.0,  x = 0,  y = 0,  z = 0)
+    @w, @x, @y, @z = w,  x,  y,  z
+  end
+
+  def ==(quat)
+    (w - quat.w).abs < EPSILON && (x - quat.x).abs < EPSILON && (y - quat.y).abs < EPSILON && (z - quat.z).abs < EPSILON
+  end
+
+
+  def reset
+    @w = 1.0
+    @x = 0.0
+    @y = 0.0
+    @z = 0.0
+  end
+
+  def set(w, v)
+    @w, @x, @y, @z = w, v.x, v.y, v.z 
+  end
+
+  def copy(q)
+     @w, @x, @y, @z = q.w, q.x, q.y, q.z
+  end
+
+  def self.mult(q1, q2)      # class method   
+    x0 = q1.w * q2.x + q1.x * q2.w + q1.y * q2.z - q1.z * q2.y
+    y0 = q1.w * q2.y + q1.y * q2.w + q1.z * q2.x - q1.x * q2.z
+    z0 = q1.w * q2.z + q1.z * q2.w + q1.x * q2.y - q1.y * q2.x
+    w0 = q1.w * q2.w - q1.x * q2.x - q1.y * q2.y - q1.z * q2.z
+    Quaternion.new(w0,  x0,  y0,  z0)
+  end
+  
+  def * (q1)                 # instance method   
+    x0 = w * q1.x + x * q1.w + y * q1.z - z * q1.y
+    y0 = w * q1.y + y * q1.w + z * q1.x - x * q1.z
+    z0 = w * q1.z + z * q1.w + x * q1.y - y * q1.x
+    w0 = w * q1.w - x * q1.x - y * q1.y - z * q1.z
+    Quaternion.new(w0,  x0,  y0,  z0)
+  end
+
+  def get_value
+    sa = Math.sqrt(1.0 - w * w)
+    sa = 1.0 unless (sa >= EPSILON)
+    [Math.acos(w) * 2, x / sa, y / sa, z / sa]
+  end
+  
+  def to_s
+    "#{self.class}(w=#{w}, x=#{x}, y=#{y}, z=#{z})"  
+  end
+
+  def inspect
+    self.to_s
+  end
+end
+
+class ArcBall
+  attr_reader :center_x, :center_y, :v_down, :v_drag, :q_now, :q_drag, :q_down, :axis, :axis_set, :radius
+
+  def initialize(cx, cy, radius)
+    @center_x = cx
+    @center_y = cy
+    @radius = radius
+    @v_down = Vec3D.new
+    @v_drag = Vec3D.new
+    @q_now = Quaternion.new
+    @q_down = Quaternion.new
+    @q_drag = Quaternion.new
+    @axis_set = [Vec3D.new(1.0, 0.0, 0.0), Vec3D.new(0.0, 1.0, 0.0), Vec3D.new(0.0, 0.0, 1.0)]
+    @axis = -1
+  end
+
+  def select_axis(axis)
+    @axis = axis
+  end
+
+  def mouse2sphere(x, y)
+    v = Vec3D.new((x - center_x) / radius, (y - center_y) / radius, 0)
+    mag = v.mag
+    if (mag > 1.0)
+      v.normalize!
+    else
+      v.z = Math.sqrt(1.0 - mag)
+    end
+    v = constrain(v, axis_set[axis]) unless (axis == -1)
+    return v
+  end
+
+  def mouse_pressed(x, y)
+    @v_down = mouse2sphere(x, y)
+    @q_down.copy(q_now)
+    @q_drag.reset
+  end
+
+  def mouse_dragged(x, y)
+    @v_drag = mouse2sphere(x, y)
+    @q_drag.set(v_down.dot(v_drag), v_down.cross(v_drag))
+  end
+
+
+  def constrain(vector, axis)
+    res = vector - (axis * axis.dot(vector))
+    res.normalize!
+  end
+
+  def update
+    @q_now = q_drag * q_down
+    quat2matrix(q_now)
+  end
+
+  def quat2matrix(q)
+    q.get_value
+  end
+end
+
+
+
