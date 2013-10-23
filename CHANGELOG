@@ -1,5 +1,9 @@
+v2.2.2 Update to JRuby-1.7.5
+* Merge vec.rb, quaternion.rb and arcball.rb into vecmath.rb, stricter path
+# requires ruby filename to match that of library
+
 v2.2.1 Replacing 'arcball' library with 'vecmath' library
-* Arcball funtionality is retained (in vecmath library), Vec2D and Vec3D 
+* Arcball functionality is retained (in vecmath library), Vec2D and Vec3D 
 * have been added to 'vecmath' library, they provide a pure ruby alternative 
 * to processings PVector class, and hence a more ruby like interface
 
