@@ -1,0 +1,37 @@
+require 'rake/clean'
+require 'shellwords'
+
+JRUBY_VERSION      = "1.7.6"      # to use this script it is assumed you have downloaded processing.zip and jruby-complete.jar
+PROCESSING_VERSION = "2.1b1"      # to this folder (modify next line if using windows64 bit version)
+BITS = "32"
+CLOBBER.include("processing-#{PROCESSING_VERSION}-windows#{BITS}.zip", "jruby-complete-#{JRUBY_VERSION}.jar")
+
+desc "copy to ruby-processing"
+task :default => [:copy]
+
+directory "../../lib/ruby"
+
+desc "copy jruby-complete"
+task :copy_ruby => ["../../lib/ruby"] do
+  sh "cp -v jruby-complete-#{JRUBY_VERSION}.jar ../../lib/ruby/jruby-complete.jar"
+end
+
+directory "../../lib/core"
+
+desc "copy libs & jars"
+task :copy => ["../../lib/core"] do
+  sh "cp -v jruby-complete-#{JRUBY_VERSION}.jar ../../lib/core/jruby-complete.jar"
+
+  processing_zip = File.expand_path("processing-#{PROCESSING_VERSION}-windows#{BITS}.zip")
+  sh "cd ../../lib/core && unzip -qoj #{Shellwords.shellescape(processing_zip)} processing-#{PROCESSING_VERSION}/core/library/*.jar"
+
+  dirs = %w{dxf minim net pdf serial video}
+  Dir.chdir("../../library/") do
+    sh "rm -rf processing-#{PROCESSING_VERSION}/ #{dirs.join(" ")}"
+    inside_zip_dirs = dirs.collect { |d| "processing-#{PROCESSING_VERSION}/modes/java/libraries/#{d}/library/*" }
+    sh "unzip -q #{processing_zip} #{inside_zip_dirs.join(" ")}"
+    sh "mv processing-#{PROCESSING_VERSION}/modes/java/libraries/* ."
+    sh "rm -r processing-#{PROCESSING_VERSION}/"
+  end
+end
+

@@ -8,10 +8,13 @@ task :default => [:platform]
 task :platform do
   case CONFIG['host_os']
   when /mswin|windows/i
-    puts "If you have any build problems you might be missing wget"
-    puts "You might be better using the alternative vendors/Rakefile see Wiki"
-    Rake::Task["build"].execute
-    Rake::Task["install"].execute
+    begin
+      Rake::Task["build_windows"].execute
+      Rake::Task["install"].execute
+    rescue
+      warn("WARNING: you need to manually download jruby-complete{version).jar and processing(version).zip to ./vendors/windows")
+      raise "missing file in ./vendors/windows, see ./vendors/windows/Rakefile"
+    end
   when /linux/i
     # check for wget in the usual place this is the simplest test	  
     if File.exists?('/usr/bin/wget')
@@ -21,7 +24,7 @@ task :platform do
       raise "You need to install wget"
     end
   else
-    # assuming Mac users konw they require wget or have installed Brew	  
+    # assuming Mac users know they require wget or have installed Brew	  
     Rake::Task["build"].execute
     Rake::Task["test"].execute
   end
@@ -37,6 +40,10 @@ task :uninstall do
   sh "gem uninstall -x ruby-processing"	
 end
 
+desc 'Build Windows'
+task :build_windows do
+  sh "cd vendors/windows && rake"
+end
 
 desc 'Build gem linux'
 task :build_linux do
