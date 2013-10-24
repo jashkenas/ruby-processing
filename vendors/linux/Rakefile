@@ -20,7 +20,7 @@ end
 
 file "jruby-complete-#{JRUBY_VERSION}.jar" do
   sh "wget http://jruby.org.s3.amazonaws.com/downloads/#{JRUBY_VERSION}/jruby-complete-#{JRUBY_VERSION}.jar"
-  check_sha1("jruby-complete-#{JRUBY_VERSION}.jar", "049b8557e2aeb43370f447c23d492512617084d5")
+  check_sha1("jruby-complete-#{JRUBY_VERSION}.jar", "244be5ab12dd018254d85707cbc1c14ed1693dc7")
 end
 
 directory "../../lib/ruby"
