@@ -1,0 +1,61 @@
+require 'rake/clean'
+require 'shellwords'
+
+JRUBY_VERSION      = "1.7.6"
+#JRUBY_VERSION      = "9000.dev"
+PROCESSING_VERSION = "2.1b1"
+
+CLOBBER.include("processing-#{PROCESSING_VERSION}-linux64.tgz", "jruby-complete-#{JRUBY_VERSION}.jar")
+ 
+desc "download and copy to ruby-processing"
+task :default => [:download, :copy_ruby, :copy]
+ 
+desc "download Processing & JRuby upstream sources"
+task :download => ["processing-#{PROCESSING_VERSION}-linux64.tgz", "jruby-complete-#{JRUBY_VERSION}.jar"]
+ 
+file "processing-#{PROCESSING_VERSION}-linux64.tgz" do
+  sh "wget http://download.processing.org/processing-#{PROCESSING_VERSION}-linux64.tgz"
+  check_sha1("processing-#{PROCESSING_VERSION}-linux64.tgz", "1624bb01f3f45c97d09bfa9d92596ecb024dc0ce")
+end
+
+file "jruby-complete-#{JRUBY_VERSION}.jar" do
+  sh "wget http://jruby.org.s3.amazonaws.com/downloads/#{JRUBY_VERSION}/jruby-complete-#{JRUBY_VERSION}.jar"
+  check_sha1("jruby-complete-#{JRUBY_VERSION}.jar", "049b8557e2aeb43370f447c23d492512617084d5")
+end
+
+directory "../../lib/ruby"
+
+desc "copy jruby-complete"
+task :copy_ruby => ["../../lib/ruby"] do
+  sh "cp -v jruby-complete-#{JRUBY_VERSION}.jar ../../lib/ruby/jruby-complete.jar"
+end
+
+directory "../../lib/core"
+
+desc "copy libs & jars"
+task :copy => ["../../lib/core"] do
+  processing_zip = File.expand_path("processing-#{PROCESSING_VERSION}-linux64.tgz")
+  sh "cd ../../lib/core && tar --wildcards --strip=3 -zvxf #{Shellwords.shellescape(processing_zip)} processing-#{PROCESSING_VERSION}/core/library/*.jar"
+ 
+  dirs = %w{dxf minim net pdf serial video}
+  Dir.chdir("../../library/") do
+    sh "rm -rf processing-#{PROCESSING_VERSION}/ #{dirs.join(" ")}"
+    inside_zip_dirs = dirs.collect { |d| "processing-#{PROCESSING_VERSION}/modes/java/libraries/#{d}/library/*" }
+    sh "tar --wildcards -zxvf #{Shellwords.shellescape(processing_zip)} #{inside_zip_dirs.join(" ")}"
+    sh "mv processing-#{PROCESSING_VERSION}/modes/java/libraries/* ."
+    sh "rm -r processing-#{PROCESSING_VERSION}/"
+  end
+end
+
+def check_sha1(filename, expected_hash)
+  require "openssl"
+  sha1 = OpenSSL::Digest::SHA1.new
+  File.open(filename, "r") do |f|
+    while buf = f.read(4096)
+      sha1.update(buf)
+    end
+  end
+  if sha1.hexdigest != expected_hash
+    raise "bad sha1 checksum for #{filename} (expected #{expected_hash} got #{sha1.hexdigest})"
+  end
+end

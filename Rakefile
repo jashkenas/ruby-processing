@@ -15,7 +15,7 @@ task :platform do
   when /linux/i
     # check for wget in the usual place this is the simplest test	  
     if File.exists?('/usr/bin/wget')
-      Rake::Task["build"].execute
+      Rake::Task["build_linux"].execute
       Rake::Task["test"].execute
     else
       raise "You need to install wget"
@@ -37,6 +37,12 @@ task :uninstall do
   sh "gem uninstall -x ruby-processing"	
 end
 
+
+desc 'Build gem linux'
+task :build_linux do
+  sh "cd vendors/linux && rake"
+  sh "gem build ruby-processing.gemspec"
+end
 
 desc 'Build gem'
 task :build do
