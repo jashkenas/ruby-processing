@@ -4,6 +4,8 @@ require 'shellwords'
 JRUBY_VERSION      = "1.7.6"      # to use this script it is assumed you have downloaded processing.zip and jruby-complete.jar
 PROCESSING_VERSION = "2.1b1"      # to this folder (modify next line if using windows64 bit version)
 BITS = "32"
+#BITS = "64"
+
 CLOBBER.include("processing-#{PROCESSING_VERSION}-windows#{BITS}.zip", "jruby-complete-#{JRUBY_VERSION}.jar")
 
 desc "copy to ruby-processing"

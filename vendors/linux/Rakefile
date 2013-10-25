@@ -4,18 +4,21 @@ require 'shellwords'
 JRUBY_VERSION      = "1.7.6"
 #JRUBY_VERSION      = "9000.dev"
 PROCESSING_VERSION = "2.1b1"
+BITS="64"
+#BITS="32"
 
-CLOBBER.include("processing-#{PROCESSING_VERSION}-linux64.tgz", "jruby-complete-#{JRUBY_VERSION}.jar")
+
+CLOBBER.include("processing-#{PROCESSING_VERSION}-linux#{BITS}.tgz", "jruby-complete-#{JRUBY_VERSION}.jar")
  
 desc "download and copy to ruby-processing"
 task :default => [:download, :copy_ruby, :copy]
  
 desc "download Processing & JRuby upstream sources"
-task :download => ["processing-#{PROCESSING_VERSION}-linux64.tgz", "jruby-complete-#{JRUBY_VERSION}.jar"]
+task :download => ["processing-#{PROCESSING_VERSION}-linux#{BITS}.tgz", "jruby-complete-#{JRUBY_VERSION}.jar"]
  
-file "processing-#{PROCESSING_VERSION}-linux64.tgz" do
-  sh "wget http://download.processing.org/processing-#{PROCESSING_VERSION}-linux64.tgz"
-  check_sha1("processing-#{PROCESSING_VERSION}-linux64.tgz", "1624bb01f3f45c97d09bfa9d92596ecb024dc0ce")
+file "processing-#{PROCESSING_VERSION}-linux#{BITS}.tgz" do
+  sh "wget http://download.processing.org/processing-#{PROCESSING_VERSION}-linux#{BITS}.tgz"
+  check_sha1("processing-#{PROCESSING_VERSION}-linux#{BITS}.tgz", "1624bb01f3f45c97d09bfa9d92596ecb024dc0ce")
 end
 
 file "jruby-complete-#{JRUBY_VERSION}.jar" do
@@ -34,7 +37,7 @@ directory "../../lib/core"
 
 desc "copy libs & jars"
 task :copy => ["../../lib/core"] do
-  processing_zip = File.expand_path("processing-#{PROCESSING_VERSION}-linux64.tgz")
+  processing_zip = File.expand_path("processing-#{PROCESSING_VERSION}-linux#{BITS}.tgz")
   sh "cd ../../lib/core && tar --wildcards --strip=3 -zvxf #{Shellwords.shellescape(processing_zip)} processing-#{PROCESSING_VERSION}/core/library/*.jar"
  
   dirs = %w{dxf minim net pdf serial video}
