@@ -8,7 +8,7 @@
 # translated for ruby-processing by Martin Prout January 2013
 #
 
-load_library :arcball
+load_library :vecmath
 
 NI=4
 NJ=5
