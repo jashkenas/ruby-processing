@@ -75,43 +75,43 @@ def setup
   
   # Draw the plots
   plot1.begin_draw
-    plot1.draw_box
-    plot1.drawXAxis
-    plot1.drawYAxis
-    plot1.draw_top_axis
-    plot1.draw_right_axis
-    plot1.draw_title
-    plot1.draw_points
-    plot1.draw_lines
+  plot1.draw_box
+  plot1.drawXAxis
+  plot1.drawYAxis
+  plot1.draw_top_axis
+  plot1.draw_right_axis
+  plot1.draw_title
+  plot1.draw_points
+  plot1.draw_lines
   plot1.end_draw
 
   plot2.begin_draw
-    plot2.draw_box
-    plot2.drawXAxis
-    plot2.drawYAxis
-    plot2.draw_top_axis
-    plot2.draw_right_axis
-    plot2.draw_points
-    plot2.draw_lines
+  plot2.draw_box
+  plot2.drawXAxis
+  plot2.drawYAxis
+  plot2.draw_top_axis
+  plot2.draw_right_axis
+  plot2.draw_points
+  plot2.draw_lines
   plot2.end_draw
   
   plot3.begin_draw
-    plot3.draw_box
-    plot3.drawXAxis
-    plot3.drawYAxis
-    plot3.draw_top_axis
-    plot3.draw_right_axis
-    plot3.draw_points
-    plot3.draw_lines
+  plot3.draw_box
+  plot3.drawXAxis
+  plot3.drawYAxis
+  plot3.draw_top_axis
+  plot3.draw_right_axis
+  plot3.draw_points
+  plot3.draw_lines
   plot3.end_draw
 
   plot4.begin_draw
-    plot4.draw_box
-    plot4.drawXAxis
-    plot4.drawYAxis
-    plot4.draw_top_axis
-    plot4.draw_right_axis
-    plot4.draw_points
-    plot4.draw_lines
+  plot4.draw_box
+  plot4.drawXAxis
+  plot4.drawYAxis
+  plot4.draw_top_axis
+  plot4.draw_right_axis
+  plot4.draw_points
+  plot4.draw_lines
   plot4.end_draw
 end

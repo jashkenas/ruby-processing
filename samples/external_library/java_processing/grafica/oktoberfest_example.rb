@@ -66,16 +66,16 @@ def draw
 end 
 
 def get_exact_date(year, month, day)
-	leap_year = false
-	if (year % 400 == 0) 
-		leap_year = true
-	elsif (year % 100 == 0) 
-		leap_year = false
-	elsif (year % 4 == 0) 
-		leap_year = true
-	end
-	if leap_year
-		return year + (month + (day - 1) / DAYS_PER_MONTH_LEAP_YEAR[month]) / 12.0
+  leap_year = false
+  if (year % 400 == 0) 
+    leap_year = true
+  elsif (year % 100 == 0) 
+    leap_year = false
+  elsif (year % 4 == 0) 
+    leap_year = true
+  end
+  if leap_year
+    return year + (month + (day - 1) / DAYS_PER_MONTH_LEAP_YEAR[month]) / 12.0
   else
     return year + (month + (day - 1)/ DAYS_PER_MONTH[month]) / 12.0
   end
