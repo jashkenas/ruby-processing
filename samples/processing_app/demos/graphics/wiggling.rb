@@ -29,7 +29,7 @@ def draw
   if (wiggling)
     (0 ... cube.get_child_count).each do |i|
       face = cube.get_child(i)
-      face.get_vertex_count.times do|j|
+      face.get_vertex_count.times do |j|
       x, y, z = face.get_vertex_x(j), face.get_vertex_y(j), face.get_vertex_z(j)
       x += rand(-NOISE_MAG/2 .. NOISE_MAG/2)
       y += rand(-NOISE_MAG/2 .. NOISE_MAG/2)
