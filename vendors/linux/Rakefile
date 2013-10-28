@@ -3,7 +3,7 @@ require 'shellwords'
 
 JRUBY_VERSION      = "1.7.6"
 #JRUBY_VERSION      = "9000.dev"
-PROCESSING_VERSION = "2.1b1"
+PROCESSING_VERSION = "2.1"
 BITS="64"
 #BITS="32"
 
@@ -18,7 +18,7 @@ task :download => ["processing-#{PROCESSING_VERSION}-linux#{BITS}.tgz", "jruby-c
  
 file "processing-#{PROCESSING_VERSION}-linux#{BITS}.tgz" do
   sh "wget http://download.processing.org/processing-#{PROCESSING_VERSION}-linux#{BITS}.tgz"
-  check_sha1("processing-#{PROCESSING_VERSION}-linux#{BITS}.tgz", "1624bb01f3f45c97d09bfa9d92596ecb024dc0ce")
+  check_sha1("processing-#{PROCESSING_VERSION}-linux#{BITS}.tgz", "5245d3ec53b68be26394b79c31b5f14dbe9a0292")
 end
 
 file "jruby-complete-#{JRUBY_VERSION}.jar" do

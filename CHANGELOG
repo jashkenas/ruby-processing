@@ -1,4 +1,8 @@
-v2.2.2 Update to JRuby-1.7.5
+v2.3.0 Update to processing-2.1
+* Mac users require Oracles JDK1.7.0_45 "included with vanilla processing"
+* Windows and Linux users need at least java 7 jre (java 8 does now work)
+
+v2.2.2 Update to JRuby-1.7.6
 * Merge vec.rb, quaternion.rb and arcball.rb into vecmath.rb, stricter path
 # requires ruby filename to match that of library
 

@@ -7,7 +7,7 @@ Gem::Specification.new do |s|
   s.authors = ["Jeremy Ashkenas", "Peter Gassner", "Martin Stannard", "Andrew Nanton",
                "Marc Chung", "Peter Krenn", "Florian Jenett", "Andreas Haller",
                "Juris Galang", "Guillaume Pierronnet", "Martin Prout"]
-  s.date = "2013-10-23"
+  s.date = "2013-10-28"
   s.default_executable = "rp5"
   s.email = "jeremy@ashkenas.com"
   s.executables = ["rp5"]
@@ -18,7 +18,7 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
   s.rubyforge_project = "ruby-processing"
   s.requirements << 'A decent graphics card'
-  s.requirements << 'java runtime >= 1.6 preferably 1.7+ for invoke dynamic'
+  s.requirements << 'java runtime >= 1.7+'
   s.add_development_dependency 'minitest'
   s.add_development_dependency 'rake'
   s.summary = "Code as Art, Art as Code. Processing and Ruby are meant for each other."

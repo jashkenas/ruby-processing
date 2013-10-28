@@ -2,7 +2,7 @@ require 'rake/clean'
 require 'shellwords'
 
 JRUBY_VERSION      = "1.7.6"
-PROCESSING_VERSION = "2.0.3"
+PROCESSING_VERSION = "2.1"
 
 CLOBBER.include("processing-#{PROCESSING_VERSION}-macosx.zip", "jruby-complete-#{JRUBY_VERSION}.jar")
 
@@ -22,7 +22,7 @@ end
 
 file "jruby-complete-#{JRUBY_VERSION}.jar" do
   sh "wget http://jruby.org.s3.amazonaws.com/downloads/#{JRUBY_VERSION}/jruby-complete-#{JRUBY_VERSION}.jar"
-  check_sha1("jruby-complete-#{JRUBY_VERSION}.jar", "244be5ab12dd018254d85707cbc1c14ed1693dc7")
+  check_sha1("jruby-complete-#{JRUBY_VERSION}.jar", "a117e28e715184074980d6228962b9fb6b5607ac")
 end
 
 directory "../lib/ruby"
@@ -37,21 +37,21 @@ directory "../lib/core"
 desc "copy libs & jars"
 task :copy=> ["../lib/core"] do
   processing_zip = File.expand_path("processing-#{PROCESSING_VERSION}-macosx.zip")
-  sh "cd ../lib/core && unzip -qoj #{Shellwords.shellescape(processing_zip)} Processing.app/Contents/Resources/Java/core/library/*.jar"
+  sh "cd ../lib/core && unzip -qoj #{Shellwords.shellescape(processing_zip)} Processing.app/Contents/Java/core/library/*.jar"
   
   dirs = %w{dxf minim net pdf serial video}
   Dir.chdir("../library/") do
     sh "rm -rf Processing.app/ #{dirs.join(" ")}"
-    inside_zip_dirs = dirs.collect { |d| "Processing.app/Contents/Resources/Java/modes/java/libraries/#{d}/library/*" }
+    inside_zip_dirs = dirs.collect { |d| "Processing.app/Contents/Java/modes/java/libraries/#{d}/library/*" }
     sh "unzip -q #{Shellwords.shellescape(processing_zip)} #{inside_zip_dirs.join(" ")}"
-    sh "mv Processing.app/Contents/Resources/Java/modes/java/libraries/* ."
+    sh "mv Processing.app/Contents/Java/modes/java/libraries/* ."
     sh "rm -r Processing.app/"
   end
 end
 
 def check_sha1(filename, expected_hash)
-  require "openssl"
-  sha1 = OpenSSL::Digest::SHA1.new
+  require "digest/sha1"
+  sha1 = Digest::SHA1.new
   File.open(filename, "r") do |f|
     while buf = f.read(4096)
       sha1.update(buf)
