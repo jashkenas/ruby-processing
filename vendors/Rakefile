@@ -11,18 +11,15 @@ task :default => [:download, :copy_ruby, :copy]
 
 desc "download Processing & JRuby upstream sources"
 task :download => ["processing-#{PROCESSING_VERSION}-macosx.zip", "jruby-complete-#{JRUBY_VERSION}.jar"]
-######
-# Using the macosx version as the smallest download to provide the jars we require 
-# Rakefile tested on MacOSX and linux
-######
+
 file "processing-#{PROCESSING_VERSION}-macosx.zip" do
   sh "wget http://download.processing.org/processing-#{PROCESSING_VERSION}-macosx.zip"
-  check_sha1("processing-#{PROCESSING_VERSION}-macosx.zip", "f0126451da435f90b820a783c78bbde16739c5d2")
+  check_sha1("processing-#{PROCESSING_VERSION}-macosx.zip", "4e51f26c8bd0d13a28cf70f367d4966c396d6079")
 end
 
 file "jruby-complete-#{JRUBY_VERSION}.jar" do
   sh "wget http://jruby.org.s3.amazonaws.com/downloads/#{JRUBY_VERSION}/jruby-complete-#{JRUBY_VERSION}.jar"
-  check_sha1("jruby-complete-#{JRUBY_VERSION}.jar", "a117e28e715184074980d6228962b9fb6b5607ac")
+  check_sha1("jruby-complete-#{JRUBY_VERSION}.jar", "244be5ab12dd018254d85707cbc1c14ed1693dc7")
 end
 
 directory "../lib/ruby"
