@@ -24,9 +24,13 @@ task :platform do
       raise "You need to install wget"
     end
   else
-    # assuming Mac users know they require wget or have installed Brew	  
-    Rake::Task["build"].execute
-    Rake::Task["test"].execute
+    # I wrongly assumed Mac users know they require wget, or have installed Brew	  
+    begin
+      Rake::Task["build"].execute
+      Rake::Task["test"].execute
+    rescue
+      warn("WARNING: you may not have wget installed")	    
+    end
   end
 end
 
