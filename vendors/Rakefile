@@ -1,7 +1,7 @@
 require 'rake/clean'
 require 'shellwords'
 
-JRUBY_VERSION      = "1.7.6"
+JRUBY_VERSION      = "1.7.8"
 PROCESSING_VERSION = "2.1"
 
 CLOBBER.include("processing-#{PROCESSING_VERSION}-macosx.zip", "jruby-complete-#{JRUBY_VERSION}.jar")
@@ -22,7 +22,7 @@ end
 
 file "jruby-complete-#{JRUBY_VERSION}.jar" do
   sh "wget http://jruby.org.s3.amazonaws.com/downloads/#{JRUBY_VERSION}/jruby-complete-#{JRUBY_VERSION}.jar"
-  check_sha1("jruby-complete-#{JRUBY_VERSION}.jar", "a117e28e715184074980d6228962b9fb6b5607ac")
+  check_sha1("jruby-complete-#{JRUBY_VERSION}.jar", "c72460fd292ac290953373c7d5a14a2d98b6dfa1")
 end
 
 directory "../lib/ruby"

@@ -1,3 +1,5 @@
+require 'rbconfig'
+
 module Processing
   
   # A utility class to export Ruby-Processing sketches as 
@@ -76,7 +78,8 @@ module Processing
       cd @dest + "/Contents/Resources"
       # Poor ol' windows can't symlink.
       # TODO...
-      win = RUBY_PLATFORM.match(/mswin/i) || (RUBY_PLATFORM == 'java' && ENV_JAVA['os.name'].match(/windows/i))
+      win ||= RbConfig::CONFIG['host_os'].match(/mswin/i) 
+      win ||= RbConfig::CONFIG['host_os'].match(/windows/i)
       puts "\n[warning] Applications exported from Windows won't run on Macs...\n" if win 
       ln_s('../../lib', 'Java') unless win
     end

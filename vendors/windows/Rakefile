@@ -1,7 +1,7 @@
 require 'rake/clean'
 require 'shellwords'
 
-JRUBY_VERSION      = "1.7.6"      # to use this script it is assumed you have downloaded processing.zip and jruby-complete.jar
+JRUBY_VERSION      = "1.7.8"      # to use this script it is assumed you have downloaded processing.zip and jruby-complete.jar
 PROCESSING_VERSION = "2.1"      # to this folder (modify next line if using windows64 bit version)
 BITS = "32"
 #BITS = "64"

@@ -1,7 +1,7 @@
 require 'rake/clean'
 require 'shellwords'
 
-JRUBY_VERSION      = "1.7.6"
+JRUBY_VERSION      = "1.7.8"
 #JRUBY_VERSION      = "9000.dev"
 PROCESSING_VERSION = "2.1"
 BITS="64"
@@ -23,7 +23,7 @@ end
 
 file "jruby-complete-#{JRUBY_VERSION}.jar" do
   sh "wget http://jruby.org.s3.amazonaws.com/downloads/#{JRUBY_VERSION}/jruby-complete-#{JRUBY_VERSION}.jar"
-  check_sha1("jruby-complete-#{JRUBY_VERSION}.jar", "244be5ab12dd018254d85707cbc1c14ed1693dc7")
+  check_sha1("jruby-complete-#{JRUBY_VERSION}.jar", "c72460fd292ac290953373c7d5a14a2d98b6dfa1")
 end
 
 directory "../../lib/ruby"
