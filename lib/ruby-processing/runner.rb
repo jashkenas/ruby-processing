@@ -20,7 +20,7 @@ module Processing
     run:        run sketch once
     watch:      watch for changes on the file and relaunch it on the fly
     live:       launch sketch and give an interactive IRB shell
-    create:     create new sketch. Use --bare to generate simpler sketches without a class
+    create:     create new sketch. 
     app:        create an application version of the sketch
     unpack:     unpack samples or library
 
@@ -33,9 +33,9 @@ module Processing
     
     Possible options are:
 
-      java_args:        pass additionnals arguments to Java VM upon launching. 
+      java_args:        pass additional arguments to Java VM upon launching. 
                         Useful for increasing available memory (for example:
-                        -Xms256m -Xmx256m) or force 32 bits mode (-d32).
+                        -Xms1024m -Xmx1024m).
       sketchbook_path:  specify Processing sketchbook path to load additionnal 
                         libraries
 
