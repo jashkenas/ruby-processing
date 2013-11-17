@@ -1,6 +1,6 @@
 # Ruby-Processing
 
-Checkout the development branch [here]:https://github.com/monkstone/ruby-processing, pretty soon we will expect to retrun to hosting ruby-processing at rubygems.org `gem install ruby-processing` some volunteer testers rquired especially Mac Windows users.
+Checkout the development branch [here]:https://github.com/monkstone/ruby-processing, pretty soon we will expect to return to hosting ruby-processing at rubygems.org `gem install ruby-processing` some volunteer testers rquired especially Mac Windows users.
 
 Is a ruby wrapper around the [Processing][] code art framework, built using [JRuby][].
 
