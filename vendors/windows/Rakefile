@@ -22,7 +22,6 @@ directory "../../lib/core"
 
 desc "copy libs & jars"
 task :copy => ["../../lib/core"] do
-  sh "cp -v jruby-complete-#{JRUBY_VERSION}.jar ../../lib/core/jruby-complete.jar"
 
   processing_zip = File.expand_path("processing-#{PROCESSING_VERSION}-windows#{BITS}.zip")
   sh "cd ../../lib/core && unzip -qoj #{Shellwords.shellescape(processing_zip)} processing-#{PROCESSING_VERSION}/core/library/*.jar"
