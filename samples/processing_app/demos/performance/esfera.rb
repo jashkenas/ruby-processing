@@ -23,10 +23,11 @@ def setup
   @ry =0
   no_smooth
   @radius = height/3.5
-  @orb = HairyOrb.new
+  @orb = HairyOrb.new(self, radius)
   QUANTITY.times do
-    orb << HairFactory.create_hair(radius)
+    orb << HairFactory.create_hair(radius) 
   end
+  noise_detail(3)
 end
 
 def draw
@@ -41,31 +42,40 @@ def draw
   fill_int 0
   no_stroke
   sphere(radius)
-  orb.render self, radius
+  orb.render
   if (frame_count % 10 == 0)
     puts(frame_rate)
   end
 end
 
-class HairyOrb < Array
-  include Processing::Proxy
+class HairyOrb 
+  extend Enumerable
+  attr_reader :app, :hairs, :radius
   
-  def render app, radius
-    @app = app
-    each do |hair|
+  def initialize app, radius
+    @app, @radius = app, radius
+    @hairs = []    
+  end
+  
+  def << item
+    hairs << item
+  end      
+  
+  def render   
+    hairs.each do |hair|
       off = (app.noise(app.millis() * 0.0005, sin(hair.phi)) - 0.5) * 0.3
       offb = (app.noise(app.millis() * 0.0007, sin(hair.z) * 0.01) - 0.5) * 0.3
       thetaff = hair.theta + off
+      costhetaff = cos(thetaff)
+      coshairtheta = cos(hair.theta)
       phff = hair.phi + offb
-      x = radius * cos(hair.theta) * cos(hair.phi)
-      y = radius * cos(hair.theta) * sin(hair.phi)
+      x = radius * coshairtheta * cos(hair.phi)
+      y = radius * coshairtheta * sin(hair.phi)
       za = radius * sin(hair.theta)
-      xo = radius * cos(thetaff) * cos(phff)
-      yo = radius * cos(thetaff) * sin(phff)
+      xo = radius * costhetaff * cos(phff)
+      yo = radius * costhetaff * sin(phff)
       zo = radius * sin(thetaff)
-      xb = xo * hair.len
-      yb = yo * hair.len
-      zb = zo * hair.len
+      xb, yb, zb = xo * hair.len, yo * hair.len, zo * hair.len
       app.stroke_weight(1)
       app.begin_shape(LINES)
       app.stroke_int(0)
@@ -80,7 +90,7 @@ end
 class HairFactory 
   def self.create_hair radius
     z = rand(-radius .. radius)
-    phi = rand * TWO_PI
+    phi = rand * Math::PI * 2
     len = rand(1.15 .. 1.2)
     theta = Math.asin(z / radius)
     return Hair.new(z, phi, len, theta)
