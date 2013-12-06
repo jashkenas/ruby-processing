@@ -1,6 +1,6 @@
 # Ruby-Processing
 
-Checkout the development branch [here](:https://github.com/monkstone/ruby-processing), pretty soon we expect to return to hosting ruby-processing at rubygems.org `gem install ruby-processing` but some volunteer testers required first especially Mac and Windows users.
+Pretty soon we expect to return to hosting ruby-processing at rubygems.org `gem install ruby-processing`
 
 Is a ruby wrapper around the [Processing][] code art framework, built using [JRuby][].
 
@@ -23,16 +23,14 @@ See special instructions for Windows Users in the [Wiki][]
 ```bash
 cd ruby-processing
 rake # build and test gem (actually build and install if windows)
-jruby -S gem install ruby-processing-2.3.0.gem # to install gem, may need sudo
+jruby -S gem install ruby-processing-2.4.0.gem # to install gem, may need sudo
 ```
 
 Or if not using jruby
 ```bash
-gem install ruby-processing-2.3.0.gem # to install gem, may need sudo
+gem install ruby-processing-2.4.0.gem # to install gem, may need sudo
 
 ```
-
-Previously we were able to provide a simple install from rubygems, unfortunately this is no longer possible, owing to a policy change at rubygems.org (this gem is way too big), I don't think we could use bundler but I'm prepared to be proved wrong. A legacy version ruby-processing-1.0.11 is still available, but no-one is prepared to maintain it, and it would also fall foul of the policy change at rubygems.org
 
 ## Documentation
 
