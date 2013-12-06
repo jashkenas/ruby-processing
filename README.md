@@ -23,12 +23,12 @@ See special instructions for Windows Users in the [Wiki][]
 ```bash
 cd ruby-processing
 rake # build and test gem (actually build and install if windows)
-jruby -S gem install ruby-processing-2.3.0.gem # to install gem, may need sudo
+jruby -S gem install ruby-processing-2.4.0.gem # to install gem, may need sudo
 ```
 
 Or if not using jruby
 ```bash
-gem install ruby-processing-2.3.0.gem # to install gem, may need sudo
+gem install ruby-processing-2.4.0.gem # to install gem, may need sudo
 
 ```
 
