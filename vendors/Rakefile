@@ -2,7 +2,7 @@ require 'rake/clean'
 require 'shellwords'
 
 JRUBY_VERSION      = "1.7.8"
-PROCESSING_VERSION = "2.1"
+PROCESSING_VERSION = "2.0.3"
 
 CLOBBER.include("processing-#{PROCESSING_VERSION}-macosx.zip", "jruby-complete-#{JRUBY_VERSION}.jar")
 
@@ -14,7 +14,7 @@ task :download => ["processing-#{PROCESSING_VERSION}-macosx.zip", "jruby-complet
 
 file "processing-#{PROCESSING_VERSION}-macosx.zip" do
   sh "wget http://download.processing.org/processing-#{PROCESSING_VERSION}-macosx.zip"
-  check_sha1("processing-#{PROCESSING_VERSION}-macosx.zip", "4e51f26c8bd0d13a28cf70f367d4966c396d6079")
+  check_sha1("processing-#{PROCESSING_VERSION}-macosx.zip", "f0126451da435f90b820a783c78bbde16739c5d2")
 end
 
 file "jruby-complete-#{JRUBY_VERSION}.jar" do
