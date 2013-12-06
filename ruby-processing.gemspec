@@ -3,22 +3,24 @@ require "./lib/ruby-processing"
 
 Gem::Specification.new do |s|
   s.name = "ruby-processing"
-  s.version = Processing::VERSION
+  s.version = RubyProcessing::VERSION
   s.authors = ["Jeremy Ashkenas", "Peter Gassner", "Martin Stannard", "Andrew Nanton",
                "Marc Chung", "Peter Krenn", "Florian Jenett", "Andreas Haller",
                "Juris Galang", "Guillaume Pierronnet", "Martin Prout"]
-  s.date = "2013-10-28"
+  s.date = "2013-11-06"
   s.default_executable = "rp5"
   s.email = "jeremy@ashkenas.com"
-  s.executables = ["rp5"]
+  s.executables = ["rp5", "install_jruby_complete"]
   s.license = 'MIT'
-  s.files = FileList['bin/**/*', 'lib/**/*', 'library/**/*', 'samples/**/*'].to_a
+  s.files = FileList['bin/**/*', 'lib/**/*', 'library/**/*', 'samples/**/*', 'vendors/*'].to_a
+  s.platform = Gem::Platform::RUBY
   s.homepage = "http://wiki.github.com/jashkenas/ruby-processing"
   s.required_ruby_version = '>= 1.9.3'
   s.require_paths = ["lib"]
   s.rubyforge_project = "ruby-processing"
   s.requirements << 'A decent graphics card'
-  s.requirements << 'java runtime >= 1.7+'
+  s.requirements << 'java runtime >= 1.6+'
+  s.requirements << 'processing = 2.0.3 or greater if not on a Mac'
   s.add_development_dependency 'minitest'
   s.add_development_dependency 'rake'
   s.summary = "Code as Art, Art as Code. Processing and Ruby are meant for each other."
@@ -47,3 +49,4 @@ Gem::Specification.new do |s|
 
   EOS
 end
+

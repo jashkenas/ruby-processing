@@ -31,6 +31,14 @@ module Processing
     def load_ruby_library(library_name)
       library_name = library_name.to_sym
       return true if @loaded_libraries[library_name]
+      if Processing.exported?
+        begin
+          return @loaded_libraries[library_name] = (require_relative "../library/#{library_name}")
+        rescue LoadError => e
+          return false
+        end
+      end
+
       path = get_library_paths(library_name, "rb").first
       return false unless path
       return @loaded_libraries[library_name] = (require path)
@@ -72,9 +80,12 @@ module Processing
     end
 
     def get_platform_specific_library_paths(basename)
-      bits = "32"
-      if java.lang.System.getProperty("sun.arch.data.model") == "64" || 
-         java.lang.System.getProperty("java.vm.name").index("64")
+      bits = "universal"  # for MacOSX, but does this even work, or does Mac return "64"?
+      if java.lang.System.getProperty("sun.arch.data.model") == "32" || 
+        java.lang.System.getProperty("java.vm.name").index("32")
+        bits = "32"
+      elsif java.lang.System.getProperty("sun.arch.data.model") == "64" || 
+        java.lang.System.getProperty("java.vm.name").index("64")
         bits = "64"
       end
 
@@ -95,7 +106,8 @@ module Processing
     def get_library_directory_path(library_name, extension = nil)
       extensions = extension ? [extension] : %w{jar rb}
       extensions.each do |ext|
-        [ "#{SKETCH_ROOT}/library/#{library_name}", 
+        [ "#{SKETCH_ROOT}/library/#{library_name}",
+          "#{Processing::CONFIG["PROCESSING_ROOT"]}/modes/java/libraries/#{library_name}/library",
           "#{RP5_ROOT}/library/#{library_name}/library", 
           "#{RP5_ROOT}/library/#{library_name}", 
           "#{@sketchbook_library_path}/#{library_name}/library",
@@ -112,7 +124,7 @@ module Processing
     def find_sketchbook_path
       preferences_paths = []
       sketchbook_paths = []
-      if sketchbook_path = CONFIG["sketchbook_path"]
+      if sketchbook_path = Processing::CONFIG["sketchbook_path"]
         return File.expand_path(sketchbook_path)
       else
         ["'Application Data/Processing'", "AppData/Roaming/Processing", 

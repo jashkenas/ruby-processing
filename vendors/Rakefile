@@ -1,21 +1,14 @@
 require 'rake/clean'
-require 'shellwords'
 
 JRUBY_VERSION      = "1.7.8"
-PROCESSING_VERSION = "2.0.3"
 
-CLOBBER.include("processing-#{PROCESSING_VERSION}-macosx.zip", "jruby-complete-#{JRUBY_VERSION}.jar")
+CLOBBER.include("jruby-complete-#{JRUBY_VERSION}.jar")
 
 desc "download, and copy to ruby-processing"
-task :default => [:download, :copy_ruby, :copy]
+task :default => [:download, :copy_ruby]
 
-desc "download Processing & JRuby upstream sources"
-task :download => ["processing-#{PROCESSING_VERSION}-macosx.zip", "jruby-complete-#{JRUBY_VERSION}.jar"]
-
-file "processing-#{PROCESSING_VERSION}-macosx.zip" do
-  sh "wget http://download.processing.org/processing-#{PROCESSING_VERSION}-macosx.zip"
-  check_sha1("processing-#{PROCESSING_VERSION}-macosx.zip", "f0126451da435f90b820a783c78bbde16739c5d2")
-end
+desc "download JRuby upstream sources"
+task :download => ["jruby-complete-#{JRUBY_VERSION}.jar"]
 
 file "jruby-complete-#{JRUBY_VERSION}.jar" do
   sh "wget http://jruby.org.s3.amazonaws.com/downloads/#{JRUBY_VERSION}/jruby-complete-#{JRUBY_VERSION}.jar"
@@ -27,23 +20,6 @@ directory "../lib/ruby"
 desc "copy jruby-complete"
 task :copy_ruby => ["../lib/ruby"] do
   sh "cp -v jruby-complete-#{JRUBY_VERSION}.jar ../lib/ruby/jruby-complete.jar"
-end
-
-directory "../lib/core"
-
-desc "copy libs & jars"
-task :copy=> ["../lib/core"] do
-  processing_zip = File.expand_path("processing-#{PROCESSING_VERSION}-macosx.zip")
-  sh "cd ../lib/core && unzip -qoj #{Shellwords.shellescape(processing_zip)} Processing.app/Contents/Java/core/library/*.jar"
-  
-  dirs = %w{dxf minim net pdf serial video}
-  Dir.chdir("../library/") do
-    sh "rm -rf Processing.app/ #{dirs.join(" ")}"
-    inside_zip_dirs = dirs.collect { |d| "Processing.app/Contents/Java/modes/java/libraries/#{d}/library/*" }
-    sh "unzip -q #{Shellwords.shellescape(processing_zip)} #{inside_zip_dirs.join(" ")}"
-    sh "mv Processing.app/Contents/Java/modes/java/libraries/* ."
-    sh "rm -r Processing.app/"
-  end
 end
 
 def check_sha1(filename, expected_hash)

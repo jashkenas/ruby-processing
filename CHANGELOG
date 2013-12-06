@@ -1,12 +1,11 @@
+v2.4.0 Returning to rubygems distribution, by not including any jars
+* Use jars from an installed version of vanilla processing-2.0.3 (or version 2.1.0 linux and windows)
+* Require an installed jruby (with an optional jruby-complete-1.7.8 post
+* install)
+
 v2.3.1 Revert to processing-2.0.3 for MacOSX
 * Mac users may use Apple jvm java 6
 * Windows and Linux users need at least java 7 jre (java 8 does now work)
-
-
-v2.3.0 Update to processing-2.1
-* Mac users require Oracles JDK1.7.0_45 "included with vanilla processing"
-* Windows and Linux users need at least java 7 jre (java 8 does now work)
-
 
 v2.2.2 Update to JRuby-1.7.6
 * Merge vec.rb, quaternion.rb and arcball.rb into vecmath.rb, stricter path

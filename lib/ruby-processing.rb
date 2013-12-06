@@ -9,12 +9,17 @@ end
 
 SKETCH_ROOT = Dir.pwd unless defined? SKETCH_ROOT
 
+require 'ruby-processing/version'
 require 'ruby-processing/helpers/string'
 require 'ruby-processing/helpers/numeric'
 
 # The top-level namespace, a home for all Ruby-Processing classes.
 module Processing
-  VERSION = "2.3.1" unless defined? Processing::VERSION
+
+  def self.exported?
+    @exported ||= ENV['EXPORTED'].eql?('true')	  
+  end
+
   # Autoload a number of constants that we may end up using.
   autoload :App,                  'ruby-processing/app'
   autoload :Runner,               'ruby-processing/runner'

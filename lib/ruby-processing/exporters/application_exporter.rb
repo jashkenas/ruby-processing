@@ -42,6 +42,7 @@ module Processing
       @prefix = "lib"
       cp_r(Dir["#{RP5_ROOT}/lib/templates/application/{*,**}"], @dest)
       @necessary_files = [@main_file_path]
+      @necessary_files += Dir["#{CONFIG["PROCESSING_ROOT"]}/core/library/{*,**}"]
       @necessary_files += Dir["#{RP5_ROOT}/lib/{*,**}"]
       @necessary_files += @real_requires
       NECESSARY_FOLDERS.each do |folder| 
@@ -57,10 +58,10 @@ module Processing
     end
     
     def calculate_substitutions
-      file_list = ['lib/core/jruby-complete.jar']
+      file_list = ['lib/ruby/jruby-complete.jar']
       @class_path = file_list.map {|f| "$JAVAROOT/" + f.sub(@prefix+"/", "") }.join(":")
-      @linux_class_path = ".:../lib/ruby/*:../lib/core/*:../lib/library/*"
-      @windows_class_path = ".;../lib/ruby/*;../lib/core/*;../lib/library/*"
+      @linux_class_path = ".:../lib/ruby/*:../lib/*:../lib/library/*"
+      @windows_class_path = ".;../lib/ruby/*;../lib/*;../lib/library/*"
     end
     
     def create_executables

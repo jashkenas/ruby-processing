@@ -1,15 +1,17 @@
 require 'ostruct'
 require 'fileutils'
-require 'ruby-processing/config'
+require 'rbconfig'
+require_relative 'config'
+require_relative 'version'
+
 
 module Processing
 
   # Utility class to handle the different commands that the 'rp5' command
   # offers. Able to run, watch, live, create, app, and unpack
   class Runner
-
     HELP_MESSAGE = <<-EOS
-  Version: #{Processing::VERSION}
+  Version: #{RubyProcessing::VERSION}
 
   Ruby-Processing is a little shim between Processing and JRuby that helps
   you create sketches of code art.
@@ -20,7 +22,7 @@ module Processing
     run:        run sketch once
     watch:      watch for changes on the file and relaunch it on the fly
     live:       launch sketch and give an interactive IRB shell
-    create:     create new sketch. 
+    create:     create new sketch. Use --bare to generate simpler sketches without a class
     app:        create an application version of the sketch
     unpack:     unpack samples or library
 
@@ -29,13 +31,13 @@ module Processing
                 jarred one (required for shader sketches, and some others).
   
   Configuration file:
-    A YAML configuration file is located at #{Processing::CONFIG_FILE_PATH}
+    A YAML configuration file is located at {Processing::CONFIG_FILE_PATH}
     
     Possible options are:
 
-      java_args:        pass additional arguments to Java VM upon launching. 
+      java_args:        pass additionnals arguments to Java VM upon launching. 
                         Useful for increasing available memory (for example:
-                        -Xms1024m -Xmx1024m).
+                        -Xms256m -Xmx256m) or force 32 bits mode (-d32).
       sketchbook_path:  specify Processing sketchbook path to load additionnal 
                         libraries
 
@@ -53,7 +55,7 @@ module Processing
 
     # Start running a ruby-processing sketch from the passed-in arguments
     def self.execute
-      runner = new
+      runner = self.new
       runner.parse_options(ARGV)
       runner.execute!
     end
@@ -126,7 +128,7 @@ module Processing
 
     # Display the current version of Ruby-Processing.
     def show_version
-      puts "Ruby-Processing version #{Processing::VERSION}"
+      puts "Ruby-Processing version #{RubyProcessing::VERSION}"
     end
 
     # Show the standard help/usage message.
@@ -139,8 +141,8 @@ module Processing
 
     # Trade in this Ruby instance for a JRuby instance, loading in a
     # starter script and passing it some arguments.
-    # If --jruby is passed, use the installed version of jruby, instead of
-    # our vendored jarred one (useful for gems).
+    # Unless --nojruby is passed, use the installed version of jruby, instead of
+    # our vendored jarred one (vendored version is required for some sketches eg shaders).
     def spin_up(starter_script, sketch, args)
       runner = "#{RP5_ROOT}/lib/ruby-processing/runners/#{starter_script}"
       java_args = discover_java_args(sketch)
@@ -161,10 +163,10 @@ module Processing
       args += dock_icon
       if File.exists?(arg_file)
         args += File.read(arg_file).split(/\s+/)
-      elsif CONFIG["java_args"]
-        args += CONFIG["java_args"].split(/\s+/)
+      elsif Processing::CONFIG["java_args"]
+        args += Processing::CONFIG["java_args"].split(/\s+/)
       end
-      args.map! {|arg| "-J#{arg}" }   unless @options.nojruby
+      args.map! {|arg| "-J#{arg}" } unless @options.nojruby
       args
     end
 
@@ -178,7 +180,8 @@ module Processing
 
     # On the Mac, we can display a fat, shiny ruby in the Dock.
     def dock_icon
-      mac = RUBY_PLATFORM.match(/darwin/i) || (RUBY_PLATFORM == 'java' && ENV_JAVA['os.name'].match(/mac/i))
+      mac ||= RbConfig::CONFIG['host_os'].match(/darwin/i) 
+      mac ||= RbConfig::CONFIG['host_os'].match(/mac/i) 
       mac ? ["-Xdock:name=Ruby-Processing", "-Xdock:icon=#{RP5_ROOT}/lib/templates/application/Contents/Resources/sketch.icns"] : []
     end
 

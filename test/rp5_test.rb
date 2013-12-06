@@ -9,7 +9,7 @@ class Rp5Test < Minitest::Test
   
   def test_normal    
     out, err = capture_io do
-      open("|../bin/rp5 --nojruby run basic.rb", "r") do |io|
+      open("|../bin/rp5 run basic.rb", "r") do |io|
         while l = io.gets
           puts(l.chop) 
         end      
@@ -20,7 +20,7 @@ class Rp5Test < Minitest::Test
   
   def test_p2d    
     out, err = capture_io do
-      open("|../bin/rp5 --nojruby run p2d.rb", "r") do |io|
+      open("|../bin/rp5 run p2d.rb", "r") do |io|
         while l = io.gets
           puts(l.chop) 
         end      
@@ -31,7 +31,7 @@ class Rp5Test < Minitest::Test
   
   def test_p3d    
     out, err = capture_io do
-      open("|../bin/rp5 --nojruby run p3d.rb", "r") do |io|
+      open("|../bin/rp5 run p3d.rb", "r") do |io|
         while l = io.gets
           puts(l.chop) 
         end      
@@ -42,7 +42,7 @@ class Rp5Test < Minitest::Test
   
   def test_graphics    
     out, err = capture_io do
-      open("|../bin/rp5 --nojruby run graphics.rb", "r") do |io|
+      open("|../bin/rp5 run graphics.rb", "r") do |io|
         while l = io.gets
           puts(l.chop) 
         end      
@@ -53,7 +53,7 @@ class Rp5Test < Minitest::Test
   
   def test_setup_exception
     out, err = capture_io do
-      open("|../bin/rp5 --nojruby run setup_ex.rb", "r") do |io|
+      open("|../bin/rp5 run setup_ex.rb", "r") do |io|
         while l = io.gets
           puts(l.chop) 
         end      
@@ -64,7 +64,7 @@ class Rp5Test < Minitest::Test
   
   def test_draw_exception
     out, err = capture_io do
-      open("|../bin/rp5 --nojruby run draw_ex.rb", "r") do |io|
+      open("|../bin/rp5 run draw_ex.rb", "r") do |io|
         while l = io.gets
           puts(l.chop) 
         end      
@@ -73,4 +73,5 @@ class Rp5Test < Minitest::Test
     assert out.index("undefined method `unknown_method'"), "Failed to raise exception"
   end  
 end
+
 
