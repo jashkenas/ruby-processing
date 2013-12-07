@@ -13,7 +13,7 @@ Is a ruby wrapper around the [Processing][] code art framework, built using [JRu
 
 ## Installation
 
-You should [download][] and install vanilla processing-2.0.3 (MacOSX) or processing-2.1.0 (Windows, Linux) prior to installing this version of ruby-processing. You must alos set the "PROCESSING_ROOT" in the .rp5rc configuration file see this, easiest way is to run the [SetProcessingRoot.pde](https://gist.github.com/monkstone/7438749) sketch in the processing ide. The vendored jruby-complete-1.7.9 is added by running `install_jruby_complete` post install (required for application export), see wiki.
+You should [download][] and install vanilla processing-2.0.3 (MacOSX) or processing-2.1.0 (Windows, Linux) prior to installing this version of ruby-processing. You must also set the "PROCESSING_ROOT" in the .rp5rc configuration file see this, easiest way is to run the [SetProcessingRoot.pde](https://gist.github.com/monkstone/7438749) sketch in the processing ide. The vendored jruby-complete-1.7.9 is added by running `install_jruby_complete` post install (required for application export), see wiki.
 
 Either clone this repo to your local Mac/Linux/Windows system
 ```bash
