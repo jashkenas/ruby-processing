@@ -12,6 +12,9 @@ Is a ruby wrapper around the [Processing][] code art framework, built using [JRu
   smooth, text_align, translate, triangle...
 
 ## Installation
+
+You should install vanilla processing-2.0.3 (MacOSX) or processing-2.1.0 (Windows, Linux) prior to installing this release. Also you need to set "PROCESSING_HOME" in the .rp5rc configuration file see this [gist](https://gist.github.com/monkstone/7438749), easiest way is to run SetProcessingRoot.pde in the processing ide. jruby-complete-1.7.9 can be added as a post install (required for application export), see wiki.
+
 Either clone this repo to your local Mac/Linux/Windows system
 ```bash
 git clone https://github.com/jashkenas/ruby-processing.git
