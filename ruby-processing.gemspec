@@ -1,30 +1,16 @@
-require 'rake'
-require "./lib/ruby-processing"
+# coding: utf-8
+lib = File.expand_path('../lib', __FILE__)
+$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
+require 'ruby-processing/version'
 
-Gem::Specification.new do |s|
-  s.name = "ruby-processing"
-  s.version = RubyProcessing::VERSION
-  s.authors = ["Jeremy Ashkenas", "Peter Gassner", "Martin Stannard", "Andrew Nanton",
+Gem::Specification.new do |spec|
+  spec.name = "ruby-processing"
+  spec.version = RubyProcessing::VERSION
+  spec.authors = ["Jeremy Ashkenas", "Peter Gassner", "Martin Stannard", "Andrew Nanton",
                "Marc Chung", "Peter Krenn", "Florian Jenett", "Andreas Haller",
                "Juris Galang", "Guillaume Pierronnet", "Martin Prout"]
-  s.date = "2013-11-06"
-  s.default_executable = "rp5"
-  s.email = "jeremy@ashkenas.com"
-  s.executables = ["rp5", "install_jruby_complete"]
-  s.license = 'MIT'
-  s.files = FileList['bin/**/*', 'lib/**/*', 'library/**/*', 'samples/**/*', 'vendors/*'].to_a
-  s.platform = Gem::Platform::RUBY
-  s.homepage = "http://wiki.github.com/jashkenas/ruby-processing"
-  s.required_ruby_version = '>= 1.9.3'
-  s.require_paths = ["lib"]
-  s.rubyforge_project = "ruby-processing"
-  s.requirements << 'A decent graphics card'
-  s.requirements << 'java runtime >= 1.6+'
-  s.requirements << 'processing = 2.0.3 or greater if not on a Mac'
-  s.add_development_dependency 'minitest'
-  s.add_development_dependency 'rake'
-  s.summary = "Code as Art, Art as Code. Processing and Ruby are meant for each other."
-  s.description = <<-EOS
+  spec.email = "jeremy@ashkenas.com"
+  spec.description = <<-EOS
 
   Ruby-Processing is a Ruby wrapper for the Processing code art framework. It's
   this thin little shim that squeezes between Processing and JRuby, passing
@@ -48,5 +34,21 @@ Gem::Specification.new do |s|
     to work on your Processing sketches.
 
   EOS
+  spec.summary = %q{Code as Art, Art as Code. Processing and Ruby are meant for each other.}
+  spec.homepage = "http://wiki.github.com/jashkenas/ruby-processing"
+  spec.executables = ["rp5", "install_jruby_complete"]
+  spec.license = 'MIT'
+  
+  spec.files         = `git ls-files`.split($/)
+  spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
+  spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
+
+  spec.add_development_dependency "bundler", "~> 1.3"
+  spec.add_development_dependency "rake"
+  spec.add_development_dependency 'minitest'
+  spec.requirements << 'A decent graphics card'
+  spec.requirements << 'java runtime >= 1.6+'
+  spec.requirements << 'processing = 2.0.3+'
+ 
 end
 

@@ -1,3 +1,5 @@
+v2.4.1 Update gemspec to match modern expectations
+
 v2.4.0 Returning to rubygems distribution, by not including any jars
 * Use jars from an installed version of vanilla processing-2.0.3 (or version 2.1.0 linux and windows)
 * Require an installed jruby (with an optional jruby-complete-1.7.8 post
