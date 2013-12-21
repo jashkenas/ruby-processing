@@ -175,7 +175,13 @@ module Processing
     end
 
     def jruby_complete
-      File.join(RP5_ROOT, 'lib/ruby/jruby-complete.jar')
+      rcomplete = File.join(RP5_ROOT, 'lib/ruby/jruby-complete.jar')
+      if File.exists?(rcomplete)
+        return rcomplete
+      else
+	warn "#{rcomplete} does not exist\nTry running `install_jruby_complete`"
+	exit
+      end	      
     end
 
     # On the Mac, we can display a fat, shiny ruby in the Dock.
