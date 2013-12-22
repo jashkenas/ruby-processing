@@ -71,7 +71,7 @@ class Boid
   
   def goal(gx, gy, gz, d = 50.0)
     # Them boids is hungry.
-    return (gx - x)/d, (gy - y)/d, (gz - z)/d
+    return (gx - x) / d, (gy - y) / d, (gz - z) / d
   end
 end
 
@@ -180,22 +180,22 @@ class Boids
     end
   end
     
-  def update(opts={})
-    # Just flutter, little boids ... just flutter away.
-    # Shuffling keeps things flowing smooth.
-    options = {:shuffled => true, 
-               :cohesion => 100.0, 
-               :separation => 10.0, 
-               :alignment => 5.0, 
-               :goal => 20.0, 
-               :limit => 30.0}
+  def update(opts={}) # Just flutter, little boids ... just flutter away.  	   
+    options = {
+        shuffled: true,     #  Shuffling keeps things flowing smooth.
+        cohesion: 100.0, 
+        separation: 10.0, 
+        alignment: 5.0, 
+        goal: 20.0, 
+        limit: 30.0
+    } 
     options.merge! opts
     
     self.shuffle! if options[:shuffled]
-    m1 = 1.0 # cohesion
-    m2 = 1.0 # separation
-    m3 = 1.0 # alignment
-    m4 = 1.0 # goal
+    m1 = 1.0   # cohesion
+    m2 = 1.0   # separation
+    m3 = 1.0   # alignment
+    m4 = 1.0   # goal
     
     @scattered = true if !(@scattered) && rand < @scatter
     if @scattered
