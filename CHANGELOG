@@ -1,10 +1,9 @@
-v2.4.2 First release to to return to rubygems since processing 1.0.11
+v2.4.1 First release to to return to rubygems since processing 1.0.11
 * Features a post-install download of jruby-complete (version 1.7.9)
 * Features use of jars from an installed version of vanilla processing,
 * on linux and windows use version 2.1.0 (later versions may also work).
 * For Mac, especially if you are using Mac "java" stick with version 2.0.3
-
-v2.4.1 Update gemspec to match modern expectations
+* Update gemspec to match modern expectations
 
 v2.4.0 Returning to rubygems distribution, by not including any jars
 * Use jars from an installed version of vanilla processing-2.0.3 (or version 2.1.0 linux and windows)
