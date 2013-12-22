@@ -1,4 +1,4 @@
-v2.4.1 First release to to return to rubygems since processing 1.0.11
+v2.4.1 First release to return to rubygems since processing 1.0.11
 * Features a post-install download of jruby-complete (version 1.7.9)
 * Features use of jars from an installed version of vanilla processing,
 * on linux and windows use version 2.1.0 (later versions may also work).
