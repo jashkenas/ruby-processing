@@ -28,7 +28,16 @@ class Rp5Test < Minitest::Test
     end
     assert_match %r%ok%, out, "Failed P2D sketch"     
   end
-  
+
+  def test_proc_root
+    require 'psych'
+    path = File.expand_path("~/.rp5rc")
+    config = File.exists?(path)? Psych.load_file(path) : {}
+    root = config.empty? ? '' : config['PROCESSING_ROOT']
+    assert root.length > 0, "You need to set your PROCESSING_ROOT in .rp5rc"
+  end
+
+
   def test_p3d    
     out, err = capture_io do
       open("|../bin/rp5 run p3d.rb", "r") do |io|
