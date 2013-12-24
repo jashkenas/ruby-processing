@@ -34,7 +34,7 @@ class Rp5Test < Minitest::Test
     path = File.expand_path("~/.rp5rc")
     config = File.exists?(path)? Psych.load_file(path) : {}
     root = config.empty? ? '' : config['PROCESSING_ROOT']
-    assert root.length > 0, "You need to set your PROCESSING_ROOT in .rp5rc"
+    assert root =~ /processing/, "You need to set your PROCESSING_ROOT in .rp5rc"
   end
 
 
