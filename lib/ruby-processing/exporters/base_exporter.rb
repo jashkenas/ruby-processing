@@ -115,7 +115,7 @@ module Processing
     end
     
     def wipe_and_recreate_destination
-      remove_entry_secure @dest if File.exists?(@dest)
+      remove_entry_secure @dest if File.exist?(@dest)
       mkdir_p @dest
     end
     

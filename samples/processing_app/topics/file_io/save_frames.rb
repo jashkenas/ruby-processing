@@ -15,7 +15,7 @@ def setup
   smooth
   @recording = false
   directory = "output"
-  Dir::mkdir(directory) unless File.exists?(directory) 
+  Dir::mkdir(directory) unless File.exist?(directory) 
 end
 
 def draw

@@ -161,7 +161,7 @@ module Processing
       arg_file = "#{File.dirname(sketch)}/data/java_args.txt"
       args = []
       args += dock_icon
-      if File.exists?(arg_file)
+      if File.exist?(arg_file)
         args += File.read(arg_file).split(/\s+/)
       elsif Processing::CONFIG["java_args"]
         args += Processing::CONFIG["java_args"].split(/\s+/)
@@ -171,12 +171,12 @@ module Processing
     end
 
     def ensure_exists(sketch)
-      puts "Couldn't find: #{sketch}" and exit unless File.exists?(sketch)
+      puts "Couldn't find: #{sketch}" and exit unless File.exist?(sketch)
     end
 
     def jruby_complete
       rcomplete = File.join(RP5_ROOT, 'lib/ruby/jruby-complete.jar')
-      if File.exists?(rcomplete)
+      if File.exist?(rcomplete)
         return rcomplete
       else
 	warn "#{rcomplete} does not exist\nTry running `install_jruby_complete`"

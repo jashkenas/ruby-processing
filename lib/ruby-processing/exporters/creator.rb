@@ -10,7 +10,7 @@ module Processing
       usage path
       main_file = File.basename(path, ".rb")
       # Check to make sure that the main file exists
-      already_exists = File.exists?(path) || File.exists?("#{File.dirname(path)}/#{main_file.underscore}.rb")
+      already_exists = File.exist?(path) || File.exist?("#{File.dirname(path)}/#{main_file.underscore}.rb")
       if already_exists
         puts "That sketch already exists."
         exit

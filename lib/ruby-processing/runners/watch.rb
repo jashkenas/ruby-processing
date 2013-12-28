@@ -19,7 +19,7 @@ module Processing
     def start_watching
       start_runner
       loop do
-        if @files.detect { |file| File.exists?(file) && File.stat(file).mtime > @time }
+        if @files.detect { |file| File.exist?(file) && File.stat(file).mtime > @time }
           puts "reloading sketch..."
           $app && $app.close
           @time = Time.now
