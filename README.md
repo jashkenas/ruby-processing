@@ -23,7 +23,7 @@ To install jruby-complete use our built in tool (relies on `wget` to download [j
 
 If you haven't got `wget` just download jruby-complete-1.7.9 to the vendors folder (then run above tool)
 
-The vendored jruby-complete-1.7.9 is required for application export, and running certain sketches (eg shader sketches see wiki).
+The vendored jruby-complete-1.7.9 is only required for application export, and running certain sketches (eg shader sketches see wiki).
 
 
 ## Documentation
