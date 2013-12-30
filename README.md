@@ -1,4 +1,5 @@
 # Ruby-Processing
+[![Gem Version](https://badge.fury.io/rb/ruby-processing.png)](http://badge.fury.io/rb/ruby-processing)
 
 Is a ruby wrapper around the [Processing][] code art framework, built using [JRuby][].
 
