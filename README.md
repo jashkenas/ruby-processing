@@ -11,7 +11,7 @@ Is a ruby wrapper around the [Processing][] code art framework, built using [JRu
 
 ## Installation
 
-Ideally you should install [jruby](http://jruby.org/download), at the very least you will have at least ruby-1.9.3 installed.  You should [download][] and install vanilla [processing-2.0.3](https://processing.org/download/) (MacOSX) or [processing-2.1.0](https://processing.org/download/) (Windows, Linux) prior to installing this version of ruby-processing. You must also set the `PROCESSING_ROOT` in the .rp5rc yaml configuration file, the easiest way is by running the [SetProcessingRoot.pde](https://gist.github.com/monkstone/7438749) sketch in the processing ide. The vendored jruby-complete-1.7.9 is added by running `install_jruby_complete` post install (required for application export), see wiki.
+Ideally you should install [jruby](http://jruby.org/download), at the very least you will have at least ruby-1.9.3 installed.  You should [download][] and install vanilla [processing-2.0.3](https://processing.org/download/) (MacOSX) or [processing-2.1.0](https://processing.org/download/) (Windows, Linux) prior to installing this version of ruby-processing. You must also set the `PROCESSING_ROOT` in the .rp5rc yaml configuration file, the easiest way is by running the [SetProcessingRoot.pde](https://gist.github.com/monkstone/7438749) sketch in the processing ide. 
 
 Then install ruby-processing (from rubygems-org) in the usual way
 
@@ -22,6 +22,8 @@ To install jruby-complete use our built in tool (relies on `wget` to download [j
 `install_jruby_complete`
 
 If you haven't got `wget` just download jruby-complete-1.7.9 to the vendors folder (then run above tool)
+
+The vendored jruby-complete-1.7.9 is required for application export, and running certain sketches (eg shader sketches see wiki).
 
 
 ## Documentation
