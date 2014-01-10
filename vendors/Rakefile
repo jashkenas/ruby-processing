@@ -1,6 +1,6 @@
 require 'rake/clean'
 
-JRUBY_VERSION      = "1.7.9"
+JRUBY_VERSION      = "1.7.10"
 
 CLOBBER.include("jruby-complete-#{JRUBY_VERSION}.jar")
 
@@ -12,7 +12,7 @@ task :download => ["jruby-complete-#{JRUBY_VERSION}.jar"]
 
 file "jruby-complete-#{JRUBY_VERSION}.jar" do
   sh "wget http://jruby.org.s3.amazonaws.com/downloads/#{JRUBY_VERSION}/jruby-complete-#{JRUBY_VERSION}.jar"
-  check_sha1("jruby-complete-#{JRUBY_VERSION}.jar", "93c1906ed4d212ec7fb2fc810da206f1f2a034b4")
+  check_sha1("jruby-complete-#{JRUBY_VERSION}.jar", "f74a8b29da11e2ea430a1d1d92b72d424f7ee311")
 end
 
 directory "../lib/ruby"

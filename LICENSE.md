@@ -3,7 +3,7 @@ You can do pretty much whatever you'd like with it.
 
 ___
 
-Copyright (c) 2008 omygawshkenas
+Copyright (c) 2008-2014 omygawshkenas
 
 Permission is hereby granted, free of charge, 
 to any person obtaining a copy of this software 
