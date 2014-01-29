@@ -1,7 +1,8 @@
 # vecmath.rb
 # The vecmath library provides Vec2D and Vec3D classes which can be
 # use in place of processing PVector, and provide a more rubylike interface.
-# Also included in the vecmath library is the ArcBall utility 
+# Also included in the vecmath library is the ArcBall utility after:-
+# Ken Shoemake. Computer Graphics Laboratory. University of Pennsylvania. Philadelphia, PA 
 # ==== Example Arcball usage see vecmath library in samples
 #   def setup 
 #      .....
