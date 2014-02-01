@@ -22,7 +22,7 @@ module Processing
         if @files.detect { |file| File.exist?(file) && File.stat(file).mtime > @time }
           puts "reloading sketch..."
           $app && $app.close
-          @time = Time.now
+          @time = Time.now                
           java.lang.System.gc
           start_runner
           reload_files_to_watch
@@ -36,9 +36,8 @@ module Processing
     def report_errors
       yield
     rescue Exception => e
-      puts "Exception occured while running sketch #{File.basename SKETCH_PATH}:"
-      puts e.to_s
-      puts e.backtrace.join("\n")
+      warn "Exception occured while running sketch #{File.basename SKETCH_PATH}:"
+      puts "Backtrace:\n\t#{e.backtrace.join("\n\t")}"
     end
 
     def start_runner 
