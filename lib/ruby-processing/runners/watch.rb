@@ -36,7 +36,7 @@ module Processing
     def report_errors
       yield
     rescue Exception => e
-      warn "Exception occured while running sketch #{File.basename SKETCH_PATH}:"
+      warn "Exception occured while running sketch #{File.basename SKETCH_PATH}..."
       puts "Backtrace:\n\t#{e.backtrace.join("\n\t")}"
     end
 
