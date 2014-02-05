@@ -12,6 +12,7 @@ Here are some ways *you* can contribute:
 * by proselytizing ruby-processing, we need more champions
 * by supporting [Processing.org][], nothing to do with us but we rely on them
 * by figuring out if we could replace swing with javafx for control_panel etc
+* by testing / contributing to the [development branch][]
 
 ## Submitting an Issue
 We use the [GitHub issue tracker][issues] to track bugs and features. Before
@@ -31,3 +32,4 @@ the bug, including your gem version, Ruby version, and operating system.
 [fork]: http://help.github.com/fork-a-repo/
 [pr]: http://help.github.com/send-pull-requests/
 [processing.org]: http://processing.org/foundation/
+[development branch]: https://github.com/monkstone/JRubyArt
