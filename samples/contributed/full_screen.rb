@@ -2,11 +2,11 @@
 # This is a full-screen demo 
 # Since processing-2.0 it is opengl
 
-full_screen
+#full_screen # not working correctly in processing-2.1+?
 
 
 def setup
-  size 1000, 1000, P3D
+  size displayWidth, displayHeight, P3D
   no_stroke
 end
 
