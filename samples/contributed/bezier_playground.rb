@@ -3,12 +3,13 @@
 # You can print out the parametric equations for t = 0..1
 module Olap
   def self.overlaps(x, y, point_x, point_y)
-    Math.sqrt((x-point_x)**2 + (y-point_y)**2) < RADIUS 
+    (x-point_x)**2 + (y-point_y)**2 < RADIUS * RADIUS 
   end
 end
 
 class Curve
   include Olap
+  include Processing::Proxy
   attr_accessor :x1, :y1, :c1x, :c1y, :c2x, :c2y, :x2, :y2
   
   def initialize
@@ -38,9 +39,9 @@ class Curve
   
   
   def draw
-    $app.bezier *all_points
-    $app.oval @x1, @y1, 3, 3
-    $app.oval @x2, @y2, 3, 3
+    bezier *all_points
+    oval @x1, @y1, 3, 3
+    oval @x2, @y2, 3, 3
   end
   
   
@@ -66,9 +67,12 @@ RADIUS = 7
 load_library :control_panel
 include Olap
 
+attr_reader :hide
+
 def setup
   size 300, 300
-  @curves = []    
+  @curves = []
+  @hide = false
   control_panel do |c|
     c.look_feel "Nimbus"
     c.button :new_curve
@@ -146,6 +150,7 @@ end
 
 def mouse_released
   @control, @end_point = nil, nil
+  @hide = false
 end
 
 
@@ -225,7 +230,10 @@ end
 
 
 def draw
-  panel.visible = self.visible
+  if (!hide)
+    panel.visible = self.visible
+    @hide = true
+  end
   background 50
   draw_control_tangent_lines
   draw_curves

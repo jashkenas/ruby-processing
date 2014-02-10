@@ -172,8 +172,8 @@ class Boid
     sum = Vec2D.new
     count = 0
     boids.each do |other|
-      d = Vec2D.dist(location, other.location)
-      if ((d > 0) && (d < neighbordist))
+      d = Vec2D.dist_squared(location, other.location)
+      if ((d > 0) && (d < neighbordist * neighbordist))
         sum += other.velocity
         count += 1
       end
@@ -199,8 +199,8 @@ class Boid
     sum = Vec2D.new   # Start with empty vector to accumulate all locations
     count = 0
     boids.each do |other|
-      d = Vec2D.dist(location, other.location)
-      if ((d > 0) && (d < neighbordist))
+      d = Vec2D.dist_squared(location, other.location)
+      if ((d > 0) && (d < neighbordist * neighbordist))
         sum += other.location # Add location
         count += 1
       end

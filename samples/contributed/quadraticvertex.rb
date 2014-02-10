@@ -9,10 +9,11 @@
 
 load_library :control_panel
 
-attr_reader :debug, :save_one, :step_angle, :cr, :detail, :panel
+attr_reader :debug, :save_one, :step_angle, :cr, :detail, :panel, :hide
 
 def setup
   size 450, 320
+  @hide = false
   control_panel do |c|
     c.title = "controller"
     c.menu(:detail, ['4', '5', '6', '7', '8', '9', '10' ], '7')
@@ -27,7 +28,10 @@ def setup
 end
 
 def draw
-  panel.set_visible true
+  if (!hide)
+    panel.set_visible true
+    @hide = true
+  end
   background color('#BDF018')
   translate width / 2, height / 2 
   @step_angle = TWO_PI / (detail.to_i - 1)
@@ -71,6 +75,10 @@ def draw
     save_frame("images/quadraticvertex-#####.png")
     @save_one = false
   end
+end
+
+def mouse_pressed
+  @hide = false
 end
 
 def cos_x(n)
