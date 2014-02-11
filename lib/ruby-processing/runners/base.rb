@@ -1,3 +1,5 @@
+# -*- encoding : utf-8 -*-
+
 $LOAD_PATH << File.expand_path(File.dirname(__FILE__) + "/../../")
 SKETCH_PATH = ARGV.shift unless defined? SKETCH_PATH
 SKETCH_ROOT = File.dirname(SKETCH_PATH) unless defined? SKETCH_ROOT
