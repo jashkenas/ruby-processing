@@ -131,6 +131,20 @@ class Vec2D
 
 end
 
+class Vec2DR < Vec2D
+  
+  def rotate(rot)
+    Vec2D.new((x * Math.cos(rot)) - y * Math.sin(rot),
+	    (x * Math.sin(rot)) + (y * Math.cos(rot)))
+  end
+
+  # this behaves like PVector rotate (ie changes self, except returns self rather than "void")
+  def rotate!(rot)
+    @x, @y = (x * Math.cos(rot) - y * Math.sin(rot)), (x * Math.sin(rot) + y * Math.cos(rot))
+    return self
+  end 
+end
+
 class Vec3D < Vec2D
 
   def modulus
