@@ -1,10 +1,14 @@
 # Drawolver: draw 2D & revolve 3D
 
-# Example to show how to extend Ruby classes in a useful way and how to
-# use PVector and the Array is extended to yield one_of_each 
-# pair of pts. See the drawolver library. Also features the use each_cons, 
-# possibly a rare use for this ruby Enumerable method?
-# 2010-03-22 - fjenett (last revised by monkstone 2013-09-13)
+# This example demonstrates the use of the `vecmath` library (a ruby-processing 
+# replacement for PVector). Also demonstrated is how to extend an instance of a
+# here an instance of a core ruby class. In this case the ruby Array class,  
+# is extended to yield one_of_each pair of pts (see ExtendedArray module). This
+# examples also includes a possibly rare use of the each_cons Enumerable method?
+# For simpler illustrations of `vecmath` usage see the library examples.
+# 2010-03-22 - fjenett (last revised by monkstone 2014-02-18)
+
+load_library :vecmath
 
 attr_reader :drawing_mode, :points, :rot_x, :rot_y, :vertices
 
@@ -23,7 +27,6 @@ module ExtendedArray
     end
   end
 end
-
 
 def setup 
   size 1024, 768, P3D
@@ -71,15 +74,15 @@ end
 
 def mouse_pressed
   reset_scene
-  points << RPVector.new(mouse_x, mouse_y)
+  points << Vec3D.new(mouse_x, mouse_y)
 end
 
 def mouse_dragged
-  points << RPVector.new(mouse_x, mouse_y)
+  points << Vec3D.new(mouse_x, mouse_y)
 end
 
 def mouse_released
-  points << RPVector.new(mouse_x, mouse_y)
+  points << Vec3D.new(mouse_x, mouse_y)
   recalculate_shape
 end
 
@@ -87,16 +90,16 @@ def recalculate_shape
   @vertices = []
   points.each_cons(2) do |ps, pe|   
     b = points.last - points.first
-    len = b.mag
-    b.normalize   
+    # len = b.mag
+    b.normalize!   
     a = ps - points.first   
     dot = a.dot b   
-    b = b * dot   
+    b *= dot   
     normal = points.first + b    
     c = ps - normal
-    nlen = c.mag    
+    # nlen = c.mag    
     vertices << []    
-    (0..TWO_PI).step(PI/15) do |ang|     
+    (0..TAU).step(PI/15) do |ang|     
       e = normal + c * cos(ang)
       e.z = c.mag * sin(ang)      
       vertices.last << e
@@ -104,28 +107,4 @@ def recalculate_shape
   end
   @drawing_mode = false
 end
-
-# a wrapper around PVector that implements operators methods for +, -, *, /
-#
-class RPVector < Java::ProcessingCore::PVector
-
-  def + (vect)
-    RPVector.new self.x + vect.x, self.y + vect.y, self.z + vect.z
-  end
-
-  def - (vect)
-    RPVector.new self.x - vect.x, self.y - vect.y, self.z - vect.z
-  end
-
-  def * (scalar)
-    RPVector.new self.x * scalar, self.y * scalar, self.z * scalar
-  end
-
-  def / (scalar)
-    RPVector.new(self.x / scalar, self.y / scalar, self.z / scalar) unless scalar == 0
-  end
-
-end
-
-
 
