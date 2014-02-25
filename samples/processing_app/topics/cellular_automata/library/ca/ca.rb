@@ -7,7 +7,7 @@ class CA
   def initialize(rules = [])
     @width = $app.width
     @height = $app.height
-    if rules.length > 0
+    if !rules.empty?
       @rules = rules
     else
       randomize
@@ -23,7 +23,7 @@ class CA
   
   # Return a random ruleset
   def randomize
-    @rules = Array.new(8) {(rand(100) > 50)? 1 : 0}
+    @rules = Array.new(8) {rand(0 .. 1)}
   end
   
   # Reset to generation 0
@@ -86,6 +86,6 @@ class CA
   
   # The CA is done if it reaches the bottom of the screen
   def finished?
-    return (generation > (height/SCL))
+    generation > (height/SCL)
   end
 end
