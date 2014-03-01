@@ -18,13 +18,13 @@ Then install ruby-processing (from rubygems-org) in the usual way
 
 `gem install ruby-processing` some systems eg Ubuntu may require `sudo` access
 
-To install jruby-complete use our built in tool (relies on `wget` to download [jruby-complete-1.7.10](http://jruby.org/download))
+To install jruby-complete use our built in tool (relies on `wget` to download [jruby-complete-1.7.11](http://jruby.org/download))
 
 `install_jruby_complete`
 
-If you haven't got `wget` just download jruby-complete-1.7.10 to the vendors folder (then run above tool)
+If you haven't got `wget` just download jruby-complete-1.7.11 to the vendors folder (then run above tool)
 
-The vendored jruby-complete-1.7.10 is only required for application export, and running certain sketches (eg shader sketches see wiki).
+The vendored jruby-complete-1.7.11 is only required for application export, and running certain sketches (eg shader sketches see wiki).
 
 
 ## Documentation
