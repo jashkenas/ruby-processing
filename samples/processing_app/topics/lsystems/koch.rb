@@ -6,7 +6,7 @@
 # Each recursive level is drawn in sequence. 
 #
 
-load_library 'koch'
+load_libraries :koch, :vecmath
 
 attr_reader :k
 

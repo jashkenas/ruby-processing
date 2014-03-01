@@ -7,8 +7,8 @@ class KochFractal
   attr_reader :start, :endk, :lines, :count
   
   def initialize width, height
-    @start = PVector.new(0, height - 20)
-    @endk = PVector.new(width, height - 20)  
+    @start = Vec2D.new(0, height - 20)
+    @endk = Vec2D.new(width, height - 20)  
     restart
   end
 
@@ -47,7 +47,7 @@ class KochFractal
   def iterate(before)
     now = []    # Create empty list
     before.each do |line|
-      # Calculate 5 koch PVectors (done for us by the line object)
+      # Calculate 5 koch Vectors (done for us by the line object)
       a = line.start                 
       b = line.kochleft
       c = line.kochmiddle
@@ -73,13 +73,13 @@ end
 class KochLine
   include Processing::Proxy
   # Two PVectors,
-  # a is the "left" PVector and 
-  # b is the "right PVector
+  # a is the "left" Vector and 
+  # b is the "right Vector
   attr_reader :start, :endk
 
   def initialize(start, endk)
-    @start = start.get
-    @endk = endk.get
+    @start = start.dup
+    @endk = endk.dup
   end
 
   def display
@@ -89,28 +89,29 @@ class KochLine
 
   # This is easy, just 1/3 of the way
   def kochleft
-    v = PVector.sub(endk, start)
-    v.div(3)
-    v.add(start)
+    v = endk - start
+    v /= 3.0
+    v += start
     return v
   end    
 
-  # More complicated, have to use a little trig to figure out where this PVector is!
+  # More complicated, have to use a little trig to figure out where this Vector is!
   def kochmiddle
-    v = PVector.sub(endk, start)
-    v.div(3)    
-    p = start.get
-    p.add(v)    
-    v.rotate(-radians(60))
-    p.add(v)    
+    v = endk - start
+    v /= 3.0    
+    p = start.dup
+    p += v  
+    rot = radians(-60)
+    r = Vec2D.new((v.x * cos(rot)) - v.y * sin(rot), (v.x * sin(rot)) + (v.y * cos(rot))) 
+    p += r  
     return p
   end    
 
   # Easy, just 2/3 of the way
   def kochright
-    v = PVector.sub(start, endk)
-    v.div(3)
-    v.add(endk)
+    v = start - endk
+    v /= 3.0
+    v += endk
     return v
   end
 end
