@@ -22,7 +22,7 @@ class KochFractal
   def restart 
     @count = 0      # Reset count
     @lines = []     # Empty the array list
-    lines << KochLine.new(start, endk)  # Add the initial line (from one end PVector to the other)
+    lines << KochLine.new(start, endk)  # Add the initial line (from one end Vector to the other)
   end
   
   def get_count
@@ -53,7 +53,7 @@ class KochFractal
       c = line.kochmiddle
       d = line.kochright
       e = line.endk
-      # Make line segments between all the PVectors and add them
+      # Make line segments between all the Vectors and add them
       # Note how we can chain '<<' in ruby, could all be in one line.
       now << KochLine.new(a,b) << KochLine.new(b,c)
       now << KochLine.new(c,d) << KochLine.new(d,e)
@@ -68,7 +68,7 @@ end
 
 # Koch Curve
 # A class to describe one line segment in the fractal
-# Includes methods to calculate mid PVectors along the line according to the Koch algorithm
+# Includes methods to calculate mid Vectors along the line according to the Koch algorithm
 
 class KochLine
   include Processing::Proxy
