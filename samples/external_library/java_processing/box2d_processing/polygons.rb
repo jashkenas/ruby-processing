@@ -45,7 +45,7 @@ def draw
   
   # polygons that leave the screen, we delete them
   # (note they have to be deleted from both the box2d world and our list
-  polygons.delete_if { |p| p.done}
+  polygons.reject! { |p| p.done}
 end
 
 def mouse_pressed  

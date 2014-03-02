@@ -45,7 +45,7 @@ def draw
   end  
   # Particles that leave the screen, we delete them
   # (note they have to be deleted from both the box2d world and our list
-  particles.delete_if {|p| p.done}
+  particles.reject! {|p| p.done}
   # Just drawing the framerate to see how many particles it can handle
   fill(0)
   text("framerate: #{frame_rate.to_i}", 12, 16)
