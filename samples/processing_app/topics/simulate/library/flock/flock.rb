@@ -30,15 +30,20 @@ end
 class Boid
   include Processing::Proxy
   
-  attr_reader :location, :velocity, :acceleration, :r, :maxforce, :maxspeed
+  MAXSPEED = 2
+  MAXFORCE = 0.03
+  
+  attr_reader :width, :height
+  attr_reader :location, :velocity, :acceleration, :sz, :maxforce_squared, :maxspeed_squared
   
   def initialize(x, y)
-    @acceleration = PVector.new(0, 0)
-    @velocity = PVector.new(rand(-1.0 .. 1), rand(-1.0 .. 1))
-    @location = PVector.new(x, y)
-    @r = 2.0
-    @maxspeed = 2
-    @maxforce = 0.03
+    @width, @height = $app.width, $app.height
+    @acceleration = Vec2D.new(0, 0)
+    @velocity = Vec2D.new(rand(-1.0 .. 1), rand(-1.0 .. 1))
+    @location = Vec2D.new(x, y)
+    @sz = 4.0
+    @maxspeed_squared = MAXSPEED * MAXSPEED
+    @maxforce_squared = MAXFORCE * MAXFORCE
   end
   
   def run(boids)
@@ -50,7 +55,7 @@ class Boid
   
   def apply_force(force)
     # We could add mass here if we want A = F / M
-    acceleration.add(force)
+    @acceleration += force
   end
   
   # We accumulate a new acceleration each time based on three rules
@@ -59,9 +64,9 @@ class Boid
     ali = align(boids)      # Alignment
     coh = cohesion(boids)   # Cohesion
     # Arbitrarily weight these forces
-    sep.mult(1.5)
-    ali.mult(1.0)
-    coh.mult(1.0)
+    sep *= 1.5
+    ali *= 1.0
+    coh *= 1.0
     # Add the force vectors to acceleration
     apply_force(sep)
     apply_force(ali)
@@ -71,25 +76,25 @@ class Boid
   # Method to update location
   def update
     # Update velocity
-    velocity.add(acceleration)
+    @velocity += acceleration
     # Limit speed
-    velocity.limit(maxspeed)
-    location.add(velocity)
+    velocity.set_mag(MAXSPEED) if velocity.mag_squared > maxspeed_squared
+    @location += velocity
     # Reset accelertion to 0 each cycle
-    acceleration.mult(0)
+    @acceleration *= 0
   end
   
   # A method that calculates and applies a steering force towards a target
   # STEER = DESIRED MINUS VELOCITY
   def seek(target)
-    desired = PVector.sub(target,location)  # A vector pointing from the location to the target
+    desired = target - location  # A vector pointing from the location to the target
     # Normalize desired and scale to maximum speed
-    desired.normalize
-    desired.mult(maxspeed)
+    desired.normalize!
+    desired *= MAXSPEED
     # Steering = Desired minus Velocity
-    steer = PVector.sub(desired,velocity)
-    steer.limit(maxforce)  # Limit to maximum steering force
-    return steer
+    steer = desired - velocity
+    steer.set_mag(MAXFORCE) if steer.mag_squared > maxforce_squared # Limit to maximum steering force
+    steer
   end
 
   def render
@@ -101,26 +106,26 @@ class Boid
     translate(location.x,location.y)
     rotate(theta)
     begin_shape(TRIANGLES)
-    vertex(0, -r*2)
-    vertex(-r, r*2)
-    vertex(r, r*2)
+    vertex(0, -sz)
+    vertex(-sz * 0.5, sz)
+    vertex(sz * 0.5, sz)
     end_shape
     pop_matrix
   end
 
   # Wraparound
   def borders
-    if (location.x < -r) 
-      location.x = $app.width+r
+    if (location.x < -sz * 0.5) 
+      location.x = width + sz * 0.5
     end
-    if (location.y < -r) 
-      location.y = $app.height+r
+    if (location.y < -sz * 0.5)
+      location.y = height + sz * 0.5
     end
-    if (location.x > $app.width+r)
-      location.x = -r
+    if (location.x >  width + sz * 0.5)
+      location.x = -sz
     end
-    if (location.y > $app.height+r)
-      location.y = -r
+    if (location.y > height + sz * 0.5)
+      location.y = -sz * 0.5
     end
   end
           
@@ -128,33 +133,33 @@ class Boid
   # Method checks for nearby boids and steers away
   def separate boids
     desiredseparation = 25.0
-    steer = PVector.new(0, 0, 0)
+    steer = Vec2D.new(0, 0, 0)
     count = 0
     # For every boid in the system, check if it's too close
     boids.each do |other|
-      d = PVector.dist(location, other.location)
+      d = Vec2D.dist(location, other.location)
       # If the distance is greater than 0 and less than an arbitrary amount (0 when you are yourself)
       if ((d > 0) && (d < desiredseparation))
         # Calculate vector pointing away from neighbor
-        diff = PVector.sub(location,other.location)
-        diff.normalize
-        diff.div(d)        # Weight by distance
-        steer.add(diff)
+        diff = location - other.location
+        diff.normalize!
+        diff /= d             # Weight by distance
+        steer += diff
         count += 1            # Keep track of how many
       end
     end
     # Average -- divide by how many
     if (count > 0)
-      steer.div(count.to_f)
+      steer /= count.to_f
     end
     
     # As long as the vector is greater than 0
     if (steer.mag > 0)
       # Implement Reynolds: Steering = Desired - Velocity
-      steer.normalize
-      steer.mult(maxspeed)
-      steer.sub(velocity)
-      steer.limit(maxforce)
+      steer.normalize!
+      steer *= MAXSPEED
+      steer += velocity
+      steer.set_mag(MAXFORCE) if steer.mag_squared > maxforce_squared
     end
     return steer
   end
@@ -163,24 +168,24 @@ class Boid
   # For every nearby boid in the system, calculate the average velocity
   def align boids
     neighbordist = 50
-    sum = PVector.new(0, 0)
+    sum = Vec2D.new(0, 0)
     count = 0
     boids.each do |other|
-      d = PVector.dist(location, other.location)
+      d = Vec2D.dist(location, other.location)
       if ((d > 0) && (d < neighbordist))
-        sum.add(other.velocity)
+        sum += other.velocity
         count += 1
       end
     end
     if (count > 0)
-      sum.div(count.to_f)
-      sum.normalize
-      sum.mult(maxspeed)
-      steer = PVector.sub(sum, velocity)
-      steer.limit(maxforce)
+      sum /= (count.to_f)
+      sum.normalize!
+      sum *= MAXSPEED
+      steer = sum - velocity
+      steer.set_mag(MAXFORCE) if steer.mag_squared > maxforce_squared
       return steer
     else
-      return PVector.new(0,0)
+      return Vec2D.new(0,0)
     end
   end
     
@@ -188,17 +193,17 @@ class Boid
   # For the average location (i.e. center) of all nearby boids, calculate steering vector towards that location
   def cohesion boids
     neighbordist = 50
-    sum = PVector.new(0, 0)   # Start with empty vector to accumulate all locations
+    sum = Vec2D.new(0, 0)   # Start with empty vector to accumulate all locations
     count = 0
     boids.each do |other|
-      d = PVector.dist(location, other.location)
+      d = Vec2D.dist(location, other.location)
       if ((d > 0) && (d < neighbordist))
-        sum.add(other.location) # Add location
+        sum += other.location # Add location
         count += 1
       end
     end
-    sum.div(count) unless (count == 0)        # avoid div by zero
-    return (count > 0)? seek(sum) : PVector.new(0, 0) 
+    sum /= count unless (count == 0)        # avoid div by zero
+    return (count > 0)? seek(sum) : Vec2D.new(0, 0) 
   end
 end
 

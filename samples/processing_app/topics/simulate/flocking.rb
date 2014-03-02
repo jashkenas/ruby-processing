@@ -8,7 +8,7 @@
 # 
 # Click the mouse to add a new boid.
 #
-load_library :flock
+load_libraries :flock, :vecmath
 
 attr_reader :flock
 

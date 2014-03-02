@@ -5,32 +5,12 @@
 # Each burst is one instance of a particle system with Particles and
 # CrazyParticles (a subclass of Particle).
 
+load_library :vecmath
+
 module Runnable
   def run
     self.reject! { |item| item.dead? }
     self.each    { |item| item.run   }
-  end
-end
-
-class Vector
-  attr_accessor :x, :y
-  
-  def initialize(x, y)
-    @x, @y = x, y
-  end
-  
-  def +(other)
-    return Vector.new(@x + other, @y + other)     if other.is_a?(Numeric)
-    return Vector.new(@x + other.x, @y + other.y) if other.is_a?(Vector)
-    self
-  end
-  
-  def heading
-    -1 * Math::atan2(-@y, @x)
-  end
-  
-  def magnitude
-    @x * @x + @y * @y
   end
 end
 
@@ -70,7 +50,7 @@ def setup
   size 640, 580   
   color_mode(RGB, 255, 255, 255, 100)
   ellipse_mode(CENTER)    
-  @particle_systems = ParticleSystem.new(rand(21) + 5, Vector.new(width/2, height/2))
+  @particle_systems = ParticleSystem.new(rand(21) + 5, Vec2D.new(width/2, height/2))
 end
 
 def draw
@@ -80,7 +60,7 @@ end
 
 def mouse_pressed
   origin = rand(21) + 5
-  vector = Vector.new(mouse_x, mouse_y)
+  vector = Vec2D.new(mouse_x, mouse_y)
   @particle_systems << ParticleSystem.new(origin, vector)
 end
 
@@ -88,8 +68,8 @@ end
 class Particle
   def initialize(origin)
     @origin = origin
-    @velocity = Vector.new(rand(-1.0 .. 1), rand(-2.0 .. 0))
-    @acceleration = Vector.new(0, 0.05)
+    @velocity = Vec2D.new(rand(-1.0 .. 1), rand(-2.0 .. 0))
+    @acceleration = Vec2D.new(0, 0.05)
     @radius = 10
     @lifespan = 100
   end
@@ -129,7 +109,7 @@ class Particle
     translate(@origin.x, @origin.y)
     rotate(@velocity.heading)
     
-    length = @velocity.magnitude * scale
+    length = @velocity.mag * scale
     
     line 0, 0, length, 0
     line length, 0, length - arrow_size, arrow_size / 2
@@ -155,7 +135,7 @@ class CrazyParticle < Particle
   
   def update
     super
-    @theta += @velocity.x * @velocity.magnitude / 10
+    @theta += @velocity.x * @velocity.mag / 10
   end
   
   def grow

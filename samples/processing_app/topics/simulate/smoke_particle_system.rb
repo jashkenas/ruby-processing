@@ -3,20 +3,21 @@
 #
 # A ParticleSystem (Array) object manages a variable size list of
 # particles.
+load_library :vecmath
 
 attr_reader :ps, :img, :wind
 
 def setup
   size(640,360)
   @img = load_image("texture.png")
-  @ps = ParticleSystem.new(0, PVector.new(width/2, height - 60), img)
+  @ps = ParticleSystem.new(0, Vec2D.new(width/2, height - 60), img)
 end
 
 def draw
   background(0)  
   # Calculate a "wind" force based on mouse horizontal position
   dx = map(mouse_x, 0, width, -0.2, 0.2)
-  @wind = PVector.new(dx, 0)
+  @wind = Vec2D.new(dx, 0)
   ps.apply_force(wind)
   ps.run
   2.times do
@@ -24,7 +25,7 @@ def draw
   end
   
   # Draw a horizontal arrow representing the wind force
-  draw_vector(wind, PVector.new(width / 2, 50, 0), 500)
+  draw_vector(wind, Vec2D.new(width / 2, 50, 0), 500)
   
 end
 
@@ -33,7 +34,7 @@ def draw_vector(v, loc, scayl)
   push_matrix
   # Translate to location to render vector
   translate(loc.x, loc.y)  
-  rotate(v.heading2D)
+  rotate(v.heading)
   # Calculate length of vector & scale as necessary
   len = v.mag * scayl
   # Draw three lines to make an arrow 
@@ -63,7 +64,7 @@ class ParticleSystem
   
   def initialize(num, location, image)
     @particles = []
-    @origin = location.get
+    @origin = location.dup
     @image = image    
     (0 ... num).each do
       particles << Particle.new(origin, image)
@@ -98,11 +99,11 @@ class Particle
   attr_reader :loc, :acc, :vel, :lifespan, :img, :generator
   
   def initialize(l, img_) 
-    @acc = PVector.new(0, 0)
+    @acc = Vec2D.new(0, 0)
     vx = random_gaussian * 0.3
     vy = random_gaussian * 0.3 - 1.0
-    @vel = PVector.new(vx, vy)
-    @loc = l.get()
+    @vel = Vec2D.new(vx, vy)
+    @loc = l.dup()
     @lifespan = 100.0
     @img = img_
   end
@@ -114,8 +115,8 @@ class Particle
   
   # Method to update location
   def update
-    vel.add(acc)
-    loc.add(vel)
+    @vel += acc
+    @loc += vel
     @lifespan -= 1.0
   end
   
@@ -128,7 +129,7 @@ class Particle
   
   # Method to add a force vector to all particles currently in the system
   def apply_force(f) 
-    @acc.add(f)
+    @acc += f
   end
   
 end
