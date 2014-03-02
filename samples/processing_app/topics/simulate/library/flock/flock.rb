@@ -158,7 +158,7 @@ class Boid
       # Implement Reynolds: Steering = Desired - Velocity
       steer.normalize!
       steer *= MAXSPEED
-      steer += velocity
+      steer -= velocity
       steer.set_mag(MAXFORCE) if steer.mag_squared > maxforce_squared
     end
     return steer
