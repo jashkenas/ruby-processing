@@ -1,5 +1,5 @@
 # The Nature of Code
-# <http:#www.shiffman.net/teaching/nature>
+# <http://www.shiffman.net/teaching/nature>
 # Spring 2010
 # PBox2D example
 
@@ -9,7 +9,7 @@ module SB
   include_package 'org.jbox2d.collision.shapes'
   include_package 'org.jbox2d.common'  
   include_package 'org.jbox2d.dynamics'
-  java_import 'pbox2d.PBox2D'
+  include_package 'shiffman.box2d'
   
   
   

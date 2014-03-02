@@ -1,11 +1,10 @@
 # The Nature of Code
 # <http://www.shiffman.net/teaching/nature>
 # Spring 2011
-# PBox2D example
+# Box2DProcessing example
 
 # Basic example of falling rectangles
-load_library :pbox2d
-load_library :custom_shape
+load_libraries :box2d_processing, :custom_shape
 
 # module B2D is a wrapper for java imports, and Boundary and CustomShape classes
 include B2D     
@@ -16,7 +15,7 @@ def setup
   size(640,360)
   smooth  
   # Initialize box2d physics and create the world
-  @box2d = PBox2D.new(self)
+  @box2d = B2D::Box2DProcessing.new(self)
   box2d.create_world
   # We are setting a custom gravity
   box2d.set_gravity(0, -20)  
@@ -46,11 +45,7 @@ def draw
   
   # polygons that leave the screen, we delete them
   # (note they have to be deleted from both the box2d world and our list
-  polygons.each_with_index do |polygon, i|   
-    if polygon.done
-      polygons.delete_at(i)
-    end
-  end
+  polygons.delete_if { |p| p.done}
 end
 
 def mouse_pressed  

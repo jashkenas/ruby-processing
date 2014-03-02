@@ -1,12 +1,11 @@
 # The Nature of Code
-# <http:#www.shiffman.net/teaching/nature>
+# <http://www.shiffman.net/teaching/nature>
 # Spring 2010
 # PBox2D example
 
 # An uneven surface
 
-load_library :pbox2d
-load_library :surface
+load_libraries :box2d_processing, :surface
 
 include SB
 
@@ -17,7 +16,7 @@ def setup
   smooth
   
   # Initialize box2d physics and create the world
-  @box2d = PBox2D.new(self)
+  @box2d = SB::Box2DProcessing.new(self)
   box2d.create_world
   # We are setting a custom gravity
   box2d.set_gravity(0, -20)
@@ -46,11 +45,7 @@ def draw
   end  
   # Particles that leave the screen, we delete them
   # (note they have to be deleted from both the box2d world and our list
-  particles.each_with_index do |p, i|
-    if (p.done)
-      particles.delete_at(i)
-    end
-  end  
+  particles.delete_if {|p| p.done}
   # Just drawing the framerate to see how many particles it can handle
   fill(0)
   text("framerate: #{frame_rate.to_i}", 12, 16)

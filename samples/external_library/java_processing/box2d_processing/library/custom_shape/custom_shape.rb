@@ -3,7 +3,7 @@ module B2D
   include_package 'org.jbox2d.collision.shapes'
   include_package 'org.jbox2d.common'
   include_package 'org.jbox2d.dynamics'
-  java_import 'pbox2d.PBox2D'
+  include_package 'shiffman.box2d'
   
   
   # The Nature of Code

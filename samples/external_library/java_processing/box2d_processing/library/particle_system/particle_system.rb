@@ -2,22 +2,22 @@ module PS
   include_package 'org.jbox2d.collision.shapes'
   include_package 'org.jbox2d.common'
   include_package 'org.jbox2d.dynamics'
-  java_import 'pbox2d.PBox2D'
-  
-  
+  include_package 'shiffman.box2d'
+
   # Box2D Particle System
   # <http://www.shiffman.net/teaching/nature>
   # Spring 2010
+  # translated to ruby-processing Martin Prout
   
   # A class to describe a group of Particles
-  # An ArrayList is used to manage the list of Particles 
+  # An Array is used to manage the list of Particles 
   
   class ParticleSystem
     
     attr_reader :particles, :x, :y
     
     def initialize(bd, num, x, y)
-      @particles = []          # Initialize the ArrayList
+      @particles = []          # Initialize the Array
       @x, @y = x, y            # Store the origin point  
       num.times do
         particles << PS::Particle.new(bd, x, y)
@@ -32,11 +32,8 @@ module PS
       # Particles that leave the screen, we delete them
       # (note they have to be deleted from both the box2d world and our list
       
-      particles.each_with_index do |p, i|
-        if (p.done)
-          particles.delete_at(i)
-        end
-      end
+      particles.delete_if { |p| p.done}
+      
     end
     
     def add_particles(bd, n)
