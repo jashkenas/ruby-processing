@@ -112,8 +112,14 @@ class Vec2D
     @x, @y = x / magnitude, y / magnitude
     return self
   end
-  
-  def set_mag(scalar)
+
+  # The &block option means we can conditionally set_mag to
+  # a limit value for example, when given &block returns true.
+
+  def set_mag(scalar, &block)
+    if block_given? && yield == false
+      return self
+    end      
     magnitude = Math.hypot(x, y)	  
     @x, @y = (x * scalar) / magnitude, (y * scalar) / magnitude
     return self    
