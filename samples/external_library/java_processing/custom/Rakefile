@@ -1,0 +1,28 @@
+require 'ant'
+
+PROJECT_NAME ='nn'
+MAIN_SRC_DIR = 'src'
+BUILD_DIR = 'build'
+DIST_DIR = 'library/nn'
+
+task :default => [:clean, :make_jars]
+
+task :clean do
+  ant.delete :dir => BUILD_DIR
+  puts
+end
+
+task :make_jars => :clean do
+  make_jar MAIN_SRC_DIR, "#{PROJECT_NAME}.jar"
+end
+
+def make_jar(source_folder, jar_file_name) 
+    ant.mkdir :dir => BUILD_DIR
+    ant.mkdir :dir => DIST_DIR
+    ant.javac :srcdir => source_folder, :destdir => BUILD_DIR, 
+              :source => "1.7", :target => "1.7", :debug => "yes", :includeantruntime => "no"
+    ant.jar :jarfile => "#{DIST_DIR}/#{jar_file_name}", :basedir => BUILD_DIR
+    ant.delete :dir => BUILD_DIR
+    puts
+end
+
