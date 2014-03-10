@@ -3,7 +3,7 @@
 # http://natureofcode.com
 
 # XOR Multi-Layered Neural Network Example
-# Neural network code is all in the "code" folder
+# Neural network java code is all in the "src" folder
 load_library :nn
 
 require_relative './landscape'
