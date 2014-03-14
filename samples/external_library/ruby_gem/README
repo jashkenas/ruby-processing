@@ -7,6 +7,6 @@ The absolute belt and brace way to use external ruby libraries ie gems:
 4. Run ruby-processing starting from jruby
    jruby -S rp5 run sketch.rb
 
-See worked perlin_force and mdarray_test in this folder 
+See worked ai4r and mdarray_test in this folder 
 NB: library will need to work with jruby this excludes most native libraries
 but pure ruby libraries (+java) should be fine
