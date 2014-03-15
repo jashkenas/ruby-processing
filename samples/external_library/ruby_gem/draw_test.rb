@@ -1,37 +1,92 @@
-##################################################
+#####################################################################
 # Using the ai4r gem in ruby-processing.
 # A simple example that demonstrates using
-# a backpropagation neural network. Draw a
-# shape and press 'e' or 'E' to evaluate it.
-# Clear the sketch with 'c' or 'C'. Release
-# mouse when drawing discontinous shape eg cross.
-# Result is printed to console....
-##################################################
+# a backpropagation neural network. Use the drop box menu to
+# select a prebuilt shape. To draw a test shape tick drawing checkbox,
+# release the mouse when drawing a discontinous shape eg cross.
+# Clear the sketch with clear button. 
+# Press evaluate and result is printed to the console....
+####################################################################
 
 require 'ai4r'
-load_library :vecmath
+load_library :vecmath, :control_panel
 require_relative 'training_patterns.rb'
 
-attr_reader :img, :img_pixels, :ci_input, :cr_input, :tr_input, :sq_input, :net, :points
+attr_reader :img, :img_pixels, :ci_input, :cr_input, :tr_input, :sq_input, :net, :points, :panel, :hide, :drawing
 
 def setup
   size(320, 320)
+  control_panel do |c|
+    c.title = "control"
+    c.look_feel "Nimbus"
+    c.checkbox  :drawing
+    c.button    :clear
+    c.button    :evaluate
+    c.menu      :shape, ['CIRCLE', 'CROSS', 'CROSS_WITH_NOISE', 'SQUARE', 'TRIANGLE', 'DEFAULT']
+    @panel = c
+  end
+  @hide = false
   @points = []
   srand 1
   @net = Ai4r::NeuralNetwork::Backpropagation.new([256, 3])
+  @ci_input = CIRCLE.flatten.collect { |input| input.to_f / 127.0}
   @tr_input = TRIANGLE.flatten.collect { |input| input.to_f / 127.0}
   @sq_input = SQUARE.flatten.collect { |input| input.to_f / 127.0}
-  @cr_input = CROSS.flatten.collect { |input| input.to_f / 127.0}
-  @ci_input = CIRCLE.flatten.collect { |input| input.to_f / 127.0}
+  @cr_input = CROSS.flatten.collect { |input| input.to_f / 127.0}  
   train  
   background 255
 end
 
 
 def draw
-  stroke_weight 32	
-  stroke 127
-  points.each_cons(2) { |ps, pe| line ps.x, ps.y, pe.x, pe.y}
+  # only make control_panel visible once, or again when hide is false
+  unless hide
+    @hide = true
+    panel.set_visible(hide)    
+  end
+  if drawing
+    stroke_weight 32	
+    stroke 127
+    points.each_cons(2) { |ps, pe| line ps.x, ps.y, pe.x, pe.y}
+  else    
+    no_fill
+    stroke_weight(32)
+    stroke(127)
+    case @shape
+    when 'CIRCLE'
+      background(255)
+      draw_circle
+      @shape = 'DEFAULT'
+    when 'CROSS'
+      background(255)
+      draw_cross      
+      @shape = 'DEFAULT'
+    when 'CROSS_WITH_NOISE'
+      background(255)
+      draw_shape CROSS_WITH_NOISE
+      @shape = 'DEFAULT'
+    when 'SQUARE'
+      background(255)
+      draw_square
+      @shape = 'DEFAULT'
+    when 'TRIANGLE'
+      background(255)
+      draw_triangle
+      @shape = 'DEFAULT'
+    end
+  end
+end
+
+def draw_shape shape
+  background(255)
+  no_stroke
+  (0  ... width / 20).each do |i|
+    (0  ... height / 20).each do |j|
+      col = 255 - shape[i][j]
+      fill(col)
+      rect(i * 20, j * 20,  20,  20)
+    end
+  end
 end
 
 def train
@@ -41,26 +96,29 @@ def train
     error = net.train(sq_input, [0, 1.0, 0])
     error = net.train(cr_input, [0, 0, 1.0])
     error = net.train(ci_input, [0, 1.0, 1.0])
-    puts "Error after iteration #{i}:\t#{error}" if i%20 == 0
+    puts "Error after iteration #{i}:\t#{format("%.5f", error)}" if i%20 == 0
   end
 end
 
 def result_label(result)
-  if result.inject(0, :+) > 1.9
-    if result[0] < result[1] && result[0] < result[2]	  
+  if result.inject(0, :+).between?(1.9, 2.1)
+    if result[0] < 0.01 && result[1].between?(0.99, 1.0) && result[2].between?(0.99, 1.0)
       return "CIRCLE"
     else
       return "UNKNOWN"
-    end	
-  elsif result[0] > result[1] && result[0] > result[2]
-    return "TRIANGLE"
-  elsif result[1] > result[2] 
-    return "SQUARE"
-  elsif result[2] > result[0] && result[2] > result[1]    
-    return "CROSS"
-  else
-    return "UNKNOWN"	  
+    end
+  elsif result.inject(0, :+).between?(0.95, 1.1)
+    if result[0].between?(0.95, 1.0) && (result[1] + result[2]) < 0.01
+      return "TRIANGLE"
+    elsif result[1].between?(0.95, 1.0) && (result[0] + result[2]) < 0.01
+      return "SQUARE"
+    elsif result[2].between?(0.95, 1.0) && (result[1] + result[0]) < 0.01
+      return "CROSS"
+    else
+      return "UNKNOWN"	  
+    end
   end
+  return "UNKNOWN"
 end
 
 def mouse_dragged
@@ -71,20 +129,36 @@ def mouse_released
   points.clear
 end
 
-def key_pressed 
-  case key  
-  when 'e', 'E' # load pixels and evaluate shape
-  	load_pixels
-  	img_pixels = []
-  	(0...height).step(20) do |y|
-  		row = []
-  		(0...width).step(20) do |x|
-  			row << 255 - brightness(pixels[(y + 10) * width + x + 10])
-  		end
-  		img_pixels << row
-  	end  	
-  	puts "#{net.eval(img_pixels.flatten).inspect} => #{result_label(net.eval(img_pixels.flatten))}"  	
-  when 'c', 'C'
-  	background 255
-  end
+def draw_circle
+  ellipse(width / 2, height / 2, 320 - 32, 320 - 32)
+end
+
+def draw_square
+  rect(16, 16, 320 - 32, 320 - 32)
+end
+
+def draw_cross
+  line(width / 2, 0, width / 2, 320)
+  line(0, height / 2,  320 , height / 2)
+end
+
+def draw_triangle
+  triangle(width / 2, 32, 24, height - 16,  width - 24, height - 16)
+end
+
+def clear
+  background 255
+end
+
+def evaluate    
+  load_pixels
+  img_pixels = []
+  (0...height).step(20) do |y|
+    row = []
+    (0...width).step(20) do |x|
+      row << 255 - brightness(pixels[(y + 10) * width + x + 10])
+    end
+    img_pixels << row
+  end  	
+  puts "#{net.eval(img_pixels.flatten).inspect} => #{result_label(net.eval(img_pixels.flatten))}"   	
 end
