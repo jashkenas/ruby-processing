@@ -9,30 +9,36 @@
 ####################################################################
 
 require 'ai4r'
-load_library :vecmath, :control_panel
-require_relative 'training_patterns.rb'
+require 'json'
 
-attr_reader :img, :img_pixels, :ci_input, :cr_input, :tr_input, :sq_input, :net, :points, :panel, :hide, :drawing
+load_library :vecmath, :control_panel
+
+attr_reader  :img, :img_pixels, :ci_input, :cr_input, :tr_input, :sq_input, :net, :points, :panel, :hide, :drawing, :source_string
 
 def setup
   size(320, 320)
   control_panel do |c|
     c.title = "control"
     c.look_feel "Nimbus"
-    c.checkbox  :drawing
-    c.button    :clear
-    c.button    :evaluate
-    c.menu      :shape, ['CIRCLE', 'CROSS', 'CROSS_WITH_NOISE', 'SQUARE', 'TRIANGLE', 'DEFAULT']
+    c.checkbox :drawing
+    c.button :clear
+    c.button :evaluate
+    c.menu :shape, ['CIRCLE', 'CROSS', 'CROSS_WITH_NOISE', 'SQUARE', 'SQUARE_WITH_NOISE', 'TRIANGLE', 'DEFAULT']
     @panel = c
   end
   @hide = false
+  @source_string = open("data/data.json", "r"){ |file| file.read }
+  triangle = JSON.parse(source_string)["TRIANGLE"]
+  square = JSON.parse(source_string)["SQUARE"]
+  cross = JSON.parse(source_string)["CROSS"]
+  circle = JSON.parse(source_string)["CIRCLE"]
   @points = []
   srand 1
   @net = Ai4r::NeuralNetwork::Backpropagation.new([256, 3])
-  @ci_input = CIRCLE.flatten.collect { |input| input.to_f / 127.0}
-  @tr_input = TRIANGLE.flatten.collect { |input| input.to_f / 127.0}
-  @sq_input = SQUARE.flatten.collect { |input| input.to_f / 127.0}
-  @cr_input = CROSS.flatten.collect { |input| input.to_f / 127.0}  
+  @tr_input = triangle.flatten.collect { |input| input.to_f / 127.0}
+  @sq_input = square.flatten.collect { |input| input.to_f / 127.0}
+  @cr_input = cross.flatten.collect { |input| input.to_f / 127.0}
+  @ci_input = circle.flatten.collect { |input| input.to_f / 127.0}
   train  
   background 255
 end
@@ -61,9 +67,9 @@ def draw
       background(255)
       draw_cross      
       @shape = 'DEFAULT'
-    when 'CROSS_WITH_NOISE'
+    when 'CROSS_WITH_NOISE','SQUARE_WITH_NOISE'
       background(255)
-      draw_shape CROSS_WITH_NOISE
+      draw_shape @shape
       @shape = 'DEFAULT'
     when 'SQUARE'
       background(255)
@@ -77,7 +83,8 @@ def draw
   end
 end
 
-def draw_shape shape
+def draw_shape shp
+  shape = JSON.parse(source_string)[shp]
   background(255)
   no_stroke
   (0  ... width / 20).each do |i|
