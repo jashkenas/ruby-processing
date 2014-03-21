@@ -1,32 +1,14 @@
 # Drawolver: draw 2D & revolve 3D
 
-# This example demonstrates the use of the `vecmath` library (a ruby-processing 
-# replacement for PVector). Also demonstrated is how to extend an instance of a
-# here an instance of a core ruby class. In this case the ruby Array class,  
-# is extended to yield one_of_each pair of pts (see ExtendedArray module). This
-# examples also includes a possibly rare use of the each_cons Enumerable method?
-# For simpler illustrations of `vecmath` usage see the library examples.
-# 2010-03-22 - fjenett (last revised by monkstone 2014-02-18)
-
+# Example to show how to use the VecMath library.
+# ruby replacement for PVector. Also features 
+# the use each_cons, possibly a rare use for this 
+# ruby Enumerable method?
+# 2010-03-22 - fjenett (last revised by monkstone 2014-03-21)
+# now use 'zip' and 'map' in place of a custom Array object
 load_library :vecmath
-
+import 'vecmath'
 attr_reader :drawing_mode, :points, :rot_x, :rot_y, :vertices
-
-module ExtendedArray
-  # send one item from each array, expects array to be 2D:
-  # array [[1,2,3], [a,b,c]] sends
-  # [1,a] , [2,b] , [3,c]
-  def one_of_each( &block )
-    i = 0
-    one = self[0]
-    two = self[1]
-    mi = one.length > two.length ? two.length : one.length
-    while i < mi do
-      yield( one[i], two[i] )
-      i += 1
-    end
-  end
-end
 
 def setup 
   size 1024, 768, P3D
@@ -55,11 +37,10 @@ def draw
     ambient_light 120, 120, 120
     vertices.each_cons(2) do |r1, r2|
       begin_shape(TRIANGLE_STRIP)
-      ext_array = [r1,r2].extend ExtendedArray # extend an instance of Array
-      ext_array.one_of_each do |v1, v2|          
+      r1.zip(r2).map{|v1, v2|
         vertex v1.x, v1.y, v1.z
         vertex v2.x, v2.y, v2.z
-      end
+      }
       end_shape 
     end
   end 
@@ -94,7 +75,7 @@ def recalculate_shape
     b.normalize!   
     a = ps - points.first   
     dot = a.dot b   
-    b *= dot   
+    b = b * dot   
     normal = points.first + b    
     c = ps - normal
     # nlen = c.mag    
@@ -107,4 +88,7 @@ def recalculate_shape
   end
   @drawing_mode = false
 end
+
+
+
 
