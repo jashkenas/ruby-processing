@@ -5,7 +5,9 @@
 # the use each_cons, possibly a rare use for this 
 # ruby Enumerable method?
 # 2010-03-22 - fjenett (last revised by monkstone 2014-03-21)
-# now use 'zip' and 'map' in place of a custom Array object
+# now uses 'zip' and 'each', in place of a custom Array object
+# with a 'one_of_each' method
+
 load_library :vecmath
 import 'vecmath'
 attr_reader :drawing_mode, :points, :rot_x, :rot_y, :vertices
@@ -37,10 +39,10 @@ def draw
     ambient_light 120, 120, 120
     vertices.each_cons(2) do |r1, r2|
       begin_shape(TRIANGLE_STRIP)
-      r1.zip(r2).map{|v1, v2|
+      r1.zip(r2).each do |v1, v2|
         vertex v1.x, v1.y, v1.z
         vertex v2.x, v2.y, v2.z
-      }
+      end
       end_shape 
     end
   end 

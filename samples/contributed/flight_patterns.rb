@@ -29,9 +29,6 @@ end
 
 def draw
   background 0.05
-  ambient_light 0.01, 0.01, 0.01
-  light_specular 0.4, 0.2, 0.2
-  point_light 1.0, 1.0, 1.0, mouse_x, mouse_y, width / 4.0
   @flocks.each_with_index do |flock, i|
     flock.goal mouse_x, mouse_y, 0, @flee
     flock.update(goal: 185, limit: 13.5)
@@ -44,8 +41,23 @@ def draw
       end
       push_matrix
       translate boid.x-r/2, boid.y-r/2, boid.z-r/2
-      @click ? sphere(r/2) : oval(0, 0, r, r)
+      if @click
+        lights_on
+        hint ENABLE_DEPTH_TEST
+        sphere(r/2) 
+      else
+        no_lights
+        hint DISABLE_DEPTH_TEST
+        oval(0, 0, r, r)
+      end
       pop_matrix
     end
   end
+end
+
+def lights_on
+  lights
+  ambient_light 0.01, 0.01, 0.01
+  light_specular 0.4, 0.2, 0.2
+  point_light 1.0, 1.0, 1.0, mouse_x, mouse_y, width / 4.0
 end
