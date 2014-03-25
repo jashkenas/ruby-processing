@@ -152,6 +152,10 @@ class Vec2DR < Vec2D
 end
 
 class Vec3D < Vec2D
+  
+  def mag_squared
+    x**2 + y**2 + z**2
+  end
 
   def modulus
     Math.sqrt(x**2 + y**2 + z**2)
@@ -204,7 +208,10 @@ class Vec3D < Vec2D
     return self
   end
   
-  def set_mag(scalar)
+  def set_mag(scalar, &block)
+    if block_given? && yield == false
+      return self
+    end
     magnitude = Math.sqrt(x**2 + y**2 + z**2)
     @x, @y, @z = (x * scalar) / magnitude, (y * scalar) / magnitude, (z * scalar) / magnitude
     return self    
