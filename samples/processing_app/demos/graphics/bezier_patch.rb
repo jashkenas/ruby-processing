@@ -70,17 +70,9 @@ end
 def build_geometry
   @outp = []
   @normp = []
-  @inp = []
-  uitang = PVector.new
-  ujtang = PVector.new
-  
-  (0 ... NI).each do |i|
-    row = Array.new  
-    (0 ... NJ).each do |j|
-      row << PVector.new(i, j, rand(-3.0 .. 3.0))  
-    end
-    inp << row
-  end
+  @inp = Array.new(NI){|i| Array.new(NJ){|j| Vec3D.new(i, j, rand(-3.0 .. 3))}}
+  uitang = Vec3D.new
+  ujtang = Vec3D.new  
   
   (0 ... RESI).each do |i|
     mui = i.fdiv(RESI - 1)
@@ -88,34 +80,29 @@ def build_geometry
     row_n = []
     (0 ... RESJ).each do |j|
       muj = j.fdiv(RESJ - 1)
-      vect = PVector.new
-      uitang.set(0, 0, 0)
-      ujtang.set(0, 0, 0)
+      vect = Vec3D.new
+      uitang.x, uitang.y, uitang.z = 0, 0, 0
+      ujtang.x, ujtang.y, ujtang.z = 0, 0, 0
       (0 ... NI).each do |ki|
         bi = bezier_blend(ki, mui, NI)
         dbi = d_bezier_blend(ki, mui, NI)
         (0 ... NJ).each do |kj|
           bj = bezier_blend(kj, muj, NJ)
           dbj = d_bezier_blend(kj, muj, NJ)
-          vect.x += (inp[ki][kj].x * bi * bj)
-          vect.y += (inp[ki][kj].y * bi * bj)
-          vect.z += (inp[ki][kj].z * bi * bj)
-           
-          uitang.x += (inp[ki][kj].x * dbi * bj)
-          uitang.y += (inp[ki][kj].y * dbi * bj)
-          uitang.z += (inp[ki][kj].z * dbi * bj)
-           
-          ujtang.x += (inp[ki][kj].x * bi * dbj)
-          ujtang.y += (inp[ki][kj].y * bi * dbj)
-          ujtang.z += (inp[ki][kj].z * bi * dbj)
+
+          vect += inp[ki][kj] * bi * bj        
+
+          uitang += inp[ki][kj] * dbi * bj
+
+          ujtang += inp[ki][kj] * bi * dbj
         end
       end
-      vect.add(PVector.new(-NI/2,-NJ/2,0))
-      vect.mult(100)
-      row << vect.array()       
-      uitang.normalize
-      ujtang.normalize
-      row_n << uitang.cross(ujtang).array()     
+      vect += Vec3D.new(-NI / 2, -NJ / 2, 0)
+      vect *= 100
+      row << vect.to_a       
+      uitang.normalize!
+      ujtang.normalize!
+      row_n << uitang.cross(ujtang).to_a    
     end
     @outp << row
     @normp << row_n
