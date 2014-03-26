@@ -45,7 +45,7 @@ end
 # Code to draw a trefoil knot surface, with normals and texture 
 # coordinates.
 # Adapted from the parametric equations example by Philip Rideout:
-# http:#iphone-3d-programming.labs.oreilly.com/ch03.html
+# http://iphone-3d-programming.labs.oreilly.com/ch03.html
 
 # This function draws a trefoil knot surface as a triangle mesh derived
 # from its parametric equation.
@@ -116,8 +116,8 @@ def eval_point(u, v)
   b = 0.3
   c = 0.5
   d = 0.1
-  s = TWO_PI * u
-  t = (TWO_PI * (1 - v)) * 2  
+  s = TAU * u
+  t = (TAU * (1 - v)) * 2  
         
   r = a + b * cos(1.5 * t)
   x = r * cos(t)
@@ -129,10 +129,10 @@ def eval_point(u, v)
   dv.y = -1.5 * b * sin(1.5 * t) * sin(t) + (a + b * cos(1.5 * t)) * cos(t)
   dv.z = 1.5 * c * cos(1.5 * t)
         
-  q = dv.normalize              # doesn't change dv     
-  qvn = Vec3D.new(q.y, -q.x, 0)
-  qvn.normalize!                # does change qvn
-  ww = q.cross(qvn)
+  dv.normalize!                  
+  qvn = Vec3D.new(dv.y, -dv.x, 0)
+  qvn.normalize!           
+  ww = dv.cross(qvn)
         
   pt = Vec3D.new
   pt.x = x + d * (qvn.x * cos(s) + ww.x * sin(s))
