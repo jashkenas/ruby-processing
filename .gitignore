@@ -9,3 +9,5 @@ syntax: glob
 *.zip
 samples/processing_app/topics/file_io/output/*.png
 Gemfile.lock
+.ruby-version
+

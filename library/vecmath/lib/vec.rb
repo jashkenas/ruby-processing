@@ -207,7 +207,10 @@ class Vec3D < Vec2D
     @x, @y, @z = x / magnitude, y / magnitude, z / magnitude
     return self
   end
-  
+
+  # The optional &block should evaluate to a boolean
+  # if given, the set_mag becomes conditional (eg set max/min)
+
   def set_mag(scalar, &block)
     if block_given? && yield == false
       return self
