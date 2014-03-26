@@ -2,11 +2,12 @@
 # by Ira Greenberg.  
 # 
 # Collision detection against all outer cube's surfaces. 
-# Uses the PVector and Cube classes.
+# Uses the Vec3D and Cube classes.
 
 # fjenett, 2010-03-12: did some cleanups and rubyfication here
+# Martin Prout went a bit further on 2014-03-26
 
-load_library 'cube'
+load_libraries :vecmath, :cube
 
 
 def setup
@@ -18,18 +19,14 @@ def setup
   @cube_count = 20
   @cubes = []
   
-  0.upto( @cube_count ) { |i|
-    
-    cube_size = rand(5 .. 15)
-    
-    c = Cube.new(cube_size, cube_size, cube_size)
-    
-    c.position = PVector.new(0.0, 0.0, 0.0)
-    c.speed    = PVector.new(rand(-1 .. 1), rand(-1 .. 1), rand(-1 .. 1)) 
-    c.rotation = PVector.new(rand(40 .. 100), rand(40 .. 100), rand(40 .. 100)) 
-    
+  0.upto( @cube_count ) do |i|    
+    cube_size = rand(5 .. 15)    
+    c = Cube.new(cube_size)    
+    c.position = Vec3D.new(0.0, 0.0, 0.0)
+    c.speed    = Vec3D.new(rand(-1.0 .. 1), rand(-1.0 .. 1), rand(-1.0 .. 1)) 
+    c.rotation = Vec3D.new(rand(40 .. 100), rand(40 .. 100), rand(40 .. 100))    
     @cubes << c
-  }
+  end
   
   @cube_colors = [
   color(0), color(51), color(102), color(153), color(204), color(255)
@@ -37,7 +34,7 @@ def setup
   @cube_colors.reverse
   
   @stage_size = 300
-  @stage = Cube.new @stage_size, @stage_size, @stage_size
+  @stage = Cube.new @stage_size
   
 end
 
@@ -56,7 +53,7 @@ def draw
   
   @stage.draw
   
-  @cubes.each_with_index { |c, i|
+  @cubes.each_with_index do |c, i|
   	
     # draw cube
     push_matrix
@@ -75,25 +72,31 @@ def draw
     pop_matrix
     
     # move it
-		c.position.add c.speed
+		c.position += c.speed
 		
 		# draw lines
 		if i > 0
 		  
 			stroke 0
-			c2 = @cubes[i-1]
+			c2 = @cubes[i - 1]
 			line c.position.x,  c.position.y,  c.position.z,
 			c2.position.x, c2.position.y, c2.position.z
 			
 		end
 		
 		# collision
-		s2 = @stage_size / 2
-		c.speed.x *= -1 if (c.position.x / s2).abs > 1  # note that in Ruby abs(-12) is -12.abs
-		c.speed.y *= -1 if (c.position.y / s2).abs > 1
-		c.speed.z *= -1 if (c.position.z / s2).abs > 1
-	}
+		boundary = Boundary.new(-@stage_size / 2, @stage_size / 2)
+		c.speed.x *= -1 unless boundary.include? c.position.x 
+		c.speed.y *= -1 unless boundary.include? c.position.y
+		c.speed.z *= -1 unless boundary.include? c.position.z
+	end
 	
+end
+  
+Boundary = Struct.new(:lower, :upper) do
+  def include? x
+    (lower ... upper).cover? x
+  end
 end
 
 

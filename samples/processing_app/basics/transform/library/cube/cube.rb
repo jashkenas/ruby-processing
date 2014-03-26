@@ -4,25 +4,25 @@ class Cube
 	
 	attr_accessor :vertices
 	attr_accessor :w, :h, :d
-	attr_accessor :position, :speed, :rotation # PVector
+	attr_accessor :position, :speed, :rotation # Vec3D
 	
-	def initialize (w, h, d)
+	def initialize (dim)
 	
-		@w, @h, @d = w, h, d
+		@w, @h, @d = dim, dim, dim
 		
-		w2 = @w/2
-		h2 = @h/2
-		d2 = @d/2
+		w2 = @w / 2
+		h2 = @h / 2
+		d2 = @d / 2
 		
-		tfl = PVector.new(-w2, h2, d2) 	# four points making the top quad:
-		tfr = PVector.new(w2, h2, d2)  	# "tfl" is "top front left", etc
-		tbr = PVector.new(w2, h2,-d2)  
-		tbl = PVector.new(-w2, h2,-d2) 
+		tfl = Vec3D.new(-w2, h2, d2) 	# four points making the top quad:
+		tfr = Vec3D.new(w2, h2, d2)  	# "tfl" is "top front left", etc
+		tbr = Vec3D.new(w2, h2,-d2)  
+		tbl = Vec3D.new(-w2, h2,-d2) 
 		
-		bfl = PVector.new(-w2,-h2, d2) 	# bottom quad points
-		bfr = PVector.new(w2,-h2, d2)  
-		bbr = PVector.new(w2,-h2,-d2)  
-		bbl = PVector.new(-w2,-h2,-d2) 
+		bfl = Vec3D.new(-w2,-h2, d2) 	# bottom quad points
+		bfr = Vec3D.new(w2,-h2, d2)  
+		bbr = Vec3D.new(w2,-h2,-d2)  
+		bbl = Vec3D.new(-w2,-h2,-d2) 
 		
 		@vertices = [
 			[tfl, tfr, tbr, tbl],		# top
@@ -42,9 +42,9 @@ class Cube
 			
 			fill side_colors[i] if side_colors && i < side_colors.length
 		
-			quad.each { |pvec|
+			quad.each { |vec|
 				
-				vertex pvec.x, pvec.y, pvec.z
+				vertex vec.x, vec.y, vec.z
 			}
 							
 			end_shape

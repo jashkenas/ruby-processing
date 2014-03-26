@@ -6,7 +6,6 @@
 # Twelve images are loaded and each is displayed individually in a loop. 
 #
 
-
 NUM_FRAMES = 12  # The number of frames in the animation
 attr_reader :frame, :images
     
@@ -35,8 +34,8 @@ def draw
   offset = 0
   (-100 ... width).step(images[0].width) do |i|  
     image(images[(frame+offset) % NUM_FRAMES], i, -20)
-    offset+=2
+    offset += 2
     image(images[(frame+offset) % NUM_FRAMES], i, height/2)
-    offset+=2
+    offset += 2
   end
 end

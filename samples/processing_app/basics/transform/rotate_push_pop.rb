@@ -12,7 +12,7 @@ attr_reader :offset, :a, :num
 def setup
   size(640, 360, P3D)
   no_stroke 
-  @offset = PI/24.0
+  @offset = PI / 24.0
   @num = 12
   @a  = 0
 end 
