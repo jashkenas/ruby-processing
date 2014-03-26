@@ -2,6 +2,8 @@
 # A parametric surface is textured procedurally
 # by drawing on an offscreen PGraphics surface.
 
+load_library :vecmath
+
 attr_reader :pg, :trefoil
 
 def setup
@@ -100,12 +102,11 @@ def eval_normal(u, v)
   p = eval_point(u, v)
   tangU = eval_point(u + 0.01, v)
   tangV = eval_point(u, v + 0.01)
-  tangU.sub(p)
-  tangV.sub(p)
+  tangU -= p
+  tangV -= p
   
-  normUV = tangV.cross(tangU)
-  normUV.normalize
-  return normUV
+  normUV = tangV.cross(tangU)  
+  return normUV.normalize!
 end
 
 # Evaluates the surface point corresponding to normalized 
@@ -123,18 +124,17 @@ def eval_point(u, v)
   y = r * sin(t)
   z = c * sin(1.5 * t)
         
-  dv = PVector.new
+  dv = Vec3D.new
   dv.x = -1.5 * b * sin(1.5 * t) * cos(t) - (a + b * cos(1.5 * t)) * sin(t)
   dv.y = -1.5 * b * sin(1.5 * t) * sin(t) + (a + b * cos(1.5 * t)) * cos(t)
   dv.z = 1.5 * c * cos(1.5 * t)
         
-  q = dv      
-  q.normalize
-  qvn = PVector.new(q.y, -q.x, 0)
-  qvn.normalize
+  q = dv.normalize              # doesn't change dv     
+  qvn = Vec3D.new(q.y, -q.x, 0)
+  qvn.normalize!                # does change qvn
   ww = q.cross(qvn)
         
-  pt = PVector.new
+  pt = Vec3D.new
   pt.x = x + d * (qvn.x * cos(s) + ww.x * sin(s))
   pt.y = y + d * (qvn.y * cos(s) + ww.y * sin(s))
   pt.z = z + d * ww.z * sin(s)
