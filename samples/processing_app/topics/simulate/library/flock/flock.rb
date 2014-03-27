@@ -78,7 +78,7 @@ class Boid
     # Update velocity
     @velocity += acceleration
     # Limit speed
-    velocity.set_mag(MAXSPEED) if velocity.mag_squared > maxspeed_squared
+    velocity.set_mag(MAXSPEED) {velocity.mag_squared > maxspeed_squared}
     @location += velocity
     # Reset accelertion to 0 each cycle
     @acceleration *= 0
@@ -93,7 +93,7 @@ class Boid
     desired *= MAXSPEED
     # Steering = Desired minus Velocity
     steer = desired - velocity
-    steer.set_mag(MAXFORCE) if steer.mag_squared > maxforce_squared # Limit to maximum steering force
+    steer.set_mag(MAXFORCE) {steer.mag_squared > maxforce_squared} # Limit to maximum steering force
     steer
   end
 
@@ -133,7 +133,7 @@ class Boid
   # Method checks for nearby boids and steers away
   def separate boids
     desiredseparation = 25.0
-    steer = Vec2D.new(0, 0, 0)
+    steer = Vec2D.new
     count = 0
     # For every boid in the system, check if it's too close
     boids.each do |other|
@@ -159,7 +159,7 @@ class Boid
       steer.normalize!
       steer *= MAXSPEED
       steer -= velocity
-      steer.set_mag(MAXFORCE) if steer.mag_squared > maxforce_squared
+      steer.set_mag(MAXFORCE) {steer.mag_squared > maxforce_squared}
     end
     return steer
   end
@@ -182,10 +182,10 @@ class Boid
       sum.normalize!
       sum *= MAXSPEED
       steer = sum - velocity
-      steer.set_mag(MAXFORCE) if steer.mag_squared > maxforce_squared
+      steer.set_mag(MAXFORCE) {steer.mag_squared > maxforce_squared}
       return steer
     else
-      return Vec2D.new(0,0)
+      return Vec2D.new
     end
   end
     
@@ -193,7 +193,7 @@ class Boid
   # For the average location (i.e. center) of all nearby boids, calculate steering vector towards that location
   def cohesion boids
     neighbordist = 50
-    sum = Vec2D.new(0, 0)   # Start with empty vector to accumulate all locations
+    sum = Vec2D.new   # Start with empty vector to accumulate all locations
     count = 0
     boids.each do |other|
       d = Vec2D.dist(location, other.location)
@@ -203,7 +203,7 @@ class Boid
       end
     end
     sum /= count unless (count == 0)        # avoid div by zero
-    return (count > 0)? seek(sum) : Vec2D.new(0, 0) 
+    return (count > 0)? seek(sum) : Vec2D.new 
   end
 end
 
