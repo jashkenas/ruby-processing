@@ -4,7 +4,7 @@
 # For guts of implementation see 'particle' library
 #
 
-load_library 'particle'
+load_libraries :vecmath, :particle
 
 # Particle System object and image
 attr_reader :ps 
@@ -32,7 +32,7 @@ def draw
   # Display frame rate
   fill(255, 0, 255)
   text_size(16)
-  text("Frame rate: #{frame_rate.round(1)}", 10, 20)
+  text("Frame rate: #{format('%.2f', frame_rate)}", 10, 20)
   
 end
 

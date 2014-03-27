@@ -42,7 +42,7 @@ end
 class Particle
   include Processing::Proxy
   
-  GRAVITY = PVector.new(0, 0.1) 
+  GRAVITY = Vec2D.new(0, 0.1) 
   
   attr_reader :center, :velocity, :lifespan, :s_shape, :part_size, 
   :width, :height, :sprite
@@ -64,7 +64,7 @@ class Particle
     s_shape.end_shape
 
     # Initialize center vector
-    @center = PVector.new 
+    @center = Vec2D.new 
     
     # Set the particle starting location
     rebirth(width/2, height/2)
@@ -74,8 +74,8 @@ class Particle
     theta = rand(-PI .. PI)
     speed = rand(0.5 .. 4)
     # A velocity with random angle and magnitude
-    @velocity = PVector.from_angle(theta)
-    @velocity.mult(speed)
+    @velocity = Vec2D.from_angle(theta)
+    @velocity *= speed
     # Set lifespan
     @lifespan = 255
     # Set location using translate
@@ -83,7 +83,7 @@ class Particle
     s_shape.translate(x, y) 
     
     # Update center vector
-    @center.set(x, y, 0)
+    @center.x, @center.y = x, y
   end
 
   # Is it off the screen, or its lifespan is over?
@@ -96,12 +96,12 @@ class Particle
     # Decrease life
     @lifespan = lifespan - 1
     # Apply gravity
-    velocity.add(GRAVITY)
+    @velocity += GRAVITY 
     s_shape.setTint(color(255, lifespan))
     # Move the particle according to its velocity
     s_shape.translate(velocity.x, velocity.y)
     # and also update the center
-    center.add(velocity)
+    @center += velocity
   end
 end
 
