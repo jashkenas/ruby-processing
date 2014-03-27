@@ -6,6 +6,7 @@
 # reflection vector, N is the normal, and L is the incident
 # vector.
 #
+load_library :vecmath
 
 attr_reader :base1, :base2, :base_length, :coords, :position, :radius
 attr_reader :direction, :speed, :velocity, :incidence 
@@ -15,14 +16,14 @@ def setup
   @radius = 6
   @speed = 3.5
   fill(128)
-  @base1 = PVector.new(0, height - 150)
-  @base2 = PVector.new(width, height)
+  @base1 = Vec2D.new(0, height - 150)
+  @base2 = Vec2D.new(width, height)
   @coords = create_ground
   # start ellipse at middle top of screen
-  @position = PVector.new(width/2, 0)  
+  @position = Vec2D.new(width/2, 0)  
   # set initial random direction
-  @direction = PVector.random2D
-  @velocity = PVector.new
+  @direction = Vec2D.new(rand(-1.0 .. 1), rand(-1.0 .. 1))
+  @velocity = Vec2D.new
 end
 
 def draw
@@ -36,34 +37,34 @@ def draw
   quad(base1.x, base1.y, base2.x, base2.y, base2.x, height, 0, height)
   
   # calculate base top normal
-  base_delta = PVector.sub(base2, base1)
-  base_delta.normalize
-  normal = PVector.new(-base_delta.y, base_delta.x)  
+  base_delta = base2 - base1
+  base_delta.normalize!
+  normal = Vec2D.new(-base_delta.y, base_delta.x)  
   # draw ellipse
   no_stroke
   fill(255)
   ellipse(position.x, position.y, radius * 2, radius * 2)
   
   # set ellipse velocity
-  @velocity.set(direction)
-  @velocity.mult(speed)
+  @velocity.x, @velocity.y = direction.x, direction.y
+  @velocity *= speed
   
   # move ellipse
-  @position.add(velocity)
+  @position += velocity
   
   # normalized incidence vector
-  @incidence = PVector.mult(direction, -1)
+  @incidence = direction * -1
   
   # detect and handle collision
   coords.each do |coord|
     # check distance between ellipse and base top coordinates
-    if (PVector.dist(position, coord) < radius)
+    if (Vec2D.dist_squared(position, coord) < radius * radius)
       
       # calculate dot product of incident vector and base top normal 
       dot = incidence.dot(normal)
       
       # assign reflection vector to direction vector
-      direction.set(2*normal.x*dot - incidence.x, 2*normal.y*dot - incidence.y, 0)      
+      direction.x, direction.y = 2*normal.x*dot - incidence.x, 2*normal.y*dot - incidence.y      
       # draw base top normal at collision point
       stroke(255, 128, 0)
       line(position.x, position.y, position.x - normal.x*100, position.y - normal.y*100)
@@ -94,11 +95,11 @@ end
 
 def create_ground
   # calculate length of base top
-  @base_length = PVector.dist(base1, base2)
+  @base_length = Vec2D.dist(base1, base2)
   # fill base top coordinate array
   coords = []
   (0 ... base_length.ceil).each do |i|
-     coords << PVector.new(
+     coords << Vec2D.new(
      base1.x + ((base2.x - base1.x) / base_length) * i,
      base1.y + ((base2.y - base1.y) / base_length) * i)
   end

@@ -57,9 +57,9 @@ class Mover
     # Velocity changes according to acceleration vector
     @velocity += acceleration
     # Limit the velocity to topspeed, PVector has a limit function 
-    if velocity.mag_squared > topspeed**2
-      velocity.set_mag topspeed
-    end
+    # here we supply a block that evaluates to a boolean to set
+    # the velocit conditionally
+    velocity.set_mag topspeed {velocity.mag_squared > topspeed**2}
     # Location changes by velocity vector
     @location += velocity
   end

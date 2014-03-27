@@ -111,7 +111,7 @@ Boundary = Struct.new(:lower, :upper) do
 end
 
 # Leaner meaner substitute for vanilla processings
-# PVector class, provides only functionality we need
+# PVector class, provides only the functionality we need
 #
 Vect = Struct.new(:x, :y, :z) do
 

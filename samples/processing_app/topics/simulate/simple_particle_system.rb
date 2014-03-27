@@ -4,11 +4,13 @@
 # time. A ParticleSystem (Array) object manages a variable size list of
 # particles.
 
+load_library :vecmath
+
 attr_reader :ps
 
 def setup
   size(640,360)
-  @ps = ParticleSystem.new(PVector.new(width/2, 50))
+  @ps = ParticleSystem.new(Vec2D.new(width/2, 50))
 end
 
 def draw
@@ -32,7 +34,7 @@ class ParticleSystem
 
   def initialize(loc)
     @particle_system = []
-    @origin = loc.get
+    @origin = loc.dup
   end
   
   def each &block
@@ -60,9 +62,9 @@ class Particle
   
   attr_reader :loc, :vel, :acc, :lifespan
   def initialize(l) 
-    @acc = PVector.new(0, 0.05)
-    @vel = PVector.new(rand(-1.0 .. 1), rand(-2.0 .. 0))
-    @loc = l.get
+    @acc = Vec2D.new(0, 0.05)
+    @vel = Vec2D.new(rand(-1.0 .. 1), rand(-2.0 .. 0))
+    @loc = l.dup
     @lifespan = 255.0
   end
 
@@ -73,8 +75,8 @@ class Particle
 
   # Method to update loc
   def update
-    vel.add(acc)
-    loc.add(vel)
+    @vel += acc
+    @loc += vel
     @lifespan -= 1.0
   end
 

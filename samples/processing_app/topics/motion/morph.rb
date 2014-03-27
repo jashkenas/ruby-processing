@@ -1,6 +1,6 @@
 #
 # Morph. 
-# 
+# see vecmath library for a variant using Vec2D instead of PVector 
 # Changing one shape into another by interpolating
 # vertices from one to another
 #

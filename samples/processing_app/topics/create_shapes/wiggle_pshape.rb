@@ -1,6 +1,7 @@
 #
 # WigglePShape. 
-# 
+# wiggler library uses PVector, see vecmath library
+# examples to see alternative using Vec2D
 # How to move the individual vertices of a PShape
 #
 

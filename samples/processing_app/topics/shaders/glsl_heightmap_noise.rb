@@ -11,6 +11,7 @@
 # 
 # Photographs by Folkert Gorter (@folkertgorter / http://superfamous.com/) made available under a CC Attribution 3.0 license.
 #
+load_library :vecmath
 
 DIM = 300 # the grid dimensions of the heightmap
 attr_reader :blur_factor # the blur for the displacement map (to make it smoother)
@@ -78,16 +79,16 @@ def create_plane(xsegs, ysegs)
       v = y / ysegs.to_f
 
       # generate positions for the vertices of each cell (-0.5 to center the shape around the origin)
-      positions << PVector.new(u - 0.5, v - 0.5, 0)
-      positions << PVector.new(u + usegsize - 0.5, v - 0.5, 0)
-      positions << PVector.new(u + usegsize - 0.5, v + vsegsize - 0.5, 0)
-      positions << PVector.new(u - 0.5, v +  vsegsize - 0.5, 0)
+      positions << Vec3D.new(u - 0.5, v - 0.5, 0)
+      positions << Vec3D.new(u + usegsize - 0.5, v - 0.5, 0)
+      positions << Vec3D.new(u + usegsize - 0.5, v + vsegsize - 0.5, 0)
+      positions << Vec3D.new(u - 0.5, v +  vsegsize - 0.5, 0)
 
       # generate texture coordinates for the vertices of each cell
-      tex_coords << PVector.new(u, v)
-      tex_coords << PVector.new(u + usegsize, v)
-      tex_coords << PVector.new(u + usegsize, v + vsegsize)
-      tex_coords << PVector.new(u, v + vsegsize)
+      tex_coords << Vec2D.new(u, v)
+      tex_coords << Vec2D.new(u + usegsize, v)
+      tex_coords << Vec2D.new(u + usegsize, v + vsegsize)
+      tex_coords << Vec2D.new(u, v + vsegsize)
     end
   end
 
