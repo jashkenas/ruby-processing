@@ -16,7 +16,6 @@ class Landscape
     @cols = w / scl
     @rows = h / scl
     @z = Array.new(cols, Array.new(rows, 0.0))
-    @zoff = 0
   end
   
   
@@ -25,7 +24,7 @@ class Landscape
     val = ->(curr, nn, x, y){curr * 0.95 + 0.05 *  (nn.feed_forward([x, y]) * 280.0 - 140.0)} 
     @z = (0 ... cols).map{|i|
       (0 ... rows).map{|j| 
-	      val.call(z[i][j], nn, i * 1.0/ cols, j * 1.0/cols)
+        val.call(z[i][j], nn, i * 1.0/ cols, j * 1.0/cols)
       }      
     }   
   end
