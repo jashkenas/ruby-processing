@@ -29,7 +29,7 @@ end
 
 class Boid
   include Processing::Proxy
-
+  import 'vecmath'
   attr_reader :location, :velocity, :acceleration, :r, :maxforce, :maxspeed
   
   def initialize(x, y)
@@ -72,10 +72,12 @@ class Boid
   def update
     # Update velocity
     @velocity += acceleration
-    # Limit speed    
-    velocity.set_mag(maxspeed){velocity.mag_squared > maxspeed**2}    
+    # Limit speed
+    if velocity.mag_squared > maxspeed**2
+      velocity.set_mag(maxspeed)
+    end
     @location += velocity
-    # Reset acceleration to 0 each cycle
+    # Reset accelertion to 0 each cycle
     @acceleration *= 0
   end
   
@@ -88,8 +90,9 @@ class Boid
     desired *= maxspeed
     # Steering = Desired minus Velocity
     steer = desired - velocity
-    # Limit to maximum steering force
-    steer.set_mag(maxforce) {steer.mag_squared > maxforce**2}
+    if steer.mag_squared > maxforce**2 # Limit to maximum steering force
+      steer.set_mag(maxforce)
+    end  
     return steer
   end
 
@@ -131,11 +134,11 @@ class Boid
     desiredseparation = 25.0
     steer = Vec2D.new
     count = 0
-    # For every other boid in the system, check if it's too close
-    boids.reject{boid.equal? self}.each do |other|
+    # For every boid in the system, check if it's too close
+    boids.each do |other|
       d = Vec2D.dist(location, other.location)
-      # If the distance is less than an arbitrary amount 
-      if (d < desiredseparation)  
+      # If the distance is greater than 0 and less than an arbitrary amount (0 when you are yourself)
+      if ((d > 0) && (d < desiredseparation))
         # Calculate vector pointing away from neighbor
         diff = location - other.location
         diff.normalize!
@@ -155,21 +158,22 @@ class Boid
       steer.normalize!
       steer *= maxspeed
       steer -= velocity
-      # limit steering force      
-      steer.set_mag(maxforce) {steer.mag_squared > maxforce**2}
+      if steer.mag_squared > maxforce**2
+        steer.set_mag(maxforce)
+      end
     end
     return steer
   end
     
   # Alignment
-  # For every other nearby boid in the system, calculate the average velocity
+  # For every nearby boid in the system, calculate the average velocity
   def align boids
     neighbordist = 50
     sum = Vec2D.new
     count = 0
-    boids.reject{boid.equal? self}.each do |other|
+    boids.each do |other|
       d = Vec2D.dist_squared(location, other.location)
-      if(d < neighbordist * neighbordist)
+      if ((d > 0) && (d < neighbordist * neighbordist))
         sum += other.velocity
         count += 1
       end
@@ -179,8 +183,9 @@ class Boid
       sum.normalize!
       sum *= maxspeed
       steer = sum - velocity
-      # limit steering force      
-      steer.set_mag(maxforce) {steer.mag_squared > maxforce**2}
+      if steer.mag_squared > maxforce**2
+        steer.set_mag(maxforce)
+      end
       return steer
     else
       return Vec2D.new
@@ -193,9 +198,9 @@ class Boid
     neighbordist = 50
     sum = Vec2D.new   # Start with empty vector to accumulate all locations
     count = 0
-    boids.reject{boid.equal? self}.each do |other|
+    boids.each do |other|
       d = Vec2D.dist_squared(location, other.location)
-      if (d < neighbordist * neighbordist)
+      if ((d > 0) && (d < neighbordist * neighbordist))
         sum += other.location # Add location
         count += 1
       end
