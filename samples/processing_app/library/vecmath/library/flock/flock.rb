@@ -72,10 +72,8 @@ class Boid
   def update
     # Update velocity
     @velocity += acceleration
-    # Limit speed
-    if velocity.mag_squared > maxspeed**2
-      velocity.set_mag(maxspeed)
-    end
+    # Limit speed   
+    velocity.set_mag(maxspeed) {velocity.mag_squared > maxspeed**2}
     @location += velocity
     # Reset accelertion to 0 each cycle
     @acceleration *= 0
@@ -90,9 +88,8 @@ class Boid
     desired *= maxspeed
     # Steering = Desired minus Velocity
     steer = desired - velocity
-    if steer.mag_squared > maxforce**2 # Limit to maximum steering force
-      steer.set_mag(maxforce)
-    end  
+    # Limit to maximum steering force
+    steer.set_mag(maxforce) {steer.mag_squared > maxforce**2}   
     return steer
   end
 
@@ -157,10 +154,8 @@ class Boid
       # Implement Reynolds: Steering = Desired - Velocity
       steer.normalize!
       steer *= maxspeed
-      steer -= velocity
-      if steer.mag_squared > maxforce**2
-        steer.set_mag(maxforce)
-      end
+      steer -= velocity      
+      steer.set_mag(maxforce){steer.mag_squared > maxforce**2} 
     end
     return steer
   end
@@ -183,9 +178,7 @@ class Boid
       sum.normalize!
       sum *= maxspeed
       steer = sum - velocity
-      if steer.mag_squared > maxforce**2
-        steer.set_mag(maxforce)
-      end
+      steer.set_mag(maxforce){steer.mag_squared > maxforce**2} 
       return steer
     else
       return Vec2D.new
