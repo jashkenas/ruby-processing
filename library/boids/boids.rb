@@ -18,8 +18,8 @@ class Boid
     # Boids gravitate towards the center of the flock,
     # Which is the averaged position of the rest of the boids.
     cvx, cvy, cvz = 0.0, 0.0, 0.0
-    boids.each do |boid|
-      cvx, cvy, cvz = cvx+boid.x, cvy+boid.y, cvz+boid.z unless boid.equal? self
+    boids.reject{|bd| bd.equal? self}.each do |boid|
+      cvx, cvy, cvz = cvx+boid.x, cvy+boid.y, cvz+boid.z 
     end
     count = boids.length - 1.0
     cvx, cvy, cvz = cvx/count, cvy/count, cvz/count
@@ -29,13 +29,11 @@ class Boid
   def separation(radius = 10.0)
     # Boids don't like to cuddle.
     svx, svy, svz = 0.0, 0.0, 0.0
-    boids.each do |boid|
-      unless boid.equal? self
-        dvx, dvy, dvz = x - boid.x, y - boid.y, z - boid.z
-        svx += dvx if dvx.abs < radius
-        svy += dvy if dvy.abs < radius
-        svz += dvz if dvz.abs < radius
-      end
+    boids.reject{|bd| bd.equal? self}.each do |boid|
+      dvx, dvy, dvz = x - boid.x, y - boid.y, z - boid.z
+      svx += dvx if dvx.abs < radius
+      svy += dvy if dvy.abs < radius
+      svz += dvz if dvz.abs < radius
     end
     return svx, svy, svz
   end
@@ -43,10 +41,8 @@ class Boid
   def alignment(d = 5.0)
     # Boids like to fly at the speed of traffic.
     avx, avy, avz = 0.0, 0.0, 0.0
-    boids.each do |boid|
-      unless boid.equal? self
-        avx, avy, avz = avx+boid.vx, avy+boid.vy, avz+boid.vz
-      end
+    boids.reject{|bd| bd.equal? self}.each do |boid|
+      avx, avy, avz = avx+boid.vx, avy+boid.vy, avz+boid.vz
     end
     count = boids.length - 1.0
     avx, avy, avz = avx / count, avy / count, avz / count
@@ -94,6 +90,11 @@ class Boids
   def each &block
     boids.each &block	  
   end
+  
+  def reject &block
+    boids.reject &block
+  end
+
 
   def shuffle!
     boids.shuffle!	  

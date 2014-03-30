@@ -13,6 +13,10 @@ class Flock
     boids.each &block	  
   end
   
+  def reject &block
+    boids &block
+  end
+
   def << obj
     boids << obj
   end
@@ -131,10 +135,10 @@ class Boid
     desiredseparation = 25.0
     steer = Vec2D.new
     count = 0
-    # For every boid in the system, check if it's too close
-    boids.each do |other|
+    # For every other bird in the system, check if it's too close
+    boids.reject{|bd| bd.equal? self}.each do |other|
       d = Vec2D.dist(location, other.location)
-      # If the distance is greater than 0 and less than an arbitrary amount (0 when you are yourself)
+      # If the distance is greater than 0 and less than an arbitrary amount 
       if ((d > 0) && (d < desiredseparation))
         # Calculate vector pointing away from neighbor
         diff = location - other.location
@@ -161,12 +165,12 @@ class Boid
   end
     
   # Alignment
-  # For every nearby boid in the system, calculate the average velocity
+  # For every other nearby boid in the system, calculate the average velocity
   def align boids
     neighbordist = 50
     sum = Vec2D.new
     count = 0
-    boids.each do |other|
+    boids.reject{|bd| bd.equal? self}.each do |other|
       d = Vec2D.dist_squared(location, other.location)
       if ((d > 0) && (d < neighbordist * neighbordist))
         sum += other.velocity
@@ -186,12 +190,12 @@ class Boid
   end
     
   # Cohesion
-  # For the average location (i.e. center) of all nearby boids, calculate steering vector towards that location
+  # For the average location (i.e. center) of all other nearby boids, calculate steering vector towards that location
   def cohesion boids
     neighbordist = 50
     sum = Vec2D.new   # Start with empty vector to accumulate all locations
     count = 0
-    boids.each do |other|
+    boids.reject{|bd| bd.equal? self}.each do |other|
       d = Vec2D.dist_squared(location, other.location)
       if ((d > 0) && (d < neighbordist * neighbordist))
         sum += other.location # Add location
