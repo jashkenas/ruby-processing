@@ -11,6 +11,7 @@ module Processing
     The application exporter will generate a Mac application for you.
     Usage: script/application <path_to_sketch>
     Example: script/applet samples/jwishy.rb 
+    Probably won't work with Oracle Java on Mac
       
     EOS
     
