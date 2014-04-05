@@ -34,7 +34,7 @@ end
 def setup_lights
   ambient_light(0.025, 0.025, 0.025)
   directional_light(0.2, 0.2, 0.2, -1, -1, -1)
-  spot_light(1.0, 1.0, 1.0, -200, 0, 300, 1, 0, -1, Math::PI/4, 20)
+  spot_light(1.0, 1.0, 1.0, -200, 0, 300, 1, 0, -1, PI/4, 20)
 end
 
 ##
@@ -44,10 +44,8 @@ end
 #
 def smooth_vector(s1, s2, s3)
   mills = millis * 0.00003
-  x = 0.5 * Math.sin(mills * s1) + 0.5
-  y = 0.5 * Math.sin(mills * s2) + 0.5
-  z = 0.5 * Math.sin(mills * s3) + 0.5
-  Vec3D.new(x, y, z)
+  rot = ->(a){0.5 * Math.sin(mills * a) + 0.5}
+  Vec3D.new(rot.call(s1), rot.call(s2), rot.call(s3))
 end
 
 ##
@@ -65,9 +63,9 @@ end
 #
 def smooth_rotation(s1, s2, s3)
   r1 = smooth_vector(s1, s2, s3)
-  rotate_x(2.0 * Math::PI * r1.x)
-  rotate_y(2.0 * Math::PI * r1.y)
-  rotate_x(2.0 * Math::PI * r1.z)
+  rotate_x(2.0 * PI * r1.x)
+  rotate_y(2.0 * PI * r1.y)
+  rotate_x(2.0 * PI * r1.z)
 end
 
 ##
