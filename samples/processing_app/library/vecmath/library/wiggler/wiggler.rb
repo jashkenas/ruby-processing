@@ -10,12 +10,8 @@ class Wiggler
     @y = height/2 
     @yoff = 0
     # The "original" locations of the vertices make up a circle
-    @original = []
-    (0 ... TAU).step(0.2) do |a|
-      v = Vec2D.from_angle(a)
-      v *= 100
-      original << v
-    end
+
+    @original = (0 ... 5 * TAU).map{|a| Vec2D.from_angle(a * 0.2) * 100}
     
     # Now make the PShape with those vertices
     @s = create_shape
@@ -23,22 +19,18 @@ class Wiggler
     s.fill(127)
     s.stroke(0)
     s.stroke_weight(2)
-    original.each do |v|
-      s.vertex(v.x, v.y)
-    end
+    original.map{ |v| s.vertex(v.x, v.y)}
     s.end_shape(CLOSE)
   end
 
   def wiggle
     @xoff = 0
     # Apply an offset to each vertex
-    (0 ... s.get_vertex_count).each do |i|
+    rad = -> (pos){(Vec2D.from_angle(TAU * noise(xoff, yoff)) * 4) + pos}
+    
+    original.each_with_index do |pos, i| 
       # Calculate a new vertex location based on noise around "original" location
-      pos = original[i]
-      a = TAU*noise(xoff,yoff)
-      r = Vec2D.from_angle(a)
-      r *= 4
-      r += pos
+      r = rad.call(pos)
       # Set the location of each vertex to the new one
       s.set_vertex(i, r.x, r.y)
       # increment perlin noise x value
