@@ -35,23 +35,26 @@ end
 ###########################
 class Hilbert
   include Processing::Proxy
-  ADJUSTMENT = [0,  0.5,  1.5,  3.5,  7.5, 15]
   attr_reader :grammar, :axiom, :production, :premis, :rule,
-  :theta, :distance, :phi, :gen
+  :theta, :distance, :phi, :gen, :adj_array
 
-  def initialize(len, gen = 1)
+  def initialize(size: 1.0, gen: 1)
     @axiom = "X"                                           # AXIOM
     @rule = {"X" => "^<XF^<XFX-F^>>XFX&F+>>XFX-F>X->"}     # RULE
     @gen = gen
     @grammar = Grammar.new(axiom, rule) 
     @production = grammar.generate gen
-    @distance = len/(pow(2, gen) - 1)
-    @theta = Math::PI/180 * 90
-    @phi = Math::PI/180 * 90  
+    @distance = size / (gen**2 - 1)
+    @theta = radians 90
+    @phi = radians 90  
+    @adj_array = [0,  0.5,  1.5,  3.5,  7.5, 15].map{|x| Vec3D.new(x * -1, x, x * -1)}
+
   end
 
   def render()    
-    translate( -distance * ADJUSTMENT[gen], distance *  ADJUSTMENT[gen], -distance * ADJUSTMENT[gen])
+    #translate( -distance * ADJUSTMENT[gen], distance *  ADJUSTMENT[gen], -distance * ADJUSTMENT[gen])
+    adj = adj_array[gen] * distance
+    translate(adj.x, adj.y, adj.z)
     fill(0, 75, 152)
     light_specular(204, 204, 204)
     specular(255, 255, 255)

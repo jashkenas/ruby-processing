@@ -7,13 +7,13 @@
 ########################################################
 
 load_libraries :hilbert, :vecmath
-import 'vecmath'
+
 attr_reader :hilbert, :arcball
 
 def setup
   size 1024, 768, P3D
   @arcball = ArcBall.new(width/2.0, height/2.0, min(width - 20, height - 20) * 0.5)
-  @hilbert = Hilbert.new(height/2, 3)
+  @hilbert = Hilbert.new(size: height/2, gen: 3)
   no_stroke
 end
 
