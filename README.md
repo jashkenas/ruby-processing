@@ -11,7 +11,7 @@ Is a ruby wrapper around the [Processing][] code art framework, built using [JRu
   smooth, text_align, translate, triangle...
 
 ## Installation
-MacOSX users please try this [method](https://github.com/jashkenas/ruby-processing/wiki/Installing-ruby-processing-on-the-mac)
+MacOSX users please try this new  [method](https://github.com/jashkenas/ruby-processing/wiki/Installing-ruby-processing-on-the-mac)
 
 Ideally you should install [jruby](http://jruby.org/download), at the very least you will have at least ruby-1.9.3 installed.  You should [download][] and install vanilla [processing-2.0.3](https://processing.org/download/) (MacOSX) or [processing-2.1.0](https://processing.org/download/) (Windows, Linux) prior to installing this version of ruby-processing. You must also set the `PROCESSING_ROOT` in the .rp5rc yaml configuration file, the easiest way to do this is by running the [SetProcessingRoot.pde](https://gist.github.com/monkstone/7438749) sketch in the processing ide. 
 
