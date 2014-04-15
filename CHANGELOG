@@ -1,4 +1,4 @@
-v2.4.4 Update to JRuby-1.7.12 or processing-2.1.2
+v2.4.4 Update to JRuby-1.7.12
 * Enhancement to Vec2D & Vec3D (preferred to PVector as
 * providing a more ruby-like interface), now provide a
 * conditional set_mag method, via optional &block.
