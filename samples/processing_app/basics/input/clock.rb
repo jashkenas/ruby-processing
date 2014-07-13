@@ -6,7 +6,7 @@
 def setup
   size 200, 200
   stroke 255
-  smooth
+  smooth 4
 end
 
 def draw

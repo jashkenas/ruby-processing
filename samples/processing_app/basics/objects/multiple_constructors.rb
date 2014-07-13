@@ -14,11 +14,16 @@
 # But there are two ways to define methods with variable parameters. One is to give the 
 # parameters a default value, the second is to use the catch-all asterix:
 
+
 # def my_method1 ( a, b = "2" ) # can be called with one or two arguments
 # end
 
 # def my_method2 ( *args ) # can be called with any number of arguments, args is an array
 # end
+
+
+# Martin Prout, 2014-06-23:
+# even more flexibility can be had by passing a hash see inheritance_two @todo update for ruby-2.1+
 
 
 def setup    

@@ -4,14 +4,13 @@
 # programming terminology, one class can inherit fields and methods from another. 
 # An object that inherits from another is called a subclass, and the object it 
 # inherits from is called a superclass. A subclass extends the superclass.
-# see also inheritance_two for the use of hash args and inheritance that 
-# avoids the inherited class call to super 
+# NB: note the use of hook means inheriting class does not need to call super
 
 
 def setup    
   size 640, 360
-  @arm = SpinArm.new width/2, height/2, 0.01
-  @spots = SpinSpots.new width/2, height/2, -0.02, 90.0
+  @arm = SpinArm.new({ x: width/2, y: height/2, s: 0.01 })
+  @spots = SpinSpots.new({ x: width/2, y: height/2, s: -0.02, d: 90.0 })
 end
 
 def draw
@@ -27,14 +26,19 @@ class Spin
   attr_accessor :x, :y, :speed
   attr_accessor :angle
   
-  def initialize(x, y, s)  	    
-    @x, @y = x, y
-    @speed = s
-    @angle = 0.0
+  def initialize(args = {})  	    
+    @x, @y = args[:x], args[:y]
+    @speed = args[:s]
+    @angle = args[:angle] || 0.0
+    post_initialize(args)  # this is the hook
   end
   
   def update  	    
     @angle += speed
+  end
+  
+  def post_initialize args
+    nil
   end
   
 end
@@ -63,10 +67,10 @@ end
 # vvv CLASS SPINSPOTS
 
 class SpinSpots < Spin    
-  attr_accessor :dim  	
-  def initialize (x, y, s, d)  	    
-    super(x, y, s)
-    @dim = d
+  attr_accessor :dim
+  
+  def post_initialize args
+    @dim = args[:d]
   end
   
   def display  	    

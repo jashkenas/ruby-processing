@@ -18,9 +18,7 @@ CUBE_NO = 20
 java_alias :background_int, :background, [Java::int]
 java_alias :stroke_int, :stroke, [Java::int]
 
-# using java_alias to give signatures to overloaded java method
-# in the cube class, need to call $app.fill_int in cube
-java_alias :fill_int, :fill, [Java::int]
+
 
 attr_reader :cubies
 

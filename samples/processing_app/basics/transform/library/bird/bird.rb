@@ -28,19 +28,19 @@ class Bird
 	end
 
 	def set_flight ( radius_x, radius_y, radius_z, rot_x, rot_y, rot_z )
-
 		@radius_x, @radius_y, @radius_z = radius_x, radius_y, radius_z
 		@rot_x, @rot_y, @rot_z = rot_x, rot_y, rot_z
+		return self  # return self means we can chain methods
 	end
 
 	def set_wing_speed ( flap_speed )
-
 		@flap_speed = flap_speed
+		return self  # return self means we can chain methods
 	end
 
 	def set_rot_speed ( rot_speed )
-
 		@rot_speed = rot_speed
+		return self  # return self means we can chain methods
 	end
 
 	def fly

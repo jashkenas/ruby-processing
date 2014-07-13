@@ -4,6 +4,8 @@
 
 # Each burst is one instance of a particle system with Particles and
 # CrazyParticles (a subclass of Particle).
+
+require 'forwardable'
 load_library :vecmath
 
 module Runnable
@@ -14,7 +16,9 @@ module Runnable
 end
 
 class ParticleSystem 
-  extend Enumerable
+  extend Forwardable
+  def_delegators(:@particle_systems, :each, :<<, :reject!, :empty?)
+  include Enumerable
   include Runnable    
   
   attr_reader :particle_systems 
@@ -24,23 +28,9 @@ class ParticleSystem
     @origin = origin
     kind = rand < 0.5 ? Sketch::Particle : Sketch::CrazyParticle
     number.times { self << kind.new(origin) }
+    alias :dead? :empty?
   end
-  
-  def each &block
-    particle_systems.each &block    
-  end
-  
-  def << obj
-    particle_systems << obj
-  end
-  
-  def reject! &block
-    particle_systems.reject! &block
-  end
-  
-  def dead?
-    particle_systems.empty?
-  end  
+
 end
 
 
@@ -121,7 +111,7 @@ end
 
 class CrazyParticle < Particle
   def initialize(origin)
-    super
+    super  # you must call super
     @theta = 0
   end
   
@@ -133,7 +123,7 @@ class CrazyParticle < Particle
   end
   
   def update
-    super
+    super # you must call super
     @theta += velocity.x * velocity.mag / 10
   end
   

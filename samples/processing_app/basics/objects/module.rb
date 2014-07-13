@@ -1,8 +1,16 @@
+# Ruby modules, are another way of extending a classes behaviour, the class 
+# ParticleSystem includes Enumerable (from ruby core) and our custom Runnable 
+# module. Here we use the module Runnable to capture behaviour that can be 
+# shared between different classes. Modules are also very useful for wrapping 
+# imported classes (wrapped packages can then be called using convenient names).
+
+# This example is bit complicated, because Enumerable and Forwardable are used
+# to make the ParticleSystem behave as though it were an Array. This is very
+# convenient and is preferred to ParticleSystem subclassing Array.
+
 # Ported from http://processing.org/learning/topics/simpleparticlesystem.html
 
-# Particles are generated each cycle, fall with gravity and fade out over
-# time. A ParticleSystem (Array) object manages a variable size list of
-# particles.
+
 require 'forwardable'
 
 load_library :vecmath

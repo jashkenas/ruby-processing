@@ -3,23 +3,22 @@
 # You can print out the parametric equations for t = 0..1
 module Olap
   def self.overlaps(x, y, point_x, point_y)
-    (x-point_x)**2 + (y-point_y)**2 < RADIUS * RADIUS 
+    Math.hypot(x - point_x, y - point_y ) < RADIUS
   end
 end
 
 class Curve
-  include Olap
-  include Processing::Proxy
+  include Olap, Processing::Proxy
   attr_accessor :x1, :y1, :c1x, :c1y, :c2x, :c2y, :x2, :y2
   
   def initialize
     @x1, @y1, @x2, @y2 = X1, Y1, X2, Y2
-    set_control_points(X1+30, Y1, X2-30, Y2)
+    set_control_points(X1 + 30, Y1, X2 - 30, Y2)
   end
   
   def contains(x, y)
-    return :one if Olap::overlaps(@x1, @y1, x, y)
-    return :two if Olap::overlaps(@x2, @y2, x, y)
+    return :one if Olap::overlaps(x1, y1, x, y)
+    return :two if Olap::overlaps(x2, y2, x, y)
   end
   
   
@@ -40,15 +39,15 @@ class Curve
   
   def draw
     bezier *all_points
-    oval @x1, @y1, 3, 3
-    oval @x2, @y2, 3, 3
+    oval x1, y1, 3, 3
+    oval x2, y2, 3, 3
   end
   
   
-  def print_equation
+  def print_equation id
     p = all_points.map {|p| p.to_i }
     puts ""
-    puts "*** line ##{$app.curves.index(self) + 1} ***"
+    puts "*** line ##{id} ***"
     puts "x = (1-t)^3 #{p[0]} + 3(1-t)^2 t#{p[2]} + 3(1-t)t^2 #{p[4]} + t^3 #{p[6]}"
     puts "y = -1 * ((1-t)^3 #{p[1]} + 3(1-t)^2 t#{p[3]} + 3(1-t)t^2 #{p[5]} + t^3 #{p[7]})"
     puts ""
@@ -58,7 +57,7 @@ end
 
 
 attr_accessor :curves, :c1x, :c1y, :c2x, :c2y
-attr_reader :panel
+attr_reader :panel, :hide
 
 X1, Y1, X2, Y2 = 50.0, 50.0, 250.0, 250.0
 REDDISH = [250, 100, 100]
@@ -67,7 +66,6 @@ RADIUS = 7
 load_library :control_panel
 include Olap
 
-attr_reader :hide
 
 def setup
   size 300, 300
@@ -85,7 +83,7 @@ end
 
 
 def print_equations
-  curves.each {|c| c.print_equation }
+  curves.each_with_index {|c, i| c.print_equation(i + 1)}
 end
 
 
@@ -100,14 +98,14 @@ end
 
 
 def generate_curve
-  @curves << current_curve = Curve.new
+  curves << current_curve = Curve.new
   @current = curves.length - 1
   set_control_points(*current_curve.control_points)
 end
 
 
 def current_curve
-  @curves[@current]
+  curves[@current]
 end
 
 
@@ -119,21 +117,21 @@ end
 
 def clicked_control_point?
   x, y = mouse_x, mouse_y
-  return :one if Olap::overlaps(@c1x, @c1y, x, y)
-  return :two if Olap::overlaps(@c2x, @c2y, x, y)
+  return :one if Olap::overlaps(c1x, c1y, x, y)
+  return :two if Olap::overlaps(c2x, c2y, x, y)
 end
 
 
 def key_pressed
   case keyCode
   when 8 # Delete the current line
-    return if @curves.length <= 1
-    @curves.delete(current_curve) 
-    @current = @curves.length - 1
+    return if curves.length <= 1
+    curves.delete(current_curve) 
+    @current = curves.length - 1
   when LEFT # Flip forward
-    @current = (@current + 1) % @curves.length
+    @current = (@current + 1) % curves.length
   when RIGHT # Flip back
-    @current = (@current - 1) % @curves.length
+    @current = (@current - 1) % curves.length
   end
   set_control_points(*current_curve.control_points)
 end
@@ -143,7 +141,7 @@ def mouse_pressed
   switch_curve_if_endpoint_clicked
   @control = clicked_control_point?
   return if @control
-  curve = @curves.detect {|c| c.contains(mouse_x, mouse_y) }
+  curve = curves.detect {|c| c.contains(mouse_x, mouse_y) }
   @end_point = curve.contains(mouse_x, mouse_y) if curve
 end
 
@@ -164,11 +162,11 @@ end
 
 
 def switch_curve_if_endpoint_clicked
-  become = @curves.detect {|c| c.contains(mouse_x, mouse_y) }
+  become = curves.detect {|c| c.contains(mouse_x, mouse_y) }
   return unless become && become != current_curve
   current_curve.set_control_points(*control_points)
   self.set_control_points(*become.control_points)
-  @current = @curves.index(become)
+  @current = curves.index(become)
 end
 
 
@@ -208,24 +206,24 @@ def draw_curves
   stroke 255
   no_fill
   stroke_width 2
-  @curves.each {|curve| curve.draw }
+  curves.each {|curve| curve.draw }
 end
 
 
 def draw_current_control_points
-  fill *REDDISH
+  fill color(*REDDISH)
   no_stroke
-  oval @c1x, @c1y, 5, 5
-  oval @c2x, @c2y, 5, 5
+  oval c1x, c1y, 5, 5
+  oval c2x, c2y, 5, 5
 end
 
 
 def draw_control_tangent_lines
   c = current_curve
-  stroke *REDDISH
+  stroke color(*REDDISH)
   stroke_width 1
-  line @c1x, @c1y, c.x1, c.y1
-  line @c2x, @c2y, c.x2, c.y2
+  line c1x, c1y, c.x1, c.y1
+  line c2x, c2y, c.x2, c.y2
 end
 
 

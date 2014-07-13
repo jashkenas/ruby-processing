@@ -7,7 +7,7 @@ class Cube
   # Colors are hardcoded
   BOUNDS=300
   COLORS = [0,  51,  102,  153,  204,  255]
-  
+ 
   # Position, velocity vectors
   attr_reader :position, :velocity, :rotation, :vertices, :w, :h, :d
   attr_reader :boundary
@@ -61,7 +61,7 @@ class Cube
   def draw_cube
     # Draw cube
     COLORS.length.times do |i|
-      $app.fill_int(COLORS[i])
+      fill(COLORS[i])
       begin_shape(QUADS)
         4.times do |j|
           vertex(*vertices[j + 4 * i]) # splat vertices

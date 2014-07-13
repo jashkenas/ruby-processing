@@ -1,3 +1,6 @@
+v2.4.5 Update to JRuby-1.7.13
+* Avoid overuse of __FILE__ with relative require
+
 v2.4.4 Update to JRuby-1.7.12
 * Enhancement to Vec2D & Vec3D (preferred to PVector as
 * providing a more ruby-like interface), now provide a

@@ -3,7 +3,8 @@
 #
 # A ParticleSystem (Array) object manages a variable size list of
 # particles.
-
+require 'forwardable'
+ 
 load_library :vecmath
 
 attr_reader :ps, :img, :wind
@@ -26,7 +27,7 @@ def draw
   end
   
   # Draw a horizontal arrow representing the wind force
-  draw_vector(wind, Vec2D.new(width / 2, 50, 0), 500)
+  draw_vector(wind, Vec2D.new(width / 2, 50), 500)
   
 end
 
@@ -58,10 +59,12 @@ end
 
 
 class ParticleSystem 
-  extend Enumerable
+  extend Forwardable
+  def_delegators(:@particles, :reject!, :<<, :each)
+  include Enumerable
   include Runnable
   
-  attr_reader :particles, :origin, :image, :generator
+  attr_reader :origin, :image, :generator
   
   def initialize(num, location, image)
     @particles = []
@@ -72,16 +75,8 @@ class ParticleSystem
     end
   end
   
-  def each &block
-    particles.each &block    
-  end
-
-  def reject! &block
-    particles.reject! &block
-  end
-  
   def add_particle(p = Particle.new(origin, image))
-    particles << p
+    self << p
   end
   
   # Method to add a force vector to all particles currently in the system

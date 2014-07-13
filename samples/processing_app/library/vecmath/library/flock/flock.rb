@@ -1,24 +1,13 @@
 # The Flock (a list of Boid objects)
+require 'forwardable'
 
 class Flock 
-  extend Enumerable
-  
-  attr_reader :boids
+  extend Forwardable
+  def_delegators(:@boids, :each, :<<, :reject)
+  include Enumerable
   
   def initialize
     @boids = []	  
-  end
-
-  def each &block
-    boids.each &block	  
-  end
-  
-  def reject &block
-    boids &block
-  end
-
-  def << obj
-    boids << obj
   end
 
   def run

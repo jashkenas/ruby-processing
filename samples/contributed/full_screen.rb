@@ -2,7 +2,7 @@
 # This is a full-screen demo 
 # Since processing-2.0 it is opengl
 
-#full_screen # not working correctly in processing-2.1+?
+full_screen
 
 
 def setup

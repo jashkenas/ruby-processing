@@ -7,7 +7,7 @@ def setup
   @particles  = []
   @grabbed    = nil  
   background 0
-  smooth
+  smooth 4
   stroke_weight 4
   ellipse_mode CENTER
   color_mode RGB, 255
@@ -23,7 +23,7 @@ end
 def mouse_pressed
   return if mouse_x == 0 || mouse_y == 0
   return if particle_grab
-  particles << Particle.new(mouse_x, mouse_y, rand * 8 + 0.1)
+  particles << Particle.new(mouse_x, mouse_y, rand(0.1 .. 8))
 end
 
 def mouse_released
@@ -36,7 +36,7 @@ end
 
 
 class Particle
-  
+
   GRAVITY = 1.0
   
   attr_reader :x0, :y0, :x1, :y1, :diameter, :mass_amount
@@ -54,8 +54,8 @@ class Particle
     @min_dist = 1000
     $app.particles.each do |p|
       next if p == self
-      g_dist  = dist(x0, y0, p.x0, p.y0)
-      g_theta = -(angleOf(x0, y0, p.x0, p.y0)).radians
+      g_dist  = Math.hypot(x0 - p.x0, y0 - p.y0)
+      g_theta = -angle_of(x0, y0, p.x0, p.y0)
       @min_dist = g_dist if g_dist < @min_dist
       force = (GRAVITY * mass_amount * p.mass_amount) / g_dist
       if g_dist.abs > diameter
@@ -103,9 +103,9 @@ class Particle
     @x0, @y0 = mouse_x, mouse_y
   end
   
-  def angleOf(x1, y1, x2, y2)
+  def angle_of (x1, y1, x2, y2)
     xd, yd = x1 - x2, y1 - y2
-    180 + (-(180 * atan2(yd, xd)) / PI)
+    Math::PI - atan2(yd, xd)
   end
   
 end

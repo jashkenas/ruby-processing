@@ -12,26 +12,26 @@ def setup
   size 640, 340  
   fill 0
   
-  # Inputs: spring1, spring2, mass, gravity
-  @gravity = 6.0
-  @mass    = 2.0
-  @s1      = Spring2d.new(width/2, height/2, @mass)
-  @s2      = Spring2d.new(width/2, height/2, @mass)
-  
   # Control panel for changing gravity
   control_panel do |c|
-    c.slider :gravity, 0..30
+    c.slider :gravity, 0..30, 6
     @panel = c
   end
+  
+  @mass    = 2.0
+  @s1      = Spring2d.new(width/2, height/2, @mass, gravity)
+  @s2      = Spring2d.new(width/2, height/2, @mass, gravity)
+  
+
 end
 
 def draw
   panel.set_visible(true) if self.visible
   background 204
-  @s1.update(mouse_x, mouse_y)
+  @s1.update(mouse_x, mouse_y, gravity)
   display(@s1, mouse_x, mouse_y)
   
-  @s2.update(@s1.x, @s1.y)
+  @s2.update(@s1.x, @s1.y, gravity)
   display(@s2, @s1.x, @s1.y)
 end
 
@@ -45,12 +45,14 @@ end
 
 
 class Spring2d
+  include Processing::Proxy
   
-  attr_reader :x, :y
+  attr_reader :x, :y, :gravity
   
-  def initialize(xpos, ypos, mass)
+  def initialize(xpos, ypos, mass, gravity)
     @x         = xpos # The x-coordinate
     @y         = ypos # The y-coordinate
+    @gravity   = gravity
     @mass      = mass
     @vx, @vy   = 0, 0 # The x- and y-axis velocities
     @radius    = 20
@@ -58,14 +60,14 @@ class Spring2d
     @damping   = 0.7
   end
   
-  def update(target_x, target_y)
+  def update(target_x, target_y, gravity)
     force_x = (target_x - self.x) * @stiffness
     ax = force_x / @mass
     @vx = @damping * (@vx + ax)
     @x += @vx
-    
+    @gravity = gravity
     force_y = (target_y - self.y) * @stiffness
-    force_y += $app.gravity
+    force_y += gravity
     ay = force_y / @mass
     @vy = @damping * (@vy + ay)
     @y += @vy

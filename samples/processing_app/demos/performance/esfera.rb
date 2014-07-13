@@ -5,25 +5,23 @@
 # by Martin Prout
 # Distribucion aleatoria uniforme sobre la superficie de una esfera. 
 #
+require 'forwardable'
 
+load_library :vecmath
 
 QUANTITY = 16000 
 
 attr_reader :orb, :phi, :radius, :rx, :ry
 
-# signature-specific aliases for overloaded methods
-java_alias :background_int, :background, [Java::int]
-java_alias :fill_int, :fill, [Java::int]
-java_alias :stroke_int, :stroke, [Java::int]
-java_alias :stroke_float_float, :stroke, [Java::float, Java::float]
 
 def setup
   size(800, 600, P3D)
+  ArcBall.init(self)
   @rx = 0
   @ry =0
   no_smooth
   @radius = height/3.5
-  @orb = HairyOrb.new(self, radius)
+  @orb = HairyOrb.new(radius)
   QUANTITY.times do
     orb << HairFactory.create_hair(radius) 
   end
@@ -31,40 +29,35 @@ def setup
 end
 
 def draw
-  background_int(0)
-  translate(width/2,height/2)
+  background(0)
   rxp = ((mouse_x - (width/2))*0.005)
   ryp = ((mouse_y - (height/2))*0.005)
   @rx = (rx*0.9)+(rxp*0.1)
   @ry = (ry*0.9)+(ryp*0.1)
-  rotate_y(rx)
-  rotate_x(ry)
-  fill_int 0
-  no_stroke
-  sphere(radius)
   orb.render
   if (frame_count % 10 == 0)
     puts(frame_rate)
   end
 end
 
-class HairyOrb 
-  extend Enumerable
-  attr_reader :app, :hairs, :radius
+class HairyOrb
+  extend Forwardable
+  def_delegators(:@hairs, :<<, :each, :map)  
+  attr_reader :radius
   
-  def initialize app, radius
-    @app, @radius = app, radius
+  def initialize radius
+    @radius = radius
     @hairs = []    
   end
   
-  def << item
-    hairs << item
-  end      
-  
-  def render   
-    hairs.each do |hair|
-      off = (app.noise(app.millis() * 0.0005, sin(hair.phi)) - 0.5) * 0.3
-      offb = (app.noise(app.millis() * 0.0007, sin(hair.z) * 0.01) - 0.5) * 0.3
+
+  def render
+    fill 0
+    no_stroke
+    sphere(radius)
+    self.map{ |hair|
+      off = (noise(millis() * 0.0005, sin(hair.phi)) - 0.5) * 0.3
+      offb = (noise(millis() * 0.0007, sin(hair.z) * 0.01) - 0.5) * 0.3
       thetaff = hair.theta + off
       costhetaff = cos(thetaff)
       coshairtheta = cos(hair.theta)
@@ -76,30 +69,26 @@ class HairyOrb
       yo = radius * costhetaff * sin(phff)
       zo = radius * sin(thetaff)
       xb, yb, zb = xo * hair.len, yo * hair.len, zo * hair.len
-      app.stroke_weight(1)
-      app.begin_shape(LINES)
-      app.stroke_int(0)
-      app.vertex(x, y, za)
-      app.stroke_float_float(200, 150)
-      app.vertex(xb, yb, zb)
-      app.end_shape()
-    end 
+      stroke_weight(1)
+      begin_shape(LINES)
+      stroke(0)
+      vertex(x, y, za)
+      stroke(200, 150)
+      vertex(xb, yb, zb)
+      end_shape()
+    } 
   end
 end
 
-class HairFactory 
+module HairFactory 
   def self.create_hair radius
     z = rand(-radius .. radius)
-    phi = rand * Math::PI * 2
+    phi = rand(0 .. Math::PI * 2) 
     len = rand(1.15 .. 1.2)
     theta = Math.asin(z / radius)
-    return Hair.new(z, phi, len, theta)
+    Hair.new(z, phi, len, theta)
   end 
 end
 
-class Hair
-  attr_reader :z, :phi, :len, :theta  
-  def initialize z, phi, len, theta 
-    @z, @phi, @len, @theta = z, phi, len, theta 
-  end
-end
+Hair = Struct.new(:z, :phi, :len, :theta)
+
