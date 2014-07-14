@@ -1,8 +1,8 @@
 require 'ostruct'
 require 'fileutils'
 require 'rbconfig'
-require_relative 'config'
-require_relative 'version'
+require_relative '../ruby-processing/config'
+require_relative '../ruby-processing/version'
 
 
 module Processing
@@ -31,13 +31,18 @@ module Processing
                 jarred one (required for shader sketches, and some others).
   
   Configuration file:
-    A YAML configuration file is located at {Processing::CONFIG_FILE_PATH}
+    The YAML configuration '.rp5rc' file is located at:-
+    #{Processing::CONFIG_FILE_PATH}
+    
+    Required parameter is:
+
+      PROCESSING_ROOT: "path to processing root"
     
     Possible options are:
 
-      java_args:        pass additionnals arguments to Java VM upon launching. 
+      java_args:        pass additional arguments to Java VM on launching. 
                         Useful for increasing available memory (for example:
-                        -Xms256m -Xmx256m) or force 32 bits mode (-d32).
+                        -Xms756m -Xmx756m) or force 32 bits mode (-d32).
       sketchbook_path:  specify Processing sketchbook path to load additionnal 
                         libraries
 
@@ -90,6 +95,7 @@ module Processing
     # Create a fresh Ruby-Processing sketch, with the necessary
     # boilerplate filled out.
     def create(sketch, args, p3d)
+    	  require_relative '../ruby-processing/exporters/creator'
       Processing::Creator.new.create!(sketch, args, p3d)
     end
 
@@ -114,6 +120,7 @@ module Processing
 
     # Generate a cross-platform application of a given Ruby-Processing sketch.
     def app(sketch)
+    	  require_relative '../ruby-processing/exporters/application_exporter'
       Processing::ApplicationExporter.new.export!(sketch)
     end
 

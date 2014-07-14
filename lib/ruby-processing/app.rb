@@ -4,9 +4,9 @@
 # web applets, going fullscreen and so on.
 
 require 'java'
-require 'ruby-processing/helper_methods'
-require 'ruby-processing/library_loader'
-require 'ruby-processing/config'
+require_relative '../ruby-processing/helper_methods'
+require_relative '../ruby-processing/library_loader'
+require_relative '../ruby-processing/config'
 
 Dir["#{Processing::CONFIG["PROCESSING_ROOT"]}/core/library/\*.jar"].each { |jar| require jar }
 

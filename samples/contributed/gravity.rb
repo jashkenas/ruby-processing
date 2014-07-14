@@ -104,8 +104,7 @@ class Particle
   end
   
   def angle_of (x1, y1, x2, y2)
-    xd, yd = x1 - x2, y1 - y2
-    Math::PI - atan2(yd, xd)
+    Math::PI - atan2(y1 - y2, x1 - x2)
   end
   
 end

@@ -7,7 +7,7 @@ unless defined? RP5_ROOT
   RP5_ROOT = File.expand_path(File.dirname(__FILE__) + "/../")
 end
 
-SKETCH_ROOT = Dir.pwd unless defined? SKETCH_ROOT
+SKETCH_ROOT ||= Dir.pwd 
 
 require 'ruby-processing/version'
 require 'ruby-processing/helpers/string'
@@ -20,11 +20,13 @@ module Processing
     @exported ||= ENV['EXPORTED'].eql?('true')	  
   end
 
-  # Autoload a number of constants that we may end up using.
+  # Autoload a number of path/constants that we may end up using.
+  # mri ruby does not understand ** require 'java' ** and we may otherwise
+  # call it without this lazy path loading (autoload slated for possible removal)
   autoload :App,                  'ruby-processing/app'
   autoload :Runner,               'ruby-processing/runner'
   autoload :Watcher,              'ruby-processing/runners/watch'
-  autoload :Creator,              'ruby-processing/exporters/creator'
-  autoload :BaseExporter,         'ruby-processing/exporters/base_exporter'
-  autoload :ApplicationExporter,  'ruby-processing/exporters/application_exporter'
+  # autoload :Creator,              'ruby-processing/exporters/creator'
+  # autoload :BaseExporter,         'ruby-processing/exporters/base_exporter'
+  # autoload :ApplicationExporter,  'ruby-processing/exporters/application_exporter'
 end

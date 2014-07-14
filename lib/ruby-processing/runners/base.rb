@@ -1,11 +1,10 @@
 # -*- encoding : utf-8 -*-
 
-$LOAD_PATH << File.expand_path(File.dirname(__FILE__) + "/../../")
-SKETCH_PATH = ARGV.shift unless defined? SKETCH_PATH
-SKETCH_ROOT = File.dirname(SKETCH_PATH) unless defined? SKETCH_ROOT
+SKETCH_PATH ||= ARGV.shift
+SKETCH_ROOT ||= File.dirname(SKETCH_PATH) 
 
-require 'ruby-processing'
-require 'ruby-processing/app'
+require_relative '../../ruby-processing'
+require_relative '../../ruby-processing/app'
 
 module Processing
 
@@ -44,8 +43,7 @@ module Processing
 
   # Read in the sketch source code. Needs to work both online and offline.
   def self.read_sketch_source
-      source = File.read(SKETCH_PATH)
-    source
+     File.read(SKETCH_PATH)
   end
 
 end

@@ -1,6 +1,6 @@
 require 'fileutils'
 require 'erb'
-require 'ruby-processing/library_loader'
+require_relative '../../ruby-processing/library_loader'
 
 module Processing
   

@@ -1,7 +1,8 @@
 require 'rbconfig'
 
+
 module Processing
-  
+  require_relative '../../ruby-processing/exporters/base_exporter'
   # A utility class to export Ruby-Processing sketches as 
   # Mac/Win/Nix Applications.
   class ApplicationExporter < BaseExporter

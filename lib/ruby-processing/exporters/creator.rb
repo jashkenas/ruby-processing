@@ -1,5 +1,5 @@
 module Processing
-  
+  require_relative '../../ruby-processing/exporters/base_exporter'
   # This class creates blank sketches, with the boilerplate filled in.
   class Creator < BaseExporter
     
@@ -33,7 +33,7 @@ module Processing
       rendered = render_erb_from_string_with_binding(template.read, binding)
       full_path = File.join(dir, "#{@file_name}.rb")
       File.open(full_path, "w") {|f| f.print(rendered) }
-      puts "Created Sketch \"#{@name}\" in #{full_path.sub(/\A\.\//, '')}"
+      puts "Created a new Sketch in #{full_path.sub(/\A\.\//, '')}"
     end
     
     # Show the help/usage message for create.
