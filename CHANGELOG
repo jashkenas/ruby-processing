@@ -1,3 +1,7 @@
+v2.5.0 DegLut and vecmath library as jruby extensions
+* Provides extremely simple ArcBall interface, and possible
+* performance improvements via pre-compiled libraries
+
 v2.4.5 Update to JRuby-1.7.13
 * Avoid overuse of __FILE__ with relative require
 
