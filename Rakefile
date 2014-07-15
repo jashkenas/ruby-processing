@@ -3,7 +3,8 @@ desc 'build and test'
 task :default => [:build_and_test]
 
 task :build_and_test do
-  Rake::Task["build"].execute
+  Rake::Task[:compile].execute
+  Rake::Task["build"].execute  
   Rake::Task["test"].execute
 end
 
@@ -26,6 +27,11 @@ task :install_jruby_complete do
   end
 end
 
+desc 'Compile'
+task :compile do
+  sh "jruby -S rake --rakefile JRakefile compile"
+end
+
 desc 'Build gem'
 task :build do
   sh "gem build ruby-processing.gemspec"
@@ -34,4 +40,13 @@ end
 desc 'Test'
 task :test do
   ruby "test/rp5_test.rb"	
+end
+
+desc 'Clean'
+task :clean do
+  Dir['./**/*.%w{jar gem}'].each do |path|
+    puts "Deleting #{path} ..."
+    File.delete(path)
+  end
+  FileUtils.rm_rf('./tmp')
 end

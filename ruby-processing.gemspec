@@ -2,6 +2,7 @@
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'ruby-processing/version'
+require 'rake'
 
 Gem::Specification.new do |spec|
   spec.name = "ruby-processing"
@@ -39,16 +40,19 @@ Gem::Specification.new do |spec|
   spec.executables = ["rp5", "install_jruby_complete"]
   spec.license = 'MIT'
   
-  spec.files         = `git ls-files`.split($/)
+  spec.files = FileList['bin/**/*', 'lib/**/*', 'library/**/*', 'samples/**/*', 'vendors/Rakefile'].to_a
+  
   spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
+  spec.require_paths = ["lib"]
+  spec.files << 'lib/rpextras.jar'
 
   spec.add_development_dependency "bundler", "~> 1.3"
-  spec.add_development_dependency "rake", "~> 10.0"
-  spec.add_development_dependency "minitest", "~> 5.1"
+  spec.add_development_dependency "rake", "~> 10.3"
+  spec.add_development_dependency "minitest", "~> 5.3"
   spec.requirements << 'A decent graphics card'
-  spec.requirements << 'java runtime >= 1.6+'
-  spec.requirements << 'processing = 2.0.3+'
+  spec.requirements << 'java runtime >= 1.7+'
+  spec.requirements << 'processing = 2.2.1+'
  
 end
 

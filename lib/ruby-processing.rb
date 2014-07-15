@@ -21,12 +21,12 @@ module Processing
   end
 
   # Autoload a number of path/constants that we may end up using.
-  # mri ruby does not understand ** require 'java' ** and we may otherwise
-  # call it without this lazy path loading (autoload slated for possible removal)
+  # mri ruby does not understand ** require 'java' ** and we may otherwise call it 
+  # from mri ruby without lazy path loading of autoload
+  # NB: autoload is slated for possible removal by ruby-2.2
+  
   autoload :App,                  'ruby-processing/app'
   autoload :Runner,               'ruby-processing/runner'
   autoload :Watcher,              'ruby-processing/runners/watch'
-  # autoload :Creator,              'ruby-processing/exporters/creator'
-  # autoload :BaseExporter,         'ruby-processing/exporters/base_exporter'
-  # autoload :ApplicationExporter,  'ruby-processing/exporters/application_exporter'
+
 end

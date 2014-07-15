@@ -71,16 +71,27 @@ class Rp5Test < Minitest::Test
     assert out.index("undefined method `unknown_method'"), "Failed to raise exception?" 
   end
   
-  def test_draw_exception
+  def test_vector
     out, err = capture_io do
-      open("|../bin/rp5 run draw_ex.rb", "r") do |io|
+      open("|../bin/rp5 run vector.rb", "r") do |io|
         while l = io.gets
-          puts(l.chop) 
-        end      
+          puts(l.chop)
+        end
       end
     end
-    assert out.index("undefined method `unknown_method'"), "Failed to raise exception"
+    assert out.index(/ok/), "Failed vector test"
   end  
+  
+  def test_arcball
+    out, err = capture_io do
+      open("|../bin/rp5 run arcball.rb", "r") do |io|
+        while l = io.gets
+          puts(l.chop)
+        end
+      end
+    end
+    assert_match %r%ok%, out, "Failed arcball sketch"
+  end
 end
 
 
