@@ -449,17 +449,6 @@ public final class Vec3 extends RubyObject {
     /**
      *
      * @param context
-     * @return vertices float[]
-     */
-    @JRubyMethod(name = "to_java")
-
-    public float[] toJavaArray(ThreadContext context) {
-        return new float[]{(float) jx, (float) jy, (float) jz};
-    }
-
-    /**
-     *
-     * @param context
      * @param object
      */
     @JRubyMethod(name = "to_vertex")
