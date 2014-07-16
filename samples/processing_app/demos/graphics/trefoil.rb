@@ -1,6 +1,10 @@
 # Trefoil, by Andres Colubri
 # A parametric surface is textured procedurally
 # by drawing on an offscreen PGraphics surface.
+#
+# Features (Vec3D).to_normal(renderer) and (Vec3D).to_vertex_uv(renderer, u, v)
+# see line 62 for inititialization of renderer where obj is an instance of PShape
+# renderer = ShapeRender.new(obj)
 
 load_library :vecmath
 
@@ -10,7 +14,7 @@ def setup
   size(1024, 768, P3D)
   
   texture_mode(NORMAL)
-  noStroke
+  no_stroke
 
   # Creating offscreen surface for 3D rendering.
   @pg = create_graphics(32, 512, P3D)
@@ -28,7 +32,7 @@ def draw
   background(0)
   
   pg.begin_draw    
-  pg.ellipse(rand * pg.width, rand * pg.height, 4, 4)
+  pg.ellipse(rand(0.0 .. pg.width), rand(0.0 .. pg.height), 4, 4)
   pg.end_draw 
 
   ambient(250, 250, 250)
@@ -43,7 +47,7 @@ def draw
 end
 
 # Code to draw a trefoil knot surface, with normals and texture 
-# coordinates.
+# coordinates. Makes of the Vec3D Render interface (uses ShapeRender here).
 # Adapted from the parametric equations example by Philip Rideout:
 # http://iphone-3d-programming.labs.oreilly.com/ch03.html
 
@@ -52,12 +56,13 @@ end
 def create_trefoil(s, ny, nx, tex)
  
   obj = create_shape()
+  
   obj.begin_shape(TRIANGLES)
   obj.texture(tex)
-    
+  renderer = ShapeRender.new(obj)
   (0 ... nx).each do |j|
     u0 = j.to_f / nx
-    u1 = (j + 1).to_f / nx
+    u1 = (j + 1).to_f / nx 
     (0 ... ny).each do |i|
       v0 = i.to_f / ny
       v1 = (i + 1).to_f / ny
@@ -72,23 +77,23 @@ def create_trefoil(s, ny, nx, tex)
       n2 = eval_normal(u1, v1)
 
       # Triangle p0-p1-p2      
-      obj.normal(n0.x, n0.y, n0.z)
-      obj.vertex(s * p0.x, s * p0.y, s * p0.z, u0, v0)      
-      obj.normal(n1.x, n1.y, n1.z)
-      obj.vertex(s * p1.x, s * p1.y, s * p1.z, u0, v1)
-      obj.normal(n2.x, n2.y, n2.z)
-      obj.vertex(s * p2.x, s * p2.y, s * p2.z, u1, v1)
+      n0.to_normal(renderer)
+      (p0 * s).to_vertex_uv(renderer, u0, v0)     
+      n1.to_normal(renderer)
+      (p1 * s).to_vertex_uv(renderer, u0, v1)
+      n2.to_normal(renderer)
+      (p2 * s).to_vertex_uv(renderer, u1, v1)
 
       p1 = eval_point(u1, v0)
       n1 = eval_normal(u1, v0)
 
       # Triangle p0-p2-p1      
-      obj.normal(n0.x, n0.y, n0.z)
-      obj.vertex(s * p0.x, s * p0.y, s * p0.z, u0, v0)      
-      obj.normal(n2.x, n2.y, n2.z)
-      obj.vertex(s * p2.x, s * p2.y, s * p2.z, u1, v1)
-      obj.normal(n1.x, n1.y, n1.z)
-      obj.vertex(s * p1.x, s * p1.y, s * p1.z, u1, v0)      
+      n0.to_normal(renderer)
+      (p0 * s).to_vertex_uv(renderer, u0, v0) 
+      n2.to_normal(renderer)
+      (p2 * s).to_vertex_uv(renderer, u1, v1) 
+      n1.to_normal(renderer)
+      (p1 * s).to_vertex_uv(renderer, u1, v0)       
     end
   end
   obj.end_shape
@@ -104,9 +109,7 @@ def eval_normal(u, v)
   tangV = eval_point(u, v + 0.01)
   tangU -= p
   tangV -= p
-  
-  normUV = tangV.cross(tangU)  
-  return normUV.normalize!
+  tangV.cross(tangU).normalize! # it is easy to chain Vec3D operations
 end
 
 # Evaluates the surface point corresponding to normalized 
@@ -119,24 +122,31 @@ def eval_point(u, v)
   s = TAU * u
   t = (TAU * (1 - v)) * 2  
         
-  r = a + b * cos(1.5 * t)
-  x = r * cos(t)
-  y = r * sin(t)
-  z = c * sin(1.5 * t)
-        
-  dv = Vec3D.new
-  dv.x = -1.5 * b * sin(1.5 * t) * cos(t) - (a + b * cos(1.5 * t)) * sin(t)
-  dv.y = -1.5 * b * sin(1.5 * t) * sin(t) + (a + b * cos(1.5 * t)) * cos(t)
-  dv.z = 1.5 * c * cos(1.5 * t)
-        
-  dv.normalize!                  
-  qvn = Vec3D.new(dv.y, -dv.x, 0)
-  qvn.normalize!           
-  ww = dv.cross(qvn)
-        
-  pt = Vec3D.new
-  pt.x = x + d * (qvn.x * cos(s) + ww.x * sin(s))
-  pt.y = y + d * (qvn.y * cos(s) + ww.y * sin(s))
-  pt.z = z + d * ww.z * sin(s)
-  return pt
+  sint = sin(t)
+  cost = cos(t)
+  sint15 = sin(1.5 * t)
+  cost15 = cos(1.5 * t)
+
+  r = a + b * cost15
+  x = r * cost
+  y = r * sint
+  z = c * sint15
+
+  dv = Vec3D.new(
+  -1.5 * b * sint15 * cost - y,
+  -1.5 * b * sint15 * sint + x,
+  1.5 * c * cost15)
+
+  q = dv.normalize     # regular normalize creates a new Vec3D for us
+  qvn = Vec3D.new(q.y, -q.x, 0).normalize!  # chained Vec3D operations
+
+  ww = q.cross(qvn)
+
+  coss = cos(s)
+  sins = sin(s)
+
+  Vec3D.new(
+  x + d * (qvn.x * coss + ww.x * sins),
+  y + d * (qvn.y * coss + ww.y * sins),
+  z + d * ww.z * sins)
 end

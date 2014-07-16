@@ -56,17 +56,17 @@ class Particle
     s_shape.no_stroke
     s_shape.texture(sprite)
     s_shape.normal(0, 0, 1)
-    s_shape.vertex(-part_size/2, -part_size/2, 0, 0)
-    s_shape.vertex(+part_size/2, -part_size/2, sprite.width, 0)
-    s_shape.vertex(+part_size/2, +part_size/2, sprite.width, sprite.height)
-    s_shape.vertex(-part_size/2, +part_size/2, 0, sprite.height)
+    s_shape.vertex(-part_size / 2.0, -part_size / 2.0, 0, 0)
+    s_shape.vertex(+part_size / 2.0, -part_size / 2.0, sprite.width, 0)
+    s_shape.vertex(+part_size / 2.0, +part_size / 2.0, sprite.width, sprite.height)
+    s_shape.vertex(-part_size / 2.0, +part_size / 2.0, 0, sprite.height)
     s_shape.end_shape
 
     # Initialize center vector
     @center = Vec2D.new 
     
     # Set the particle starting location
-    rebirth(width/2, height/2)
+    rebirth(width / 2.0, height / 2.0)
   end
 
   def rebirth(x, y)

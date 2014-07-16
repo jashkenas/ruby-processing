@@ -15,11 +15,8 @@ attr_reader :flock
 
 def setup
   size(640, 360)
-  @flock = Flock.new
-  # Add an initial set of boids into the system
-  150.times do
-    flock << Boid.new(width/2, height/2)
-  end
+  # Add an initial set of boids into the system at the center
+  @flock = Flock.new(150, Vec2D.new(width / 2.0, height / 2.0))
 end
 
 def draw
@@ -29,5 +26,5 @@ end
 
 # Add a new boid into the System
 def mouse_pressed
-  flock << Boid.new(mouse_x, mouse_y)
+  flock << Boid.new(Vec2D.new(mouse_x, mouse_y))
 end

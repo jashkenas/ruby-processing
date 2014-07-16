@@ -29,12 +29,12 @@ end
 
 class ParticleSystem 
   extend Forwardable
-  def_delegators(:@particle_system, :each, :<<, :reject!)  
+  def_delegators(:@particle_system, :each, :<<, :reject!, :empty?)
   include Enumerable 
   include Runnable
   
   attr_reader :origin
- 
+
   def initialize(loc)
     @particle_system = []
     @origin = Vec2D.new(loc.x, loc.y)
@@ -44,6 +44,10 @@ class ParticleSystem
     self << Particle.new(origin) 
   end
   
+  def dead?
+    self.empty?
+  end 
+
 end
 
 # A simple Particle class

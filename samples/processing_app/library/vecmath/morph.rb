@@ -6,7 +6,11 @@
 #
 load_library :vecmath
 
-attr_reader :circle, :square, :morph, :state, :v1, :v2
+attr_reader :circle, :square, :morph, :state, :v1, :v2, :renderer
+
+ALPHA = Math::PI / 4.0
+OMEGA = TAU + ALPHA
+THETA = Math::PI / 20.0
 
 def setup
   size(640, 360)
@@ -14,14 +18,13 @@ def setup
   @square = []
   @morph = []
   @state = false
-  frameRate(15)
+  @renderer = AppRender.new(self)
+  frame_rate(15)
   # Create a circle using vectors pointing from center
-  (0 .. TAU).step(Math::PI / 20.0) do |angle|
+  (ALPHA .. OMEGA).step(THETA) do |angle|
     # Note we are not starting from 0 in order to match the
     # path of a circle.  
-    v = Vec2D.from_angle(angle + Math::PI / 4.0 )
-    v *= 100
-    circle << v
+    circle << Vec2D.from_angle(angle) * 100
     # Let's fill out morph Array with blank Vec2Ds while we are at it
     morph << Vec2D.new
   end
@@ -61,7 +64,7 @@ def draw
     # Lerp to the target
     v2.lerp!(v1, 0.1)
     # Check how far we are from target
-    @total_distance += Vec2D.dist(v1, v2)
+    @total_distance += v1.dist(v2)
   end
   
   # If all the vertices are close, switch shape
@@ -77,7 +80,7 @@ def draw
   no_fill
   stroke(255)
   morph.each do |v|
-    vertex(v.x, v.y)
+    v.to_vertex(renderer)
   end
   end_shape(CLOSE)
 end

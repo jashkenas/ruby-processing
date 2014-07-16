@@ -37,7 +37,6 @@ module SeekingNeural
     MAX_SPEED = 4
     MAX_FORCE = 0.1
     attr_reader :brain, :sz, :location, :targets, :desired  
-    attr_reader :maxforce_squared, :maxspeed_squared
     
     def initialize(n, x, y)
       @brain = Perceptron.new(n, 0.001)
@@ -45,8 +44,6 @@ module SeekingNeural
       @velocity = Vec2D.new
       @location = Vec2D.new(x, y)
       @sz = 6.0
-      @maxspeed_squared = MAX_SPEED * MAX_SPEED
-      @maxforce_squared = MAX_FORCE * MAX_FORCE
     end
     
     # Method to update location
@@ -54,7 +51,7 @@ module SeekingNeural
       # Update velocity
       @velocity += @acceleration
       # Limit speed
-      @velocity.set_mag(MAX_SPEED) {@velocity.mag_squared > maxspeed_squared}
+      @velocity.set_mag(MAX_SPEED) {@velocity.mag > MAX_SPEED}
       @location += @velocity
       # Reset acceleration to 0 each cycle
       @acceleration *= 0
@@ -94,7 +91,7 @@ module SeekingNeural
       desired *= MAX_SPEED
       # Steering = Desired minus velocity
       steer = desired - @velocity
-      steer.set_mag(MAX_FORCE) {steer.mag_squared > maxforce_squared} # Limit to a maximum steering force
+      steer.set_mag(MAX_FORCE) {steer.mag > MAX_FORCE} # Limit to a maximum steering force
       steer
     end
     

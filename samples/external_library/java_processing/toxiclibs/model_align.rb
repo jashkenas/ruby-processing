@@ -5,7 +5,7 @@
 #
 # (c) 2012 Karsten Schmidt / LGPL2 licensed
 #
-load_libraries 'toxiclibscore', 'toxiclibs_p5', 'colorutils'
+load_libraries :toxiclibscore, :toxiclibs_p5, :colorutils, :vecmath
 
 module Toxi
   include_package 'toxi.geom'
@@ -19,20 +19,16 @@ attr_reader :gfx, :positions
 
 def setup
   size(640,480,P3D)
+  ArcBall.init(self)
   @gfx = Toxi::ToxiclibsSupport.new(self)
-  @positions = []
   # compute mesh positions on circle in XZ plane
-  (Toxi::Circle.new(200).toPolygon2D(8)).each do |p|
-    positions << p.to3DXZ
-  end
+  @positions = (Toxi::Circle.new(200).toPolygon2D(8)).map{ |p| p.to3DXZ}
 end
 
 def draw
   background(51)
   lights
   no_stroke
-  translate(width/2,height/2,0)
-  rotate_x(-PI/6)
   # create manual focal point in XY plane
   focus = Toxi::Vec3D.new((mouse_x - width/2), (mouse_y - height/2), 0)
   # create mesh prototype to draw at all generated positions
@@ -40,16 +36,13 @@ def draw
   m = Toxi::AABB.new(25).to_mesh
   # draw focus
   gfx.box(Toxi::AABB.new(focus, 5))
-  positions.each do |p|
-    # align the positive z-axis of mesh to point at focus
-    # mesh needs to be located at world origin for it to work correctly
-    # only once rotated, move it to actual position
-    gfx.mesh(m.copy.pointTowards(focus.sub(p), Toxi::Vec3D::Z_AXIS).translate(p))
-  end
+  # align the positive z-axis of mesh to point at focus
+  # mesh needs to be located at world origin for it to work correctly
+  # only once rotated, move it to actual position
+  positions.map {|p| gfx.mesh(m.copy.pointTowards(focus.sub(p), Toxi::Vec3D::Z_AXIS).translate(p))}
+  
   # draw connections from mesh centers to focal point
   stroke(0,255,255)
-  positions.each do |p|
-    gfx.line(p, focus)
-  end
+  positions.map {|p| gfx.line(p, focus)}
 end
 

@@ -51,7 +51,7 @@ class Hilbert
 
   end
 
-  def render()    
+  def draw    
     #translate( -distance * ADJUSTMENT[gen], distance *  ADJUSTMENT[gen], -distance * ADJUSTMENT[gen])
     adj = adj_array[gen] * distance
     translate(adj.x, adj.y, adj.z)

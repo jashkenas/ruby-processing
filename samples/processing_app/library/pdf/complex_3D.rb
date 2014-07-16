@@ -2,7 +2,7 @@
 #  Geometry 
 #  by Marius Watz. 
 #  
-load_library 'pdf'
+load_libraries :pdf, :fastmath
 include_package 'processing.pdf'
 
 attr_reader :num, :pt, :style, :dosave
@@ -124,7 +124,7 @@ def arc_line(x, y, deg, rad, w)
   (0 ... numlines).each do 
     begin_shape
     (0 ... a).each do |i|                 
-      vertex(cos(i.radians)*rad+x,sin(i.radians)*rad+y)
+      vertex(DegLut.cos(i)*rad+x,DegLut.sin(i)*rad+y)
     end
     end_shape 
     rad += 2        
@@ -136,10 +136,10 @@ def arc_line_bars(x, y, deg, rad, w)
   a=(deg < 360)? deg / 16 : 0   
   begin_shape(QUADS)
   (0 ... a).step(4) do |i|
-    vertex(cos(i.radians)*(rad)+x,sin(i.radians)*(rad)+y)
-    vertex(cos(i.radians)*(rad+w)+x,sin(i.radians)*(rad+w)+y)
-    vertex(cos((i + 2).radians)*(rad+w)+x,sin((i + 2).radians)*(rad+w)+y)
-    vertex(cos((i + 2).radians)*(rad)+x,sin((i + 2).radians)*(rad)+y)
+    vertex(DegLut.cos(i)*(rad)+x,DegLut.sin(i)*(rad)+y)
+    vertex(DegLut.cos(i)*(rad+w)+x,DegLut.sin(i)*(rad+w)+y)
+    vertex(DegLut.cos((i + 2))*(rad+w)+x,DegLut.sin((i + 2))*(rad+w)+y)
+    vertex(DegLut.cos((i + 2))*(rad)+x,DegLut.sin((i + 2))*(rad)+y)
   end
   end_shape
 end
@@ -149,8 +149,8 @@ def arc(x,y,deg,rad,w)
   a = (deg < 360)? deg : 0
   begin_shape(QUAD_STRIP)
   (0 ... a).each do |i|
-    vertex(cos(i.radians)*(rad)+x,sin(i.radians)*(rad)+y)
-    vertex(cos(i.radians)*(rad+w)+x,sin(i.radians)*(rad+w)+y)
+    vertex(DegLut.cos(i)*(rad)+x,DegLut.sin(i)*(rad)+y)
+    vertex(DegLut.cos(i)*(rad+w)+x,DegLut.sin(i)*(rad+w)+y)
   end
   end_shape
 end
