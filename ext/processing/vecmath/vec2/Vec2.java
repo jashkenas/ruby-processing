@@ -129,14 +129,14 @@ public class Vec2 extends RubyObject {
      * @return new Vec2 object (ruby)
      *
      */
-    @Deprecated
-    @JRubyMethod(name = "dist", meta = true, rest = true)
-    public static RubyFloat dist(ThreadContext context, IRubyObject klazz, IRubyObject[] args) {
-        Arity.checkArgumentCount(context.runtime, args, 2, 2);
-        Vec2 vec0 = (Vec2) args[0].toJava(Vec2.class);
-        Vec2 vec1 = (Vec2) args[1].toJava(Vec2.class);
-        return context.getRuntime().newFloat(Math.hypot((vec0.jx - vec1.jx), (vec0.jy - vec1.jy)));
-    }
+    // @Deprecated
+    // @JRubyMethod(name = "dist", meta = true, rest = true)
+    // public static RubyFloat dist(ThreadContext context, IRubyObject klazz, IRubyObject[] args) {
+        // Arity.checkArgumentCount(context.runtime, args, 2, 2);
+        // Vec2 vec0 = (Vec2) args[0].toJava(Vec2.class);
+        // Vec2 vec1 = (Vec2) args[1].toJava(Vec2.class);
+        // return context.getRuntime().newFloat(Math.hypot((vec0.jx - vec1.jx), (vec0.jy - vec1.jy)));
+    // }
 
     /**
      * Example of a regular ruby class method
@@ -147,14 +147,14 @@ public class Vec2 extends RubyObject {
      * @param args
      * @return new Vec2 object (ruby)
      */
-    @Deprecated
-    @JRubyMethod(name = "dist_squared", meta = true, rest = true)
-    public static RubyFloat dist_squared(ThreadContext context, IRubyObject klazz, IRubyObject[] args) {
-        Arity.checkArgumentCount(context.runtime, args, 2, 2);
-        Vec2 vec0 = (Vec2) args[0].toJava(Vec2.class);
-        Vec2 vec1 = (Vec2) args[1].toJava(Vec2.class);
-        return context.getRuntime().newFloat((vec0.jx - vec1.jx) * (vec0.jx - vec1.jx) + (vec0.jy - vec1.jy) * (vec0.jy - vec1.jy));
-    }
+    // @Deprecated
+    // @JRubyMethod(name = "dist_squared", meta = true, rest = true)
+    // public static RubyFloat dist_squared(ThreadContext context, IRubyObject klazz, IRubyObject[] args) {
+        // Arity.checkArgumentCount(context.runtime, args, 2, 2);
+        // Vec2 vec0 = (Vec2) args[0].toJava(Vec2.class);
+        // Vec2 vec1 = (Vec2) args[1].toJava(Vec2.class);
+        // return context.getRuntime().newFloat((vec0.jx - vec1.jx) * (vec0.jx - vec1.jx) + (vec0.jy - vec1.jy) * (vec0.jy - vec1.jy));
+    // }
 
     /**
      *
@@ -181,18 +181,18 @@ public class Vec2 extends RubyObject {
      * @param other
      * @return
      */
-    @JRubyMethod(name = "dist_squared", required = 1)
-
-    public IRubyObject dist_squared(ThreadContext context, IRubyObject other) {
-        Vec2 b = null;
-        if (other instanceof Vec2) {
-            b = (Vec2) other.toJava(Vec2.class);
-        } else {
-            throw context.runtime.newTypeError("argument should be Vec2D");
-        }
-        double result = (jx - b.jx) * (jx - b.jx) + (jy - b.jy) * (jy - b.jy);
-        return context.getRuntime().newFloat(result);
-    }
+    // @JRubyMethod(name = "dist_squared", required = 1)
+// 
+    // public IRubyObject dist_squared(ThreadContext context, IRubyObject other) {
+        // Vec2 b = null;
+        // if (other instanceof Vec2) {
+            // b = (Vec2) other.toJava(Vec2.class);
+        // } else {
+            // throw context.runtime.newTypeError("argument should be Vec2D");
+        // }
+        // double result = (jx - b.jx) * (jx - b.jx) + (jy - b.jy) * (jy - b.jy);
+        // return context.getRuntime().newFloat(result);
+    // }
 
     /**
      *
@@ -278,7 +278,7 @@ public class Vec2 extends RubyObject {
      */
     @JRubyMethod(name = "*")
 
-    public IRubyObject op_mult(ThreadContext context, IRubyObject other) {
+    public IRubyObject op_mul(ThreadContext context, IRubyObject other) {
         double scalar = (Double) other.toJava(Double.class);     
         return Vec2.rbNew(context, this.getMetaClass(),
                 new IRubyObject[]{context.getRuntime().newFloat(jx * scalar),
@@ -318,11 +318,11 @@ public class Vec2 extends RubyObject {
      * @param context
      * @return
      */
-    @JRubyMethod(name = "mag_squared")
-
-    public IRubyObject mag_squared(ThreadContext context) {
-        return context.getRuntime().newFloat(jx * jx + jy * jy);
-    }
+    // @JRubyMethod(name = "mag_squared")
+// 
+    // public IRubyObject mag_squared(ThreadContext context) {
+        // return context.getRuntime().newFloat(jx * jx + jy * jy);
+    // }
 
     /**
      *

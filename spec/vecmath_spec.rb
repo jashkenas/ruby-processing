@@ -123,12 +123,6 @@ describe "Vec2D mag" do
   end
 end
 
-describe "Vec2D mag_squared" do
-  it "should return Vec2D mag_squared" do
-     a = Vec2D.new(2, 2)
-     expect(a.mag_squared).to eq 8
-  end
-end
 
 describe "Vec2D lerp" do
   it "should return Vec2D lerp" do
@@ -186,22 +180,6 @@ describe "Vec2D#set_mag_block_true" do
 end
 
 describe "Vec2D dist" do
-  it "should return Vec2D dist(a, b)" do
-     a = Vec2D.new(3, 5)
-     b = Vec2D.new(6, 7)
-     expect(Vec2D.dist(a, b)).to eq Math.sqrt(3.0**2 + 2**2)
-  end
-end
-
-describe "Vec2D dist_squared" do
-  it "should return Vec2D.dist_squared(a, b)" do
-    a = Vec2D.new(3, 5)
-    b = Vec2D.new(6, 7)
-    expect(Vec2D.dist_squared(a, b)).to eq 3.0**2 + 2**2
-  end
-end
-
-describe "Vec2D dist" do
   it "should return a.dist(b)" do
      a = Vec2D.new(3, 5)
      b = Vec2D.new(6, 7)
@@ -209,13 +187,6 @@ describe "Vec2D dist" do
   end
 end
 
-describe "Vec2D dist_squared" do
-  it "should return a.dist_squared(b)" do
-    a = Vec2D.new(3, 5)
-    b = Vec2D.new(6, 7)
-    expect(a.dist_squared(b)).to eq 3.0**2 + 2**2
-  end
-end
 
 describe "Vec2D dot" do
   it "should return Vec2D dist(a, b)" do
@@ -315,20 +286,12 @@ describe "Vec2D#rotate rot" do
   end
 end  
 
-#describe "Vec2D#rotate! rot" do
-#  it "should rotate a vector keeping same mag" do
-#      x, y = 10.0, 20.0
-#      b = Vec2DR.new(x, y)
-#      b.rotate!(Math::PI / 2)
-#      expect(b).to eq(Vec2D.new(-20.0, 10.0))
-#  end
-#end
 
 describe "Vec2D#add Vec3D" do
   it "it to raise exception" do
     a = Vec2D.new
     b = Vec3D.new 100, 100, 100
-    expect {a += b}.to raise_error
+    expect {a += b}.to raise_error(TypeError)
   end
 end
 
@@ -350,7 +313,7 @@ describe "Vec3D#copy" do
 end
 
 describe "Vec3D#copy" do
-  it "should return a deep copy" do
+  it "should produce a new object" do
      x, y, z = 1.0000001, 1.01, 0.999999	  
      a = Vec3D.new(x, y, z)
      b = a.copy

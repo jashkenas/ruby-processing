@@ -281,7 +281,7 @@ public final class Vec3 extends RubyObject {
      */
     @JRubyMethod(name = "*", required = 1)
 
-    public IRubyObject op_mult(ThreadContext context, IRubyObject other) {
+    public IRubyObject op_mul(ThreadContext context, IRubyObject other) {
         double scalar = (Double) other.toJava(Double.class);
         return Vec3.rbNew(context, this.getMetaClass(), new IRubyObject[]{
             context.runtime.newFloat(jx * scalar),
