@@ -1,23 +1,23 @@
 #######################################################
-# Lindenmayer System in ruby-processing by Martin Prout
-# snake_kolam.rb using l-systems
+# Lindenmayer System in ruby-procesDegLut.sing by Martin Prout
+# snake_kolam.rb uDegLut.sing l-systems
 #######################################################
 
-load_library 'grammar'
+load_library :grammar, :fastmath
 
 class SnakeKolam
   include Processing::Proxy
-  import 'grammar'
+
   attr_accessor :axiom, :start_length, :xpos, :ypos, :grammar, :production, :draw_length, :gen
   XPOS = 0
   YPOS = 1
   ANGLE = 2
-  DELTA = (PI/180) * 90.0 # convert degrees to radians
+  DELTA = 90 # degrees 
   
   def initialize xpos, ypos
     setup_grammar
     @start_length = 120.0
-    @theta = (PI/180) * 90.0 # convert degrees to radians
+    @theta = 90 # degrees 
     @draw_length = start_length
     @xpos = xpos 
     @ypos = ypos 
@@ -31,7 +31,7 @@ class SnakeKolam
       )
   end
     
-  def render                     # NB not using affine transforms here
+  def render                     # NB not uDegLut.sing affine transforms here
     turtle = [xpos, ypos, 0.0]
     production.each do |element|
       case element
@@ -61,13 +61,13 @@ class SnakeKolam
   
   private
   ######################################################
-  # draws line using current turtle and length parameters
+  # draws line uDegLut.sing current turtle and length parameters
   # returns a turtle corresponding to the new position
   ######################################################
   
   def draw_line(turtle, length)
-    new_xpos = turtle[XPOS] + length * Math.cos(turtle[ANGLE])
-    new_ypos = turtle[YPOS] + length * Math.sin(turtle[ANGLE])
+    new_xpos = turtle[XPOS] + length * DegLut.cos(turtle[ANGLE])
+    new_ypos = turtle[YPOS] + length * DegLut.sin(turtle[ANGLE])
     line(turtle[XPOS], turtle[YPOS], new_xpos, new_ypos)
     turtle = [new_xpos, new_ypos, turtle[ANGLE]]
   end

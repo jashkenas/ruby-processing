@@ -3,12 +3,15 @@
 # A 3D Plant implemented using a Context Sensitive
 # Lindenmayer System in ruby-processing 
 # by Martin Prout (30 January 2013)
+# Hold down 'y' key and drag mouse to rotate about y axis
 ########################################################
 
+load_libraries :cs_grammar, :vecmath
 attr_reader :csplant
 
 def setup
   size 800, 800, P3D
+  ArcBall.init(self)
   @csplant = CSPlant.new(height)
   csplant.create_grammar 5
   no_stroke
@@ -17,8 +20,7 @@ end
 def draw
   background 0
   lights
-  translate(width/2, height*0.8)
-  rotate_y QUARTER_PI
+  translate(0, height*0.3)
   csplant.render
 end
 
@@ -26,11 +28,11 @@ end
 # CSPlant 
 ############
 
-load_libraries 'cs_grammar'
+
 
 class CSPlant
   include Processing::Proxy
-  import 'cs_grammar'
+
   IGNORE = "[]+-^&3"
   attr_reader :grammar, :axiom, :production, :premis, :rule,
   :theta, :scale_factor, :len, :phi, :len

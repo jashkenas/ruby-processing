@@ -5,24 +5,22 @@
 # Exploring terminals with minimum logic 
 ########################################################
 
-load_library 'stochastic_grammar'
+
+load_library :stochastic_grammar, :fastmath
+
+Turtle = Struct.new(:x, :y, :angle)
 
 class StochasticPlant
   include Processing::Proxy
 
-  attr_reader :grammar, :axiom, :draw_length, :theta, :xpos, :ypos, :production
+  attr_reader :grammar, :axiom, :draw_length, :turtle, :production
 
-  XPOS = 0     # placeholders for turtle array
-  YPOS = 1
-  ANGLE = 2
+  DELTA = 23
 
-  DELTA = PI/8
-
-  def initialize xpos_, ypos_   
+  def initialize xpos, ypos   
     @draw_length = 350
-    @xpos = xpos_
-    @ypos = ypos_
-    @theta = HALF_PI                  # this way is up?
+    # use Struct as turtle
+    @turtle = Turtle.new(xpos, ypos, 90)        # this way is up?
     setup_grammar
   end
 
@@ -36,20 +34,19 @@ class StochasticPlant
   end
 
   def render
-    stack = []                     # ruby array as the turtle stack
-    turtle = [xpos, ypos, theta]   # ruby array as a turtle
+    stack = []                     # ruby array as the turtle stack    
     production.each_char do |element|
       case element
       when 'F'                     # NB NOT using affine transforms
-        turtle = draw_line(turtle, draw_length)
+        @turtle = draw_line(turtle, draw_length)
       when '+'
-        turtle[ANGLE] += DELTA
+        turtle.angle += DELTA
       when '-'
-        turtle[ANGLE] -= DELTA   
+        turtle.angle -= DELTA   
       when '['
-        stack.push(turtle.dup)    # push a copy of the current turtle to stack 
+        stack << turtle.dup    # push a copy of the current turtle to stack 
       when ']'
-        turtle = stack.pop        # assign current turtle to an instance popped from the stack
+        @turtle = stack.pop        # assign current turtle to an instance popped from the stack
       else
         puts "Character '#{element}' is not in grammar"
       end
@@ -64,14 +61,14 @@ class StochasticPlant
   private
   ######################################################
   # draws a line using current turtle and length parameters
-  # returns a turtle corresponding to the new position
+  # returns a new turtle corresponding to the next position
   ######################################################
 
   def draw_line(turtle, length)
-    new_xpos = turtle[XPOS] + length * cos(turtle[ANGLE])
-    new_ypos = turtle[YPOS] - length * sin(turtle[ANGLE])
-    line(turtle[XPOS], turtle[YPOS], new_xpos, new_ypos) 
-    turtle = [new_xpos, new_ypos, turtle[ANGLE]]
+    new_xpos = turtle.x + length * DegLut.cos(turtle.angle)
+    new_ypos = turtle.y - length * DegLut.sin(turtle.angle)
+    line(turtle.x, turtle.y, new_xpos, new_ypos) 
+    Turtle.new(new_xpos, new_ypos, turtle.angle)
   end
 end
 

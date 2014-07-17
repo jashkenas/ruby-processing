@@ -21,6 +21,7 @@ end
 def setup_panel
   control_panel do |c|
     c.title = "Control:"
+    c.look_feel "Metal"
     c.slider :zoom, 1..8, 3
     c.slider :rot_y, -PI..PI, 0
     c.button :reset
@@ -61,8 +62,8 @@ class Plant
     @rule = "F[&+F]F[->F][->F][&F]"
     @scale_factor = 0.8
     @distance = 8
-    @theta = radians(28)
-    @phi = radians(28) 
+    @theta = 28.radians
+    @phi = 28.radians
     grammar.add_rule(premis, rule)
     no_stroke()
   end

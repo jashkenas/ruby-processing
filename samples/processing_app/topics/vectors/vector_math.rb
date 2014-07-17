@@ -3,7 +3,8 @@
 # by Daniel Shiffman.  
 # 
 # Demonstration some basic vector math: subtraction, normalization, scaling
-# Normalizing a vector sets its length to 1.
+# Normalizing a vector sets its length to 1. See library/vecmath for example
+# using the more ruby like Vec2D class instead of PVector
 #
 
 def setup

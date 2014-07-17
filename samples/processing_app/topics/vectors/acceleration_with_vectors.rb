@@ -8,6 +8,7 @@
 #
 # For more examples of simulating motion and physics with vectors, see 
 # Simulate/ForcesWithVectors, Simulate/GravitationalAttraction3D
+# See library/vecmath for Vec2D examples
 #
 
 # A Mover object

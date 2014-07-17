@@ -8,7 +8,7 @@
 # When the system reaches bottom of the window, it restarts with a new ruleset
 # Mouse click restarts as well. 
 #
-load_library 'ca'
+load_library :ca
  
 attr_reader :ca   # An instance object to describe the Wolfram basic Cellular Automata
 
