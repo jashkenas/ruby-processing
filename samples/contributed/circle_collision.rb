@@ -18,17 +18,11 @@ class Ball
   end
   
   def check_boundary width, height 
-    if (position.x > width - r) 
-      position.x = width - r
+    if !(r .. width - r).include?(position.x)
+      (position.x > width - r)? position.x = width - r : position.x = r
       velocity.x *= -1
-    elsif (position.x < r) 
-      position.x = r
-      velocity.x *= -1
-    elsif (position.y > height - r) 
-      position.y = height - r
-      velocity.y *= -1
-    elsif (position.y < r) 
-      position.y = r
+    elsif !(r .. height - r).include?(position.y)
+      (position.y > height - r)? position.y = height - r : position.y = r
       velocity.y *= -1
     end    
   end
@@ -39,10 +33,9 @@ class Ball
     difference = other_ball.position - position
     
     # calculate magnitude of the vector separating the balls
+
     
-    dist_mag_squared = difference.mag_squared
-    
-    if dist_mag_squared < (r + other_ball.r) * (r + other_ball.r)
+    if difference.mag < (r + other_ball.r) 
       # get angle of difference
       theta  = difference.heading
       # precalculate trig values

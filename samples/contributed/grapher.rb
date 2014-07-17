@@ -3,6 +3,8 @@
 # http://www.contextfreeart.org/gallery/view.php?id=2844
 #
 
+load_library :fastmath
+
 CMIN = -2.0 # Important to specify float else get random int from range?
 CMAX = 2.0
 FUZZ = 0.04
@@ -18,18 +20,17 @@ end
 
 def draw
   translate(width/2, height/2)
-  dot(rand(-PI .. PI), rand(-PI .. PI), rand(CMIN .. CMAX)) unless frame_count > 200000
+  dot(rand(-180 .. 180), rand(-180 .. 180), rand(CMIN .. CMAX)) unless frame_count > 200000
 end
 
 def dot(px, py, c)    
-  func = sin(px) + sin(py) + c
+  func = DegLut.sin(px) + DegLut.sin(py) + c
   # change function to change the graph eg.
-  #func = sin(px) + tan(py) + c    
-  #func = cos(px) + sin(py) + c
+  #func = DegLut.cos(px) + DegLut.sin(py) + c
   if func.abs <= FUZZ
     fill(((CMIN - c) / (CMIN - CMAX)), 1, 1)
-    ellipse px * width / TWO_PI, py * height / TWO_PI, SZ, SZ
+    ellipse px * width / 360, py * height / 360, SZ, SZ
   else
-    dot(rand(-PI .. PI), rand(-PI .. PI), rand(CMIN .. CMAX))
+    dot(rand(-180 .. 180), rand(-180 .. 180), rand(CMIN .. CMAX))
   end
 end

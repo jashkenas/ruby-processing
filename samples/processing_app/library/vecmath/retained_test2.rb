@@ -1,11 +1,11 @@
-load_library 'vecmath'
+load_library :vecmath
 
 attr_reader :my_cube
 
 def setup
   size(600, 600, P3D)
   smooth(16)
-  ArcBall.new(self)
+  ArcBall.init(self)
   @my_cube = create_shape(BOX, 400, 400, 400)
   my_cube.set_fill(color(100, 10, 100))
 

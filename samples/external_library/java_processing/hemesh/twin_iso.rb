@@ -8,7 +8,7 @@ attr_reader :mesh_ret, :inv_mesh_ret, :render
 
 def setup
   size(800, 800, P3D)
-  ArcBall.new(self)
+  ArcBall.init(self)
   smooth(8)
   values = []               # build a multi-dimensional array in ruby
   (0 .. RES).each do |i|    # the inclusive range is intentional here
