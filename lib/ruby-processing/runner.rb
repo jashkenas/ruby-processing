@@ -30,8 +30,8 @@ module Processing
     setup:      check setup, or install jruby-complete
 
   Common options:
-    --nojruby:  do not use the installed version of jruby, instead use our vendored
-                jarred one (required for shader sketches, and some others).
+    --nojruby:  use jruby-complete in place of an installed version of jruby
+                needed if you haven't installed jruby, and for some sketches
   
   Configuration file:
     The YAML configuration '.rp5rc' file is located at:-
@@ -138,8 +138,8 @@ module Processing
     end
     
     def setup(choice)
-      usage = "Usage: k9 setup [check | install]"
-      installed = File.exist?("#{K9_ROOT}/lib/ruby/jruby-complete.jar")
+      usage = "Usage: rp5 setup [check | install]"
+      installed = File.exist?("#{RP5_ROOT}/lib/ruby/jruby-complete.jar")
      
       case choice
       when /check/
@@ -147,7 +147,7 @@ module Processing
         puts "  PROCESSING_ROOT = #{Processing::CONFIG["PROCESSING_ROOT"]}"
         puts "  jruby-complete installed = #{installed}"
       when /install/
-        system "cd #{K9_ROOT}/vendors && rake"
+        system "cd #{RP5_ROOT}/vendors && rake"
       else
         puts usage
       end

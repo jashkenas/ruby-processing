@@ -37,7 +37,6 @@ Gem::Specification.new do |spec|
   EOS
   spec.summary = %q{Code as Art, Art as Code. Processing and Ruby are meant for each other.}
   spec.homepage = "http://wiki.github.com/jashkenas/ruby-processing"
-  spec.executables = ["rp5", "install_jruby_complete"]
   spec.license = 'MIT'
   
   spec.files = FileList['bin/**/*', 'lib/**/*', 'library/**/*', 'samples/**/*', 'vendors/Rakefile'].exclude(/jar/).to_a
