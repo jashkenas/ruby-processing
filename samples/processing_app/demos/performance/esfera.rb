@@ -7,7 +7,6 @@
 #
 load_library :vecmath
 
-
 QUANTITY = 16000 
 
 attr_reader :orb, :phi, :radius, :rx, :ry
@@ -27,20 +26,13 @@ def setup
   @radius = height/3.5
   @orb = HairyOrb.new(self, radius)
   QUANTITY.times do
-    orb << HairFactory.create_hair(radius) 
+    orb << create_hair(radius) 
   end
   noise_detail(3)
 end
 
 def draw
   background_int(0)
-#  translate(width/2,height/2)
-#  rxp = ((mouse_x - (width/2))*0.005)
-#  ryp = ((mouse_y - (height/2))*0.005)
-#  @rx = (rx*0.9)+(rxp*0.1)
-#  @ry = (ry*0.9)+(ryp*0.1)
-#  rotate_y(rx)
-#  rotate_x(ry)
   fill_int 0
   no_stroke
   sphere(radius)
@@ -50,21 +42,30 @@ def draw
   end
 end
 
+def create_hair radius
+  z = rand(-radius .. radius)
+  phi = rand(0 .. TAU)
+  len = rand(1.15 .. 1.2)
+  theta = Math.asin(z / radius) 
+  Hair.new(z, phi, len, theta)
+end 
+
+require 'forwardable'
+
 class HairyOrb 
   extend Enumerable
+  extend Forwardable
+  def_delegators(:@hairs, :each, :<<)
+  
   attr_reader :app, :hairs, :radius
   
   def initialize app, radius
     @app, @radius = app, radius
     @hairs = []    
   end
-  
-  def << item
-    hairs << item
-  end      
-  
+    
   def render   
-    hairs.each do |hair|
+    self.each do |hair|
       off = (app.noise(app.millis() * 0.0005, sin(hair.phi)) - 0.5) * 0.3
       offb = (app.noise(app.millis() * 0.0007, sin(hair.z) * 0.01) - 0.5) * 0.3
       thetaff = hair.theta + off
@@ -89,19 +90,5 @@ class HairyOrb
   end
 end
 
-class HairFactory 
-  def self.create_hair radius
-    z = rand(-radius .. radius)
-    phi = rand(0 .. TAU)
-    len = rand(1.15 .. 1.2)
-    theta = Math.asin(z / radius) 
-    return Hair.new(z, phi, len, theta)
-  end 
-end
+Hair = Struct.new(:z, :phi, :len, :theta )
 
-class Hair
-  attr_reader :z, :phi, :len, :theta  
-  def initialize z, phi, len, theta 
-    @z, @phi, @len, @theta = z, phi, len, theta 
-  end
-end

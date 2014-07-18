@@ -1,10 +1,12 @@
 # Press 'w' to start wiggling, space to restore
 # original positions.
 
+load_library :fastmath
+
 attr_reader :cube, :wiggling
 CUBE_SIZE = 320.0
 CIRCLE_RAD = 100.0
-CIRCLE_RES = 40
+CIRCLE_RES = 36
 NOISE_MAG = 1.0
 
 # signature-specific alias for overloaded method 
@@ -72,9 +74,9 @@ def create_cube
   face.end_contour
   face.begin_contour
   CIRCLE_RES.times do |i|
-    angle = TAU * i / CIRCLE_RES
-    x = CIRCLE_RAD * sin(angle)
-    y = CIRCLE_RAD * cos(angle)
+    angle = 360 * i / CIRCLE_RES
+    x = CIRCLE_RAD * DegLut.sin(angle)
+    y = CIRCLE_RAD * DegLut.cos(angle)
     z = CUBE_SIZE / 2
     face.vertex(x, y, z)
   end
@@ -95,9 +97,9 @@ def create_cube
   face.end_contour
   face.begin_contour
   CIRCLE_RES.times do |i|
-    angle = TAU * i / CIRCLE_RES
-    x = CIRCLE_RAD * sin(angle)
-    y = CIRCLE_RAD * cos(angle)
+    angle = 360 * i / CIRCLE_RES
+    x = CIRCLE_RAD * DegLut.sin(angle)
+    y = CIRCLE_RAD * DegLut.cos(angle)
     z = -CUBE_SIZE / 2
     face.vertex(x, y, z)
   end
@@ -118,10 +120,10 @@ def create_cube
   face.end_contour
   face.begin_contour
   CIRCLE_RES.times do |i|
-    angle = TAU * i / CIRCLE_RES
+    angle = 360 * i / CIRCLE_RES
     x = CUBE_SIZE / 2
-    y = CIRCLE_RAD * sin(angle)
-    z = CIRCLE_RAD * cos(angle)
+    y = CIRCLE_RAD * DegLut.sin(angle)
+    z = CIRCLE_RAD * DegLut.cos(angle)
     face.vertex(x, y, z)
   end
   face.end_contour
@@ -141,10 +143,10 @@ def create_cube
   face.end_contour
   face.begin_contour
   CIRCLE_RES.times do |i|
-    angle = TAU * i / CIRCLE_RES
+    angle = 360 * i / CIRCLE_RES
     x = -CUBE_SIZE / 2
-    y = CIRCLE_RAD * sin(angle)
-    z = CIRCLE_RAD * cos(angle)
+    y = CIRCLE_RAD * DegLut.sin(angle)
+    z = CIRCLE_RAD * DegLut.cos(angle)
     face.vertex(x, y, z)
   end
   face.end_contour
@@ -164,10 +166,10 @@ def create_cube
   face.end_contour
   face.begin_contour
   CIRCLE_RES.times do |i|
-    angle = TAU * i / CIRCLE_RES
-    x = CIRCLE_RAD * sin(angle)
+    angle = 360 * i / CIRCLE_RES
+    x = CIRCLE_RAD * DegLut.sin(angle)
     y = CUBE_SIZE / 2
-    z = CIRCLE_RAD * cos(angle)
+    z = CIRCLE_RAD * DegLut.cos(angle)
     face.vertex(x, y, z)
   end
   face.end_contour
@@ -187,10 +189,10 @@ def create_cube
   face.end_contour
   face.begin_contour
   CIRCLE_RES.times do |i|
-    angle = TAU * i / CIRCLE_RES
-    x = CIRCLE_RAD * sin(angle)
+    angle = 360 * i / CIRCLE_RES
+    x = CIRCLE_RAD * DegLut.sin(angle)
     y = -CUBE_SIZE / 2
-    z = CIRCLE_RAD * cos(angle)
+    z = CIRCLE_RAD * DegLut.cos(angle)
     face.vertex(x, y, z)
   end
   face.end_contour
@@ -209,9 +211,9 @@ def restore_cube
   face.set_vertex(2, CUBE_SIZE / 2, CUBE_SIZE / 2, CUBE_SIZE / 2)
   face.set_vertex(3, -CUBE_SIZE / 2, CUBE_SIZE / 2, CUBE_SIZE / 2)
   CIRCLE_RES.times do |i|
-    angle = TAU * i / CIRCLE_RES
-    x = CIRCLE_RAD * sin(angle)
-    y = CIRCLE_RAD * cos(angle)
+    angle = 360 * i / CIRCLE_RES
+    x = CIRCLE_RAD * DegLut.sin(angle)
+    y = CIRCLE_RAD * DegLut.cos(angle)
     z = CUBE_SIZE / 2
     face.set_vertex(4 + i, x, y, z)
   end
@@ -223,7 +225,7 @@ def restore_cube
   face.set_vertex(2, -CUBE_SIZE / 2, CUBE_SIZE / 2, -CUBE_SIZE / 2)
   face.set_vertex(3, CUBE_SIZE / 2, CUBE_SIZE / 2, -CUBE_SIZE / 2)
   CIRCLE_RES.times do |i|
-    angle = TAU * i / CIRCLE_RES
+    angle = 360 * i / CIRCLE_RES
     x = CIRCLE_RAD * sin(angle)
     y = CIRCLE_RAD * cos(angle)
     z = -CUBE_SIZE / 2
@@ -237,10 +239,10 @@ def restore_cube
   face.set_vertex(2, CUBE_SIZE / 2, CUBE_SIZE / 2, -CUBE_SIZE / 2)
   face.set_vertex(3, CUBE_SIZE / 2, CUBE_SIZE / 2, CUBE_SIZE / 2)
   CIRCLE_RES.times do |i|
-    angle = TAU * i / CIRCLE_RES
+    angle = 360 * i / CIRCLE_RES
     x = CUBE_SIZE / 2
-    y = CIRCLE_RAD * sin(angle)
-    z = CIRCLE_RAD * cos(angle)
+    y = CIRCLE_RAD * DegLut.sin(angle)
+    z = CIRCLE_RAD * DegLut.cos(angle)
     face.set_vertex(4 + i, x, y, z)
   end
   
@@ -251,10 +253,10 @@ def restore_cube
   face.set_vertex(2, -CUBE_SIZE / 2, CUBE_SIZE / 2, CUBE_SIZE / 2)
   face.set_vertex(3, -CUBE_SIZE / 2, CUBE_SIZE / 2, -CUBE_SIZE / 2)
   CIRCLE_RES.times do |i|
-    angle = TAU * i / CIRCLE_RES
+    angle = 360 * i / CIRCLE_RES
     x = -CUBE_SIZE / 2
-    y = CIRCLE_RAD * sin(angle)
-    z = CIRCLE_RAD * cos(angle)
+    y = CIRCLE_RAD * DegLut.sin(angle)
+    z = CIRCLE_RAD * DegLut.cos(angle)
     face.set_vertex(4 + i, x, y, z)
   end    
   
@@ -265,10 +267,10 @@ def restore_cube
   face.set_vertex(2, CUBE_SIZE / 2, CUBE_SIZE / 2, -CUBE_SIZE / 2)
   face.set_vertex(3, -CUBE_SIZE / 2, CUBE_SIZE / 2, -CUBE_SIZE / 2)
   CIRCLE_RES.times do |i|
-    angle = TAU * i / CIRCLE_RES
-    x = CIRCLE_RAD * sin(angle)
+    angle = 360 * i / CIRCLE_RES
+    x = CIRCLE_RAD * DegLut.sin(angle)
     y = CUBE_SIZE / 2
-    z = CIRCLE_RAD * cos(angle)
+    z = CIRCLE_RAD * DegLut.cos(angle)
     face.set_vertex(4 + i, x, y, z)
   end    
   
@@ -279,10 +281,10 @@ def restore_cube
   face.set_vertex(2, -CUBE_SIZE / 2, -CUBE_SIZE / 2, -CUBE_SIZE / 2)
   face.set_vertex(3, CUBE_SIZE / 2, -CUBE_SIZE / 2, -CUBE_SIZE / 2)
   CIRCLE_RES.times do |i|
-    angle = TAU * i / CIRCLE_RES
-    x = CIRCLE_RAD * sin(angle)
+    angle = 360 * i / CIRCLE_RES
+    x = CIRCLE_RAD * DegLut.sin(angle)
     y = -CUBE_SIZE / 2
-    z = CIRCLE_RAD * cos(angle)
+    z = CIRCLE_RAD * DegLut.cos(angle)
     face.set_vertex(4 + i, x, y, z)
   end
 end

@@ -24,7 +24,7 @@ module Processing
     run:        run sketch once
     watch:      watch for changes on the file and relaunch it on the fly
     live:       launch sketch and give an interactive IRB shell
-    create:     create new sketch. Use --bare to generate simpler sketches without a class
+    create:     create a new sketch. 
     app:        create an application version of the sketch
     unpack:     unpack samples or library
     setup:      check setup, or install jruby-complete

@@ -18,37 +18,38 @@ def setup
   # Set up arc shapes
   index = 0
   (0 ... num).each do |i|
-    pt.push(rand(TWO_PI)) # Random X axis rotation
-    pt.push(rand(TWO_PI)) # Random Y axis rotation
+    pt << rand(TAU) # Random X axis rotation
+    pt << rand(TAU) # Random Y axis rotation
     
-    pt.push(rand(60 .. 80)) # Short to quarter-circle arcs
+    pt << rand(60 .. 80) # Short to quarter-circle arcs
     if (rand(100)>90)
       pt[pt.length - 1] = rand(8 .. 27) * 10
     end     
-    pt.push(rand(2 .. 50) * 5) # Radius. Space them out nicely
+    pt << rand(2 .. 50) * 5 # Radius. Space them out nicely
     
-    pt.push(rand(4 .. 32)) # Width of band
+    pt << rand(4 .. 32) # Width of band
     if (rand(100) > 90)
       pt[pt.length - 1] = rand(40 .. 60) # Width of band
     end
     
-    pt.push(rand(0.005 .. 0.0334))# Speed of rotation
+    pt << rand(0.005 .. 0.0334)# Speed of rotation
     
     # get colors
     prob = rand(100)
-    if (prob < 30)
+    case prob
+    when (0 .. 30)
       style[i*2] = color_blended(rand, 255,0,100, 255,0,0, 210)
-    elsif(prob < 70) 
+    when (30 .. 70) 
       style[i*2] = color_blended(rand, 0,153,255, 170,225,255, 210)
-    elsif(prob<90) 
+    when (70 .. 90) 
       style[i*2] = color_blended(rand, 200,255,0, 150,255,0, 210)
     else 
       style[i*2] = color(255,255,255, 220)
     end
-    
-    if (prob < 50)
+    case prob
+    when (0 .. 50)
       style[i*2] = color_blended(rand, 200,255,0, 50,120,0, 210)
-    elsif(prob < 90)
+    when (50 .. 90)
       style[i*2] = color_blended(rand, 255,100,0, 255,255,0, 210)
     else
       style[i*2] = color(255, 255, 255, 220)
@@ -78,13 +79,14 @@ def draw
     rotate_x(pt[index])
     rotate_y(pt[index + 1])
     index += 2
-    if (style[i*2+1] == 0)
+    case (style[i*2+1])
+    when 0
       stroke(style[i*2])
       no_fill
       stroke_weight(1)
       arc_line(0,0, pt[index],pt[index + 1],pt[index + 2])
       index += 3
-    elsif (style[i*2+1] == 1)
+    when 1
       fill(style[i*2])
       no_stroke
       arc_line_bars(0,0, pt[index],pt[index + 1],pt[index + 2])
@@ -113,7 +115,7 @@ def color_blended(fract, r, g, b, r2, g2, b2, a)
   r2 = (r2 - r)
   g2 = (g2 - g)
   b2 = (b2 - b)
-  return color(r + r2 * fract, g + g2 * fract, b + b2 * fract, a)
+  color(r + r2 * fract, g + g2 * fract, b + b2 * fract, a)
 end
 
 
@@ -145,7 +147,7 @@ def arc_line_bars(x, y, deg, rad, w)
 end
   
 # Draw solid arc
-def arc(x,y,deg,rad,w) 
+def arc(x, y, deg, rad, w) 
   a = (deg < 360)? deg : 0
   begin_shape(QUAD_STRIP)
   (0 ... a).each do |i|

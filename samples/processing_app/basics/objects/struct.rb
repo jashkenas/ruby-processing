@@ -1,5 +1,5 @@
 #
-# Storing Input. 
+# Storing Data as a Struct 
 # 
 # Move the mouse across the screen to change the position
 # of the circles. The positions of the mouse are recorded
@@ -12,13 +12,13 @@ NUM = 60
  
 attr_reader :pos
 
-Vec = Struct.new(:x, :y)
+Vec = Struct.new(:x, :y) # create named Struct Type with getters and setters
 
 def setup  
   size(640, 360)
-  @pos = Array.new(NUM, Vec.new(0, 0))  # initialize a array of Vec Struct
+  @pos = Array.new(NUM, Vec.new(0, 0))  # initialize a array of Struct
   smooth(4)
-  noStroke()
+  no_stroke()
   fill(255, 153) 
 end
 

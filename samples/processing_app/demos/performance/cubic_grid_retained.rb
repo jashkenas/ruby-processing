@@ -1,5 +1,5 @@
 ########################
-# NB: Slow to get going 
+# NB: Bit slow to get going 
 # but, performs Ok after 
 ########################
 
