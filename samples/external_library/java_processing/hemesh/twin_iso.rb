@@ -1,4 +1,4 @@
-load_libraries :hemesh, :vbo
+load_libraries :hemesh, :vbo, :vecmath
 
 include MS # module MS imports necessary java classes and contains ruby MeshToVBO class
 
@@ -8,6 +8,7 @@ attr_reader :mesh_ret, :inv_mesh_ret, :render
 
 def setup
   size(800, 800, P3D)
+  ArcBall.init(self)
   smooth(8)
   values = []               # build a multi-dimensional array in ruby
   (0 .. RES).each do |i|    # the inclusive range is intentional here
@@ -55,17 +56,14 @@ def draw
   background(120)
   lights
   define_lights
-  translate(400, 400)
-  rotate_y(mouse_x.to_f / width * TWO_PI)  # use TWO_PI until processing-2.0b9
-  rotate_x(mouse_y.to_f / height * TWO_PI) # then we can use TAU
   shape(inv_mesh_ret)
   shape(mesh_ret)
 end
 
 def define_lights
-  ambient(20, 20, 20)
-  ambient_light(60, 60, 60)
-  point_light(30, 30, 30, 0, 0, 0)
-  directional_light(40, 40, 50, 1, 0, 0)
+  ambient(80, 80, 80)
+  ambient_light(80, 80, 80)
+  point_light(30, 30, 30, 0, 0, 1)
+  directional_light(40, 40, 50, 0, 0, 1)
   spot_light(30, 30, 30, 0, 40, 200, 0, -0.5, 0.5, PI / 2, 2)
 end

@@ -1,29 +1,19 @@
-#
-# Koch Curve
-# by Daniel Shiffman.
-# 
-# Renders a simple fractal, the Koch snowflake. 
-# Each recursive level is drawn in sequence. 
-#
-
-load_libraries :koch, :vecmath
-
-attr_reader :k
+load_library :vecmath, :fastmath, :koch
 
 def setup
-  size(640, 360)
+  size(800, 250)
+  background(255)
   frame_rate(1)  # Animate slowly
   @k = KochFractal.new(width, height)
+  smooth 8
 end
 
 def draw
-  background(0)
+  background(255)
   # Draws the snowflake!
-  k.render
+  @k.render
   # Iterate
-  k.next_level
+  @k.next_level
   # Let's not do it more than 5 times. . .
-  if (k.get_count > 5) 
-    k.restart
-  end
+  @k.restart if @k.count > 5
 end

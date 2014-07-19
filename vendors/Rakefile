@@ -1,5 +1,13 @@
 require 'rake/clean'
 
+WARNING = <<-EOS 
+   WARNING: you may not have wget installed, you could just download
+   the correct version of jruby-complete to the vendors folder, and 
+   re-run k9 setup install instead of installing wget. Some systems
+   may also require 'sudo' access to install, NB: this is untested....
+      
+EOS
+
 JRUBY_VERSION      = "1.7.13"
 
 CLOBBER.include("jruby-complete-#{JRUBY_VERSION}.jar")
@@ -11,8 +19,12 @@ desc "download JRuby upstream sources"
 task :download => ["jruby-complete-#{JRUBY_VERSION}.jar"]
 
 file "jruby-complete-#{JRUBY_VERSION}.jar" do
-  sh "wget http://jruby.org.s3.amazonaws.com/downloads/#{JRUBY_VERSION}/jruby-complete-#{JRUBY_VERSION}.jar"
-  check_sha1("jruby-complete-#{JRUBY_VERSION}.jar", "0dfca68810a5eed7f12ae2007dc2cc47554b4cc6")
+  begin
+    sh "wget http://jruby.org.s3.amazonaws.com/downloads/#{JRUBY_VERSION}/jruby-complete-#{JRUBY_VERSION}.jar"
+    check_sha1("jruby-complete-#{JRUBY_VERSION}.jar", "0dfca68810a5eed7f12ae2007dc2cc47554b4cc6")
+  rescue
+    warn(WARNING)
+  end
 end
 
 directory "../lib/ruby"

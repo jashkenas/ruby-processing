@@ -5,8 +5,11 @@
 
 load_library :vecmath
 
+attr_reader :renderer
+
 def setup
   size(800, 800, P3D)
+  @renderer = AppRender.new(self) 
   color_mode(RGB, 1)
 end
 
@@ -125,9 +128,9 @@ end
 def draw_triangle(depth, r, p1, p2, p3)
   
   if (depth == 1) then
-    vertex(p1.x, p1.y, p1.z)
-    vertex(p2.x, p2.y, p2.z)
-    vertex(p3.x, p3.y, p3.z)
+    p1.to_vertex(renderer)
+    p2.to_vertex(renderer)
+    p3.to_vertex(renderer)
   else
     # Calculate the mid points of this triangle.
     v1 = (p1 + p2) * 0.5

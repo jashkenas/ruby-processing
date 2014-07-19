@@ -28,9 +28,11 @@ class ParticleSystem
     @origin = origin
     kind = rand < 0.5 ? Sketch::Particle : Sketch::CrazyParticle
     number.times { self << kind.new(origin) }
-    alias :dead? :empty?
   end
-
+  
+  def dead?
+    self.empty?
+  end  
 end
 
 
@@ -111,7 +113,7 @@ end
 
 class CrazyParticle < Particle
   def initialize(origin)
-    super  # you must call super
+    super
     @theta = 0
   end
   
@@ -123,7 +125,7 @@ class CrazyParticle < Particle
   end
   
   def update
-    super # you must call super
+    super
     @theta += velocity.x * velocity.mag / 10
   end
   

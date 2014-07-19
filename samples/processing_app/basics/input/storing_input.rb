@@ -9,14 +9,14 @@
 #
  
 NUM = 60
-X = 0
-Y = 1
-
+ 
 attr_reader :pos
+
+Vec = Struct.new(:x, :y)
 
 def setup  
   size(640, 360)
-  @pos = Array.new(NUM, Array.new(2, 0))  # initialize a nested array
+  @pos = Array.new(NUM, Vec.new(0, 0))  # initialize a array of Vec Struct
   smooth(4)
   noStroke()
   fill(255, 153) 
@@ -28,11 +28,11 @@ def draw
   # Cycle through the array, using a different entry on each frame. 
   # Using modulo (%) like this is faster than moving all the values over.
   which = frame_count % NUM
-  pos[which] = [mouse_x, mouse_y]
+  pos[which] = Vec.new(mouse_x, mouse_y)
   
   (1 .. NUM).each do |i|
     # which + 1 is the smallest (the oldest in the array)
     idx = (which + i) % NUM
-    ellipse(pos[idx][X], pos[idx][Y], i, i)
+    ellipse(pos[idx].x, pos[idx].y, i, i)
   end
 end

@@ -17,18 +17,21 @@ module Processing
   you create sketches of code art.
 
   Usage:
-    rp5 [run | watch | live | create [width height] | app | unpack] path/to/sketch
+    rp5 [choice] path/to/sketch
+    choice run | setup | watch | live | create [width height] | app | unpack
+
 
     run:        run sketch once
     watch:      watch for changes on the file and relaunch it on the fly
     live:       launch sketch and give an interactive IRB shell
-    create:     create new sketch. Use --bare to generate simpler sketches without a class
+    create:     create a new sketch. 
     app:        create an application version of the sketch
     unpack:     unpack samples or library
+    setup:      check setup, or install jruby-complete
 
   Common options:
-    --nojruby:  do not use the installed version of jruby, instead use our vendored
-                jarred one (required for shader sketches, and some others).
+    --nojruby:  use jruby-complete in place of an installed version of jruby
+                needed if you haven't installed jruby, and for some sketches
   
   Configuration file:
     The YAML configuration '.rp5rc' file is located at:-
@@ -73,6 +76,7 @@ module Processing
       when 'live'   then live(@options.path, @options.args)
       when 'create' then create(@options.path, @options.args, @options.p3d)
       when 'app'    then app(@options.path)
+      when 'setup'  then setup(@options.path)  
       when 'unpack' then unpack(@options.path)
       when /-v/     then show_version
       when /-h/     then show_help
@@ -131,6 +135,22 @@ module Processing
       usage = "Usage: rp5 unpack [samples | library]"
       puts usage and return unless dir.match(/\A(samples|library)\Z/)
       FileUtils.cp_r("#{RP5_ROOT}/#{dir}", "#{Dir.pwd}/#{dir}")
+    end
+    
+    def setup(choice)
+      usage = "Usage: rp5 setup [check | install]"
+      installed = File.exist?("#{RP5_ROOT}/lib/ruby/jruby-complete.jar")
+     
+      case choice
+      when /check/
+        show_version
+        puts "  PROCESSING_ROOT = #{Processing::CONFIG["PROCESSING_ROOT"]}"
+        puts "  jruby-complete installed = #{installed}"
+      when /install/
+        system "cd #{RP5_ROOT}/vendors && rake"
+      else
+        puts usage
+      end
     end
 
     # Display the current version of Ruby-Processing.

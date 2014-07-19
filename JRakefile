@@ -1,0 +1,19 @@
+# -*- encoding: utf-8 -*-
+
+
+if RUBY_PLATFORM =~ /java/
+  # -*- ruby -*-
+  require 'rake/javaextensiontask'
+  if !File.exist? './lib/core.jar'
+    raise "To compile the java extension, put processing 'core.jar' in lib directory"
+  end
+  Rake::JavaExtensionTask.new('processing') do |ext|
+    jars = FileList['lib/*.jar']
+    ext.classpath = jars.map {|x| File.expand_path x}.join ':'
+    ext.name = 'rpextras'
+    ext.debug = true
+    ext.lib_dir = 'lib'
+    ext.source_version='1.7'
+    ext.target_version='1.7'
+  end
+end

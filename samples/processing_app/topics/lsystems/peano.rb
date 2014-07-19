@@ -2,16 +2,14 @@
 # A Peano fractal implemented using a
 # Lindenmayer System in ruby-processing by Martin Prout
 ########################################################
-load_library 'grammar'
+load_libraries :grammar, :fastmath, :vecmath
 
 class Peano
-  include Processing::Proxy
-  import 'grammar'
+  include Processing::Proxy 
   
-  
-  attr_reader :draw_length, :xpos, :ypos, :theta, :axiom, :grammar
-  DELTA  = PI/3    # 60 degrees
-  def initialize xpos, ypos
+  attr_reader :draw_length, :vec, :theta, :axiom, :grammar
+  DELTA  = 60  # degrees
+  def initialize vec
     @axiom = "XF"       # Axiom
     rules = {
       'X' => "X+YF++YF-FX--FXFX-YF+",      # LSystem Rules
@@ -20,8 +18,7 @@ class Peano
     @grammar = Grammar.new(axiom, rules)
     @theta   = 0  
     @draw_length = 100
-    @xpos = xpos
-    @ypos = ypos
+    @vec = vec
   end
   
   def generate gen
@@ -30,11 +27,11 @@ class Peano
   end
   
   def translate_rules(prod)
-    points = []               # An empty array to store line vertices
+    points = []               # An empty array to store line vertices as Vec2D
     prod.each do |ch|
       case ch
       when 'F'
-        points << xpos << ypos << (@xpos += draw_length * cos(theta)) << (@ypos -= draw_length * sin(theta))
+        points << vec.copy << Vec2D.new(vec.x += draw_length * DegLut.cos(theta), vec.y -= draw_length * DegLut.sin(theta))
       when '+'
         @theta += DELTA        
       when '-'
@@ -48,11 +45,12 @@ class Peano
   end
 end
 
-attr_reader :points
+attr_reader :points, :renderer
 
 def setup
   size(800, 800)
-  peano = Peano.new(width * 0.65, height * 0.9)
+  @renderer = AppRender.new(self)
+  peano = Peano.new(Vec2D.new(width * 0.65, height * 0.9))
   production = peano.generate 4                  # 4 generations looks OK
   @points = peano.translate_rules(production)  
   no_loop
@@ -68,9 +66,9 @@ def render points
   stroke 200.0
   stroke_weight 3
   begin_shape
-  points.each_slice(4) do |x0, y0, x1, y1|
-    vertex x0, y0
-    vertex x1, y1
+  points.each_slice(2) do |v0, v1|
+    v0.to_vertex renderer
+    v1.to_vertex renderer
   end
   end_shape 
 end

@@ -1,4 +1,4 @@
-load_library 'grammar'
+load_libraries :grammar, :fastmath
 
 class PenroseSnowflake
   include Processing::Proxy
@@ -6,7 +6,7 @@ class PenroseSnowflake
 
   attr_accessor :axiom, :grammar, :start_length, :theta, :production, :draw_length,
     :repeats, :xpos, :ypos
-  DELTA = Math::PI / 10 # 18 degrees as radians
+  DELTA = 18 # degrees as radians
 
   def initialize xpos, ypos
     @axiom = "F3-F3-F3-F3-F"
@@ -65,7 +65,7 @@ class PenroseSnowflake
   def multiplier(repeats, type)
     value = draw_length * repeats
     # using equal? for identity comparison
-    (type.equal? :cos)?  value * cos(theta) : value *  sin(theta)
+    (type.equal? :cos)?  value * DegLut.cos(theta) : value *  DegLut.sin(theta)
   end
 end
 

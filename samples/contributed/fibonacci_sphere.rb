@@ -9,11 +9,6 @@
 #
 
 load_library :vecmath
-import "arcball"
-
-X = 0
-Y = 1
-Z = 2
 
 PHI = (sqrt(5)+1) / 2 - 1   # golden ratio
 GA = PHI * TWO_PI           # golden angle
@@ -25,7 +20,7 @@ attr_reader :my_ball # for arcball rotation
 
 def setup
   size(1024, 768, P3D)
-  @my_ball = ArcBall.new(width/2.0, height/2.0, min(width - 20, height - 20) * 0.5)
+  ArcBall.init(self, width/2.0, height/2.0)
   @rotation_x = 0
   @rotation_y = 0
   @nbr_points = 2000
@@ -47,41 +42,10 @@ def draw
   lights
   ambient(200, 10, 10)
   ambient_light(150, 150, 150)
-  translate(width/2.0, height/2.0, 0)
-  update  # for arcball rotation
   render_globe   
 end
 
-# arcball functionality ##################
-##########################################
 
-def update
-  theta, x, y, z = my_ball.update
-  rotate(theta, x, y, z)
-end
-
-def mouse_pressed
-  my_ball.mouse_pressed(mouse_x, mouse_y)
-end
-
-def mouse_dragged
-  my_ball.mouse_dragged(mouse_x, mouse_y)
-end
-
-def key_pressed                
-  case(key)
-  when 'x'
-    my_ball.select_axis(X)
-  when 'y'
-    my_ball.select_axis(Y)
-  when 'z'
-    my_ball.select_axis(Z)
-  end
-end
-
-def key_released
-  my_ball.select_axis(-1)
-end
 ###########################################
 # For Fibonacci Sphere
 ##################################

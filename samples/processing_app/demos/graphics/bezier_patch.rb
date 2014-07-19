@@ -19,7 +19,7 @@ attr_accessor :outp, :inp, :normp, :auto_normals, :arcball, :bez_patch
  
 def setup
   size(1024, 768, P3D)
-  @arcball = ArcBall.new(width/2.0, height/2.0, min(width - 20, height - 20) * 0.5)
+  ArcBall.init(self, width/2.0, height/2.0)
   @auto_normals = false
   build_geometry
   @bez_patch = build_shape
@@ -27,12 +27,10 @@ end
  
 def draw
   background(255)
-  translate(width/2,height/2)
   smooth(8)
   lights
   define_lights
   scale(0.9)
-  update
   no_stroke 
   shape(bez_patch)
 end
@@ -169,24 +167,6 @@ def d_bezier_blend( k, mu,  n)
   return(dblendf) 
 end
 
-######################
-# ArcBall control
-# and lighting + re-run
-######################
-
-def update
-  theta, x, y, z = arcball.update
-  rotate(theta, x, y, z)
-end
-
-def mouse_pressed
-  arcball.mouse_pressed(mouse_x, mouse_y)
-end
-
-def mouse_dragged
-  arcball.mouse_dragged(mouse_x, mouse_y)
-end
-
 def define_lights    
   ambient_light(40, 40, 40)
   point_light(30, 30, 30, 0, 0, 0)
@@ -194,21 +174,4 @@ def define_lights
   spot_light(30, 30, 30, 0, 40, 200, 0, -0.5, 0.5, PI / 2, 2)
 end
 
-def key_pressed                
-  case(key)
-  when ' '
-    save_frame("bezPatch.png")
-    build_geometry
-    @bez_patch = build_shape
-  when 'x'
-    arcball.select_axis(X)
-  when 'y'
-    arcball.select_axis(Y)
-  when 'z'
-    arcball.select_axis(Z)
-  end
-end
 
-def key_released
-  arcball.select_axis(-1)
-end

@@ -6,29 +6,29 @@ load_library :vecmath
 # This inner class demonstrates the use of Ruby-Processing's emulation of
 # Java inner classes. The Balls are able to call Processing::App methods.
 class Ball
-  attr_accessor :x, :y, :r, :m, :vec
-  def initialize(r = 0.0, vec = nil, x = 0.0, y = 0.0)
-    @x, @y, @r = x, y, r
+  attr_accessor :position, :r, :m, :velocity, :current
+  def initialize(r = 0.0, velocity = nil, position = Vec2D.new)
+    @position, @velocity, @r = position, velocity, r
     @m = r * 0.1
-    @vec = vec
   end
   
   def move
-    @x += @vec.x
-    @y += @vec.y
+    @position += velocity
   end
   
   def draw
-    r = @r * 2
-    ellipse @x, @y, r, r
-    @px, @py = @x, @y
+    d = r * 2
+    ellipse position.x, position.y, d, d
+    @current = position.copy
   end
   
   def erase
-    r = @r * 2
-    rect @px, @py, r, r
+    d = r * 2
+    rect current.x, current.y, d, d
   end
 end
+
+attr_reader :balls
 
 
 def setup
@@ -37,8 +37,8 @@ def setup
   frame_rate 30
   rect_mode RADIUS    
   @balls = []
-  5.times { @balls << Ball.new(10, Vec2D.new(2.15, -1.35), *empty_space(15)) }
-  2.times { @balls << Ball.new(40, Vec2D.new(-1.65, 0.42), *empty_space(45)) }    
+  5.times { balls << Ball.new(10, Vec2D.new(2.15, -1.35), empty_space(15)) }
+  2.times { balls << Ball.new(40, Vec2D.new(-1.65, 0.42), empty_space(45)) }    
   @frame_time = nil
   @frame_count = 0
 end
@@ -55,12 +55,12 @@ def draw
     background 51
   else
     fill 51
-    @balls.each { |ball| ball.erase }
+    balls.each { |ball| ball.erase }
   end
   
   # move the balls 
   fill 240
-  @balls.each do |ball|
+  balls.each do |ball|
     ball.move
     ball.draw
     check_boundary_collision ball
@@ -70,21 +70,17 @@ end
 
 
 def empty_space(r)
-  x = y = nil
-  while !x || !empty_space?(x, y, r) do
-    x = rand(width - 3 * r) + r
-    y = rand(height - 3 * r) + r
+  pos = nil
+  while !pos || !empty_space?(pos, r) do
+    pos = Vec2D.new(rand(r .. width - r), rand(r .. height - r))
   end
-  return x, y
+  return pos
 end
 
 
-def empty_space?(x, y, r)
-  @balls.each do |ball|
-    vx = x - ball.x
-    vy = y - ball.y
-    mag = sqrt(vx * vx + vy * vy)
-    return false if mag < r + ball.r
+def empty_space?(position, r)
+  balls.each do |ball|
+    return false if position.dist(ball.position) < r + ball.r
   end
   return true
 end
@@ -92,14 +88,14 @@ end
 
 def check_object_collisions
   
-  (0...(@balls.length)).each do |ia|
-    ((ia+1)...(@balls.length)).each do |ib|
+  (0...(balls.length)).each do |ia|
+    ((ia+1)...(balls.length)).each do |ib|
       
-      ba = @balls[ia]
-      bb = @balls[ib]
+      ba = balls[ia]
+      bb = balls[ib]
       
       # get distances between the balls components
-      bVect = Vec2D.new( bb.x - ba.x, bb.y - ba.y)      
+      bVect = bb.position - ba.position   
       # calculate magnitude of the vector separating the balls
       bVectMag = bVect.mag
       next if bVectMag >= ba.r + bb.r
@@ -118,15 +114,15 @@ def check_object_collisions
       # bTemp[0].x and bTemp[0].y will initialize
       # automatically to 0.0, which is what you want
       # since bb will rotate around ba
-      bTemp[1].x  = cosine * bVect.x + sine * bVect.y
-      bTemp[1].y  = cosine * bVect.y - sine * bVect.x
+      bTemp[1].position.x  = cosine * bVect.x + sine * bVect.y
+      bTemp[1].position.y  = cosine * bVect.y - sine * bVect.x
       
       # rotate Temporary velocities
       vTemp = [Vec2D.new, Vec2D.new]
-      vTemp[0].x  = cosine * ba.vec.x + sine * ba.vec.y
-      vTemp[0].y  = cosine * ba.vec.y - sine * ba.vec.x
-      vTemp[1].x  = cosine * bb.vec.x + sine * bb.vec.y
-      vTemp[1].y  = cosine * bb.vec.y - sine * bb.vec.x
+      vTemp[0].x  = cosine * ba.velocity.x + sine * ba.velocity.y
+      vTemp[0].y  = cosine * ba.velocity.y - sine * ba.velocity.x
+      vTemp[1].x  = cosine * bb.velocity.x + sine * bb.velocity.y
+      vTemp[1].y  = cosine * bb.velocity.y - sine * bb.velocity.x
       
       # Now that velocities are rotated, you can use 1D
       # conservation of momentum equations to calculate 
@@ -144,22 +140,21 @@ def check_object_collisions
       # in the opposite direction
       # rotate balls
       bFinal = [Ball.new, Ball.new]
-      bFinal[0].x = cosine * bTemp[0].x - sine * bTemp[0].y
-      bFinal[0].y = cosine * bTemp[0].y + sine * bTemp[0].x
-      bFinal[1].x = cosine * bTemp[1].x - sine * bTemp[1].y
-      bFinal[1].y = cosine * bTemp[1].y + sine * bTemp[1].x
+      bFinal[0].position.x = cosine * bTemp[0].position.x - sine * bTemp[0].position.y
+      bFinal[0].position.y = cosine * bTemp[0].position.y + sine * bTemp[0].position.x
+      bFinal[1].position.x = cosine * bTemp[1].position.x - sine * bTemp[1].position.y
+      bFinal[1].position.y = cosine * bTemp[1].position.y + sine * bTemp[1].position.x
       
       # update balls to screen position
-      bb.x = ba.x + bFinal[1].x
-      bb.y = ba.y + bFinal[1].y
-      ba.x = ba.x + bFinal[0].x
-      ba.y = ba.y + bFinal[0].y
+      bb.position = ba.position + bFinal[1].position     
+      ba.position = ba.position + bFinal[0].position
+
       
       # update velocities
-      ba.vec.x = cosine * vFinal[0].x - sine * vFinal[0].y
-      ba.vec.y = cosine * vFinal[0].y + sine * vFinal[0].x
-      bb.vec.x = cosine * vFinal[1].x - sine * vFinal[1].y
-      bb.vec.y = cosine * vFinal[1].y + sine * vFinal[1].x
+      ba.velocity.x = cosine * vFinal[0].x - sine * vFinal[0].y
+      ba.velocity.y = cosine * vFinal[0].y + sine * vFinal[0].x
+      bb.velocity.x = cosine * vFinal[1].x - sine * vFinal[1].y
+      bb.velocity.y = cosine * vFinal[1].y + sine * vFinal[1].x
     end
   end
   
@@ -167,8 +162,8 @@ end
 
 # reverse ball velocity if at sketch boundary
 def check_boundary_collision(ball)  
-  ball.vec.x *= -1 unless (ball.r .. width - ball.r).include? ball.x 
-  ball.vec.y *= -1 unless (ball.r .. height - ball.r).include? ball.y 
+  ball.velocity.x *= -1 unless (ball.r .. width - ball.r).include? ball.position.x 
+  ball.velocity.y *= -1 unless (ball.r .. height - ball.r).include? ball.position.y 
 end
 
 

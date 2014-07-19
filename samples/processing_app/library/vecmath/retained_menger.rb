@@ -13,14 +13,12 @@ X = 0
 Y = 1
 Z = 2
 
-attr_reader :arcball, :menger
+attr_reader :menger
 
 def setup
   size(640, 480, P3D)
   smooth(8)
-  camera
-  camera(width/2.0, height/2.0, (height/2.0) / tan(PI*30.0 / 180.0), 0, 0, 0, 0, 1, 0)
-  @arcball = ArcBall.new(0, 0, min(width - 20, height - 20) * 0.8)
+  ArcBall.init(self)
   @menger = create_shape(GROUP)
   create_menger(0, 0, 0, height * 0.8)
 end
@@ -29,7 +27,6 @@ def draw
   background(20, 20, 200)
   no_stroke
   lights
-  update
   define_lights
   render
 end    
@@ -114,19 +111,6 @@ def create_cube(xx, yy, zz, sz)
   return cube
 end  
 
-def update
-  theta, x, y, z = arcball.update
-  rotate(theta, x, y, z)
-end
-
-def mouse_pressed
-  arcball.mouse_pressed(mouse_x, mouse_y)
-end
-
-def mouse_dragged
-  arcball.mouse_dragged(mouse_x, mouse_y)
-end
-
 def define_lights
   ambient_light(50, 50, 50)
   point_light(30, 30, 30, 200, 240, 0)
@@ -134,17 +118,4 @@ def define_lights
   spot_light(30, 30, 30, 0, 40, 200, 0, -0.5, -0.5, PI / 2, 2)
 end
 
-def key_pressed          
-  case(key)
-  when 'x'
-    arcball.select_axis(X)
-  when 'y'
-    arcball.select_axis(Y)
-  when 'z'
-    arcball.select_axis(Z)
-  end
-end
 
-def key_released
-  arcball.select_axis(-1)
-end

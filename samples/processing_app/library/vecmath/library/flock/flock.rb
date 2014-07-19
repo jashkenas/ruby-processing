@@ -6,8 +6,8 @@ class Flock
   def_delegators(:@boids, :each, :<<, :reject)
   include Enumerable
   
-  def initialize
-    @boids = []	  
+  def initialize(size, position)
+    @boids = (0 .. size).map{Boid.new(position)}	  
   end
 
   def run
@@ -24,14 +24,16 @@ class Boid
   include Processing::Proxy
   import 'vecmath'
   attr_reader :location, :velocity, :acceleration, :r, :maxforce, :maxspeed
-  
-  def initialize(x, y)
+  attr_reader :width, :height
+  def initialize(loc)
     @acceleration = Vec2D.new
     @velocity = Vec2D.new(rand(-1.0 .. 1), rand(-1.0 .. 1))
-    @location = Vec2D.new(x, y)
+    @location = loc
     @r = 2.0
     @maxspeed = 2
     @maxforce = 0.03
+    @width = $app.width    
+    @height = $app.height
   end
   
   def run(boids)
@@ -66,7 +68,7 @@ class Boid
     # Update velocity
     @velocity += acceleration
     # Limit speed   
-    velocity.set_mag(maxspeed) {velocity.mag_squared > maxspeed**2}
+    velocity.set_mag(maxspeed) {velocity.mag > maxspeed}
     @location += velocity
     # Reset accelertion to 0 each cycle
     @acceleration *= 0
@@ -82,7 +84,7 @@ class Boid
     # Steering = Desired minus Velocity
     steer = desired - velocity
     # Limit to maximum steering force
-    steer.set_mag(maxforce) {steer.mag_squared > maxforce**2}   
+    steer.set_mag(maxforce) {steer.mag > maxforce}   
     return steer
   end
 
@@ -105,15 +107,15 @@ class Boid
   # Wraparound
   def borders
     if (location.x < -r) 
-      location.x = $app.width+r
+      location.x = width + r
     end
     if (location.y < -r) 
-      location.y = $app.height+r
+      location.y = height + r
     end
-    if (location.x > $app.width+r)
+    if (location.x > width + r)
       location.x = -r
     end
-    if (location.y > $app.height+r)
+    if (location.y > height + r)
       location.y = -r
     end
   end
@@ -126,7 +128,7 @@ class Boid
     count = 0
     # For every other bird in the system, check if it's too close
     boids.reject{|bd| bd.equal? self}.each do |other|
-      d = Vec2D.dist(location, other.location)
+      d = location.dist(other.location)
       # If the distance is greater than 0 and less than an arbitrary amount 
       if ((d > 0) && (d < desiredseparation))
         # Calculate vector pointing away from neighbor
@@ -148,7 +150,7 @@ class Boid
       steer.normalize!
       steer *= maxspeed
       steer -= velocity      
-      steer.set_mag(maxforce){steer.mag_squared > maxforce**2} 
+      steer.set_mag(maxforce){steer.mag > maxforce} 
     end
     return steer
   end
@@ -158,10 +160,11 @@ class Boid
   def align boids
     neighbordist = 50
     sum = Vec2D.new
+    steer = Vec2D.new
     count = 0
     boids.reject{|bd| bd.equal? self}.each do |other|
-      d = Vec2D.dist_squared(location, other.location)
-      if ((d > 0) && (d < neighbordist * neighbordist))
+      d = location.dist(other.location)
+      if ((d > 0) && (d < neighbordist))
         sum += other.velocity
         count += 1
       end
@@ -171,11 +174,9 @@ class Boid
       sum.normalize!
       sum *= maxspeed
       steer = sum - velocity
-      steer.set_mag(maxforce){steer.mag_squared > maxforce**2} 
-      return steer
-    else
-      return Vec2D.new
+      steer.set_mag(maxforce){steer.mag > maxforce} 
     end
+    return steer
   end
     
   # Cohesion
@@ -185,8 +186,8 @@ class Boid
     sum = Vec2D.new   # Start with empty vector to accumulate all locations
     count = 0
     boids.reject{|bd| bd.equal? self}.each do |other|
-      d = Vec2D.dist_squared(location, other.location)
-      if ((d > 0) && (d < neighbordist * neighbordist))
+      d = location.dist(other.location)
+      if ((d > 0) && (d < neighbordist))
         sum += other.location # Add location
         count += 1
       end

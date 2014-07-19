@@ -1,12 +1,12 @@
 ############################
 # pentagonal.rb here I roll one of my own
 ###########################
-load_library 'grammar'
+load_library :grammar, :fastmath
 
 class Pentagonal
   include Processing::Proxy
   import 'grammar'
-  DELTA = (Math::PI/180) * 72.0    # convert degrees to radians
+  DELTA = 72    # degrees 
   attr_accessor :draw_length
   attr_reader :axiom, :grammar, :theta, :production, :xpos, :ypos
   def initialize 
@@ -58,7 +58,7 @@ class Pentagonal
   
   def adjust(type)
     # using equal? for identity comparison
-    (type.equal? :cos)?  draw_length * cos(theta) : draw_length *  sin(theta)
+    (type.equal? :cos)?  draw_length * DegLut.cos(theta) : draw_length * DegLut.sin(theta)
   end
 end
 
@@ -67,7 +67,7 @@ end
 # Lindenmayer System in ruby-processing by Martin Prout
 ###
 
-#  Empirically determined pstition addjustments
+#  Empirically determined pstition adjustments
 ADJUST = [[800, 50], [500, 500], [500, 500], [300, 280], [50, 600]]
 
 attr_reader :pentagonal, :pentive

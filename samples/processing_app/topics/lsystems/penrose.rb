@@ -2,7 +2,7 @@
 # penrose tiling in ruby processing using LSystems
 # in ruby-processing by Martin Prout
 ######################################################
-load_libraries "grammar"
+load_libraries :grammar, :fastmath
 
 attr_reader :penrose
 
@@ -20,7 +20,7 @@ def draw
   penrose.render
 end
 
-
+Turtle = Struct.new(:x, :y, :angle, :color)
 
 #############################
 # penrose_colored.rb
@@ -28,7 +28,6 @@ end
 
 class PenroseColored
   include Processing::Proxy
-  import 'grammar'
   
   attr_reader :axiom, :grammar, :start_length, :theta, :production, :draw_length,
   :repeats, :xpos, :ypos
@@ -37,7 +36,7 @@ class PenroseColored
   YPOS = 1
   ANGLE = 2
   COL = 3
-  DELTA = PI/5 # radians or 36 degrees
+  DELTA = 36  # degrees
   RED = 70<<24|200<<16|0<<8|0   # using bit operations to set color int
   BLUE = 70<<24|0<<16|0<<8|200
   
@@ -70,27 +69,27 @@ class PenroseColored
   
   def render
     repeats = 1
-    pen = [xpos, ypos, theta, :R]   # simple array for pen, symbol :R = red
+    pen = Turtle.new(xpos, ypos, theta, :R)   # simple Struct for pen, symbol :R = red
     stack = []                      # simple array for stack
     production.each do |element|
       case element
       when 'F'
         pen = draw_line(pen, draw_length)
       when '+'
-        pen[ANGLE] += DELTA * repeats
+        pen.angle += DELTA * repeats
         repeats = 1
       when '-'
-        pen[ANGLE] -= DELTA * repeats
+        pen.angle -= DELTA * repeats
         repeats = 1
       when '['
-        stack.push(pen.dup)  # push a copy current pen to stack
+        stack << pen.dup     # push a copy current pen to stack
       when ']'
         pen = stack.pop      # assign current pen to instance off the stack
       when 'R', 'B'        
-        pen[COL] = element.to_sym  # set pen color as symbol
+        pen.color = element.to_sym  # set pen color as symbol
       when 'W', 'X', 'Y', 'Z'  
       when '1', '2', '3', '4'
-        repeats = Integer(element)
+        repeats = element.to_i
       else puts "Character '#{element}' not in grammar"
       end
     end
@@ -112,11 +111,11 @@ class PenroseColored
   ###################################################################
   
   def draw_line(pen, length)
-    stroke (pen[COL] == :R)? RED : BLUE
-    new_xpos = pen[XPOS] - length * cos(pen[ANGLE])
-    new_ypos = pen[YPOS] - length * sin(pen[ANGLE])
-    line(pen[XPOS], pen[YPOS], new_xpos, new_ypos)    # draw line
-    return [new_xpos, new_ypos, pen[ANGLE], pen[COL]] # return pen @ new pos
+    stroke (pen.color == :R)? RED : BLUE
+    new_xpos = pen.x - length * DegLut.cos(pen.angle)
+    new_ypos = pen.y - length * DegLut.sin(pen.angle)
+    line(pen.x, pen.y, new_xpos, new_ypos)    # draw line
+    Turtle.new(new_xpos, new_ypos, pen.angle, pen.color) # return pen @ new pos
   end
 end
 

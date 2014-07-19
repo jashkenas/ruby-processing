@@ -8,6 +8,7 @@
 # See AccelerationWithVectors for an example of how to simulate motion using vectors in an object
 #
 load_library :vecmath
+RADIUS = 24
 
 attr_reader :loc,  # Location of shape
             :velocity,  # Velocity of shape
@@ -31,21 +32,21 @@ def draw
   @velocity += gravity
   
   # Bounce off edges
-if ((loc.x > width) || (loc.x < 0))
+  unless  (RADIUS .. width - RADIUS).include? loc.x 
     velocity.x *= -1
   end
-if (loc.y > height)
+  if (loc.y > height - RADIUS)
     # We're reducing velocity ever so slightly 
     # when it hits the bottom of the window
     velocity.y *= -0.95 
-    loc.y = height
+    loc.y = height - RADIUS
   end
 
   # Display circle at location vector
   stroke(255)
   stroke_weight(2)
   fill(127)
-  ellipse(loc.x,loc.y,48,48)
+  ellipse(loc.x,loc.y,RADIUS * 2,RADIUS * 2)
 end
 
 
