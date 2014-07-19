@@ -9,6 +9,9 @@ Is a ruby wrapper around the [Processing][] code art framework, built using [JRu
   alpha, arc, background, blend, blue, ellipse, frame_rate, hue, lerp, 
   load_image, load_pixels, mouse_pressed, noise, rect, saturation, shape, 
   smooth, text_align, translate, triangle...
+  
+## How to build latest version
+See [wiki](https://github.com/jashkenas/ruby-processing/wiki/How-to-build-latest-version)
 
 ## Installation
 MacOSX users please try out this new  [method](https://github.com/jashkenas/ruby-processing/wiki/Installing-ruby-processing-on-the-mac)
