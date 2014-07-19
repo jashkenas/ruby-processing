@@ -21,11 +21,11 @@ Then install ruby-processing (from rubygems-org) in the usual way
 
 To install jruby-complete use our built in tool (relies on `wget` to download [jruby-complete-1.7.12](http://jruby.org/download))
 
-`install_jruby_complete`
+`install_jruby_complete` or since ruby-processing-2.5.0 `rp5 setup install`
 
-If you haven't got `wget` just download jruby-complete-1.7.12 to the vendors folder (then run above tool)
+If you haven't got `wget` just download jruby-complete-1.7.12 (jruby-complete-1.7.13 since ruby-processing-2.5.0)to the vendors folder (then run above tool)
 
-The vendored jruby-complete-1.7.12 is only required for application export, and running certain sketches (eg shader sketches see wiki).
+The vendored jruby-complete is only required for application export, and running certain sketches (eg shader sketches see wiki).
 
 
 ## Documentation
