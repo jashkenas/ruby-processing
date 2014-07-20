@@ -1,11 +1,19 @@
 # -*- encoding: utf-8 -*-
+require 'psych'
+
+if !File.exist? './lib/core.jar'
+  CONFIG_FILE_PATH=File.expand_path("~/.rp5rc")
+  CONFIG = (Psych.load_file(CONFIG_FILE_PATH))
+  source= "#{CONFIG["PROCESSING_ROOT"]}/core/library/core.jar"
+  FileUtils.cp(source, "./lib")
+end
 
 
 if RUBY_PLATFORM =~ /java/
   # -*- ruby -*-
   require 'rake/javaextensiontask'
   if !File.exist? './lib/core.jar'
-    raise "To compile the java extension, put processing 'core.jar' in lib directory"
+    raise "To compile we need processing core.jar, you must set PROCESSING_ROOT .rp5rc"
   end
   Rake::JavaExtensionTask.new('processing') do |ext|
     jars = FileList['lib/*.jar']
