@@ -26,17 +26,17 @@ def initialize_cells
   n.times do |i|
     a = i + rand(PI / 9.0)
     r = ((i / n.to_f) * (width / 2) * (((n - i) / n.to_f) * 3.3)) + rand(6.0)
-    cells << Cell.new((r * cos(a) + width/2).to_i, (r * sin(a) + height/2).to_i)
+    cells << Cell.new((r * cos(a) + width / 2).to_i, (r * sin(a) + height / 2).to_i)
   end
 end
 
 def start_cell_updates
-  Thread.new { Kernel.loop { cells.each {|cell| cell.update } } }
+  Thread.new { Kernel.loop { cells.each { |cell| cell.update } } }
 end
 
 def draw
   background 255
-  cells.each {|cell| cell.sense } if started?
+  cells.each { |cell| cell.sense } if started?
 end
 
 def started?
@@ -44,8 +44,12 @@ def started?
 end
 
 def mouse_pressed
-  cells.each {|cell| cell.reset }
+  cells.each { |cell| cell.reset }
 end
+
+##
+# The cell responds to mouse movement
+##
 
 class Cell
   attr_reader :x, :y, :spin, :angle
@@ -71,5 +75,4 @@ class Cell
     d = LINE_LENGTH * spin + 0.001
     line(x, y, x + d * cos(angle), y + d * sin(angle))
   end
-
 end

@@ -25,13 +25,13 @@ module Processing
 
   # This method is the common entry point to run a sketch, bare or complete.
   def self.load_and_run_sketch
-    source = self.read_sketch_source
-    has_sketch = !!source.match(/^[^#]*< Processing::App/)
-    has_methods = !!source.match(/^[^#]*(def\s+setup|def\s+draw)/)
+    source = read_sketch_source
+    has_sketch = source.match(/^[^#]*< Processing::App/)
+    has_methods = source.match(/^[^#]*(def\s+setup|def\s+draw)/)
 
     if has_sketch
-      load File.join(SKETCH_ROOT, SKETCH_PATH)      
-      Processing::App.sketch_class.new if !$app
+      load File.join(SKETCH_ROOT, SKETCH_PATH)
+      Processing::App.sketch_class.new unless $app
     else
       require 'erb'
       code = ERB.new(SKETCH_TEMPLATE).result(binding)

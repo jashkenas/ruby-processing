@@ -11,15 +11,15 @@ def setup
   @last_time      = 0
   @current_frame  = 0
   @draw           = false
-  @back_color     = 204  
+  @back_color     = 204
   stroke_weight 4
   smooth
   background @back_color
-  FRAME_COUNT.times { @frames << get() }
+  FRAME_COUNT.times { @frames << get }
 end
 
 def draw
-  time = millis()
+  time = millis
   if time > @last_time + 100
     next_frame
     @last_time = time
@@ -37,11 +37,11 @@ end
 
 def key_pressed
   background @back_color
-  @frames.size.times {|i| @frames[i] = get()}
+  @frames.size.times { |i| @frames[i] = get }
 end
 
 def next_frame
-  @frames[@current_frame] = get()
+  @frames[@current_frame] = get
   @current_frame += 1
   @current_frame = 0 if @current_frame >= @frames.size
   image(@frames[@current_frame], 0, 0)

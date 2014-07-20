@@ -82,20 +82,18 @@ def draw_icosahedron(depth, r, spherical)
   gr = (1.0 + Math.sqrt(5.0)) / 2.0
   h = r / Math.sqrt(1.0 + gr * gr)
   v =
-    [
-  Vec3D.new(0, -h, h*gr), Vec3D.new(0, -h, -h*gr), Vec3D.new(0, h, -h*gr), Vec3D.new(0, h, h*gr),
-  Vec3D.new(h, -h*gr, 0), Vec3D.new(h, h*gr, 0), Vec3D.new(-h, h*gr, 0), Vec3D.new(-h, -h*gr, 0),
-  Vec3D.new(-h*gr, 0, h), Vec3D.new(-h*gr, 0, -h), Vec3D.new(h*gr, 0, -h), Vec3D.new(h*gr, 0, h)
+  [
+  Vec3D.new(0, -h, h * r), Vec3D.new(0, -h, -h * r), Vec3D.new(0, h, -h * r), Vec3D.new(0, h, h * r),
+  Vec3D.new(h, -h * r, 0), Vec3D.new(h, h * r, 0), Vec3D.new(-h, h * r, 0), Vec3D.new(-h, -h * r, 0),
+  Vec3D.new(-h * r, 0, h), Vec3D.new(-h * r, 0, -h), Vec3D.new(h * r, 0, -h), Vec3D.new(h * r, 0, h)
   ]
   
   # Draw the 20 triangular faces of the icosahedron.
-  unless spherical then
-    r = 0.0
-  end
+  r = 0.0 unless spherical
   
   begin_shape(TRIANGLES)
     
-  draw_triangle(depth, r, v[0], v[7],v[4])
+  draw_triangle(depth, r, v[0], v[7], v[4])
   draw_triangle(depth, r, v[0], v[4], v[11])
   draw_triangle(depth, r, v[0], v[11], v[3])
   draw_triangle(depth, r, v[0], v[3], v[8])
@@ -127,7 +125,7 @@ end
 #
 def draw_triangle(depth, r, p1, p2, p3)
   
-  if (depth == 1) then
+  if (depth == 1)
     p1.to_vertex(renderer)
     p2.to_vertex(renderer)
     p3.to_vertex(renderer)
@@ -136,7 +134,7 @@ def draw_triangle(depth, r, p1, p2, p3)
     v1 = (p1 + p2) * 0.5
     v2 = (p2 + p3) * 0.5
     v3 = (p3 + p1) * 0.5
-    unless (r == 0.0) then
+    unless (r == 0.0)
       # Project the verticies out onto the sphere with radius r.
       v1.normalize!
       v1 *= r
@@ -153,9 +151,5 @@ def draw_triangle(depth, r, p1, p2, p3)
     # Uncomment out the next line to include the central part of the triangle.
     # draw_triangle(depth, r, v1, v2, v3)
   end
-  
 end
-
-
-
 
