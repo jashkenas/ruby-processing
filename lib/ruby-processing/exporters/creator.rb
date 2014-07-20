@@ -8,11 +8,11 @@ module Processing
     # Create a blank sketch, given a path.
     def create!(path, args, p3d)
       usage path
-      main_file = File.basename(path, ".rb")
+      main_file = File.basename(path, '.rb')
       # Check to make sure that the main file exists
       already_exists = File.exist?(path) || File.exist?("#{File.dirname(path)}/#{main_file.underscore}.rb")
       if already_exists
-        puts "That sketch already exists."
+        puts 'That sketch already exists.'
         exit
       end
       
@@ -32,14 +32,14 @@ module Processing
       template = File.new("#{RP5_ROOT}/lib/templates/create/#{template_name}")
       rendered = render_erb_from_string_with_binding(template.read, binding)
       full_path = File.join(dir, "#{@file_name}.rb")
-      File.open(full_path, "w") {|f| f.print(rendered) }
+      File.open(full_path, 'w') { |f| f.print(rendered) }
       puts "Created a new Sketch in #{full_path.sub(/\A\.\//, '')}"
     end
     
     # Show the help/usage message for create.
     def usage(predicate)
-      unless predicate
-        puts <<-USAGE
+      return if predicate
+      puts <<-USAGE
   
       Usage: script/generate <sketch_to_generate> <width> <height>
       Width and Height are optional.
@@ -47,8 +47,7 @@ module Processing
       Example: script/generate fancy_drawing/app 800 600
   
       USAGE
-        exit
-      end
+      exit
     end
   end
 end

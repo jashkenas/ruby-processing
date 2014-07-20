@@ -54,7 +54,7 @@ module Processing
       size_match = source.match(/^[^#]*size\(?\s*(\d+)\s*,\s*(\d+)\s*\)?/)
       return match[1] if match
       return (dimension == 'width' ? size_match[1] : size_match[2]) if size_match
-      warn "using default dimensions for export, please use constants integer values in size() call instead of computed ones"
+      warn 'using default dimensions for export, please use constants integer values in size() call instead of computed ones'
       DEFAULT_DIMENSIONS[dimension]
     end
     
@@ -90,9 +90,7 @@ module Processing
         line = line.gsub(/\b(require_relative|require|load)\b/, 'partial_paths << ')
         eval(line)
         where = "{#{local_dir}/,}{#{partial_paths.join(',')}}"
-        unless line =~ /\.[^.]+$/
-          where += ".{rb,jar}"
-        end
+        where += ".{rb,jar}" unless line =~ /\.[^.]+$/
         requirements += Dir[where]
         code = matchdata.post_match
       end
@@ -111,7 +109,7 @@ module Processing
     end
     
     def hash_to_ivars(hash)
-      hash.each{|k,v| instance_variable_set("@" + k.to_s, v) }
+      hash.each { |k, v| instance_variable_set('@' + k.to_s, v) }
     end
     
     def wipe_and_recreate_destination
@@ -119,18 +117,18 @@ module Processing
       mkdir_p @dest
     end
     
-    def render_erb_in_path_with_binding(path, some_binding, opts={})
-      erbs = Dir.glob(path + "/**/*.erb")
+    def render_erb_in_path_with_binding(path, some_binding, opts = {})
+      erbs = Dir.glob(path + '/**/*.erb')
       erbs.each do |erb|
-        string = File.open(erb) {|f| f.read }
+        string = File.open(erb) { |f| f.read }
         rendered = render_erb_from_string_with_binding(string, some_binding)
-        File.open(erb.sub(".erb", ""), "w") {|f| f.print rendered }
+        File.open(erb.sub('.erb', ''), 'w') { |f| f.print rendered }
         rm erb if opts[:delete]
       end
     end
     
     def render_erb_from_string_with_binding(erb, some_binding)
-      rendered = ERB.new(erb, nil, "<>", "rendered").result(some_binding)
+      ERB.new(erb, nil, '<>', 'rendered').result(some_binding)
     end
     
   end
