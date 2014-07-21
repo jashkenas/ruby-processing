@@ -7,7 +7,7 @@ module Processing
     
     # Create a blank sketch, given a path.
     def create!(path, args, p3d)
-      usage path
+      if /\?/ =~ path || /--help/ =~ path then usage end
       main_file = File.basename(path, '.rb')
       # Check to make sure that the main file exists
       already_exists = File.exist?(path) || File.exist?("#{File.dirname(path)}/#{main_file.underscore}.rb")
@@ -37,8 +37,7 @@ module Processing
     end
     
     # Show the help/usage message for create.
-    def usage(predicate)
-      return if predicate
+    def usage
       puts <<-USAGE
   
       Usage: script/generate <sketch_to_generate> <width> <height>
