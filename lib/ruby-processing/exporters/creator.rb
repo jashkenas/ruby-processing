@@ -6,15 +6,12 @@ module Processing
     ALL_DIGITS = /\A\d+\Z/
     
     # Create a blank sketch, given a path.
+    # @TODO reduce cyclomatic complexity
     def create!(path, args, p3d)
-      if /\?/ =~ path || /--help/ =~ path then usage end
+      usage if /\?/ =~ path || /--help/ =~ path
       main_file = File.basename(path, '.rb')
-      # Check to make sure that the main file exists
-      already_exists = File.exist?(path) || File.exist?("#{File.dirname(path)}/#{main_file.underscore}.rb")
-      if already_exists
-        puts 'That sketch already exists.'
-        exit
-      end
+      # Check to make sure that the main file doesn't exist already
+      already_exists(path)
       
       # Get the substitutions
       @name           = main_file.camelize
@@ -34,6 +31,13 @@ module Processing
       full_path = File.join(dir, "#{@file_name}.rb")
       File.open(full_path, 'w') { |f| f.print(rendered) }
       puts "Created a new Sketch in #{full_path.sub(/\A\.\//, '')}"
+    end
+
+    def already_exist(path)
+      if File.exist?(path) || File.exist?("#{File.dirname(path)}/#{main_file.underscore}.rb")
+        puts 'That sketch already exists.'
+      end
+      exit
     end
     
     # Show the help/usage message for create.

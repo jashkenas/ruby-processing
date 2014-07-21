@@ -19,7 +19,7 @@ module Processing
     def export!(sketch)
       # Check to make sure that the main file exists
       @main_file_path, @main_file, @main_folder = *get_main_file(sketch)
-      usage( @main_file_path && File.exist?(@main_file_path) )
+      usage(@main_file_path && File.exist?(@main_file_path))
       
       extract_information
       
@@ -41,10 +41,10 @@ module Processing
     end
     
     def copy_over_necessary_files
-      @prefix = "lib"
+      @prefix = 'lib'
       cp_r(Dir["#{RP5_ROOT}/lib/templates/application/{*,**}"], @dest)
       @necessary_files = [@main_file_path]
-      @necessary_files += Dir["#{CONFIG["PROCESSING_ROOT"]}/core/library/{*,**}"]
+      @necessary_files += Dir["#{CONFIG['PROCESSING_ROOT']}/core/library/{*,**}"]
       @necessary_files += Dir["#{RP5_ROOT}/lib/{*,**}"]
       @necessary_files += @real_requires
       NECESSARY_FOLDERS.each do |folder| 
@@ -53,25 +53,25 @@ module Processing
       end
       @necessary_files.uniq!
       cp_r(@necessary_files, File.join(@dest, @prefix))
-      cp_r(@libraries, File.join(@dest, @prefix, "library")) unless @libraries.empty?
+      cp_r(@libraries, File.join(@dest, @prefix, 'library')) unless @libraries.empty?
       # Then move the icon
-      potential_icon = Dir.glob(File.join(@dest, @prefix, "data/*.icns"))[0]
-      move(potential_icon, File.join(@dest, "Contents/Resources/sketch.icns"), :force => true ) if potential_icon
+      potential_icon = Dir.glob(File.join(@dest, @prefix, 'data/*.icns'))[0]
+      move(potential_icon, File.join(@dest, 'Contents/Resources/sketch.icns'), :force => true) if potential_icon
     end
     
     def calculate_substitutions
       file_list = ['lib/ruby/jruby-complete.jar']
-      @class_path = file_list.map {|f| "$JAVAROOT/" + f.sub(@prefix+"/", "") }.join(":")
+      @class_path = file_list.map { |f| '$JAVAROOT/' + f.sub(@prefix+'/', '') }.join(':')
       @linux_class_path = ".:../lib/ruby/*:../lib/*:../lib/library/*"
       @windows_class_path = ".;../lib/ruby/*;../lib/*;../lib/library/*"
     end
     
     def create_executables
       render_erb_in_path_with_binding(@dest, binding, :delete => true)
-      rm Dir.glob(@dest + "/**/*.java")
-      runnable = @dest + "/" + File.basename(@main_file, ".rb")
-      move @dest + "/run", runnable
-      move @dest + "/run.exe", "#{runnable}.exe"
+      rm Dir.glob(@dest + '/**/*.java')
+      runnable = @dest + '/' + File.basename(@main_file, '.rb')
+      move @dest + '/run', runnable
+      move @dest + '/run.exe', "#{runnable}.exe"
       chmod 0755, runnable
       chmod 0755, "#{runnable}.exe"
       chmod 0755, File.join(@dest, 'Contents', 'MacOS', 'JavaApplicationStub')
