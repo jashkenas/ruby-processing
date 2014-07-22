@@ -12,13 +12,12 @@ module FileChooser
   System = Java::JavaLang::System
   
   class Filter < Java::javax::swing::filechooser::FileFilter
-    attr_reader :description, :extensions   
+    attr_reader :description, :extensions
     def define(description, extensions)
-      @description = description
-      @extensions = extensions
+      @description, @extensions = description, extensions
     end
     
-    def accept fobj
+    def accept(fobj)
       return true if extensions.include?(File.extname(fobj.to_s).downcase)
       return true if fobj.isDirectory
     end
@@ -35,24 +34,23 @@ module FileChooser
     HOST = 'host_os'
     UHOME = 'user.home'
     UDIR = 'user.dir'
-    OS = case RbConfig::CONFIG[HOST]
-    # Detect OS      
-    when /darwin/      then :mac
-    when /mswin|mingw/ then :windows
-    else
-      :unix
+    OS = :unix
+    case RbConfig::CONFIG[HOST]
+    when /darwin/      then OS = :mac
+    when /mswin|mingw/ then OS = :windows
     end
     
     def initialize
       @chooser = JXChooser.new
     end
     
-    def look_feel lf = "Metal"
-      lafs = javax.swing.UIManager::getInstalledLookAndFeels.select{|info| info.getName.eql? lf}
+    def look_feel(lf = 'Metal')
+      lafs = javax.swing.UIManager::getInstalledLookAndFeels.select{ |info| 
+      info.getName.eql? lf }
       javax.swing.UIManager::setLookAndFeel(lafs[0].getClassName) if lafs.size > 0
     end
     
-    def set_filter description, extensions
+    def set_filter(description, extensions)
       filter = FileChooser::Filter.new
       filter.define(description, extensions)
       @chooser.setFileFilter(filter)

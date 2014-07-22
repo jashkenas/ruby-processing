@@ -16,16 +16,16 @@ module SeekingNeural
     # Function to train the Perceptron
     # Weights are adjusted based on vehicle's error
     def train(forces, error)
-      trained = @weights.zip(forces.map{|f| f.to_a}
-        .map{|a, b| (a * error.x + b * error.y) * @c})
-      .map {|w, c| constrain(w + c, 0.0, 1.0)}
+      trained = @weights.zip(forces.map { |f| f.to_a }
+        .map{ |a, b| (a * error.x + b * error.y) * @c })
+      .map { |w, c| constrain(w + c, 0.0, 1.0) }
       @weights = trained    
     end
     
     # Give me a steering result
     def feedforward(forces)
       # Sum all values
-      forces.zip(@weights).map{|a, b| a * b}.inject(Vec2D.new, :+)
+      forces.zip(@weights).map { |a, b| a * b }.inject(Vec2D.new, :+)
     end
   end
   
@@ -51,7 +51,7 @@ module SeekingNeural
       # Update velocity
       @velocity += @acceleration
       # Limit speed
-      @velocity.set_mag(MAX_SPEED) {@velocity.mag > MAX_SPEED}
+      @velocity.set_mag(MAX_SPEED) { @velocity.mag > MAX_SPEED }
       @location += @velocity
       # Reset acceleration to 0 each cycle
       @acceleration *= 0
@@ -68,7 +68,7 @@ module SeekingNeural
     # Here is where the brain processes everything
     def steer(targets, desired)
       # Steer towards all targets
-      forces = targets.map{|target| seek(target) }
+      forces = targets.map { |target| seek(target) }
       
       # That array of forces is the input to the brain
       result = brain.feedforward(forces)
@@ -91,7 +91,7 @@ module SeekingNeural
       desired *= MAX_SPEED
       # Steering = Desired minus velocity
       steer = desired - @velocity
-      steer.set_mag(MAX_FORCE) {steer.mag > MAX_FORCE} # Limit to a maximum steering force
+      steer.set_mag(MAX_FORCE) { steer.mag > MAX_FORCE } # Limit to a maximum steering force
       steer
     end
     
@@ -124,7 +124,7 @@ attr_reader :targets, :desired, :v
 def setup
   size(640, 360)
   # The Vehicle's desired location
-  @desired = Vec2D.new(width/2, height/2)
+  @desired = Vec2D.new(width / 2, height / 2)
   
   # Create a list of targets
   make_targets
