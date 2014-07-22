@@ -81,9 +81,9 @@ class Plant
       when "+"
         rotateX(theta)
       when "&"
-        rotateY(-phi % TWO_PI)
+        rotateY(-phi % TAU)
       when ">"
-        rotateZ(phi % TWO_PI)
+        rotateZ(phi % TAU)
       when "<"
         rotateZ(-phi)
       when "["

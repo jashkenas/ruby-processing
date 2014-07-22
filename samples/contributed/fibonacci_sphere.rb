@@ -11,7 +11,7 @@
 load_library :vecmath
 
 PHI = (sqrt(5) + 1) / 2 - 1   # golden ratio
-GA = PHI * TWO_PI           # golden angle
+GA = PHI * TAU           # golden angle
 
 KMAX_POINTS = 100_000
 

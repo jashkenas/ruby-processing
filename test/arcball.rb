@@ -6,10 +6,10 @@ def setup
   frame_rate(10)
 end
 
-def draw 
-  background 39, 232, 51 
+def draw
+  background 39, 232, 51
   if frame_count == 3
-    puts "ok"
+    puts 'ok'
     exit
   end
 end

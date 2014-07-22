@@ -27,7 +27,7 @@ def create_can(r, h, detail, tex)
   sh.no_stroke
   sh.texture(tex)
   (0 .. detail).each do |i|
-    angle = TWO_PI / detail
+    angle = TAU / detail
     x = sin(i * angle)
     z = cos(i * angle)
     u = i.to_f / detail

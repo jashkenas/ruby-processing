@@ -35,9 +35,9 @@ def draw
 end
 
 def polygon(x, y, radius, npoints)
-  angle = TWO_PI / npoints
+  angle = TAU / npoints
   begin_shape
-  (0 .. TWO_PI).step(angle) do |a|
+  (0 .. TAU).step(angle) do |a|
     sx = x + cos(a) * radius
     sy = y + sin(a) * radius
     vertex(sx, sy)

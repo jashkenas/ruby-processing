@@ -16,7 +16,7 @@ def setup
   @hide = false
   control_panel do |c|
     c.title = "controller"
-    c.menu(:detail, ['4', '5', '6', '7', '8', '9', '10' ], '7')
+    c.menu(:detail, %w(4 5 6 7 8 9 10), '7')
     c.button :toggle_debug
     c.button :save_image
     @panel = c
@@ -34,7 +34,7 @@ def draw
   end
   background color('#BDF018')
   translate width / 2, height / 2 
-  @step_angle = TWO_PI / (detail.to_i - 1)
+  @step_angle = TAU / (detail.to_i - 1)
   fill color('#ffffff')
   no_stroke
   @cr = map(mouse_x, 0, width, 20, 200)
@@ -71,7 +71,7 @@ def draw
     end
   end
   
-  if (save_one) 
+  if save_one 
     save_frame("images/quadraticvertex-#####.png")
     @save_one = false
   end

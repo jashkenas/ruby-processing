@@ -16,7 +16,7 @@ end
 def draw    
   	background 0  	
   	@a += 0.005
-  	@a = 0.0 if @a > TWO_PI  	
+  	@a = 0.0 if @a > TAU  	
   	translate width/2, height/2  	
   	rotate_x @a
   	rotate_y @a * 2

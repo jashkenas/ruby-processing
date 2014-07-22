@@ -39,8 +39,8 @@ def draw
   background 1    
   push_matrix    
   translate width/2, height/2, -30    
-  @new_xmag = mouse_x.to_f / width * TWO_PI
-  @new_ymag = mouse_y.to_f / height * TWO_PI    
+  @new_xmag = mouse_x.to_f / width * TAU
+  @new_ymag = mouse_y.to_f / height * TAU    
   diff = @xmag - @new_xmag
   @xmag -= diff / 4 if diff.abs > 0.01    
   diff = @ymag - @new_ymag

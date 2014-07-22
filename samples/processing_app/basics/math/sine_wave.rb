@@ -11,7 +11,7 @@ def setup
   @w = width + 16
   @period = 500.0
   @x_spacing = 8
-  @dx = (TWO_PI / @period) * @x_spacing
+  @dx = (TAU / @period) * @x_spacing
   @y_values = []
   @theta = 0.0
   @amplitude = 75.0

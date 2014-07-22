@@ -3,5 +3,3 @@ def setup
   puts Java::Processing::opengl::PGraphicsOpenGL.OPENGL_VERSION
   exit
 end
-
-
