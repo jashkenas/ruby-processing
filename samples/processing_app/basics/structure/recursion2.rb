@@ -14,7 +14,7 @@ def draw_circle (x, y, radius, level)
     level = level - 1
     num = rand(2 .. 6)  		
     0.upto(num-1) do |i|  			
-      a = rand(0 .. TWO_PI)
+      a = rand(0 .. TAU)
       nx = x + cos(a) * 8.0 * level
       ny = y + sin(a) * 6.0 * level
       draw_circle nx, ny, radius / 2, level

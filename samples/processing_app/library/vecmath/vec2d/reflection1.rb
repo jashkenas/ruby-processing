@@ -20,7 +20,7 @@ def setup
   @base2 = Vec2D.new(width, height)
   @coords = create_ground
   # start ellipse at middle top of screen
-  @position = Vec2D.new(width/2, 0)  
+  @position = Vec2D.new(width / 2, 0)  
   # set initial random direction
   @direction = Vec2D.new(rand, rand)
   
@@ -58,7 +58,7 @@ def draw
   # detect and handle collision
   coords.each do |coord|
     # check distance between ellipse and base top coordinates
-    if (Vec2D.dist(position, coord) < radius)
+    if position.dist(coord) < radius
       
       # calculate dot product of incident vector and base top normal 
       dot = incidence.dot(normal)
@@ -73,17 +73,17 @@ def draw
   
   # detect boundary collision
   # right
-  if (position.x > width - radius)
+  if position.x > (width - radius)
     @position.x = width - radius
     @direction.x *= -1
   end
   # left 
-  if (position.x < radius)
+  if position.x < radius
     @position.x = radius
     @direction.x *= -1
   end
   # top
-  if (position.y < radius)
+  if position.y < radius
     @position.y = radius
     @direction.y *= -1
     # randomize base top
@@ -95,7 +95,7 @@ end
 
 def create_ground
   # calculate length of base top
-  @base_length = Vec2D.dist(base1, base2)
+  @base_length = base1.dist(base2)
   # fill base top coordinate array
   coords = []
   (0 ... base_length.ceil).each do |i|

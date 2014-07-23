@@ -18,7 +18,7 @@ def setup
   @max_waves.times do |i|
     amplitude << rand(10 .. 30)
     period = rand(100 .. 300) # How many pixels before the wave repeats
-    dx << (TWO_PI / period) * @x_spacing
+    dx << (TAU / period) * @x_spacing
   end
   
   frame_rate 30

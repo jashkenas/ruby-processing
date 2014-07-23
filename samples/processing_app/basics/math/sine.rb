@@ -26,10 +26,10 @@ def draw
     rotate angle_rot - 45
     ellipse(-116, 0, @diameter, @diameter)
     pop_matrix
-    angle_rot += TWO_PI/5
+    angle_rot += TAU/5
   }  	
   @diameter = 34 * sin( @angle ) + 168
   @angle += 0.02
-  #@angle = 0.0 if @angle > TWO_PI  
+  #@angle = 0.0 if @angle > TAU  
 end
 

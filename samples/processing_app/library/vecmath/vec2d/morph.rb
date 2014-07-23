@@ -1,5 +1,5 @@
 #
-# Morph. 
+# Morph.
 # 
 # Changing one shape into another by interpolating
 # vertices from one to another
@@ -23,13 +23,13 @@ def setup
   # Create a circle using vectors pointing from center
   (ALPHA .. OMEGA).step(THETA) do |angle|
     # Note we are not starting from 0 in order to match the
-    # path of a circle.  
+    # path of a circle.
     circle << Vec2D.from_angle(angle) * 100
     # Let's fill out morph Array with blank Vec2Ds while we are at it
     morph << Vec2D.new
   end
 
-  # A square is a bunch of vertices along straight lines
+  # A square is a bunch of vertices along straight line
   # Top of square
   (-50 .. 50).step(10) do |x|
     square << Vec2D.new(x, -50)
@@ -57,7 +57,7 @@ def draw
   # Look at each vertex
   circle.length.times do |i|
     # Are we lerping to the circle or square?
-    v1 = (state)?  circle[i] : square[i]
+    v1 = state ?  circle[i] : square[i]
     # Get the vertex we will draw
     v2 = morph[i]
     
@@ -68,12 +68,10 @@ def draw
   end
   
   # If all the vertices are close, switch shape
-  if (@total_distance < 0.08)
-    @state = !state
-  end
+  @state = !state if @total_distance < 0.08
   
   # Draw relative to center
-  translate(width/2, height/2)
+  translate(width / 2, height / 2)
   stroke_weight(4)
   # Draw a polygon that makes up all the vertices
   begin_shape

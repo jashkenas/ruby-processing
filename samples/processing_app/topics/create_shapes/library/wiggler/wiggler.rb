@@ -10,7 +10,7 @@ class Wiggler
     @yoff = 0
     # The "original" locations of the vertices make up a circle
     @original = []
-    (0 ... TWO_PI).step(0.2) do |a|
+    (0 ... TAU).step(0.2) do |a|
       v = PVector.from_angle(a)
       v.mult(100)
       original << v
@@ -34,7 +34,7 @@ class Wiggler
     (0 ... s.get_vertex_count).each do |i|
       # Calculate a new vertex location based on noise around "original" location
       pos = original[i]
-      a = TWO_PI*noise(xoff,yoff)
+      a = TAU*noise(xoff,yoff)
       r = PVector.from_angle(a)
       r.mult(4)
       r.add(pos)

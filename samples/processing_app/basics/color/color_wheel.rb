@@ -29,7 +29,7 @@ def create_wheel( x, y, value_shift )
   rot_adjust  = (360.0 / segs / 2.0) * PI / 180
   radius      = 170.0
   seg_width   = radius / steps
-  interval    = TWO_PI / segs
+  interval    = TAU / segs
   
   case value_shift
   when :shade

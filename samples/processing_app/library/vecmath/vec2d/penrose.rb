@@ -8,10 +8,10 @@ load_libraries :vecmath, :tile, :control_panel
 attr_reader :tris, :s, :panel, :hide, :acute
 
 def setup
-  size(1024, 576)  
+  size(1024, 576)
   control_panel do |c|
-    c.title = "Tiler Control"
-    c.look_feel "Nimbus"
+    c.title = 'Tiler Control'
+    c.look_feel 'Nimbus'
     c.checkbox  :seed
     c.checkbox  :acute
     c.button    :generate
@@ -20,24 +20,29 @@ def setup
   end
   @hide = false
   init false # defaults to regular penrose
- 
 end
 
 def draw
   # only make control_panel visible once, or again when hide is false
   unless hide
     @hide = true
-    panel.setVisible(hide)    
+    panel.set_visible(hide)
   end
-  background(255)  
-  translate(width/2, height/2)
-  tris.map{|t| t.display}
+  background(255)
+  translate(width / 2, height / 2)
+  tris.each do |t|
+    t.display
+  end
 end
 
 def generate
-  next_level = tris.map{|t|
-    t.subdivide
-  }
+  next_level = []
+  tris.each do |t|
+    more = t.subdivide
+    more.each do |m|
+      next_level << m
+    end
+  end
   @tris = next_level
 end
 
@@ -47,7 +52,7 @@ def reset!
   java.lang.System.gc # but does it do any good?
 end
 
-def init alt_seed
+def init(alt_seed)
   @tris = []
   10.times do |i|     # create 36 degree segments
     a = Vec2D.new
@@ -56,10 +61,10 @@ def init alt_seed
     b *= 370
     c *= 370
     if alt_seed
-      tile = (i % 2 == 0)? Tiler.tile(b, a, c) : Tiler.tile(c, a, b)
-      tris << tile      
+      tile = i.even? ? Tiler.tile(b, a, c) : Tiler.tile(c, a, b)
+      tris << tile
     else
-      tile = (i % 2 == 0)? Tiler.tile(a, b, c) : Tiler.tile(a, c, b)
+      tile = i.even? ? Tiler.tile(a, b, c) : Tiler.tile(a, c, b)
       tris << tile
     end
   end

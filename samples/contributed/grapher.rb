@@ -11,7 +11,7 @@ FUZZ = 0.04
 SZ = 5
 
 def setup
-  size 600, 600    
+  size 600, 600
   no_stroke
   color_mode(HSB, 1.0)
   background(0)
@@ -19,14 +19,14 @@ def setup
 end
 
 def draw
-  translate(width/2, height/2)
-  dot(rand(-180 .. 180), rand(-180 .. 180), rand(CMIN .. CMAX)) unless frame_count > 200000
+  translate(width / 2, height / 2)
+  dot(rand(-180 .. 180), rand(-180 .. 180), rand(CMIN .. CMAX)) unless frame_count > 200_000
 end
 
-def dot(px, py, c)    
+def dot(px, py, c)
   func = DegLut.sin(px) + DegLut.sin(py) + c
   # change function to change the graph eg.
-  #func = DegLut.cos(px) + DegLut.sin(py) + c
+  # func = DegLut.cos(px) + DegLut.sin(py) + c
   if func.abs <= FUZZ
     fill(((CMIN - c) / (CMIN - CMAX)), 1, 1)
     ellipse px * width / 360, py * height / 360, SZ, SZ

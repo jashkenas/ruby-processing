@@ -15,38 +15,31 @@ attr_reader :loc,  # Location of shape
             :gravity   # Gravity acts at the shape's acceleration
 
 def setup
-  size(640,360)
+  size(640, 360)
   smooth 4
-  @loc = Vec2D.new(100,100)
-  @velocity = Vec2D.new(1.5,2.1)
-  @gravity = Vec2D.new(0,0.2)
+  @loc = Vec2D.new(100, 100)
+  @velocity = Vec2D.new(1.5, 2.1)
+  @gravity = Vec2D.new(0, 0.2)
 
 end
 
 def draw
   background(0)
-  
   # Add velocity to the location.
   @loc += velocity
   # Add gravity to velocity
   @velocity += gravity
-  
   # Bounce off edges
-  unless  (RADIUS .. width - RADIUS).include? loc.x 
-    velocity.x *= -1
-  end
-  if (loc.y > height - RADIUS)
+  velocity.x *= -1 unless (RADIUS .. width - RADIUS).include?(loc.x)
+  if loc.y > (height - RADIUS)
     # We're reducing velocity ever so slightly 
     # when it hits the bottom of the window
     velocity.y *= -0.95 
     loc.y = height - RADIUS
   end
-
   # Display circle at location vector
   stroke(255)
   stroke_weight(2)
   fill(127)
-  ellipse(loc.x,loc.y,RADIUS * 2,RADIUS * 2)
+  ellipse(loc.x, loc.y, RADIUS * 2, RADIUS * 2)
 end
-
-

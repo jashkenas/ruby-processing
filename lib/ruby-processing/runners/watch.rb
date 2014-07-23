@@ -19,8 +19,8 @@ module Processing
     def start_watching
       start_runner
       loop do
-        if @files.detect { |file| File.exist?(file) && File.stat(file).mtime > @time }
-          puts "reloading sketch..."
+        if @files.find { |file| File.exist?(file) && File.stat(file).mtime > @time }
+          puts 'reloading sketch...'
           $app && $app.close
           @time = Time.now                
           java.lang.System.gc
@@ -40,10 +40,10 @@ module Processing
       puts "Backtrace:\n\t#{e.backtrace.join("\n\t")}"
     end
 
-    def start_runner 
+    def start_runner
       @runner.kill if @runner && @runner.alive?
-      @runner = Thread.start do 
-        report_errors do 
+      @runner = Thread.start do
+        report_errors do
           Processing.load_and_run_sketch
         end
       end

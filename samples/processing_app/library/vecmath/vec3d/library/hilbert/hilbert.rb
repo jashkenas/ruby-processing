@@ -39,20 +39,18 @@ class Hilbert
   :theta, :distance, :phi, :gen, :adj_array
 
   def initialize(size: 1.0, gen: 1)
-    @axiom = "X"                                           # AXIOM
-    @rule = {"X" => "^<XF^<XFX-F^>>XFX&F+>>XFX-F>X->"}     # RULE
+    @axiom = 'X'                                           # AXIOM
+    @rule = {'X' => '^<XF^<XFX-F^>>XFX&F+>>XFX-F>X->'}     # RULE
     @gen = gen
     @grammar = Grammar.new(axiom, rule) 
     @production = grammar.generate gen
     @distance = size / (gen**2 - 1)
     @theta = radians 90
     @phi = radians 90  
-    @adj_array = [0,  0.5,  1.5,  3.5,  7.5, 15].map{|x| Vec3D.new(x * -1, x, x * -1)}
-
+    @adj_array = [0, 0.5, 1.5, 3.5, 7.5, 15].map { |x| Vec3D.new(x * -1, x, x * -1) }
   end
 
   def draw    
-    #translate( -distance * ADJUSTMENT[gen], distance *  ADJUSTMENT[gen], -distance * ADJUSTMENT[gen])
     adj = adj_array[gen] * distance
     translate(adj.x, adj.y, adj.z)
     fill(0, 75, 152)
@@ -61,27 +59,26 @@ class Hilbert
     shininess(1.0)
     production.each do |ch|
       case(ch)
-      when "F"
-        translate(0, distance/-2, 0)
+      when 'F'
+        translate(0, distance / -2, 0)
         box(distance/9 , distance, distance/9)
-        translate(0, distance/-2, 0)
-      when "+"
+        translate(0, distance / -2, 0)
+      when '+'
         rotateX(-theta)
-      when "-"
+      when '-'
         rotateX(theta)
-      when ">"
+      when '>'
         rotateY(theta)
-      when "<"
+      when '<'
         rotateY(-theta)
-      when "&"
+      when '&'
         rotateZ(-phi)
-      when "^"
+      when '^'
         rotateZ(phi)
-      when "X"
+      when 'X'
       else
         puts("character '#{ch}' not in grammar")
       end
     end
   end
-
 end   

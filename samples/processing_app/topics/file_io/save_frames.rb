@@ -23,7 +23,7 @@ def draw
   
   # An arbitrary oscillating rotating animation 
   # so that we have something to render
-  (0 ... TWO_PI).step(0.2) do |a|
+  (0 ... TAU).step(0.2) do |a|
     push_matrix
     translate(width/2, height/2)
     rotate(a+sin(frame_count*0.004*a))

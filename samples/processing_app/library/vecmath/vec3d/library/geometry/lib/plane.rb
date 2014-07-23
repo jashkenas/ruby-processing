@@ -16,9 +16,9 @@ class Plane
     v2 = vecs[2] - vecs[0]  
     
     @c = Vec3D.new(
-      (vecs[0].x+vecs[1].x+vecs[2].x) / 3, 
-      (vecs[0].y+vecs[1].y+vecs[2].y) / 3, 
-      (vecs[0].z+vecs[1].z+vecs[2].z) / 3
+      (vecs[0].x + vecs[1].x + vecs[2].x) / 3, 
+      (vecs[0].y + vecs[1].y + vecs[2].y) / 3, 
+      (vecs[0].z + vecs[1].z + vecs[2].z) / 3
       )
     
     @n = v1.cross(v2)
@@ -27,9 +27,7 @@ class Plane
   
   def display(renderer)
     begin_shape(TRIANGLES)
-    vecs.each do |vec|
-      vec.to_vertex(renderer)
-    end
+    vecs.map { |vec| vec.to_vertex(renderer) }
     end_shape
     
     #normal
@@ -60,5 +58,3 @@ class Plane
     stroke(0, 75)
   end
 end
-  
-

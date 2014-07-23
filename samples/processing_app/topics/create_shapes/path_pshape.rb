@@ -20,7 +20,7 @@ def setup
   
   x = 0
   # Calculate the path as a sine wave
-  (0 .. TWO_PI).step(0.1) do |theta|
+  (0 .. TAU).step(0.1) do |theta|
     path.vertex(x,sin(theta)*100)
     x += 5
   end

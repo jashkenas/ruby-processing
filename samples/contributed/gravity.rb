@@ -17,7 +17,7 @@ def draw
   no_stroke
   fill 0, 60
   rect 0, 0, width, height
-  particles.each {|p| p.collect_force; p.move; p.render }
+  particles.each { |p| p.collect_force; p.move; p.render }
 end
 
 def mouse_pressed
@@ -31,14 +31,11 @@ def mouse_released
 end
 
 def particle_grab
-  @grabbed = particles.detect {|p| dist(mouse_x, mouse_y, p.x1, p.y1) < p.diameter/2 }
+  @grabbed = particles.detect { |p| dist(mouse_x, mouse_y, p.x1, p.y1) < p.diameter/2 }
 end
 
-
 class Particle
-
-  GRAVITY = 1.0
-  
+  GRAVITY = 1.0  
   attr_reader :x0, :y0, :x1, :y1, :diameter, :mass_amount
   
   def initialize(x, y, mass)
@@ -84,7 +81,7 @@ class Particle
   def render_free
     charge_col  = 1000.0 / @min_dist / 50.0
     tot_col_1   = 100 + charge_col * 6
-    tot_col_2   = 150 + charge_col*charge_col
+    tot_col_2   = 150 + charge_col * charge_col
     tot_col_3   = diameter + 8 + charge_col
     fill(tot_col_1, tot_col_1, 255, charge_col * 150 + 3)
     ellipse(x1, y1, tot_col_3, tot_col_3)
@@ -103,8 +100,7 @@ class Particle
     @x0, @y0 = mouse_x, mouse_y
   end
   
-  def angle_of (x1, y1, x2, y2)
+  def angle_of(x1, y1, x2, y2)
     Math::PI - atan2(y1 - y2, x1 - x2)
-  end
-  
+  end  
 end

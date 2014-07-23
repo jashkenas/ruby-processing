@@ -6,9 +6,9 @@ def setup
 end
 
 def draw
-  background_int 0  
+  background_int 0
   if frame_count == 3
-    puts "ok"
+    puts 'ok'
     exit
   end
 end

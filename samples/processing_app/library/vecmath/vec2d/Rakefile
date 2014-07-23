@@ -22,7 +22,7 @@ end
 
 def run_sample(sample_name)
   puts "Running #{sample_name}...quit to run next sample"
-  open("|rp5 run #{sample_name}", 'r') do |io|
+  open("|rp5 --nojruby run #{sample_name}", 'r') do |io|
     while l = io.gets
       puts(l.chop)
     end      
