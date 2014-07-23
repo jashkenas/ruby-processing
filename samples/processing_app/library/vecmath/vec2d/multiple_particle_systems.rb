@@ -11,7 +11,7 @@ load_library :vecmath
 module Runnable
   def run
     self.reject! { |item| item.dead? }
-    self.each    { |item| item.run   }
+    self.each { |item| item.run }
   end
 end
 
@@ -40,7 +40,9 @@ def setup
   size 640, 580   
   color_mode(RGB, 255, 255, 255, 100)
   ellipse_mode(CENTER)    
-  @particle_systems = ParticleSystem.new(rand(21) + 5, Vec2D.new(width/2, height/2))
+  origin = rand(5 .. 16)
+  start_pos = Vec2D.new(width / start2, height / 2)
+  @particle_systems = ParticleSystem.new(origin, start_pos)
 end
 
 def draw
@@ -49,7 +51,7 @@ def draw
 end
 
 def mouse_pressed
-  origin = rand(21) + 5
+  origin = rand(5 .. 16)
   vector = Vec2D.new(mouse_x, mouse_y)
   @particle_systems << ParticleSystem.new(origin, vector)
 end
@@ -94,18 +96,13 @@ class Particle
   def render_velocity_vector
     scale = 10
     arrow_size = 4
-    
     push_matrix
-    
     translate(origin.x, origin.y)
     rotate(velocity.heading)
-    
     length = velocity.mag * scale
-    
     line 0, 0, length, 0
     line length, 0, length - arrow_size, arrow_size / 2
     line length, 0, length - arrow_size, -arrow_size / 2
-    
     pop_matrix
   end
 end
@@ -135,16 +132,10 @@ class CrazyParticle < Particle
   
   def render_rotation_line
     push_matrix
-    
     translate(origin.x, origin.y)
     rotate(@theta)
-    
     stroke(255, lifespan)
-    
     line(0, 0, 25, 0)
-    
     pop_matrix
   end
 end
-
-

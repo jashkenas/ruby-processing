@@ -46,10 +46,17 @@ public class Rarcball extends RubyObject {
      * @param args optional (no args jx = 0, jy = 0)
      * @return Rarcballball object (ruby)
      */
-    @JRubyMethod(name = "init", meta = true, rest = true, required = 1, optional = 2)
+    @JRubyMethod(name = "init", meta = true, rest = true, required = 1, optional = 3)
 
     static void init(ThreadContext context, IRubyObject self, IRubyObject args[]) {
-        int count = Arity.checkArgumentCount(context.getRuntime(), args, 1, 3);
+        int count = Arity.checkArgumentCount(context.getRuntime(), args, 1, 4);
+        if (count == 4) {
+            PApplet parent = (PApplet) args[0].toJava(PApplet.class);
+            float cx = (float) args[1].toJava(Float.class);
+            float cy = (float) args[2].toJava(Float.class);
+            float radius = (float) args[3].toJava(Float.class);
+            new JArcBall(parent, cx, cy, radius).setActive(true);
+        }
         if (count == 3) {
             PApplet parent = (PApplet) args[0].toJava(PApplet.class);
             float cx = (float) args[1].toJava(Float.class);

@@ -25,8 +25,8 @@ module Processing
   # This method is the common entry point to run a sketch, bare or complete.
   def self.load_and_run_sketch
     source = read_sketch_source
-    has_sketch = source.match(/^[^#]*< Processing::App/)
-    has_methods = source.match(/^[^#]*(def\s+setup|def\s+draw)/)
+    has_sketch = !source.match(/^[^#]*< Processing::App/).nil?
+    has_methods = !source.match(/^[^#]*(def\s+setup|def\s+draw)/).nil?
     
     if has_sketch
       load File.join(SKETCH_ROOT, SKETCH_PATH)

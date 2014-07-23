@@ -9,7 +9,7 @@ module SeekingNeural
   class Perceptron
     # Perceptron is created with n weights and learning constant
     def initialize(n, c)
-      @weights = Array.new(n){ rand(0 .. 1.0) }
+      @weights = Array.new(n) { rand(0 .. 1.0) }
       @c = c
     end
     
@@ -17,9 +17,9 @@ module SeekingNeural
     # Weights are adjusted based on vehicle's error
     def train(forces, error)
       trained = @weights.zip(forces.map { |f| f.to_a }
-        .map{ |a, b| (a * error.x + b * error.y) * @c })
+        .map { |a, b| (a * error.x + b * error.y) * @c })
       .map { |w, c| constrain(w + c, 0.0, 1.0) }
-      @weights = trained    
+      @weights = trained
     end
     
     # Give me a steering result
@@ -33,10 +33,10 @@ module SeekingNeural
   # Daniel Shiffman <http://www.shiffman.net>
   
   class Vehicle
-    
     MAX_SPEED = 4
     MAX_FORCE = 0.1
-    attr_reader :brain, :sz, :location, :targets, :desired  
+
+    attr_reader :brain, :sz, :location, :targets, :desired
     
     def initialize(n, x, y)
       @brain = Perceptron.new(n, 0.001)
@@ -55,7 +55,6 @@ module SeekingNeural
       @location += @velocity
       # Reset acceleration to 0 each cycle
       @acceleration *= 0
-      
       @location.x = constrain(location.x, 0, width)
       @location.y = constrain(location.y, 0, height)
     end

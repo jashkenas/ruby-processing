@@ -10,6 +10,12 @@ describe 'arcball new' do
 end
 
 
+describe 'arcball center and radius' do
+  it 'center and radius pass' do
+    Processing::ArcBall.init(Java::ProcessingCore::PApplet.new, 200, 100, 50)
+  end
+end
+
 describe 'arcball center' do
   it 'center pass' do
     Processing::ArcBall.init(Java::ProcessingCore::PApplet.new, 200, 100)

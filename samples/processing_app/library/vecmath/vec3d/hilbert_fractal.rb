@@ -13,7 +13,7 @@ attr_reader :hilbert, :renderer
 def setup
   size 1024, 768, P3D
   ArcBall.init(self, width / 2.0, height / 2.0)
-  @hilbert = Hilbert.new(size: height/2, gen: 3)
+  @hilbert = Hilbert.new(size: height / 2, gen: 3)
   no_stroke
 end
 

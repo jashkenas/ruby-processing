@@ -5,11 +5,11 @@ class Mat4
 
   def initialize(axisX, axisY, axisZ, trans)
     @mat = [
-    [axisX.x, axisY.x, axisZ.x, trans.x],
-    [axisX.y, axisY.y, axisZ.y, trans.y],
-    [axisX.z, axisY.z, axisZ.z, trans.z],
-    [0, 0, 0,  1]
-    ]
+            [axisX.x, axisY.x, axisZ.x, trans.x],
+	    [axisX.y, axisY.y, axisZ.y, trans.y],
+	    [axisX.z, axisY.z, axisZ.z, trans.z],
+	    [0, 0, 0,  1]
+           ]
   end 
   
   # The processing version changes the input 'array', here we return
@@ -24,6 +24,5 @@ class Mat4
       Vec3D.new(xt, yt, zt)
     }
   end
- 
 end
 

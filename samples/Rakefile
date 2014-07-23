@@ -15,5 +15,7 @@ end
 
 desc 'vecmath'
 task :vecmath do
-  sh "cd processing_app/library/vecmath && rake"
+  sh "cd processing_app/library/vecmath/vec2d && rake"
+  # sh "cd processing_app/library/vecmath/vec3d && rake"
+  # sh "cd processing_app/library/vecmath/arc_ball && rake"
 end

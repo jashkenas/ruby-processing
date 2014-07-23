@@ -5,7 +5,8 @@
 # 
 # Demonstration of the basics of motion with vector.
 # A "Mover" object stores location, velocity, and acceleration as vectors
-# The motion is controlled by affecting the acceleration (in this case towards the mouse)
+# The motion is controlled by affecting the acceleration (in this case 
+# towards the mouse)
 #
 # For more examples of simulating motion and physics with vectors, see 
 # Simulate/ForcesWithVectors, Simulate/GravitationalAttraction3D
@@ -16,13 +17,12 @@ load_library 'vecmath'
 attr_reader :mover
 
 def setup
-  size(640,360)
+  size(640, 360)
   @mover = Mover.new(width, height)
 end
 
 def draw
   background(0)
-  
   # Update the location
   mover.update
   # Display the Mover
@@ -59,7 +59,7 @@ class Mover
     # Limit the velocity to topspeed, PVector has a limit function 
     # here we supply a block that evaluates to a boolean to set
     # the velocit conditionally
-    velocity.set_mag topspeed {velocity.mag > topspeed}
+    velocity.set_mag(topspeed) { velocity.mag > topspeed }
     # Location changes by velocity vector
     @location += velocity
   end
@@ -70,6 +70,5 @@ class Mover
     fill(127)
     ellipse(location.x, location.y, 48, 48)
   end
-  
 end
 
