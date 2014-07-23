@@ -20,12 +20,6 @@ Gem::Specification.new do |spec|
   * Application exporting of your sketches. Hand them out to your party guests, 
     ready-to-run.
 
-  * Live Coding via JRuby's IRB. Loads in your sketch so you can futz with
-    variables and remake methods on the fly.
-
-  * Bare sketches. Write your Ruby-Processing sketches without having to define
-    a class. Without defining methods, even.
-
   * A "Control Panel" library, so that you can easily create sliders, buttons,
     checkboxes and drop-down menus, and hook them into your sketch's instance
     variables.
@@ -33,10 +27,15 @@ Gem::Specification.new do |spec|
   * "Watch" mode, where Ruby-Processing keeps an eye on your sketch and reloads
     it from scratch every time you make a change. A pretty nice REPL-ish way
     to work on your Processing sketches.
+  
+  * Use ruby-gems and or java-libraries to access some pretty cool stuff...
+
+  * Includes hundreds of worked examples to get you started
 
   EOS
   spec.summary = %q{Code as Art, Art as Code. Processing and Ruby are meant for each other.}
   spec.homepage = "http://wiki.github.com/jashkenas/ruby-processing"
+  spec.post_install_message = %q{Use 'rp5 setup install' to install jruby-complete, and 'rp5 setup check' to check config.}
   spec.license = 'MIT'
   
   spec.files = FileList['bin/**/*', 'lib/**/*', 'library/**/*', 'samples/**/*', 'vendors/Rakefile'].exclude(/jar/).to_a
