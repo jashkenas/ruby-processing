@@ -200,7 +200,7 @@ module Processing
       if File.exist?(rcomplete)
         return rcomplete
       else
-        warn "#{rcomplete} does not exist\nTry running `install_jruby_complete`"
+        warn "#{rcomplete} does not exist\nTry running `rp5 setup install`"
         exit
       end       
     end

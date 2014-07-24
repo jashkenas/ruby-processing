@@ -14,15 +14,15 @@ def setup
   size(640, 360, P2D)
   
   textureWrap(REPEAT)
-  @tex = loadImage("tex1.jpg")
+  @tex = loadImage('tex1.jpg')
  
-  @deform = loadShader("deform.glsl")
-  deform.set("resolution", width.to_f, height.to_f)
+  @deform = loadShader('deform.glsl')
+  deform.set('resolution', width.to_f, height.to_f)
 end
 
 def draw
-  deform.set("time", millis / 1000.0)
-  deform.set("mouse", mouse_x.to_f, mouse_y.to_f)
+  deform.set('time', millis / 1000.0)
+  deform.set('mouse', mouse_x.to_f, mouse_y.to_f)
   shader(deform)
   image(tex, 0, 0, width, height)
 end

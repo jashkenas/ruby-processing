@@ -5,9 +5,9 @@ attr_reader :label, :can, :angle, :bw_shader
 
 def setup
   size(640, 360, P3D)  
-  @label = load_image("lachoy.jpg")
+  @label = load_image('lachoy.jpg')
   @can = create_can(100, 200, 32, label)
-  @bw_shader = load_shader("bwfrag.glsl")
+  @bw_shader = load_shader('bwfrag.glsl')
   @angle = 0
 end
 
