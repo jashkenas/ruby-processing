@@ -24,10 +24,10 @@ class SnakeKolam
   end
   
   def setup_grammar
-    @axiom = "FX+F+FX+F"
+    @axiom = 'FX+F+FX+F'
     @grammar = Grammar.new(
       axiom,
-      {"X" => "X-F-F+FX+F+FX-F-F+FX"}
+      {'X' => 'X-F-F+FX+F+FX-F-F+FX'}
       )
   end
     
@@ -78,7 +78,7 @@ attr_reader :kolam
 
 def setup
   size 500, 500
-  @kolam = SnakeKolam.new width/8, height*0.8
+  @kolam = SnakeKolam.new width / 8, height * 0.8
   kolam.create_grammar 3          # create grammar from rules
   no_loop
 end

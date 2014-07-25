@@ -13,7 +13,7 @@ attr_reader :img
 def setup
   size(640, 360)
   frame_rate(30)
-  @img = load_image("moon-wide.jpg")
+  @img = load_image('moon-wide.jpg')
   img.load_pixels
   # Only need to load the pixels[] array once, because we're only
   # manipulating pixels[] inside draw, not drawing shapes.

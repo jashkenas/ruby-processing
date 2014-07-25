@@ -14,7 +14,7 @@ attr_reader :signal, :img, :direction
 def setup
   size(640, 360)
   stroke(255)
-  @img = loadImage("sea.jpg")
+  @img = loadImage('sea.jpg')
   @direction = 1
   @signal = 0
   img.load_pixels

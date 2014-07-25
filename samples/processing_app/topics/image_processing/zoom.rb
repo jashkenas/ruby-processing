@@ -11,9 +11,9 @@ attr_reader :img, :img_pixels, :sval, :nmx, :nmy, :res
 
 def setup
   size(640, 360, P3D)
-  noFill()
+  noFill
   stroke(255)
-  @img = load_image("ystone08.jpg")
+  @img = load_image('ystone08.jpg')
   @img_pixels = []
   @sval = 1.0
   @res = 5

@@ -16,17 +16,17 @@ def setup
    
   # The code of this shader shows how to integrate shaders from shadertoy
   # into Processing with minimal changes.
-  @landscape = load_shader("landscape.glsl")
-  landscape.set("resolution", width.to_f, height.to_f)  
+  @landscape = load_shader('landscape.glsl')
+  landscape.set('resolution', width.to_f, height.to_f)  
 end
 
 def draw
   background_int 0
     
-  landscape.set("time", (millis/1000.0).to_f)
+  landscape.set('time', (millis/1000.0).to_f)
   shader(landscape) 
   rect(0, 0, width, height)
 
-  frame.set_title "frame: #{frame_count} - fps: #{format("%.2f", frame_rate)}"     
+  frame.set_title 'frame: #{frame_count} - fps: #{format('%.2f', frame_rate)}'     
 end
 

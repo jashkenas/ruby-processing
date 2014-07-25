@@ -28,63 +28,61 @@ end
 # CSPlant 
 ############
 
-
-
 class CSPlant
   include Processing::Proxy
 
-  IGNORE = "[]+-^&3"
+  IGNORE = '[]+-^&3'
   attr_reader :grammar, :axiom, :production, :premis, :rule,
   :theta, :scale_factor, :len, :phi, :len
 
   def initialize(len)
-    @axiom = "F"
+    @axiom = 'F'
     @grammar = Grammar.new(
       axiom,
       {
-        "F" => "F[-EF[3&A]]E[+F[3^A]]",        
-        "F<E" => "F[&F[3+A]][^F[3-A]]"      
+        'F' => 'F[-EF[3&A]]E[+F[3^A]]',        
+        'F<E' => 'F[&F[3+A]][^F[3-A]]'
       },
-      IGNORE      
+      IGNORE
     )
     @production = axiom
     @len = len
     @theta = radians 25
     @phi = radians 25
-    no_stroke()
+    no_stroke
   end
 
-  def render()
+  def render
     fill(0, 75, 152)
     light_specular(204, 204, 204)
     specular(255, 255, 255)
     shininess(1.0)
     repeat = 1
     production.each_char do |ch|
-      case(ch)
-      when "F"
-        translate(0, len/-2, 0)
-        box(len/9, len, len/9)
-        translate(0, len/-2, 0)
-      when "+"
+      case ch
+      when 'F'
+        translate(0, len / -2, 0)
+        box(len / 9, len, len / 9)
+        translate(0, len / -2, 0)
+      when '+'
         rotateX(-theta * repeat)
         repeat = 1
-      when "-"
+      when '-'
         rotateX(theta * repeat)
         repeat = 1
-      when "&"
+      when '&'
         rotateZ(-phi * repeat)
         repeat = 1
-      when "^"
+      when '^'
         rotateZ(phi * repeat)
         repeat = 1
-      when "3"
+      when '3'
         repeat = 3
-      when "["
+      when '['
         push_matrix
-      when "]"
+      when ']'
         pop_matrix
-      when "E", "A"
+      when 'E', 'A'
       else
         puts("character '#{ch}' not in grammar")
       end

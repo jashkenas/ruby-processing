@@ -12,13 +12,13 @@ attr_reader :img
 
 def setup 
   size(640, 360)
-  @img = load_image("moon.jpg") # Load the original image
-  noLoop()
+  @img = load_image('moon.jpg') # Load the original image
+  noLoop
 end
 
 def draw
   image(img, 0, 0) # Displays the image from point (0,0) 
-  img.load_pixels()
+  img.load_pixels
   # Create an opaque image of the same size as the original
   edge_img = create_image(img.width, img.height, RGB)
   # Loop through every pixel in the image
@@ -41,7 +41,7 @@ def draw
     end
   end
   # State that there are changes to edge_img.pixels[]
-  edge_img.update_pixels()
+  edge_img.update_pixels
   image(edge_img, width/2, 0) # Draw the new image
 end
 

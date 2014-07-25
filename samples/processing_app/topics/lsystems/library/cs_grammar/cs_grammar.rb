@@ -39,15 +39,13 @@ class Grammar
     elsif pre.length == 1
       @no_context[pre] = rule # key length == 1
     else 
-      print "unrecognized grammar '#{pre}'"  
+      print 'unrecognized grammar '#{pre}''  
     end
   end
   
   def generate(repeat = 0) # repeat iteration grammar rules
     prod = axiom
-    repeat.times do
-      prod = new_production(prod)
-    end
+    repeat.times { prod = new_production(prod) }
     return prod
   end 
   
@@ -62,7 +60,7 @@ class Grammar
   def get_rule prod, ch
     rule = ch # default is return original character as rule (no change)
     @idx += 1 # increment the index of axiom/production as a side effect
-    if (context.has_key?(ch))
+    if context.key?(ch)
       if context[ch][1] == '<'
         cs_char = context[ch][0]
         rule = no_context[context[ch]] if cs_char == get_context(prod, idx, -1) # use context sensitive rule
@@ -71,18 +69,14 @@ class Grammar
         rule = no_context[context[ch]] if cs_char == get_context(prod, idx, 1) # use context sensitive rule
       end
     else
-      rule = no_context[ch] if no_context.has_key?(ch) # context free rule if it exists
+      rule = no_context[ch] if no_context.key?(ch) # context free rule if it exists
     end
     return rule
   end
   
-  def get_context prod, idx, inc
+  def get_context(prod, idx, inc)
     index = idx + inc
-    while (ignore.include? prod[index])
-      index += inc
-    end
+    index += inc while ignore.include?(prod[index])
     return prod[index]
   end
 end
-
-

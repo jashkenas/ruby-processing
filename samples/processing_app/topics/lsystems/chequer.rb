@@ -3,8 +3,7 @@
 # Lindenmayer System in ruby-processing by Martin Prout
 ########################################################
 
-
-load_libraries 'grammar'
+load_library :grammar
 
 attr_reader :chequer
 
@@ -22,22 +21,17 @@ end
 
 class Chequer
   include Processing::Proxy
-  import 'grammar'
   attr_accessor :axiom, :grammar, :production, :draw_length, :theta, :xpos, :ypos
   DELTA = HALF_PI
   
-  def initialize xpos, ypos
+  def initialize(xpos, ypos)
     @xpos = xpos 
     @ypos = ypos 
-    @axiom = "F-F-F-F"        # Axiom
-    @grammar = Grammar.new(
-      axiom,
-      {"F" => "FF-F-F-F-FF"}  # Rules
-   )
+    @axiom = 'F-F-F-F'        # Axiom
+    @grammar = Grammar.new(axiom, 'F' => 'FF-F-F-F-FF')
     @draw_length = 500
     stroke 0, 255, 0
     stroke_weight 2  
-
     @theta = 0
   end
   

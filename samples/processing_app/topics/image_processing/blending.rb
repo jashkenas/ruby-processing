@@ -14,9 +14,9 @@ attr_reader  :img1, :img2, :pic_alpha, :name, :sel_mode
 
 def setup
   size(640, 360, P3D)
-  @img1 = loadImage("layer1.jpg")
-  @img2 = loadImage("layer2.jpg") 
-  @name = "REPLACE"
+  @img1 = loadImage('layer1.jpg')
+  @img2 = loadImage('layer2.jpg') 
+  @name = 'REPLACE'
   noStroke
   @sel_mode = REPLACE
 end
@@ -44,34 +44,34 @@ end
 def mouse_pressed
   if (sel_mode == REPLACE) 
     @sel_mode = BLEND
-    @name = "BLEND"
+    @name = 'BLEND'
   elsif (sel_mode == BLEND) 
     @sel_mode = ADD
-    @name = "ADD"
+    @name = 'ADD'
   elsif (sel_mode == ADD) 
     @sel_mode = SUBTRACT
-    @name = "SUBTRACT"
+    @name = 'SUBTRACT'
   elsif (sel_mode == SUBTRACT) 
     @sel_mode = LIGHTEST
-    @name = "LIGHTEST"
+    @name = 'LIGHTEST'
   elsif (sel_mode == LIGHTEST) 
     @sel_mode = DARKEST
-    @name = "DARKEST"
+    @name = 'DARKEST'
   elsif (sel_mode == DARKEST) 
     @sel_mode = DIFFERENCE
-    @name = "DIFFERENCE"
+    @name = 'DIFFERENCE'
   elsif (sel_mode == DIFFERENCE) 
     @sel_mode = EXCLUSION  
-    @name = "EXCLUSION"
+    @name = 'EXCLUSION'
   elsif (sel_mode == EXCLUSION) 
     @sel_mode = MULTIPLY  
-    @name = "MULTIPLY"
+    @name = 'MULTIPLY'
   elsif (sel_mode == MULTIPLY) 
     @sel_mode = SCREEN
-    @name = "SCREEN"
+    @name = 'SCREEN'
   elsif (sel_mode == SCREEN) 
     @sel_mode = REPLACE
-    @name = "REPLACE"
+    @name = 'REPLACE'
   end
 end
 

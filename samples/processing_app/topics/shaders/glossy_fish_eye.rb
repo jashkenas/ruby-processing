@@ -9,22 +9,20 @@
 attr_reader :ball, :canvas, :glossy, :fisheye, :img, :use_fish_eye
 
 def setup
-  size(640, 640, P3D)  
+  size(640, 640, P3D)
   @canvas = create_graphics(width, height, P3D)
   @use_fish_eye = true
-  @fisheye = load_shader("FishEye.glsl")
-  fisheye.set("aperture", 180.0)
-  
-  @glossy = load_shader("GlossyFrag.glsl", "GlossyVert.glsl")  
-  glossy.set("AmbientColour", 0.0, 0.0, 0.0)
-  glossy.set("DiffuseColour", 0.9, 0.2, 0.2)
-  glossy.set("SpecularColour", 1.0, 1.0, 1.0)
-  glossy.set("AmbientIntensity", 1.0)
-  glossy.set("DiffuseIntensity", 1.0)
-  glossy.set("SpecularIntensity", 0.7)
-  glossy.set("Roughness", 0.7)
-  glossy.set("Sharpness", 0.0)
-  
+  @fisheye = load_shader('FishEye.glsl')
+  fisheye.set('aperture', 180.0)
+  @glossy = load_shader('GlossyFrag.glsl', 'GlossyVert.glsl')  
+  glossy.set('AmbientColour', 0.0, 0.0, 0.0)
+  glossy.set('DiffuseColour', 0.9, 0.2, 0.2)
+  glossy.set('SpecularColour', 1.0, 1.0, 1.0)
+  glossy.set('AmbientIntensity', 1.0)
+  glossy.set('DiffuseIntensity', 1.0)
+  glossy.set('SpecularIntensity', 0.7)
+  glossy.set('Roughness', 0.7)
+  glossy.set('Sharpness', 0.0)
   @ball = create_shape(SPHERE, 50)
   ball.set_stroke(false)
 end
@@ -53,11 +51,7 @@ def draw
   image(canvas, 0, 0, width, height)
 end
 
-def mousePressed
-  if (use_fish_eye)
-    @use_fish_eye = false
-    reset_shader    
-  else
-    @use_fish_eye = true
-  end
+def mouse_pressed
+  @use_fish_eye = !use_fish_eye
+  reset_shader    
 end

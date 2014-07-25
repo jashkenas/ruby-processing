@@ -9,10 +9,10 @@ load_library :bubble
 attr_reader :bubble_data
 
 
-def setup()
+def setup
   size(640, 360)
   @bubble_data = BubbleData.new :bubbles
-  bubble_data.load_data "data/struct_data.yml"
+  bubble_data.load_data 'data/struct_data.yml'
 end
 
 def draw
@@ -43,7 +43,7 @@ class BubbleData
   end  
   
   def create_new_bubble x, y
-    self.add Bubble.new(x, y, rand(40 .. 80), "new label")    
+    self.add Bubble.new(x, y, rand(40 .. 80), 'new label')    
     save_data 
     load_data path
   end
@@ -76,10 +76,10 @@ class BubbleData
   private   
   
   def save_data
-    hash = { @key =>  self.map{ |point| point.to_struct } }
+    hash = { @key =>  self.map { |point| point.to_struct } }
     yaml = hash.to_yaml
     # overwite existing 'struct_data.yaml' 
-    open(path, 'w:UTF-8') {|f| f.write(yaml) }
+    open(path, 'w:UTF-8') { |f| f.write(yaml) }
   end
 
 end

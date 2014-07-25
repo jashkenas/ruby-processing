@@ -3,7 +3,7 @@
 # 
 # The save function allows you to save an image from the 
 # display window. In this example, save is run when a mouse
-# button is pressed. The image "line.tif" is saved to the 
+# button is pressed. The image 'line.tif' is saved to the 
 # same folder as the sketch's program file.
 #
 
@@ -18,5 +18,5 @@ def draw
 end
 
 def mouse_pressed
-  save("line.tif")
+  save('line.tif')
 end

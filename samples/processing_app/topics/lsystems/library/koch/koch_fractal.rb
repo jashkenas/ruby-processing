@@ -16,26 +16,24 @@ class KochLine
   def kochleft
     v = finish - start
     v /= 3
-    v += start
+    v + start
   end
 
   # More complicated, have to use a little trig to figure out where this vector is!
   def kochmiddle
     v = finish - start
     v /= 3
-
     p = start.copy
     p += v
-
     rotate_line(v, -60)
-    p += v
+    p + v
   end
 
   # Easy, just 2/3 of the way
   def kochright
     v = start - finish
     v /= 3
-    v += finish
+    v + finish
   end
 
   private

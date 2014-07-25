@@ -3,7 +3,7 @@
 # by Daniel Shiffman.  
 # 
 # Demonstration of the basics of motion with vector.
-# A "Mover" object stores location, velocity, and acceleration as vectors
+# A 'Mover' object stores location, velocity, and acceleration as vectors
 # The motion is controlled by affecting the acceleration (in this case towards the mouse)
 #
 # For more examples of simulating motion and physics with vectors, see 
@@ -33,7 +33,7 @@ end
 # by Daniel Shiffman.  
 # 
 # Demonstration of the basics of motion with vector.
-# A "Mover" object stores location, velocity, and acceleration as vectors
+# A 'Mover' object stores location, velocity, and acceleration as vectors
 # The motion is controlled by affecting the acceleration (in this case towards the mouse)
 #
 

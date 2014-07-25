@@ -14,7 +14,7 @@ def setup
   size(640, 360)
   smooth
   @recording = false
-  directory = "output"
+  directory = 'output'
   Dir::mkdir(directory) unless File.exist?(directory) 
 end
 
@@ -36,7 +36,7 @@ def draw
   # The number signs (#) indicate to Processing to 
   # number the files automatically
   if (recording)
-    save_frame("output/frames####.png".to_java)
+    save_frame('output/frames####.png'.to_java)
   end
   
   # Let's draw some stuff to tell us what is happening
@@ -45,9 +45,9 @@ def draw
   textAlign(CENTER)
   fill(255)
   if (!recording)
-    text("Press r to start recording.", width/2, height-24)
+    text('Press r to start recording.', width/2, height-24)
   else
-    text("Press r to stop recording.", width/2, height-24)
+    text('Press r to stop recording.', width/2, height-24)
   end
   
   # A red dot for when we are recording

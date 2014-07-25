@@ -8,7 +8,7 @@ CELL_SIZE = 2
 
 def setup    
   size 640, 360, P3D    
-  @img = load_image "eames.jpg"
+  @img = load_image 'eames.jpg'
   @columns = @img.width / CELL_SIZE
   @rows = @img.height / CELL_SIZE    
 end

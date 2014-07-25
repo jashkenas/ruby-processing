@@ -1,7 +1,7 @@
 #
 # BeginEnd_contour
 # 
-# How to cut a shape out of another using begin_contour() and end_contour()
+# How to cut a shape out of another using begin_contour and end_contour
 #
  
 attr_reader :s

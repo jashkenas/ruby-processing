@@ -24,7 +24,7 @@ def setup
   shape = create_shape  
   shape.begin_shape                             # star
   shape.fill(0, 127)
-  shape.no_stroke()
+  shape.no_stroke
   shape.vertex(0, -50)
   shape.vertex(14, -20)
   shape.vertex(47, -15)

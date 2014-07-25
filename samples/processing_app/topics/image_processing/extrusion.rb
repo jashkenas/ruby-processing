@@ -16,7 +16,7 @@ def setup
   
   # Load the image into a new array
   # Extract the values and store in an array
-  @a = load_image("ystone08.jpg")
+  @a = load_image('ystone08.jpg')
   a.load_pixels
   (0 ... a.height).each do |j|
     a_inner = []

@@ -1,20 +1,20 @@
-# This example demonstrates how easily "sketch data" can be retrieved from a json file
+# This example demonstrates how easily 'sketch data' can be retrieved from a json file
 # in ruby-processing. Note this sketch re-uses the Bubble class from the bubble library. 
 # The BubbleData class, can load, store and create instances of Bubble (and request them
 # to display and/or show their label, when 'mouse over').
 # @author Martin Prout, after Daniel Shiffmans version for processing
 # 
-require "json"
+require 'json'
 
 load_library :bubble
 
 attr_reader :bubble_data
 
-def setup()
+def setup
   size(640, 360)
   # initialize bubble_data with 'key' and read data from 'file path'
-  @bubble_data = BubbleData.new "bubbles"
-  bubble_data.load_data "data/data.json"
+  @bubble_data = BubbleData.new 'bubbles'
+  bubble_data.load_data 'data/data.json'
 end
 
 def draw
@@ -47,7 +47,7 @@ class BubbleData
   end  
   
   def create_new_bubble x, y
-    self.add Bubble.new(x, y, rand(40 .. 80), "new label")    
+    self.add Bubble.new(x, y, rand(40 .. 80), 'new label')    
     save_data 
     load_data path
   end
@@ -63,16 +63,16 @@ class BubbleData
   
   def load_data path
     @path = path
-    source_string = open(path, "r"){ |file| file.read }
+    source_string = open(path, 'r'){ |file| file.read }
     data = JSON.parse(source_string)[key]
     bubbles.clear
     # iterate the bubble_data array, and create an array of bubbles
     data.each do |point|
       self.add Bubble.new(
-        point["position"]["x"],
-        point["position"]["y"],
-        point["diameter"],
-        point["label"])
+        point['position']['x'],
+        point['position']['y'],
+        point['diameter'],
+        point['label'])
     end
   end
   

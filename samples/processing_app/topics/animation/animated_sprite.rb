@@ -16,22 +16,22 @@ def setup
   size(640, 360)
   background(255, 204, 0)
   frame_rate(24)
-  @animation1 = Animation.new("PT_Shifty_", 38)
-  @animation2 = Animation.new("PT_Teddy_", 60)
+  @animation1 = Animation.new('PT_Shifty_', 38)
+  @animation2 = Animation.new('PT_Teddy_', 60)
   @ypos = height * 0.25
   @xpos = 0
 end
 
 def draw 
   dx = mouse_x - xpos
-  @xpos = xpos + dx/DRAG
+  @xpos = xpos + dx / DRAG
   # Display the sprite at the position xpos, ypos
-  if (mouse_pressed?)
+  if mouse_pressed?
     background(153, 153, 0)
-    animation1.display(xpos-animation1.get_width/2, ypos)
+    animation1.display(xpos - animation1.get_width / 2, ypos)
   else
     background(255, 204, 0)
-    animation2.display(xpos-animation2.get_width/2, ypos)
+    animation2.display(xpos - animation2.get_width / 2, ypos)
   end
 end
 
@@ -41,7 +41,9 @@ class Animation
   def initialize(image_prefix, count)
     @image_count = count
     @frame = 0
-    @images = (0 ... image_count).map{|i| load_image("%s%04d%s" %  [image_prefix, i, ".gif"])}
+    @images = (0 ... image_count).map { 
+    |i| load_image(format('%s%04d%s', image_prefix, i, '.gif')) 
+    }
   end
 
   def display(xpos, ypos)

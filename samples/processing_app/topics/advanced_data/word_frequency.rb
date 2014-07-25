@@ -17,8 +17,8 @@
 #
 load_library 'word'
 
-DRACULA = "dracula.txt"
-FRANKENSTEIN = "frankenstein.txt"
+DRACULA = 'dracula.txt'
+FRANKENSTEIN = 'frankenstein.txt'
 
 attr_accessor :words
 
@@ -31,7 +31,7 @@ def setup
   load_file(DRACULA)
   load_file(FRANKENSTEIN)
   # Create the font
-  text_font(create_font("Georgia", 24))
+  text_font(create_font('Georgia', 24))
 end
 
 def draw
@@ -47,7 +47,7 @@ end
 
 # Load a file
 def load_file(filename)
-  tokens = File.open(data_path(filename), "r"){|file| file.read.scan(/[\w'-]+/)}
+  tokens = File.open(data_path(filename), 'r'){|file| file.read.scan(/[\w'-]+/)}
   tokens.each do |s|
     s = s.downcase
     # Is the word in the HashMap

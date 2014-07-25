@@ -8,15 +8,15 @@ def setup
   size(400, 400, P3D)    
   @pg = createGraphics(400, 400, P2D)
   pg.no_smooth
-  @conway = load_shader("data/conway.glsl")
-  conway.set("resolution", width.to_f, height.to_f)  
+  @conway = load_shader('data/conway.glsl')
+  conway.set('resolution', width.to_f, height.to_f)  
 end
 
 def draw
-  conway.set("time", millis() / 1000.0)  
-  xm = map(mouse_x, 0, width, 0, 1)
+  conway.set('time', millis / 1000.0)  
+  xm = map(mouse_x, 0, width, 0, 1)       # NB: processings map function
   ym = map(mouse_y, 0, height, 1, 0)
-  conway.set("mouse", xm, ym) 
+  conway.set('mouse', xm, ym) 
   pg.begin_draw
   pg.background(0)
   pg.shader(conway)

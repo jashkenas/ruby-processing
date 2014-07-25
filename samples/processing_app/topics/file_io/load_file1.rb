@@ -19,7 +19,7 @@ def setup
   # The use of vanilla processing load_strings convenience method is
   # of dubious value in ruby processing when you can do this
   
-  File.open("data/positions.txt").each_line do |line|
+  File.open('data/positions.txt').each_line do |line|
     points << line.split(/\t/).map! { |i| i.to_i * 2 }
   end    
 end

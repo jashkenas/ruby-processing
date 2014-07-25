@@ -8,9 +8,8 @@ class StochasticGrammar
   PROB = 1
   attr_accessor :axiom, :srules
 
-  def initialize axiom
+  def initialize(axiom)
     @axiom = axiom
-    @srules = {}   # rules dictionary (a hash of hashes)
   end
 
   ######################################################
@@ -18,8 +17,8 @@ class StochasticGrammar
   #####################################################
 
   def stochastic_rule(rules)
-    total = rules.inject(0) do |total, rule_and_weight|
-      total += rule_and_weight[PROB]
+    total = rules.inject(0) do |sum, rule_and_weight|
+      sum + rule_and_weight[PROB]
     end
     srand
     chance = rand * total
@@ -30,29 +29,28 @@ class StochasticGrammar
     return rule
   end
 
-  def has_rule?(pre)
-    @srules.has_key?(pre)
+  def rule?(pre)
+    @srules.key?(pre)
   end
 
-  def add_rule(pre, rule, weight = 1.0)  # default weighting 1 (can handle non-stochastic rules)
-    if (has_rule?(pre))                  # add to existing hash
+  def add_rule(pre, rule, weight = 1.0)    # default weighting 1 (can handle non-stochastic rules)
+    @srules ||= Hash.new { |h, k| h[k] = 1 }
+    if rule?(pre)                      # add to existing hash
       srules[pre][rule] = weight
     else
-      srules[pre] = {rule => weight}     # store new hash with pre key
+      srules[pre] = { rule => weight }     # store new hash with pre key
     end
   end
 
   def new_production(prod)  # note the use of gsub!, we are changing prod as we go
     prod.gsub!(/./) do |ch|
-      (has_rule?(ch)) ? stochastic_rule(srules[ch]) : ch
+      rule?(ch) ? stochastic_rule(srules[ch]) : ch
     end
   end
 
   def generate(repeat = 0)
     prod = axiom
-    repeat.times do
-      prod = new_production(prod)
-    end
+    repeat.times { prod = new_production(prod) }
     return prod
   end
 end

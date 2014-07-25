@@ -29,7 +29,7 @@ class CA
   # Reset to generation 0
   def restart
     @cells = Array.new(width / SCL, 0)
-    cells[cells.length/2] = 1    # We arbitrarily start with just the middle cell having a state of "1"
+    cells[cells.length/2] = 1    # We arbitrarily start with just the middle cell having a state of '1'
     @generation = 0
   end
   

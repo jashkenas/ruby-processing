@@ -47,7 +47,7 @@ def draw
   
   # Draw ground
   fill(127, 80, 70)
-  begin_shape()
+  begin_shape
   ground.each do |seg|
     vertex(seg.x1, seg.y1)
     vertex(seg.x2, seg.y2)

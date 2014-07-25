@@ -34,7 +34,7 @@ class Bubble
   end
 
   def to_hash
-    {"position" => {"x" => x, "y" => y}, "diameter" => diameter, "label" => name}  
+    {'position' => {'x' => x, 'y' => y}, 'diameter' => diameter, 'label' => name}  
   end
 
   def to_struct

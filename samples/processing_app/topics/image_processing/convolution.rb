@@ -17,7 +17,7 @@ W = 120
 
 def setup
   size(640, 360)
-  @img = load_image("moon-wide.jpg") 
+  @img = load_image('moon-wide.jpg') 
 end
 
 def draw

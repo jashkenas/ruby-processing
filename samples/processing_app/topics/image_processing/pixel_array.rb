@@ -16,7 +16,7 @@ def setup
   no_fill
   stroke(255)
   frame_rate(30)
-  @img = load_image("sea.jpg")
+  @img = load_image('sea.jpg')
   @direction = 1
   @signal = 0
 end

@@ -11,14 +11,12 @@ attr_reader :edges, :img , :enabled
 def setup
   size(640, 360, P2D)
   @enabled = true
-  @img = load_image("leaves.jpg");      
-  @edges = load_shader("edges.glsl")
+  @img = load_image('leaves.jpg');      
+  @edges = load_shader('edges.glsl')
 end
 
 def draw
-  if (enabled == true)
-    shader(edges)
-  end
+  shader(edges) if enabled
   image(img, 0, 0)
 end
 

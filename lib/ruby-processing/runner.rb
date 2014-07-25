@@ -25,15 +25,14 @@ module Processing
     live:                  launch sketch and give an interactive IRB shell
     create [width height]: create a new sketch. 
     app:              create an application version of the sketch
-    unpack:           unpack samples or library
-    setup:            check setup, or install
+    setup:            check setup, install jruby-complete, unpack samples
     
     Common options:
     --nojruby:  use jruby-complete in place of an installed version of jruby
-    needed if you haven't installed jruby, and for some sketches
+    (Set [JRUBY: 'false'] in .rp5rc to make using jruby-complete default)
     
     Examples:
-    rp5 unpack samples
+    rp5 setup unpack_samples
     rp5 run samples/contributed/jwishy.rb
     rp5 create some_new_sketch 640 480
     rp5 create some_new_sketch --p3d 640 480
@@ -60,7 +59,6 @@ module Processing
       when 'create' then create(@options.path, @options.args, @options.p3d)
       when 'app'    then app(@options.path)
       when 'setup'  then setup(@options.path)  
-      when 'unpack' then unpack(@options.path)
       when /-v/     then show_version
       when /-h/     then show_help
       else
@@ -109,19 +107,10 @@ module Processing
     def app(sketch)
       require_relative '../ruby-processing/exporters/application_exporter'
       Processing::ApplicationExporter.new.export!(sketch)
-    end
-    
-    # Install the included samples to a given path, where you can run and
-    # alter them to your heart's content.
-    def unpack(dir)
-      require 'fileutils'
-      usage = 'Usage: rp5 unpack [samples | library]'
-      puts usage and return unless dir.match(/\A(samples|library)\Z/)
-      FileUtils.cp_r("#{RP5_ROOT}/#{dir}", "#{Dir.pwd}/#{dir}")
-    end
-    
+    end    
+   
     def setup(choice)
-      usage = 'Usage: rp5 setup [check | install]'
+      usage = 'Usage: rp5 setup [check | install | unpack_samples]'
       installed = File.exist?("#{RP5_ROOT}/lib/ruby/jruby-complete.jar")
       proc_root = File.exist?("#{ENV['HOME']}/.rp5rc")
       case choice
@@ -133,6 +122,9 @@ module Processing
           set_processing_root
           warn 'PROCESSING_ROOT set optimistically, run check to confirm'
         end
+      when /unpack_samples/
+        require 'fileutils'
+        FileUtils.cp_r("#{RP5_ROOT}/#{dir}", "#{Dir.pwd}/rp_samples")
       else
         puts usage
       end
@@ -143,6 +135,7 @@ module Processing
       root = "  PROCESSING_ROOT = Not Set!!!" unless proc_root
       root ||= "  PROCESSING_ROOT = #{Processing::CONFIG['PROCESSING_ROOT']}"
       puts root
+      puts "  JRUBY = #{Processing::CONFIG["JRUBY"]}"
       puts "  jruby-complete installed = #{installed}"
     end
     
@@ -164,10 +157,12 @@ module Processing
     # starter script and passing it some arguments.
     # Unless --nojruby is passed, use the installed version of jruby, instead of
     # our vendored jarred one (vendored version is required for some sketches eg shaders).
+    # For people with system jruby they can use ~.rp5rc config to use option without flag
     def spin_up(starter_script, sketch, args)
-      runner = "#{RP5_ROOT}/lib/ruby-processing/runners/#{starter_script}"
-      java_args = discover_java_args(sketch)
+      runner = "#{RP5_ROOT}/lib/ruby-processing/runners/#{starter_script}"      
       warn('The --jruby flag is no longer required') if @options.jruby
+      @options.nojruby = true if Processing::CONFIG["JRUBY"] == "false"
+      java_args = discover_java_args(sketch)
       command = @options.nojruby ?
         ['java', java_args, '-cp', jruby_complete, 'org.jruby.Main', runner, sketch, args].flatten :
         ['jruby', java_args, runner, sketch, args].flatten                
@@ -200,7 +195,7 @@ module Processing
       if File.exist?(rcomplete)
         return rcomplete
       else
-        warn "#{rcomplete} does not exist\nTry running `install_jruby_complete`"
+        warn "#{rcomplete} does not exist\nTry running `rp5 setup install`"
         exit
       end       
     end
@@ -225,12 +220,18 @@ module Processing
     
     # Optimistically set processing root 
     def set_processing_root
+      require 'psych'
       os
+      data = {}
+      path = File.expand_path("#{ENV['HOME']}/.rp5rc")
       if @os == :macosx
-        system "echo 'PROCESSING_ROOT: /Applications/Processing.app/Contents/Java' > #{ENV['HOME']}/.rp5rc"
-      else  
-        system "echo 'PROCESSING_ROOT: #{ENV['HOME']}/processing-2.2.1' > #{ENV['HOME']}/.rp5rc"
+        data['PROCESSING_ROOT'] = %q(/Applications/Processing.app/Contents/Java')        
+      else
+        root = "#{ENV['HOME']}/processing-2.2.1"
+        data['PROCESSING_ROOT'] = root
       end
+      data['JRUBY'] = %q(true)
+      open(path, 'w:UTF-8') {|f| f.write(data.to_yaml) } 
     end
     
     # On the Mac, we can display a fat, shiny ruby in the Dock.

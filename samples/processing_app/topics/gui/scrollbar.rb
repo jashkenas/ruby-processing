@@ -15,8 +15,8 @@ def setup
   @hs2 = HScrollbar.new(0, height/2+8, width, 16, 16)
   
   # Load images
-  @img1 = loadImage("seedTop.jpg")
-  @img2 = loadImage("seedBottom.jpg")
+  @img1 = loadImage('seedTop.jpg')
+  @img2 = loadImage('seedBottom.jpg')
 end
 
 def draw
@@ -47,7 +47,7 @@ class HScrollbar
   attr_reader :swidth, :sheight, :xpos, :ypos, :spos, :newspos
   attr_reader :spos_max, :spos_min, :loose, :over, :locked, :ratio 
   def initialize(xp, yp, sw, sh, l)
-    super()
+    super
     @swidth = sw
     @sheight = sh
     widthtoheight = sw - sh
