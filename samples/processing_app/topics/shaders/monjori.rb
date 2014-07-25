@@ -18,7 +18,7 @@ def setup
 end
 
 def draw
-  monjori.set('time', millis() / 1000.0)
+  monjori.set('time', millis / 1000.0)
   shader(monjori)
   # This kind of effects are entirely implemented in the
   # fragment shader, they only need a quad covering the

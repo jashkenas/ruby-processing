@@ -11,8 +11,8 @@ attr_reader :bubble_data
 def setup()
   size(640, 360)
   # load data from file
-  @bubble_data = BubbleData.new "bubbles"
-  bubble_data.load_data "data/data.yml"
+  @bubble_data = BubbleData.new 'bubbles'
+  bubble_data.load_data 'data/data.yml'
 end
 
 def draw
@@ -41,7 +41,7 @@ class BubbleData
   end  
   
   def create_new_bubble x, y
-    self.add Bubble.new(x, y, rand(40 .. 80), "new label")    
+    self.add Bubble.new(x, y, rand(40 .. 80), 'new label')    
     save_data 
     load_data path
   end
@@ -57,16 +57,16 @@ class BubbleData
   
   def load_data path
     @path = path
-    yaml = Psych.load_file("data/data.yml")
+    yaml = Psych.load_file('data/data.yml')
     data = yaml[key]
     bubbles.clear
     # iterate the bubble_data array, and create an array of bubbles
     data.each do |point|
       self.add Bubble.new(
-        point["position"]["x"],
-        point["position"]["y"],
-        point["diameter"],
-        point["label"])
+        point['position']['x'],
+        point['position']['y'],
+        point['diameter'],
+        point['label'])
     end
   end
   
@@ -82,8 +82,6 @@ class BubbleData
     hash = { key => self.map{ |point| point.to_hash } }
     yaml = hash.to_yaml
     # overwite existing 'data.yaml' 
-    open("data/data.yml", 'w:UTF-8') {|f| f.write(yaml) }
-  end
-  
+    open('data/data.yml', 'w:UTF-8') { |f| f.write(yaml) }
+  end  
 end
-

@@ -9,15 +9,13 @@ class DavidTour
   attr_reader :draw_length, :xpos, :ypos, :theta, :axiom, :grammar
   DELTA = Math::PI/3 # 60 degrees
   
-  def initialize xpos, ypos
-    @axiom = "FX-XFX-XFX-XFX-XFX-XF"   # Axiom
+  def initialize(xpos, ypos)
+    @axiom = 'FX-XFX-XFX-XFX-XFX-XF'   # Axiom
     @theta  = 0
     @grammar = Grammar.new(
       axiom,
-      {
-        "F" => "!F!-F-!F!",            # Rules
-        "X" => "!X"      
-      }
+      'F' => '!F!-F-!F!',              # Rules
+      'X' => '!X'      
       )
     @draw_length = 15
     @xpos = xpos
@@ -65,10 +63,10 @@ def setup
   david = DavidTour.new(width * 0.6, height/4)
   production = david.create_grammar(5)
   @points = david.translate_rules(production)
-  no_loop()
+  no_loop
 end
 
-def draw()
+def draw
   background(0)
   stroke(255)
   points.each_slice(4) do |point|

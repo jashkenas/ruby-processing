@@ -13,7 +13,7 @@ def setup
 end
 
 def draw
-  conway.set('time', millis() / 1000.0)  
+  conway.set('time', millis / 1000.0)  
   xm = map(mouse_x, 0, width, 0, 1)       # NB: processings map function
   ym = map(mouse_y, 0, height, 1, 0)
   conway.set('mouse', xm, ym) 

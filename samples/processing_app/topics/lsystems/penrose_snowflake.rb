@@ -2,17 +2,14 @@ load_libraries :grammar, :fastmath
 
 class PenroseSnowflake
   include Processing::Proxy
-  import 'grammar'
 
   attr_accessor :axiom, :grammar, :start_length, :theta, :production, :draw_length,
     :repeats, :xpos, :ypos
   DELTA = 18 # degrees as radians
 
   def initialize xpos, ypos
-    @axiom = "F3-F3-F3-F3-F"
-    @grammar = Grammar.new( axiom,
-    {"F" => "F3-F3-F45-F++F3-F"}
-    )
+    @axiom = 'F3-F3-F3-F3-F'
+    @grammar = Grammar.new(axiom, 'F' => 'F3-F3-F45-F++F3-F')
     @start_length = 450.0
     @theta = 0
     @xpos = xpos

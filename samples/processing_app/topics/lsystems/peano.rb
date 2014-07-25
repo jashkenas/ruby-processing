@@ -10,10 +10,10 @@ class Peano
   attr_reader :draw_length, :vec, :theta, :axiom, :grammar
   DELTA  = 60  # degrees
   def initialize vec
-    @axiom = "XF"       # Axiom
+    @axiom = 'XF'       # Axiom
     rules = {
-      'X' => "X+YF++YF-FX--FXFX-YF+",      # LSystem Rules
-      "Y" => "-FX+YFYF++YF+FX--FX-Y"
+      'X' => 'X+YF++YF-FX--FXFX-YF+',      # LSystem Rules
+      'Y' => '-FX+YFYF++YF+FX--FX-Y'
     }    
     @grammar = Grammar.new(axiom, rules)
     @theta   = 0  
@@ -22,7 +22,7 @@ class Peano
   end
   
   def generate gen
-    @draw_length = draw_length * pow(0.6, gen)
+    @draw_length = draw_length * 0.6**gen
     grammar.generate gen
   end
   
@@ -38,7 +38,7 @@ class Peano
         @theta -= DELTA        
       when 'X', 'Y'        
       else
-        puts("character  #{ch} not in grammar")        
+        puts("character #{ch} not in grammar")        
       end      
     end
     return points
@@ -67,8 +67,8 @@ def render points
   stroke_weight 3
   begin_shape
   points.each_slice(2) do |v0, v1|
-    v0.to_vertex renderer
-    v1.to_vertex renderer
+    v0.to_vertex(renderer) 
+    v1.to_vertex(renderer)
   end
   end_shape 
 end

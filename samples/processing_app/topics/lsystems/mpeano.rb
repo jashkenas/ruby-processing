@@ -9,21 +9,20 @@ load_library 'grammar'
 ####################################################
 class MPeano
   include Processing::Proxy
-  import 'grammar'
   
   SQRT2 = Math.sqrt(2.0)
   ISQRT2 = 1/SQRT2
   
   attr_reader :draw_length, :xpos, :ypos, :theta, :axiom, :grammar, :delta
   
-  def initialize xpos, ypos
-    @axiom = "XFF--AFF--XFF--AFF"       # Axiom
+  def initialize(xpos, ypos)
+    @axiom = 'XFF--AFF--XFF--AFF'       # Axiom
     rules = {
-      "X" => "+!X!FF-BQFI-!X!FF+",      # LSystem Rules
-      "F" => "",                        # Example of a 'delete' replace
-      "Y" => "FFY",
-      "A" => "BQFI",
-      "B" => "AFF"
+      'X' => '+!X!FF-BQFI-!X!FF+',      # LSystem Rules
+      'F' => '',                        # Example of a 'delete' replace
+      'Y' => 'FFY',
+      'A' => 'BQFI',
+      'B' => 'AFF'
     }    
     @grammar = Grammar.new(axiom, rules)
     @delta   = QUARTER_PI          # 45 degrees
@@ -33,7 +32,7 @@ class MPeano
     @ypos = ypos
   end
   
-  def generate gen
+  def generate(gen)
     grammar.generate gen
   end
   
@@ -41,19 +40,19 @@ class MPeano
     points = []               # An empty array to store line vertices
     prod.each do |ch|
       case(ch)
-      when "F"        
+      when 'F'        
         points << xpos << ypos << (@xpos -= draw_length * cos(theta)) << (@ypos -= draw_length * sin(theta)) 
-      when "+"
+      when '+'
         @theta += delta    
-      when "-"
+      when '-'
         @theta -= delta   
-      when "!"
+      when '!'
         @delta = -delta
-      when "I"
+      when 'I'
         @draw_length *= ISQRT2    
-      when "Q"
+      when 'Q'
         @draw_length *= SQRT2    
-      when "X", "A", "B"     
+      when 'X', 'A', 'B'     
       else
         puts("character '#{ch}' not in grammar")
       end
@@ -66,7 +65,7 @@ attr_reader :points
 
 def setup
   size(600, 600)
-  mpeano = MPeano.new(width/2, height*0.95)
+  mpeano = MPeano.new(width / 2, height * 0.95)
   production = mpeano.generate 7                  # 7 generations looks OK
   @points = mpeano.translate_rules(production)
   no_loop

@@ -10,10 +10,10 @@ attr_reader :star
 
 def setup
   size(640, 360, P2D)
-  smooth()
+  smooth
   # First create the shape
-  @star = create_shape()
-  star.begin_shape()
+  @star = create_shape
+  star.begin_shape
   # You can set fill and stroke
   star.fill(102)
   star.stroke(255)

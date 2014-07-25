@@ -56,12 +56,12 @@ def draw
   perspective(PI/3.0, width.to_f / height, 0.1, 1000000) # perspective for close shapes
   scale(750) # scale by 750 (the model itself is unit length
 
-  displace.set('time', millis() / 5000.0) # feed time to the GLSL shader
+  displace.set('time', millis / 5000.0) # feed time to the GLSL shader
   shader(displace)                        # use shader
   shape(height_map)                       # display the PShape
 
   # write the fps and the current colorMap in the top-left of the window
-  frame.set_title("FrameRate: #{frame_rate.to_i} | colorMap: #{current_color_map + 1}")
+  frame.set_title('FrameRate: #{frame_rate.to_i} | colorMap: #{current_color_map + 1}')
 end
 
 # custom method to create a PShape plane with certain xy DIMensions

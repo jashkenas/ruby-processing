@@ -9,13 +9,13 @@ attr_reader :ps, :img, :wind
 
 def setup
   size(640,360)
-  @img = load_image("texture.png")
+  @img = load_image('texture.png')
   @ps = ParticleSystem.new(0, Vec2D.new(width/2, height - 60), img)
 end
 
 def draw
   background(0)  
-  # Calculate a "wind" force based on mouse horizontal position
+  # Calculate a 'wind' force based on mouse horizontal position
   dx = map(mouse_x, 0, width, -0.2, 0.2)
   @wind = Vec2D.new(dx, 0)
   ps.apply_force(wind)
@@ -103,7 +103,7 @@ class Particle
     vx = random_gaussian * 0.3
     vy = random_gaussian * 0.3 - 1.0
     @vel = Vec2D.new(vx, vy)
-    @loc = l.dup()
+    @loc = l.dup
     @lifespan = 100.0
     @img = img_
   end

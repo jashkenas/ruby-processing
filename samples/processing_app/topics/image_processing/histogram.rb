@@ -14,7 +14,7 @@ def setup
   
   # Load an image from the data directory
   # Load a different image by modifying the comments
-  img = loadImage("frontier.jpg")
+  img = loadImage('frontier.jpg')
   image(img, 0, 0)
   @hist = Array.new(256, 0)
   

@@ -8,7 +8,7 @@ class Wiggler
     @x = width/2
     @y = height/2 
     @yoff = 0
-    # The "original" locations of the vertices make up a circle
+    # The 'original' locations of the vertices make up a circle
     @original = []
     (0 ... TAU).step(0.2) do |a|
       v = PVector.from_angle(a)
@@ -32,7 +32,7 @@ class Wiggler
     @xoff = 0
     # Apply an offset to each vertex
     (0 ... s.get_vertex_count).each do |i|
-      # Calculate a new vertex location based on noise around "original" location
+      # Calculate a new vertex location based on noise around 'original' location
       pos = original[i]
       a = TAU*noise(xoff,yoff)
       r = PVector.from_angle(a)

@@ -2,7 +2,7 @@
 # Loading XML Data
 # by Daniel Shiffman.  
 #
-# This example demonstrates how to use loadXML()
+# This example demonstrates how to use loadXML
 # to retrieve data from an XML document via a URL
 #
 
@@ -11,7 +11,8 @@ attr_reader :zip, :weather, :temperature
 def setup
   size(600, 360)
   @zip = 10003
-  font = create_font("Merriweather-Light.ttf", 28)
+  font = create_font('Times Roman', 28)
+  # font = create_font('Merriweather-Light.ttf', 28)
   text_font(font)
 
   # The URL for the XML document
@@ -21,11 +22,11 @@ def setup
   xml = loadXML(url)
 
   # Grab the element we want
-  forecast = xml.get_child("channel").get_child("item").get_child("yweather:forecast")
+  forecast = xml.get_child('channel').get_child('item').get_child('yweather:forecast')
   
   # Get the attributes we want
-  @temperature = forecast.get_int("high")
-  @weather = forecast.get_string("text")
+  @temperature = forecast.get_int('high')
+  @weather = forecast.get_string('text')
 end
 
 def draw

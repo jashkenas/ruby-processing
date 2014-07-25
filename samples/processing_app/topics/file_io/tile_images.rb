@@ -24,7 +24,7 @@ def draw
 end
 
 def setOffset
-  save("lines-#{x_offset}#{y_offset}.png")
+  save('lines-#{x_offset}#{y_offset}.png')
   @x_offset += 1
   if (x_offset == scaleValue)
     @x_offset = 0

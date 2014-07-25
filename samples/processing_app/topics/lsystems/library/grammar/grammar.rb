@@ -11,7 +11,7 @@ class Grammar
 
   def expand(production, iterations, &block)
     production.each_char do |token|
-      if rules.has_key?(token) && iterations > 0        
+      if rules.key?(token) && iterations > 0
         expand(rules[token], iterations - 1, &block)
       else
         yield token
@@ -19,15 +19,13 @@ class Grammar
     end
   end
 
-  def each gen
-    expand(axiom, gen) {|token| yield token }
+  def each(gen)
+    expand(axiom, gen) { |token| yield token }
   end
 
-  def generate gen
+  def generate(gen)
     output = []
-    each(gen){ |token| output << token }
+    each(gen) { |token| output << token }
     return output
   end
-
 end
-

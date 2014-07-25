@@ -29,14 +29,14 @@ def setup
   @concordance = {}
   # Open a file, read its contents, and 'scan' for words using a regex.
   # Include words with apostrophe eg Harker's 
-  @tokens = File.read(data_path("dracula.txt")).scan(/[\w'-]+/)
-  text_font(create_font("Georgia", 24))
+  @tokens = File.read(data_path('dracula.txt')).scan(/[\w'-]+/)
+  text_font(create_font('Georgia', 24))
 end
 
 def draw
   background 51
   fill 255
-  s = (tokens[counter] == "I")? tokens[counter] : tokens[counter].downcase
+  s = (tokens[counter] == 'I')? tokens[counter] : tokens[counter].downcase
   @counter = (counter + 1) % tokens.length
   if (concordance.has_key?(s))
     # Get the word object and increase the count

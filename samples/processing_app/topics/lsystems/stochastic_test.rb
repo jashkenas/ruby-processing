@@ -25,11 +25,11 @@ class StochasticPlant
   end
 
   def setup_grammar
-    @axiom = "F"
+    @axiom = 'F'
     @grammar = StochasticGrammar.new(axiom)           
-    grammar.add_rule("F", "F[+F]F[-F]F", 0.1)     
-    grammar.add_rule("F", "F[+F]F", 0.45)           
-    grammar.add_rule("F", "F[-F]F", 0.45)
+    grammar.add_rule('F', 'F[+F]F[-F]F', 0.1)     
+    grammar.add_rule('F', 'F[+F]F', 0.45)           
+    grammar.add_rule('F', 'F[-F]F', 0.45)
     @production = axiom
   end
 

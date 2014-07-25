@@ -13,7 +13,7 @@ attr_reader :img
 
 def setup
   size(640, 360)
-  @img = loadImage("moon.jpg") # Load the original image
+  @img = loadImage('moon.jpg') # Load the original image
   noLoop
 end 
 

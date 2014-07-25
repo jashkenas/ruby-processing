@@ -5,15 +5,12 @@ load_library :grammar, :fastmath
 
 class Pentagonal
   include Processing::Proxy
-  import 'grammar'
   DELTA = 72    # degrees 
   attr_accessor :draw_length
   attr_reader :axiom, :grammar, :theta, :production, :xpos, :ypos
   def initialize 
-    @axiom = "F-F-F-F-F"
-    @grammar = Grammar.new( axiom,
-      {"F" => "F+F+F-F-F-F+F+F"}
-      )
+    @axiom = 'F-F-F-F-F'
+    @grammar = Grammar.new(axiom, 'F' => 'F+F+F-F-F-F+F+F')
     @draw_length = 400
     @theta = 0.0
     @xpos = 0.0
@@ -45,7 +42,7 @@ class Pentagonal
         @theta += DELTA        
       when '-'
         @theta -= DELTA        
-      else puts "Grammar not recognized"
+      else puts 'Grammar not recognized'
       end
     end
     shape.end_shape
