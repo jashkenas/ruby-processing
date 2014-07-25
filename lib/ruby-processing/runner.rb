@@ -124,7 +124,7 @@ module Processing
         end
       when /unpack_samples/
         require 'fileutils'
-        FileUtils.cp_r("#{RP5_ROOT}/#{dir}", "#{Dir.pwd}/rp_samples")
+        FileUtils.cp_r("#{RP5_ROOT}/samples", "#{Dir.pwd}/rp_samples")
       else
         puts usage
       end
