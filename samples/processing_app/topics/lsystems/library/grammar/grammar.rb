@@ -2,7 +2,7 @@
 # Simple lsystem grammar
 ############################
 class Grammar
-  
+
   attr_reader :axiom, :rules
   def initialize(axiom, rules)
     @axiom = axiom

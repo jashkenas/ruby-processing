@@ -31,7 +31,7 @@ module Processing
     def color(*args)
       a = args[0]
       # convert to signed int
-      if args.length == 1 
+      if args.length == 1
         if a.is_a?(Fixnum) && a >= 2**31
           args = [ a - 2**32 ]
         elsif a.is_a?(String) && a[0] == ?#
@@ -45,8 +45,8 @@ module Processing
       end
       super(*args)
     end
-    
-    # Overrides convenience function loop, to add ability to loop over a block 
+
+    # Overrides convenience function loop, to add ability to loop over a block
     # if supplied, otherwise perform as the PApplet class would
     def loop(&block)
       if block_given?
@@ -57,14 +57,14 @@ module Processing
         super
       end
     end
-    
+
     # Overrides Processing convenience function thread, which takes a String
-    # arg (for a function) to more rubylike version, takes a block...    
+    # arg (for a function) to more rubylike version, takes a block...
     def thread(*args, &block)
       if block_given?
         Thread.new *args, &block
       else
-        raise ArgumentError, "thread must be called with a block" , caller    
+        raise ArgumentError, "thread must be called with a block" , caller
       end
     end
 
@@ -143,7 +143,7 @@ module Processing
     end
 
     # Is a key pressed for this frame?
-    def key_pressed? 
+    def key_pressed?
       field =  @declared_fields['keyPressed'].value(java_self)
     end
   end

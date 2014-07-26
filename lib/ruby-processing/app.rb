@@ -16,7 +16,7 @@ Dir["#{Processing::CONFIG["PROCESSING_ROOT"]}/core/library/\*.jar"].each { |jar|
 end
 
 module Processing
-  
+
   # This is the main Ruby-Processing class, and is what you'll
   # inherit from when you create a sketch. This class can call
   # all of the methods available in Processing, and has two
@@ -27,15 +27,15 @@ module Processing
   class App < PApplet
     include Math
     include HelperMethods
-    
+
     # Alias some methods for familiarity for Shoes coders.
     #attr_accessor :frame, :title
     alias_method :oval, :ellipse
     alias_method :stroke_width, :stroke_weight
     alias_method :rgb, :color
     alias_method :gray, :color
-    
-    
+
+
     # When certain special methods get added to the sketch, we need to let
     # Processing call them by their expected Java names.
     def self.method_added(method_name) #:nodoc:
@@ -55,8 +55,8 @@ module Processing
         alias_method methods_to_alias[method_name], method_name
       end
     end
-    
-    
+
+
     # Class methods that we should make available in the instance.
     [:map, :pow, :norm, :lerp, :second, :minute, :hour, :day, :month, :year,
     :sq, :constrain, :dist, :blend_color, :degrees, :radians, :mag, :println,
@@ -69,49 +69,49 @@ module Processing
       EOS
       eval method
     end
-    
+
     # Handy getters and setters on the class go here:
     def self.sketch_class;  @sketch_class;        end
       @@full_screen = false
     def self.full_screen;   @@full_screen = true; end
     def full_screen?;       @@full_screen;        end
-      
-      
+
+
     # Keep track of what inherits from the Processing::App, because we're going
     # to want to instantiate one.
     def self.inherited(subclass)
       super(subclass)
       @sketch_class = subclass
     end
-    
+
     def self.has_slider(*args) #:nodoc:
       raise "has_slider has been replaced with a nicer control_panel library. Check it out."
     end
-    
+
     @@library_loader = LibraryLoader.new
     class << self
       def load_libraries(*args)
         @@library_loader.load_library(*args)
       end
-      alias :load_library :load_libraries 
-      
+      alias :load_library :load_libraries
+
       def library_loaded?(library_name)
         @@library_loader.library_loaded?(library_name)
       end
-      
+
       def load_ruby_library(*args)
         @@library_loader.load_ruby_library(*args)
       end
-      
+
       def load_java_library(*args)
         @@library_loader.load_java_library(*args)
       end
     end
-    
+
     def library_loaded?(library_name)
       self.class.library_loaded?(library_name)
     end
-    
+
     # When you make a new sketch, you pass in (optionally),
     # a width, height, x, y, title, and whether or not you want to
     # run in full-screen.
@@ -125,30 +125,30 @@ module Processing
       set_sketch_path #unless Processing.online?
       mix_proxy_into_inner_classes
       #@started = false
-      
+
       java.lang.Thread.default_uncaught_exception_handler = proc do |thread, exception|
         puts(exception.class.to_s)
         puts(exception.message)
         puts(exception.backtrace.collect { |trace| "\t" + trace })
-        close        
+        close
       end
-      
-      # for the list of all available args, see 
+
+      # for the list of all available args, see
       # http://processing.org/reference/
 
       args = []
-      
+
       @width, @height = options[:width], options[:height]
-      
-      if @@full_screen || options[:full_screen] 
+
+      if @@full_screen || options[:full_screen]
         @@full_screen = true
         args << "--present"
-      end      
+      end
       @render_mode  ||= JAVA2D
         x = options[:x] || 0
         y = options[:y] || 0
         args << "--location=#{x}, #{y}"
-        
+
         title = options[:title] || File.basename(SKETCH_PATH).sub(/(\.rb)$/, '').titleize
         args << title
         PApplet.run_sketch(args, self)
@@ -167,34 +167,34 @@ module Processing
         end
       end
       super(*args)
-    end 
-    
+    end
+
     # Make sure we set the size if we set it before we start the animation thread.
     def start
       self.size(@width, @height) if @width && @height
       super()
     end
-    
+
     # Provide a loggable string to represent this sketch.
     def inspect
       "#<Processing::App:#{self.class}:#{@title}>"
     end
-   
-    
+
+
     # Cleanly close and shutter a running sketch.
     def close
         control_panel.remove if respond_to?(:control_panel)
         self.dispose
         self.frame.dispose
     end
-    
-    
-    private 
-    
+
+
+    private
+
     # Mix the Processing::Proxy into any inner classes defined for the
     # sketch, attempting to mimic the behavior of Java's inner classes.
     def mix_proxy_into_inner_classes
-      
+
       klass = Processing::App.sketch_class
       klass.constants.each do |name|
         const = klass.const_get name
@@ -202,16 +202,16 @@ module Processing
         const.class_eval 'include Processing::Proxy'
       end
     end
-    
+
   end # Processing::App
-  
-  
+
+
   # This module will get automatically mixed in to any inner class of
   # a Processing::App, in order to mimic Java's inner classes, which have
   # unfettered access to the methods defined in the surrounding class.
   module Proxy
     include Math
-    
+
     # Generate the list of method names that we'd like to proxy for inner classes.
     # Nothing camelCased, nothing __internal__, just the Processing API.
     def self.desired_method_names(inner_class)
@@ -221,8 +221,8 @@ module Processing
       methods = Processing::App.public_instance_methods
       methods.reject {|m| unwanted.include?(m) || bad_method.match(m) || inner_class.method_defined?(m) }
     end
-    
-    
+
+
     # Proxy methods through to the sketch.
     def self.proxy_methods(inner_class)
       code = desired_method_names(inner_class).inject('') do |code, method|
@@ -238,8 +238,8 @@ module Processing
       end
       inner_class.class_eval(code)
     end
-    
-    
+
+
     # Proxy the sketch's constants on to the inner classes.
     def self.proxy_constants(inner_class)
       Processing::App.constants.each do |name|
@@ -247,14 +247,14 @@ module Processing
         inner_class.const_set(name, Processing::App.const_get(name))
       end
     end
-    
-    
+
+
     # Don't do all of the work unless we have an inner class that needs it.
     def self.included(inner_class)
       proxy_methods(inner_class)
       proxy_constants(inner_class)
     end
-    
+
   end # Processing::Proxy
-  
+
 end # Processing

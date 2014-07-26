@@ -15,8 +15,8 @@ end
 ################################
 # This sketch is translated from a vanilla processing sketch by Daniel Schiffman
 # that was designed to demonstrate the use IntHash class in vanilla processing.
-# Similar results can easily be obtained using more idiomatic ruby. Here IntHash 
-# has been replaced by a String => Word hash (as used in a Schiffman prototype). 
+# Similar results can easily be obtained using more idiomatic ruby. Here IntHash
+# has been replaced by a String => Word hash (as used in a Schiffman prototype).
 # Read about concordance here:-
 # http://en.wikipedia.org/wiki/Concordance_(publishing)
 ################################
@@ -28,7 +28,7 @@ def setup
   @counter = 0
   @concordance = {}
   # Open a file, read its contents, and 'scan' for words using a regex.
-  # Include words with apostrophe eg Harker's 
+  # Include words with apostrophe eg Harker's
   @tokens = File.read(data_path('dracula.txt')).scan(/[\w'-]+/)
   text_font(create_font('Georgia', 24))
 end
@@ -44,7 +44,7 @@ def draw
     w = concordance[s]
     w.increment    # increment word count
   else
-    # Otherwise make a new Word instance and add it to 
+    # Otherwise make a new Word instance and add it to
     # the Hash using the word String as the key
     concordance[s] = Word.new(s)
   end

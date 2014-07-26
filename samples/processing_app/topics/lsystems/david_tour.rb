@@ -8,39 +8,39 @@ class DavidTour
   import 'grammar'
   attr_reader :draw_length, :xpos, :ypos, :theta, :axiom, :grammar
   DELTA = Math::PI/3 # 60 degrees
-  
+
   def initialize(xpos, ypos)
     @axiom = 'FX-XFX-XFX-XFX-XFX-XF'   # Axiom
     @theta  = 0
     @grammar = Grammar.new(
       axiom,
       'F' => '!F!-F-!F!',              # Rules
-      'X' => '!X'      
+      'X' => '!X'
       )
     @draw_length = 15
     @xpos = xpos
     @ypos = ypos
   end
-  
-  def create_grammar(gen)  
+
+  def create_grammar(gen)
     @draw_length *= draw_length * 0.5**gen
     grammar.generate(gen)
   end
-  
+
   def translate_rules(prod)
     swap = false
     points = [] # An empty array to store lines as a flat array of points
     prod.each do |ch|
       case(ch)
       when 'F'
-        points << xpos << ypos << (@xpos += draw_length * Math.cos(theta)) << (@ypos -= draw_length * Math.sin(theta))         
+        points << xpos << ypos << (@xpos += draw_length * Math.cos(theta)) << (@ypos -= draw_length * Math.sin(theta))
       when '+'
-        @theta += DELTA      
+        @theta += DELTA
       when '-'
         @theta += swap ? DELTA : -DELTA
       when '!'
         swap = !swap
-      when 'X'    
+      when 'X'
       else
         puts("character '#{ch}' not in grammar")
       end

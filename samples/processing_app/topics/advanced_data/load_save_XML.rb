@@ -1,9 +1,9 @@
 #
 # Loading XML Data
-# by Daniel Shiffman.  
-# 
+# by Daniel Shiffman.
+#
 # This example demonstrates how to use loadXML
-# to retrieve data from an XML file and make objects 
+# to retrieve data from an XML file and make objects
 # from that data.
 #
 # Here is what the XML looks like:
@@ -23,7 +23,7 @@
 # </bubbles>
 #
 load_library 'bubble'
- 
+
 attr_reader :bubbles, :xml
 
 def setup
@@ -53,12 +53,12 @@ def load_data
   # The size of the array of Bubble objects is determined by the total XML elements named 'bubble'
   @bubbles = []
 
-  children.each do |element|    
+  children.each do |element|
     # The position element has two attributes: x and y
     position_element = element.get_child('position')
     # Note how with attributes we can get an integer or directly
     x, y = position_element.get_int('x'), position_element.get_int('y')
-    
+
     # The diameter is the content of the child named 'diamater'
     diameter_element = element.get_child('diameter')
     # Note how with the content of an XML node, we retrieve as a String and then convert
@@ -70,33 +70,33 @@ def load_data
 
     # Make a Bubble object out of the data read
     bubbles << Bubble.new(x, y, diameter, label)
-  end 
+  end
 
 end
 
 # Still need to work on adding and deleting
 
 def mouse_pressed
-  
+
   # Create a new XML bubble element
   bubble = xml.add_child('bubble')
-  
+
   # Set the poisition element
   position = bubble.add_child('position')
   # Here we can set attributes as integers directly
-  position.set_int('x',mouseX)
-  position.set_int('y',mouseY)
-  
+  position.set_int('x', mouseX)
+  position.set_int('y', mouseY)
+
   # Set the diameter element
   diameter = bubble.add_child('diameter')
   # Here for a node's content, we have to convert to a String
   diameter.set_content(rand(40.0 .. 80).to_s)
-  
+
   # Set a label
   label = bubble.add_child('label')
   label.set_content('New label')
-  
-  
+
+
   # Here we are removing the oldest bubble if there are more than 10
   children = xml.get_children('bubble')
     # If the XML file has more than 10 bubble elements
@@ -104,11 +104,10 @@ def mouse_pressed
     # Delete the first one
     xml.remove_child(children[0])
   end
-  
+
   # Save a new XML file
-  saveXML(xml,'data/data.xml')
-  
-  # reload the new data 
+  saveXML(xml, 'data/data.xml')
+
+  # reload the new data
   load_data
 end
-

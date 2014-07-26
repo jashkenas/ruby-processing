@@ -1,7 +1,7 @@
-# 
+#
 # Thread function example
-# by Martin Prout (after a Dan Schiffman vanilla processing version).  
-# 
+# by Martin Prout (after a Dan Schiffman vanilla processing version).
+#
 # This example demonstrates how to use Thread.new to spawn
 # a process that happens outside of the main animation thread.
 #
@@ -15,18 +15,18 @@
 # This sketch will load data from all of these URLs in a separate thread
 
 URLS = [
-'http://processing.org', 
-'http://www.processing.org/exhibition/', 
-'http://www.processing.org/reference/', 
-'http://www.processing.org/reference/libraries', 
-'http://www.processing.org/reference/tools',   
-'http://www.processing.org/reference/environment',   
-'http://www.processing.org/learning/', 
-'http://www.processing.org/learning/basics/', 
-'http://www.processing.org/learning/topics/', 
+'http://processing.org',
+'http://www.processing.org/exhibition/',
+'http://www.processing.org/reference/',
+'http://www.processing.org/reference/libraries',
+'http://www.processing.org/reference/tools',
+'http://www.processing.org/reference/environment',
+'http://www.processing.org/learning/',
+'http://www.processing.org/learning/basics/',
+'http://www.processing.org/learning/topics/',
 'http://www.processing.org/learning/gettingstarted/',
-'http://www.processing.org/download/', 
-'http://www.processing.org/shop/', 
+'http://www.processing.org/download/',
+'http://www.processing.org/shop/',
 'http://www.processing.org/about/'
 ]
 
@@ -42,7 +42,7 @@ end
 
 def draw
   background(0)
-  
+
   # If we're not finished draw a 'loading bar'
   # This is so that we can see the progress of the thread
   # This would not be necessary in a sketch where you wanted to load data in the background
@@ -69,7 +69,7 @@ def draw
 end
 
 def load_data
-  Thread.new { 
+  Thread.new {
     # The thread is not completed
     @finished = false
     @percent = 0
@@ -80,7 +80,7 @@ def load_data
       all_txt = lines.join(' ')
       words = all_txt.scan(/\w+/)
       words.each do |word|
-        word.strip! 
+        word.strip!
         word.downcase!
       end
       words.sort!
@@ -92,5 +92,5 @@ def load_data
 end
 
 def mouse_pressed   # guard against calling load_data when running
-  load_data unless !finished 
+  load_data unless !finished
 end

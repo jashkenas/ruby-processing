@@ -63,41 +63,41 @@ def create_cube(xx, yy, zz, sz)
   cube.vertex(+dim + xx, -dim + yy, -dim + zz)
   cube.vertex(+dim + xx, +dim + yy, -dim + zz)
   cube.vertex(-dim + xx, +dim + yy, -dim + zz)
-  
+
   # Back face
-  
+
   cube.normal(0, 0, -1)
   cube.vertex(-dim + xx, -dim + yy, +dim + zz)
   cube.vertex(+dim + xx, -dim + yy, +dim + zz)
   cube.vertex(+dim + xx, +dim + yy, +dim + zz)
   cube.vertex(-dim + xx, +dim + yy, +dim + zz)
-  
+
   # Left face
-  
+
   cube.normal(1, 0, 0)
   cube.vertex(-dim + xx, -dim + yy, -dim + zz)
   cube.vertex(-dim + xx, -dim + yy, +dim + zz)
   cube.vertex(-dim + xx, +dim + yy, +dim + zz)
   cube.vertex(-dim + xx, +dim + yy, -dim + zz)
-  
+
   # Right face
-  
+
   cube.normal(-1, 0, 0)
   cube.vertex(+dim + xx, -dim + yy, -dim + zz)
   cube.vertex(+dim + xx, -dim + yy, +dim + zz)
   cube.vertex(+dim + xx, +dim + yy, +dim + zz)
   cube.vertex(+dim + xx, +dim + yy, -dim + zz)
-  
+
   # Top face
-  
+
   cube.normal(0, 1, 0)
   cube.vertex(-dim + xx, -dim + yy, -dim + zz)
   cube.vertex(+dim + xx, -dim + yy, -dim + zz)
   cube.vertex(+dim + xx, -dim + yy, +dim + zz)
   cube.vertex(-dim + xx, -dim + yy, +dim + zz)
-  
+
   # Bottom face
-  
+
   cube.normal(0, -1, 0)
   cube.vertex(-dim + xx, +dim + yy, -dim + zz)
   cube.vertex(+dim + xx, +dim + yy, -dim + zz)
@@ -113,5 +113,3 @@ def define_lights
   directional_light(50, 50, 50, 1, 0, 0)
   spot_light(30, 30, 30, 0, 40, 200, 0, -0.5, -0.5, PI / 2, 2)
 end
-
-

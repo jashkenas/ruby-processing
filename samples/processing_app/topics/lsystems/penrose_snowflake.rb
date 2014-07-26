@@ -3,8 +3,8 @@ load_libraries :grammar, :fastmath
 class PenroseSnowflake
   include Processing::Proxy
 
-  attr_accessor :axiom, :grammar, :start_length, :theta, :production, :draw_length,
-    :repeats, :xpos, :ypos
+  attr_accessor :axiom, :grammar, :start_length, :theta, :production,
+    :draw_length, :xpos, :ypos
   DELTA = 18 # degrees as radians
 
   def initialize xpos, ypos
@@ -45,7 +45,7 @@ class PenroseSnowflake
 
   ##########################################
   # adjust draw length with number of repeats
-  # uses grammar to set production string 
+  # uses grammar to set production string
   # see 'grammar.rb'
   ##########################################
 
@@ -53,7 +53,7 @@ class PenroseSnowflake
     @draw_length *= 0.4**gen
     @production = grammar.generate gen
   end
-  
+
   ###########################################
   # a helper method that returns dx or dy with type & repeat
   # multiplier after Dan Mayer
@@ -79,12 +79,10 @@ def setup
   stroke 255
   @penrose = PenroseSnowflake.new width * 0.8, height * 0.95
   penrose.create_grammar 4
-  no_loop    
+  no_loop
 end
 
 def draw
   background 0
   penrose.render
 end
-
-

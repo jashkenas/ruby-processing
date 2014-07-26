@@ -17,7 +17,7 @@ Gem::Specification.new do |spec|
   this thin little shim that squeezes between Processing and JRuby, passing
   along some neat goodies like:
 
-  * Application exporting of your sketches. Hand them out to your party guests, 
+  * Application exporting of your sketches. Hand them out to your party guests,
     ready-to-run.
 
   * A "Control Panel" library, so that you can easily create sliders, buttons,
@@ -27,7 +27,7 @@ Gem::Specification.new do |spec|
   * "Watch" mode, where Ruby-Processing keeps an eye on your sketch and reloads
     it from scratch every time you make a change. A pretty nice REPL-ish way
     to work on your Processing sketches.
-  
+
   * Use ruby-gems and or java-libraries to access some pretty cool stuff...
 
   * Includes hundreds of worked examples to get you started
@@ -37,10 +37,10 @@ Gem::Specification.new do |spec|
   spec.homepage = "http://wiki.github.com/jashkenas/ruby-processing"
   spec.post_install_message = %q{Use 'rp5 setup install' to install jruby-complete, and 'rp5 setup check' to check config.}
   spec.license = 'MIT'
-  
+
   spec.files = FileList['bin/**/*', 'lib/**/*', 'library/**/*', 'samples/**/*', 'vendors/Rakefile'].exclude(/jar/).to_a
   spec.files << 'lib/rpextras.jar'
-  
+
   spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ["lib"]
@@ -53,6 +53,6 @@ Gem::Specification.new do |spec|
   spec.requirements << 'A decent graphics card'
   spec.requirements << 'java runtime >= 1.7+'
   spec.requirements << 'processing = 2.2.1+'
- 
+
 end
 

@@ -6,7 +6,7 @@ module Processing
       @sketchbook_library_path = File.join(find_sketchbook_path || "", "libraries")
       @loaded_libraries = Hash.new(false)
     end
-      
+
     # Detect if a library has been loaded (for conditional loading)
     def library_loaded?(library_name)
       @loaded_libraries[library_name.to_sym]
@@ -81,10 +81,10 @@ module Processing
 
     def get_platform_specific_library_paths(basename)
       bits = "universal"  # for MacOSX, but does this even work, or does Mac return "64"?
-      if java.lang.System.getProperty("sun.arch.data.model") == "32" || 
+      if java.lang.System.getProperty("sun.arch.data.model") == "32" ||
         java.lang.System.getProperty("java.vm.name").index("32")
         bits = "32"
-      elsif java.lang.System.getProperty("sun.arch.data.model") == "64" || 
+      elsif java.lang.System.getProperty("sun.arch.data.model") == "64" ||
         java.lang.System.getProperty("java.vm.name").index("64")
         bits = "64"
       end
@@ -97,7 +97,7 @@ module Processing
     end
 
     def get_library_paths(library_name, extension = nil)
-      dir = get_library_directory_path(library_name, extension) 
+      dir = get_library_directory_path(library_name, extension)
       Dir.glob("#{dir}/*.{rb,jar}")
     end
 
@@ -108,11 +108,11 @@ module Processing
       extensions.each do |ext|
         [ "#{SKETCH_ROOT}/library/#{library_name}",
           "#{Processing::CONFIG["PROCESSING_ROOT"]}/modes/java/libraries/#{library_name}/library",
-          "#{RP5_ROOT}/library/#{library_name}/library", 
-          "#{RP5_ROOT}/library/#{library_name}", 
+          "#{RP5_ROOT}/library/#{library_name}/library",
+          "#{RP5_ROOT}/library/#{library_name}",
           "#{@sketchbook_library_path}/#{library_name}/library",
-          "#{@sketchbook_library_path}/#{library_name}" 
-        ].each do |path| 
+          "#{@sketchbook_library_path}/#{library_name}"
+        ].each do |path|
           if File.exist?(path) && !Dir.glob(path + "/*.#{ext}").empty?
             return path
           end
@@ -127,8 +127,8 @@ module Processing
       if sketchbook_path = Processing::CONFIG["sketchbook_path"]
         return File.expand_path(sketchbook_path)
       else
-        ["'Application Data/Processing'", "AppData/Roaming/Processing", 
-         "Library/Processing", "Documents/Processing", 
+        ["'Application Data/Processing'", "AppData/Roaming/Processing",
+         "Library/Processing", "Documents/Processing",
          ".processing", "sketchbook"].each do |prefix|
           path = "#{ENV["HOME"]}/#{prefix}"
           pref_path = path+"/preferences.txt"
@@ -148,6 +148,6 @@ module Processing
         return sketchbook_path
       end
     end
-    
+
   end
 end

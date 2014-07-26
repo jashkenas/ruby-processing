@@ -1,6 +1,6 @@
 ######################################
 # cs_grammar.rb a context sensitive
-# 1-L lsystem grammar for 
+# 1-L lsystem grammar for
 # ruby/ruby-processing
 # by Martin Prout (January 2013)
 ######################################
@@ -27,36 +27,36 @@ class Grammar
       add_rule pair[0], pair[1]
     end
   end
-  
+
   def add_rule(pre, rule)
     if pre.length == 3
       if pre[1] == '<'
         @context[pre[2]] = pre
       elsif pre[1] == '>'
-        @context[pre[0]] = pre 
+        @context[pre[0]] = pre
       end
       @no_context[pre] = rule # key length == 3
     elsif pre.length == 1
       @no_context[pre] = rule # key length == 1
-    else 
-      print 'unrecognized grammar '#{pre}''  
+    else
+      print 'unrecognized grammar '#{pre}''
     end
   end
-  
+
   def generate(repeat = 0) # repeat iteration grammar rules
     prod = axiom
     repeat.times { prod = new_production(prod) }
     return prod
-  end 
-  
-  
+  end
+
+
   def new_production prod  # single iteration grammar rules
     @idx = -1
     prod.gsub!(/./) do |ch|
-      get_rule(prod, ch) 
+      get_rule(prod, ch)
     end
   end
-  
+
   def get_rule prod, ch
     rule = ch # default is return original character as rule (no change)
     @idx += 1 # increment the index of axiom/production as a side effect
@@ -73,7 +73,7 @@ class Grammar
     end
     return rule
   end
-  
+
   def get_context(prod, idx, inc)
     index = idx + inc
     index += inc while ignore.include?(prod[index])

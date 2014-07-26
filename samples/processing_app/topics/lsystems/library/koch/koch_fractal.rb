@@ -1,7 +1,7 @@
 class KochLine
   include Processing::Proxy
   attr_reader :start, :finish
-  
+
   def initialize(a, b)
     @start = a.copy
     @finish = b.copy
