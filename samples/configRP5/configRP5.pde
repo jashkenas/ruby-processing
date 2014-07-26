@@ -1,19 +1,21 @@
+Button enter, nojruby;
 String processingRoot = "enter your processing root here"; // edit this line in the sketch
 String done = "Done";
 String OS = System.getProperty("os.name").toLowerCase();
 String home, suggestion, separator, root;
 PFont font;
 StringBuilder header = new StringBuilder(200);
-float rectX, rectY;      // Position of square button
-float rectHeight = 30;     // Diameter of rect
-float rectWidth = 90;     // Diameter of rect
-color rectColor;
-color rectHighlight;
-color currentColor;
-color selectedColor;
-boolean rectOver = false;
-boolean circleOver = false;
+float rectX, rectX2, rectY;      // Position of buttons
+float rectHeight = 30;           // height of rect
+float rectWidth = 90;            // width of rect
+int rectColor, rectColor2;
+int rectHighlight, rectHighlight2;
+int currentColor;
+int selectedColor;
+boolean acceptOver = false;
+boolean noJruby = false;
 boolean selected = false;
+boolean no_jruby = false;
 
 
 void setup() {
@@ -26,16 +28,21 @@ void setup() {
   header.append("# RP5HOME: \"").append(root).append(separator).append("ruby193 ... ").append(separator);
   header.append("ruby-processing\" #windows users may need to set this\n");
   font = createFont("Helvetica", 18);
-  if (OS.indexOf("mac") >= 0) {
+  if (OS.contains("mac")) {
     suggestion = "/Applications/Processing.app/Contents/Resources/Java";
   } else {
     suggestion = home + separator + "processing-2.2.1";
   }
-    rectColor = color(140);
+  rectColor = color(140);
+  rectColor2 = color(140);
   rectHighlight = color(100);
+  rectHighlight2 = color(100);
   selectedColor = color(0);
-  rectX = width/2.0-rectWidth-10;
-  rectY = height * 0.8 - rectHeight/4;
+  rectX = rectWidth + 20;
+  rectX2 = rectWidth + 150;
+  rectY = height * 0.8f - rectHeight / 4;
+  enter = new Button(rectX2, rectY, rectWidth, rectHeight, "enter");
+  nojruby = new Button(rectX, rectY, rectWidth, rectHeight, "nojruby");
 }
 
 void draw() {
@@ -46,35 +53,46 @@ void draw() {
   textFont(font, 18);
   fill(255, 0, 0);
   // this adds a blinking cursor after your text, at the expense of redrawing everything every frame
-  text(processingRoot+(frameCount/10 % 2 == 0 ? "_" : ""), 35, 100);
+  text(processingRoot + (frameCount / 10 % 2 == 0 ? "_" : ""), 35, 100);
+  fill(0, 0, 200);
+  text("Select nojruby to use jruby-complete by default", 35, 140);
   update(mouseX, mouseY);
   //background(200);
 
-  if (selected) {
-    fill(selectedColor);
-  } else if (rectOver){
-    fill(rectHighlight);
-  }else{
-    fill(rectColor);
+  if (acceptOver) {
+    enter.draw(rectHighlight);
+    nojruby.draw(rectHighlight2);
+  } else {
+    enter.draw(rectColor);
+    nojruby.draw(rectColor2);
   }
-  stroke(255);
-  rect(rectX, rectY, rectWidth, rectHeight, 20, 20, 20, 20);
+}
+
+void writeRoot() {
+  rectColor = selectedColor;        
+  rectHighlight = selectedColor;
+  header.append("PROCESSING_ROOT: \"").append(processingRoot).append("\"\n");
+  if (no_jruby) {
+    header.append("JRUBY: \'false\'\n");
+  } else {
+    header.append("JRUBY: \'true\'\n");
+  }
+  PrintWriter pw = createWriter(home + separator + ".rp5rc");
+  pw.append(header);
+  pw.flush();
+  pw.close();  
+  processingRoot = done;
 }
 
 void keyReleased() {
   if (key != CODED) {
-    switch(key) {
+    switch (key) {
     case BACKSPACE:
-      processingRoot = processingRoot.substring(0, max(0, processingRoot.length()-1));
+      processingRoot = processingRoot.substring(0, max(0, processingRoot.length() - 1));
       break;
     case ENTER: // save the processing root to the config file
     case RETURN:
-      header.append("PROCESSING_ROOT: \"").append(processingRoot).append("\"\n");
-      header.append("JRUBY: \"true\"\n");
-      PrintWriter pw = createWriter(home + separator + ".rp5rc");
-      pw.append(header);
-      pw.close();
-      processingRoot = done;
+      writeRoot();
       break;
     case ESC:
     case DELETE:
@@ -86,24 +104,47 @@ void keyReleased() {
 }
 
 void update(float x, float y) {
-  if (overRect(rectX, rectY, rectWidth, rectHeight) ) {
-    rectOver = true;
-  } else {
-    rectOver = false;
+  acceptOver = enter.overRect();
+  noJruby = nojruby.overRect();
+}
+
+void mouseClicked() {
+  update(mouseX, mouseY);
+  if (acceptOver) {
+    rectColor = selectedColor;
+    rectHighlight = selectedColor;
+    writeRoot();
+  }
+  if (noJruby) {
+    rectColor2 = selectedColor;
+    rectHighlight2 = selectedColor;
+    no_jruby = true;
   }
 }
 
-void mousePressed() {
-  update(mouseX, mouseY);
-  selected = ! selected;
-}
+class Button {
 
-boolean overRect(float x, float y, float width, float  height) {
-  if (mouseX >= x && mouseX <= x+width && 
-    mouseY >= y && mouseY <= y+height) {
-    return true;
-  } else {
-    return false;
+  float x, y, w, h;
+  String text;
+
+  Button(float x, float y, float w, float h, String text) {
+    this.x = x;
+    this.y = y;
+    this.w = w;
+    this.h = h;
+    this.text = text;
+  }
+
+  void draw(int col) {
+    fill(col);
+    rect(x, y, w, h, 20, 20, 20, 20);
+    fill(255);
+    text(text, x + 8, y + 20);
+  }
+
+  boolean overRect() {
+    return (mouseX >= x && mouseX <= x + w
+      && mouseY >= y && mouseY <= y + h);
   }
 }
 
