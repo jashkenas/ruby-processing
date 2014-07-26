@@ -20,3 +20,8 @@
   y: 179
   diameter: 44.7
   label: Melancholy
+- !ruby/struct:BubbleStruct
+  x: 516
+  y: 217
+  diameter: 50
+  label: new label

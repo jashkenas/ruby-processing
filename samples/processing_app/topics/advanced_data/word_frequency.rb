@@ -1,18 +1,18 @@
 #
 # After a HashMap example
-# by Daniel Shiffman.  
-# 
-# This example demonstrates how to use a Hash to store 
-# a collection of objects referenced by a key. This is much like an array, 
+# by Daniel Shiffman.
+#
+# This example demonstrates how to use a Hash to store
+# a collection of objects referenced by a key. This is much like an array,
 # only instead of accessing elements with a numeric index, we use a String.
 # If you are familiar with associative arrays from other languages,
 # this is the same idea.
 #
 # The Processing classes IntHash, FloatHash, and StringHash offer a simple
-# way of pairing Strings with numbers or other Strings. But are probably of 
+# way of pairing Strings with numbers or other Strings. But are probably of
 # less interest to rubyists.
 #
-# In this example, words that appear in one book (Dracula) are colored white 
+# In this example, words that appear in one book (Dracula) are colored white
 # whilst words in the other book (Frankenstein) are colored black.
 #
 load_library 'word'
@@ -64,7 +64,7 @@ def load_file(filename)
     else
       # Otherwise make a new word
       w = Word.new(s)
-      # And add entry to the Hash 
+      # And add entry to the Hash
       # The key for us is the String and the value is the Word object
       words[s] = w
       if (filename == DRACULA)

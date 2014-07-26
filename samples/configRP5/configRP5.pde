@@ -69,7 +69,7 @@ void draw() {
 }
 
 void writeRoot() {
-  rectColor = selectedColor;        
+  rectColor = selectedColor;
   rectHighlight = selectedColor;
   header.append("PROCESSING_ROOT: \"").append(processingRoot).append("\"\n");
   if (no_jruby) {
@@ -80,7 +80,7 @@ void writeRoot() {
   PrintWriter pw = createWriter(home + separator + ".rp5rc");
   pw.append(header);
   pw.flush();
-  pw.close();  
+  pw.close();
   processingRoot = done;
 }
 

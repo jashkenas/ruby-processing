@@ -3,7 +3,7 @@ def setup
   fill(0)
 end
 
-def draw     
+def draw
   background(255)
   (0 .. 10000).each do
     x = rand(width)

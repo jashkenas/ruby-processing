@@ -1,13 +1,13 @@
 #
 # Esfera
-# by David Pena.  
+# by David Pena.
 # Somewhat re-factored for ruby-processing
 # by Martin Prout
-# Distribucion aleatoria uniforme sobre la superficie de una esfera. 
+# Distribucion aleatoria uniforme sobre la superficie de una esfera.
 #
 load_library :vecmath
 
-QUANTITY = 16000 
+QUANTITY = 16000
 
 attr_reader :orb, :phi, :radius, :rx, :ry
 
@@ -26,7 +26,7 @@ def setup
   @radius = height/3.5
   @orb = HairyOrb.new(self, radius)
   QUANTITY.times do
-    orb << create_hair(radius) 
+    orb << create_hair(radius)
   end
   noise_detail(3)
 end
@@ -46,25 +46,25 @@ def create_hair radius
   z = rand(-radius .. radius)
   phi = rand(0 .. TAU)
   len = rand(1.15 .. 1.2)
-  theta = Math.asin(z / radius) 
+  theta = Math.asin(z / radius)
   Hair.new(z, phi, len, theta)
-end 
+end
 
 require 'forwardable'
 
-class HairyOrb 
+class HairyOrb
   extend Enumerable
   extend Forwardable
   def_delegators(:@hairs, :each, :<<)
-  
+
   attr_reader :app, :hairs, :radius
-  
+
   def initialize app, radius
     @app, @radius = app, radius
-    @hairs = []    
+    @hairs = []
   end
-    
-  def render   
+
+  def render
     self.each do |hair|
       off = (app.noise(app.millis() * 0.0005, sin(hair.phi)) - 0.5) * 0.3
       offb = (app.noise(app.millis() * 0.0007, sin(hair.z) * 0.01) - 0.5) * 0.3
@@ -86,9 +86,8 @@ class HairyOrb
       app.stroke_float_float(200, 150)
       app.vertex(xb, yb, zb)
       app.end_shape()
-    end 
+    end
   end
 end
 
 Hair = Struct.new(:z, :phi, :len, :theta )
-
