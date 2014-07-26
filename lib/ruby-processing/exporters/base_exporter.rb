@@ -3,8 +3,8 @@ require 'erb'
 require_relative '../../ruby-processing/library_loader'
 
 module Processing
-  
-  # This base exporter implements some of the common 
+
+  # This base exporter implements some of the common
   # code-munging needed to generate apps and applets.
   class BaseExporter
     include FileUtils
@@ -12,13 +12,13 @@ module Processing
     DEFAULT_DIMENSIONS = { 'width' => '100', 'height' => '100' }
     DEFAULT_DESCRIPTION = ''
     NECESSARY_FOLDERS = %w(data, lib, vendor)
-    
+
     # Returns the filepath, basename, and directory name of the sketch.
     def get_main_file(file)
       @file = file
       return file, File.basename(file), File.dirname(file)
     end
-    
+
     # Centralized method to read the source of the sketch and extract
     # all the juicy details.
     def extract_information
@@ -35,19 +35,19 @@ module Processing
       hash_to_ivars @info
       @info
     end
-    
+
     # Searches the source for a class name.
     def extract_class_name(source)
       match = source.match(/(\w+)\s*<\s*Processing::App/)
       match ? match[1] : 'Sketch'
     end
-    
+
     # Searches the source for a title.
     def extract_title(source)
       match = source.match(/#{@info[:class_name]}\.new.*?:title\s=>\s["'](.+?)["']/m)
       match ? match[1] : File.basename(@file, '.rb').titleize
     end
-    
+
     # Searches the source for the width and height of the sketch.
     def extract_dimension(source, dimension)
       match = source.match(/#{@info[:class_name]}\.new.*?:#{dimension}\s?=>\s?(\d+)/m)
@@ -57,13 +57,13 @@ module Processing
       warn 'using default dimensions for export, use constant integer values in size() not computed ones'
       DEFAULT_DIMENSIONS[dimension]
     end
-    
+
     # Searches the source for a description of the sketch.
     def extract_description(source)
       match = source.match(/\A((\s*#(.*?)\n)+)[^#]/m)
       match ? match[1].gsub(/\s*#\s*/, "\n") : DEFAULT_DESCRIPTION
     end
-    
+
     # Searches the source for any libraries that have been loaded.
     def extract_libraries(source)
       lines = source.split("\n")
@@ -75,7 +75,7 @@ module Processing
       lib_loader = LibraryLoader.new
       libs.map { |lib| lib_loader.get_library_paths(lib) }.flatten.compact
     end
-    
+
     # Looks for all of the codes require or load commands, checks
     # to see if the file exists (that it's not a gem, or a standard lib)
     # and hands you back all the real ones.
@@ -96,27 +96,27 @@ module Processing
       end
       requirements
     end
-    
-    
+
+
     protected
-    
+
     def read_source_code
       File.read(@main_file_path)
     end
-    
+
     def local_dir
       File.dirname(@main_file_path)
     end
-    
+
     def hash_to_ivars(hash)
       hash.each { |k, v| instance_variable_set('@' + k.to_s, v) }
     end
-    
+
     def wipe_and_recreate_destination
       remove_entry_secure @dest if File.exist?(@dest)
       mkdir_p @dest
     end
-    
+
     def render_erb_in_path_with_binding(path, some_binding, opts = {})
       erbs = Dir.glob(path + '/**/*.erb')
       erbs.each do |erb|
@@ -126,10 +126,10 @@ module Processing
         rm erb if opts[:delete]
       end
     end
-    
+
     def render_erb_from_string_with_binding(erb, some_binding)
       ERB.new(erb, nil, '<>', 'rendered').result(some_binding)
     end
-    
+
   end
 end

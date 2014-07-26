@@ -19,6 +19,8 @@ load_library 'word'
 
 DRACULA = 'dracula.txt'
 FRANKENSTEIN = 'frankenstein.txt'
+DRAC = /#{DRACULA}/
+FRANK = /#{FRANKENSTEIN}/
 
 attr_accessor :words
 
@@ -47,18 +49,18 @@ end
 
 # Load a file
 def load_file(filename)
-  tokens = File.open(data_path(filename), 'r'){|file| file.read.scan(/[\w'-]+/)}
+  tokens = File.open(data_path(filename), 'r'){ |file| file.read.scan(/[\w'-]+/)}
   tokens.each do |s|
     s = s.downcase
     # Is the word in the HashMap
-    if (words.has_key?(s))
+    if (words.key?(s))
       # Get the word object and increase the count
       # We access objects from a Hash via its key, the String
       w = words[s]
       # Which book am I loading?
-      if (filename == DRACULA)
+      if DRAC =~ filename
         w.increment_dracula
-      elsif (filename == FRANKENSTEIN)
+      elsif FRANK =~ filename
         w.increment_franken
       end
     else
@@ -67,9 +69,9 @@ def load_file(filename)
       # And add entry to the Hash
       # The key for us is the String and the value is the Word object
       words[s] = w
-      if (filename == DRACULA)
+      if DRAC =~ filename
         w.increment_dracula
-      elsif (filename == FRANKENSTEIN)
+      elsif FRANK =~ filename
         w.increment_franken
       end
     end
