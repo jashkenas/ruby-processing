@@ -23,7 +23,7 @@ class PenroseSnowflake
   ##############################################################################
 
   def render
-    int repeats = 1
+    repeats = 1
     production.each do |element|
       case element
       when 'F'
