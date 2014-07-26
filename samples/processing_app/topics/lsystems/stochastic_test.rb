@@ -2,7 +2,7 @@
 # stochastic_test.rb
 #
 # Lindenmayer System in ruby-processing by Martin Prout
-# Exploring terminals with minimum logic 
+# Exploring terminals with minimum logic
 ########################################################
 
 
@@ -17,7 +17,7 @@ class StochasticPlant
 
   DELTA = 23
 
-  def initialize xpos, ypos   
+  def initialize xpos, ypos
     @draw_length = 350
     # use Struct as turtle
     @turtle = Turtle.new(xpos, ypos, 90)        # this way is up?
@@ -26,15 +26,15 @@ class StochasticPlant
 
   def setup_grammar
     @axiom = 'F'
-    @grammar = StochasticGrammar.new(axiom)           
-    grammar.add_rule('F', 'F[+F]F[-F]F', 0.1)     
-    grammar.add_rule('F', 'F[+F]F', 0.45)           
+    @grammar = StochasticGrammar.new(axiom)
+    grammar.add_rule('F', 'F[+F]F[-F]F', 0.1)
+    grammar.add_rule('F', 'F[+F]F', 0.45)
     grammar.add_rule('F', 'F[-F]F', 0.45)
     @production = axiom
   end
 
   def render
-    stack = []                     # ruby array as the turtle stack    
+    stack = []                     # ruby array as the turtle stack
     production.each_char do |element|
       case element
       when 'F'                     # NB NOT using affine transforms
@@ -42,9 +42,9 @@ class StochasticPlant
       when '+'
         turtle.angle += DELTA
       when '-'
-        turtle.angle -= DELTA   
+        turtle.angle -= DELTA
       when '['
-        stack << turtle.dup    # push a copy of the current turtle to stack 
+        stack << turtle.dup    # push a copy of the current turtle to stack
       when ']'
         @turtle = stack.pop        # assign current turtle to an instance popped from the stack
       else
@@ -67,7 +67,7 @@ class StochasticPlant
   def draw_line(turtle, length)
     new_xpos = turtle.x + length * DegLut.cos(turtle.angle)
     new_ypos = turtle.y - length * DegLut.sin(turtle.angle)
-    line(turtle.x, turtle.y, new_xpos, new_ypos) 
+    line(turtle.x, turtle.y, new_xpos, new_ypos)
     Turtle.new(new_xpos, new_ypos, turtle.angle)
   end
 end

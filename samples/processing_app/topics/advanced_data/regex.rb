@@ -1,7 +1,7 @@
 #
 # Regular Expression example
-# by Martin Prout.  
-# 
+# by Martin Prout.
+#
 # This uses ruby scan
 #
 # Here we'll load the raw HTML from a URL and search for web-links
@@ -44,4 +44,3 @@ def load_links(s)
         )?
     /ix)
 end
-

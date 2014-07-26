@@ -1,7 +1,7 @@
 # Drawolver: draw 2D & revolve 3D
 
 # Example shows how to use the vecmath library, including AppRender utility.
-# On the ruby side features the use each_cons, a possibly a rare use for this 
+# On the ruby side features the use each_cons, a possibly a rare use for this
 # ruby Enumerable method?
 # 2010-03-22 - fjenett (somewhat revised by Martin Prout 2014-07-06)
 
@@ -18,14 +18,14 @@ end
 
 def draw
   background 0
-  unless drawing_mode      
+  unless drawing_mode
     translate(width / 2, height / 2)
     rotate_x rot_x
     rotate_y rot_y
     @rot_x += 0.01
     @rot_y += 0.02
     translate(-width / 2, -height / 2)
-  end 
+  end
   no_fill
   stroke 255
   points.each_cons(2) { |ps, pe| line ps.x, ps.y, pe.x, pe.y }
@@ -39,10 +39,10 @@ def draw
       r1.zip(r2).each do |v1, v2|
         v1.to_vertex(renderer)
         v2.to_vertex(renderer)
-      end 
-      end_shape 
+      end
+      end_shape
     end
-  end 
+  end
 end
 
 def reset_scene
@@ -66,7 +66,7 @@ def mouse_released
   recalculate_shape
 end
 
-def recalculate_shape  
+def recalculate_shape
   @vertices = []
   points.each_cons(2) do |ps, _pe_|
     b = (points.last - points.first).normalize!
@@ -84,4 +84,3 @@ def recalculate_shape
   end
   @drawing_mode = false
 end
-
