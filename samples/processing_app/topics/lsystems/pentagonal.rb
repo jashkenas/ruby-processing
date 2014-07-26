@@ -5,10 +5,10 @@ load_library :grammar, :fastmath
 
 class Pentagonal
   include Processing::Proxy
-  DELTA = 72    # degrees 
+  DELTA = 72    # degrees
   attr_accessor :draw_length
   attr_reader :axiom, :grammar, :theta, :production, :xpos, :ypos
-  def initialize 
+  def initialize
     @axiom = 'F-F-F-F-F'
     @grammar = Grammar.new(axiom, 'F' => 'F+F+F-F-F-F+F+F')
     @draw_length = 400
@@ -16,17 +16,17 @@ class Pentagonal
     @xpos = 0.0
     @ypos = 0.0
   end
-  
+
   ##############################
   # create grammar from axiom and
   # rules (adjust scale)
   ##############################
-  
+
   def create_grammar(gen)
     @draw_length *= 0.25**gen
     @production = grammar.generate gen
-  end 
-  
+  end
+
   def make_shape
     no_fill
     shape = create_shape
@@ -37,22 +37,22 @@ class Pentagonal
     production.each do |element|
       case element
       when 'F'    # you could use processing transforms here, I prefer to do the Math
-        shape.vertex(@xpos -= adjust(:cos), @ypos += adjust(:sin))   
+        shape.vertex(@xpos -= adjust(:cos), @ypos += adjust(:sin))
       when '+'
-        @theta += DELTA        
+        @theta += DELTA
       when '-'
-        @theta -= DELTA        
+        @theta -= DELTA
       else puts 'Grammar not recognized'
       end
     end
     shape.end_shape
     return shape
   end
-  
+
   ###########################################
   # a helper method that returns dx or dy with type
   ###########################################
-  
+
   def adjust(type)
     # using equal? for identity comparison
     (type.equal? :cos)?  draw_length * DegLut.cos(theta) : draw_length * DegLut.sin(theta)
@@ -79,7 +79,7 @@ def setup
 end
 
 def draw
-  background 0  
+  background 0
   shape(pentive)
 end
 
@@ -91,7 +91,7 @@ def key_pressed
     pentagonal.create_grammar gen
     @pentive = pentagonal.make_shape
     pentive.translate(ADJUST[gen - 1][0], ADJUST[gen - 1][1])
-  else    
+  else
     @pentagonal = Pentagonal.new
     pentagonal.create_grammar 2
     @pentive = pentagonal.make_shape
