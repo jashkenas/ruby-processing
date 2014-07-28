@@ -3,8 +3,7 @@ require 'psych'
 module Processing
 
   if Processing.exported?
-    RB_CONFIG = {'PROCESSING_ROOT' => RP5_ROOT}
-    RB_CONFIG = {'JRUBY' => 'false'}
+    RB_CONFIG = { 'PROCESSING_ROOT' => RP5_ROOT, 'JRUBY' => 'false' }
   end
 
   unless defined? RB_CONFIG
