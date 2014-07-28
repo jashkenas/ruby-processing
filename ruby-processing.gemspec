@@ -30,7 +30,7 @@ Gem::Specification.new do |spec|
 
   * Use ruby-gems and or java-libraries to access some pretty cool stuff...
 
-  * Includes hundreds of worked examples to get you started
+  * Hundreds of worked examples are included to get you started
 
   EOS
   spec.summary = %q{Code as Art, Art as Code. Processing and Ruby are meant for each other.}
