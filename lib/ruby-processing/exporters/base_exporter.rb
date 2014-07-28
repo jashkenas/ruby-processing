@@ -1,17 +1,16 @@
 require 'fileutils'
 require 'erb'
-require_relative '../../ruby-processing/library_loader'
+require 'ruby-processing/library_loader'
 
 module Processing
-
   # This base exporter implements some of the common
-  # code-munging needed to generate apps and applets.
+  # code-munging needed to generate apps.
   class BaseExporter
     include FileUtils
     ## hashes with strings as keys need to retain old hash syntax
     DEFAULT_DIMENSIONS = { 'width' => '100', 'height' => '100' }
     DEFAULT_DESCRIPTION = ''
-    NECESSARY_FOLDERS = %w(data, lib, vendor)
+    NECESSARY_FOLDERS = %w(data lib vendor)
 
     # Returns the filepath, basename, and directory name of the sketch.
     def get_main_file(file)
@@ -54,7 +53,7 @@ module Processing
       size_match = source.match(/^[^#]*size\(?\s*(\d+)\s*,\s*(\d+)\s*\)?/)
       return match[1] if match
       return (dimension == 'width' ? size_match[1] : size_match[2]) if size_match
-      warn 'using default dimensions for export, use constant integer values in size() not computed ones'
+      warn 'using default dimensions for export, please use constants integer values in size() call instead of computed ones'
       DEFAULT_DIMENSIONS[dimension]
     end
 
@@ -68,10 +67,10 @@ module Processing
     def extract_libraries(source)
       lines = source.split("\n")
       libs = lines.grep(/^[^#]*load_(?:java_|ruby_)?librar(?:y|ies)\s+(.+)/) do
-        $1.split(/\s*,\s*/).map { |raw_library_name|
-	raw_library_name.tr("\"':\r\n", '')
-        }.flatten
-      end
+        $1.split(/\s*,\s*/).map do |raw_library_name|
+          raw_library_name.tr("\"':\r\n", '')
+        end
+      end.flatten
       lib_loader = LibraryLoader.new
       libs.map { |lib| lib_loader.get_library_paths(lib) }.flatten.compact
     end
@@ -92,7 +91,7 @@ module Processing
         where = "{#{local_dir}/,}{#{partial_paths.join(',')}}"
         where += '.{rb,jar}' unless line =~ /\.[^.]+$/
         requirements += Dir[where]
-       # code = matchdata.post_match
+        code = matchdata.post_match
       end
       requirements
     end
@@ -130,6 +129,6 @@ module Processing
     def render_erb_from_string_with_binding(erb, some_binding)
       ERB.new(erb, nil, '<>', 'rendered').result(some_binding)
     end
-
   end
 end
+
