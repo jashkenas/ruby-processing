@@ -7,24 +7,24 @@ Java::ProcessingVecmathVec3::Vec3Library.new.load(JRuby.runtime, false)
 EPSILON = 1.0e-04
 
 describe 'Vec2D#to_a' do
-  it 'should return x, y as an array' do	
-    x, y = 1.0000001, 1.01  
-    a = Vec2D.new(x, y)  
+  it 'should return x, y as an array' do
+    x, y = 1.0000001, 1.01
+    a = Vec2D.new(x, y)
     expect(a.to_a).to eq([x, y])
   end
 end
 
 describe 'Vec2D#copy' do
   it 'should return a deep copy' do
-    x, y = 1.0000001, 1.01	  
-    a = Vec2D.new(x, y)  
+    x, y = 1.0000001, 1.01
+    a = Vec2D.new(x, y)
     expect(a.copy.to_a).to eq([x, y])
   end
 end
 
 describe 'Vec2D#copy' do
   it 'should return a deep copy' do
-    x, y = 1.0000001, 1.01	  
+    x, y = 1.0000001, 1.01
     a = Vec2D.new(x, y)
     b = a.copy
     b *= 0
@@ -88,7 +88,7 @@ describe 'Vec2D#from_angle' do
 end
 
 describe 'Vec2D2#x=' do
-  it 'should set x to supplied value' do	
+  it 'should set x to supplied value' do
     a = Vec2D.new(3, 5)
     a.x=23
     expect(a.x).to eq 23.0
@@ -192,7 +192,7 @@ describe 'Vec2D dot' do
   it 'should return Vec2D dist(a, b)' do
     a = Vec2D.new(3, 5)
     b = Vec2D.new(6, 7)
-    expect(a.dot(b)).to eq 53 
+    expect(a.dot(b)).to eq 53
   end
 end
 
@@ -244,17 +244,17 @@ describe 'Vec2D#inspect' do
 end
 
 describe 'Vec2D#to_a' do
-  it 'should return x, y as an array' do	
-    x, y = 1.0000001, 1.01	  
-    a = Vec2D.new(x, y)  
+  it 'should return x, y as an array' do
+    x, y = 1.0000001, 1.01
+    a = Vec2D.new(x, y)
     expect(a.to_a).to eq([x, y])
   end
 end
 
 #describe 'Vec2D#to_h' do
 #  it 'should return Vec2D as a hash' do
-#     x, y = 1.0000001, 1.01	  
-#     a = Vec2D.new(x, y)  
+#     x, y = 1.0000001, 1.01
+#     a = Vec2D.new(x, y)
 #     expect(a.to_h).to eq({x: x, y: y})
 #  end
 #end
@@ -284,7 +284,7 @@ describe 'Vec2D#rotate rot' do
     a = b.rotate(Math::PI / 2)
     expect(a).to eq(Vec2D.new(-10.0, 20.0))
   end
-end  
+end
 
 
 describe 'Vec2D#add Vec3D' do
@@ -297,24 +297,24 @@ end
 
 
 describe 'Vec3D#to_a' do
-  it 'should return x, y, z as an array' do	
-    x, y, z = 1.0000001, 1.01, 0.999999	  
-    a = Vec3D.new(x, y, z)  
+  it 'should return x, y, z as an array' do
+    x, y, z = 1.0000001, 1.01, 0.999999
+    a = Vec3D.new(x, y, z)
     expect(a.to_a).to eq([x, y, z])
   end
 end
 
 describe 'Vec3D#copy' do
   it 'should return a deep copy' do
-    x, y, z = 1.0000001, 1.01, 0.999999	  
-    a = Vec3D.new(x, y, z)  
+    x, y, z = 1.0000001, 1.01, 0.999999
+    a = Vec3D.new(x, y, z)
     expect(a.copy.to_a).to eq([x, y, z])
   end
 end
 
 describe 'Vec3D#copy' do
   it 'should produce a new object' do
-    x, y, z = 1.0000001, 1.01, 0.999999	  
+    x, y, z = 1.0000001, 1.01, 0.999999
     a = Vec3D.new(x, y, z)
     b = a.copy
     b.normalize!
@@ -392,16 +392,16 @@ describe 'Vec3D#set_mag positive block' do
 end
 
 describe 'Vec3D#to_a' do
-  it 'should return x, y as an array' do	
-    x, y, z = 1.0000001, 1.01, 1.001	  
-    a = Vec3D.new(x, y, z)  
+  it 'should return x, y as an array' do
+    x, y, z = 1.0000001, 1.01, 1.001
+    a = Vec3D.new(x, y, z)
     expect(a.to_a).to eq([x, y, z])
   end
 end
 
 describe 'Vec3D#z=' do
-  it 'should set z value' do	
-    x, y, z = 1.0000001, 1.01, 1.001	  
+  it 'should set z value' do
+    x, y, z = 1.0000001, 1.01, 1.001
     a = Vec3D.new(x, y, z)
     w = 56.0
     a.z = w

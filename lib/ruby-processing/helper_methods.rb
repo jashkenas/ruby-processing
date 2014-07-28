@@ -4,7 +4,7 @@ module Processing
     # Nice block method to draw to a buffer.
     # You can optionally pass it a width, a height, and a renderer.
     # Takes care of starting and ending the draw for you.
-    def buffer(buf_width=width, buf_height=height, renderer=@render_mode)
+    def buffer(buf_width = width, buf_height = height, renderer = @render_mode)
       buf = create_graphics(buf_width, buf_height, renderer)
       buf.begin_draw
       yield buf
@@ -14,8 +14,8 @@ module Processing
 
     # A nice method to run a given block for a grid.
     # Lifted from action_coding/Nodebox.
-    def grid(cols, rows, col_size=1, row_size=1)
-      (0...cols*rows).map do |i|
+    def grid(cols, rows, col_size = 1, row_size = 1)
+      (0...cols * rows).map do |i|
         x = col_size * (i % cols)
         y = row_size * i.div(cols)
         yield x, y
@@ -34,12 +34,10 @@ module Processing
       if args.length == 1
         if a.is_a?(Fixnum) && a >= 2**31
           args = [ a - 2**32 ]
-        elsif a.is_a?(String) && a[0] == ?#
+        elsif a.is_a?(String) && a[0].eql('#')
           h = a[1..-1]
           # add opaque alpha channel
-          if h.size <= 6
-            h = "ff" + "0"*(6-h.size) + h
-          end
+          h.rjust(6, '0').prepend('ff')
           return color(h.hex)
         end
       end
@@ -64,7 +62,7 @@ module Processing
       if block_given?
         Thread.new *args, &block
       else
-        raise ArgumentError, "thread must be called with a block" , caller
+        raise ArgumentError, 'thread must be called with a block' , caller
       end
     end
 
@@ -72,7 +70,7 @@ module Processing
     # Here's a convenient way to look for them.
     def find_method(method_name)
       reg = Regexp.new("#{method_name}", true)
-      self.methods.sort.select {|meth| reg.match(meth)}
+      self.methods.sort.select { |meth| reg.match(meth) }
     end
 
     # Proxy over a list of Java declared fields that have the same name as
@@ -80,12 +78,12 @@ module Processing
     def proxy_java_fields
       @declared_fields = {}
       fields = %w(sketchPath key frameRate frame mousePressed keyPressed)
-      fields.each {|f| @declared_fields[f] = java_class.declared_field(f) }
+      fields.each { |f| @declared_fields[f] = java_class.declared_field(f) }
     end
 
     # By default, your sketch path is the folder that your sketch is in.
     # If you'd like to do something fancy, feel free.
-    def set_sketch_path(path=nil)
+    def set_sketch_path(path = nil)
       field = @declared_fields['sketchPath']
       field.set_value(java_self, path || SKETCH_ROOT)
     end
@@ -139,12 +137,12 @@ module Processing
 
     # Is the mouse pressed for this frame?
     def mouse_pressed?
-      field =  @declared_fields['mousePressed'].value(java_self)
+      @declared_fields['mousePressed'].value(java_self)
     end
 
     # Is a key pressed for this frame?
     def key_pressed?
-      field =  @declared_fields['keyPressed'].value(java_self)
+      @declared_fields['keyPressed'].value(java_self)
     end
   end
 end

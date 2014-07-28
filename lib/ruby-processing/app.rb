@@ -2,7 +2,6 @@
 # This class is a thin wrapper around Processing's PApplet.
 # Most of the code here is for interfacing with Swing,
 # web applets, going fullscreen and so on.
-
 require 'java'
 require_relative '../ruby-processing/helper_methods'
 require_relative '../ruby-processing/library_loader'
@@ -59,9 +58,9 @@ module Processing
 
     # Class methods that we should make available in the instance.
     [:map, :pow, :norm, :lerp, :second, :minute, :hour, :day, :month, :year,
-    :sq, :constrain, :dist, :blend_color, :degrees, :radians, :mag, :println,
-    :hex, :min, :max, :abs, :binary, :ceil, :nf, :nfc, :nfp, :nfs,
-    :norm, :round, :trim, :unbinary, :unhex ].each do |meth|
+      :sq, :constrain, :dist, :blend_color, :degrees, :radians, :mag, :println,
+      :hex, :min, :max, :abs, :binary, :ceil, :nf, :nfc, :nfp, :nfs,
+      :norm, :round, :trim, :unbinary, :unhex ].each do |meth|
       method = <<-EOS
       def #{meth}(*args)
       self.class.#{meth}(*args)
@@ -72,7 +71,7 @@ module Processing
 
     # Handy getters and setters on the class go here:
     def self.sketch_class;  @sketch_class;        end
-      @@full_screen = false
+    @@full_screen = false
     def self.full_screen;   @@full_screen = true; end
     def full_screen?;       @@full_screen;        end
 
@@ -126,7 +125,7 @@ module Processing
       mix_proxy_into_inner_classes
       #@started = false
 
-      java.lang.Thread.default_uncaught_exception_handler = proc do |thread, exception|
+      java.lang.Thread.default_uncaught_exception_handler = proc do |_thread_, exception|
         puts(exception.class.to_s)
         puts(exception.message)
         puts(exception.backtrace.collect { |trace| "\t" + trace })
@@ -137,21 +136,18 @@ module Processing
       # http://processing.org/reference/
 
       args = []
-
       @width, @height = options[:width], options[:height]
-
       if @@full_screen || options[:full_screen]
         @@full_screen = true
         args << "--present"
       end
       @render_mode  ||= JAVA2D
-        x = options[:x] || 0
-        y = options[:y] || 0
-        args << "--location=#{x}, #{y}"
-
-        title = options[:title] || File.basename(SKETCH_PATH).sub(/(\.rb)$/, '').titleize
-        args << title
-        PApplet.run_sketch(args, self)
+      x = options[:x] || 0
+      y = options[:y] || 0
+      args << "--location=#{x}, #{y}"
+      title = options[:title] || File.basename(SKETCH_PATH).sub(/(\.rb)$/, '').titleize
+      args << title
+      PApplet.run_sketch(args, self)
       #end
     end
 
@@ -180,12 +176,11 @@ module Processing
       "#<Processing::App:#{self.class}:#{@title}>"
     end
 
-
     # Cleanly close and shutter a running sketch.
     def close
-        control_panel.remove if respond_to?(:control_panel)
-        self.dispose
-        self.frame.dispose
+      control_panel.remove if respond_to?(:control_panel)
+      self.dispose
+      self.frame.dispose
     end
 
 
@@ -202,16 +197,13 @@ module Processing
         const.class_eval 'include Processing::Proxy'
       end
     end
-
   end # Processing::App
-
 
   # This module will get automatically mixed in to any inner class of
   # a Processing::App, in order to mimic Java's inner classes, which have
   # unfettered access to the methods defined in the surrounding class.
   module Proxy
     include Math
-
     # Generate the list of method names that we'd like to proxy for inner classes.
     # Nothing camelCased, nothing __internal__, just the Processing API.
     def self.desired_method_names(inner_class)
@@ -221,7 +213,6 @@ module Processing
       methods = Processing::App.public_instance_methods
       methods.reject {|m| unwanted.include?(m) || bad_method.match(m) || inner_class.method_defined?(m) }
     end
-
 
     # Proxy methods through to the sketch.
     def self.proxy_methods(inner_class)
@@ -239,7 +230,6 @@ module Processing
       inner_class.class_eval(code)
     end
 
-
     # Proxy the sketch's constants on to the inner classes.
     def self.proxy_constants(inner_class)
       Processing::App.constants.each do |name|
@@ -248,13 +238,10 @@ module Processing
       end
     end
 
-
     # Don't do all of the work unless we have an inner class that needs it.
     def self.included(inner_class)
       proxy_methods(inner_class)
       proxy_constants(inner_class)
     end
-
   end # Processing::Proxy
-
 end # Processing
