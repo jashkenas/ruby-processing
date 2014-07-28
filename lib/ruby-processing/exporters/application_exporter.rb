@@ -1,6 +1,5 @@
 require 'rbconfig'
 
-
 module Processing
   require_relative '../../ruby-processing/exporters/base_exporter'
   # A utility class to export Ruby-Processing sketches as
@@ -56,14 +55,14 @@ module Processing
       cp_r(@libraries, File.join(@dest, @prefix, 'library')) unless @libraries.empty?
       # Then move the icon
       potential_icon = Dir.glob(File.join(@dest, @prefix, 'data/*.icns'))[0]
-      move(potential_icon, File.join(@dest, 'Contents/Resources/sketch.icns'), :force => true) if potential_icon
+      move(potential_icon, File.join(@dest, 'Contents/Resources/sketch.icns'), force: true) if potential_icon
     end
 
     def calculate_substitutions
       file_list = ['lib/ruby/jruby-complete.jar']
       @class_path = file_list.map { |f| '$JAVAROOT/' + f.sub(@prefix+'/', '') }.join(':')
-      @linux_class_path = ".:../lib/ruby/*:../lib/*:../lib/library/*"
-      @windows_class_path = ".;../lib/ruby/*;../lib/*;../lib/library/*"
+      @linux_class_path = '.:../lib/ruby/*:../lib/*:../lib/library/*'
+      @windows_class_path = '.;../lib/ruby/*;../lib/*;../lib/library/*'
     end
 
     def create_executables
@@ -78,7 +77,7 @@ module Processing
     end
 
     def symlink_library_into_place
-      cd @dest + "/Contents/Resources"
+      cd @dest + '/Contents/Resources'
       # Poor ol' windows can't symlink.
       # TODO...
       win ||= RbConfig::CONFIG['host_os'].match(/mswin/i)
@@ -92,6 +91,5 @@ module Processing
       puts USAGE
       exit
     end
-
   end
 end
