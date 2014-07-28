@@ -43,7 +43,7 @@ module Processing
       @prefix = 'lib'
       cp_r(Dir["#{RP5_ROOT}/lib/templates/application/{*,**}"], @dest)
       @necessary_files = [@main_file_path]
-      @necessary_files += Dir["#{CONFIG['PROCESSING_ROOT']}/core/library/{*,**}"]
+      @necessary_files += Dir["#{RB_CONFIG['PROCESSING_ROOT']}/core/library/{*,**}"]
       @necessary_files += Dir["#{RP5_ROOT}/lib/{*,**}"]
       @necessary_files += @real_requires
       NECESSARY_FOLDERS.each do |folder|

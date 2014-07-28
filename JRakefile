@@ -3,12 +3,12 @@ require 'psych'
 
 if !File.exist? './lib/core.jar'
   begin
-  CONFIG_FILE_PATH=File.expand_path("~/.rp5rc")
-  CONFIG = (Psych.load_file(CONFIG_FILE_PATH))
-  source= "#{CONFIG["PROCESSING_ROOT"]}/core/library/core.jar"
-  FileUtils.cp(source, "./lib")
+  CONFIG_FILE_PATH=File.expand_path('~/.rp5rc')
+  RB_CONFIG = (Psych.load_file(CONFIG_FILE_PATH))
+  source= "#{RB_CONFIG["PROCESSING_ROOT"]}/core/library/core.jar"
+  FileUtils.cp(source, './lib')
   rescue
-    raise "WARNING: you must set PROCESSING_ROOT in .rp5rc to compile"
+    raise 'WARNING: you must set PROCESSING_ROOT in .rp5rc to compile'
   end
 end
 

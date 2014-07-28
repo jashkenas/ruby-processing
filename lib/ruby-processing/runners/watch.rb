@@ -50,7 +50,7 @@ module Processing
     end
 
     def reload_files_to_watch
-      @files = ([SKETCH_PATH] + Dir.glob(File.dirname(SKETCH_PATH) + "/*.rb")).uniq
+      @files = ([SKETCH_PATH] + Dir.glob(File.dirname(SKETCH_PATH) + '/*.rb')).uniq
     end
   end
 end

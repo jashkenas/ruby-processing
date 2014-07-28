@@ -5,7 +5,7 @@ class String #:nodoc:
   end
 
   def humanize()
-    self.gsub(/_id$/, "").gsub(/_/, ' ').capitalize
+    self.gsub(/_id$/, '').gsub(/_/, ' ').capitalize
   end
 
   def camelize(first_letter_in_uppercase = true)

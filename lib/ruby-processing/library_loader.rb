@@ -3,7 +3,7 @@ module Processing
     attr_reader :sketchbook_library_path
 
     def initialize
-      @sketchbook_library_path = File.join(find_sketchbook_path || "", "libraries")
+      @sketchbook_library_path = File.join(find_sketchbook_path || '', 'libraries')
       @loaded_libraries = Hash.new(false)
     end
 
@@ -39,11 +39,10 @@ module Processing
         end
       end
 
-      path = get_library_paths(library_name, "rb").first
+      path = get_library_paths(library_name, 'rb').first
       return false unless path
       return @loaded_libraries[library_name] = (require path)
     end
-
 
     # For pure java libraries, such as the ones that are available
     # on this page: http://processing.org/reference/libraries/index.html
@@ -54,46 +53,46 @@ module Processing
     def load_java_library(library_name)
       library_name = library_name.to_sym
       return true if @loaded_libraries[library_name]
-      path = get_library_directory_path(library_name, "jar")
-      jars = get_library_paths(library_name, "jar")
+      path = get_library_directory_path(library_name, 'jar')
+      jars = get_library_paths(library_name, 'jar')
       return false if jars.empty?
       jars.each {|jar| require jar }
 
       platform_specific_library_paths = get_platform_specific_library_paths(path)
       platform_specific_library_paths = platform_specific_library_paths.select do |path|
-        test(?d, path) && !Dir.glob(File.join(path, "*.{so,dll,jnilib}")).empty?
+        test(?d, path) && !Dir.glob(File.join(path, '*.{so,dll,jnilib}')).empty?
       end
 
       if !platform_specific_library_paths.empty?
-        platform_specific_library_paths << java.lang.System.getProperty("java.library.path")
+        platform_specific_library_paths << java.lang.System.getProperty('java.library.path')
         new_library_path = platform_specific_library_paths.join(java.io.File.pathSeparator)
 
-        java.lang.System.setProperty("java.library.path", new_library_path)
+        java.lang.System.setProperty('java.library.path', new_library_path)
 
-        field = java.lang.Class.for_name("java.lang.ClassLoader").get_declared_field("sys_paths")
+        field = java.lang.Class.for_name('java.lang.ClassLoader').get_declared_field('sys_paths')
         if field
           field.accessible = true
-          field.set(java.lang.Class.for_name("java.lang.System").get_class_loader, nil)
+          field.set(java.lang.Class.for_name('java.lang.System').get_class_loader, nil)
         end
       end
       return @loaded_libraries[library_name] = true
     end
 
     def get_platform_specific_library_paths(basename)
-      bits = "universal"  # for MacOSX, but does this even work, or does Mac return "64"?
-      if java.lang.System.getProperty("sun.arch.data.model") == "32" ||
-        java.lang.System.getProperty("java.vm.name").index("32")
-        bits = "32"
-      elsif java.lang.System.getProperty("sun.arch.data.model") == "64" ||
-        java.lang.System.getProperty("java.vm.name").index("64")
-        bits = "64"
+      bits = 'universal'  # for MacOSX, but does this even work, or does Mac return '64'?
+      if java.lang.System.getProperty('sun.arch.data.model') == '32' ||
+        java.lang.System.getProperty('java.vm.name').index('32')
+        bits = '32'
+      elsif java.lang.System.getProperty('sun.arch.data.model') == '64' ||
+        java.lang.System.getProperty('java.vm.name').index('64')
+        bits = '64'
       end
 
-      match_string, platform = {"Mac" => "macosx", "Linux" => "linux", "Windows" => "windows" }.detect do |string, platform_|
-        java.lang.System.getProperty("os.name").index(string)
+      _match_string_, platform = {'Mac' => 'macosx', 'Linux' => 'linux', 'Windows' => 'windows' }.detect do |string, _platform_|
+        java.lang.System.getProperty('os.name').index(string)
       end
-      platform ||= "other"
-      [ platform, platform+bits ].collect { |p| File.join(basename, p) }
+      platform ||= 'other'
+      [platform, platform + bits].collect { |p| File.join(basename, p) }
     end
 
     def get_library_paths(library_name, extension = nil)
@@ -107,7 +106,7 @@ module Processing
       extensions = extension ? [extension] : %w{jar rb}
       extensions.each do |ext|
         [ "#{SKETCH_ROOT}/library/#{library_name}",
-          "#{Processing::CONFIG["PROCESSING_ROOT"]}/modes/java/libraries/#{library_name}/library",
+          "#{Processing::RB_CONFIG['PROCESSING_ROOT']}/modes/java/libraries/#{library_name}/library",
           "#{RP5_ROOT}/library/#{library_name}/library",
           "#{RP5_ROOT}/library/#{library_name}",
           "#{@sketchbook_library_path}/#{library_name}/library",
@@ -124,14 +123,14 @@ module Processing
     def find_sketchbook_path
       preferences_paths = []
       sketchbook_paths = []
-      if sketchbook_path = Processing::CONFIG["sketchbook_path"]
+      if sketchbook_path = Processing::RB_CONFIG['sketchbook_path']
         return File.expand_path(sketchbook_path)
       else
-        ["'Application Data/Processing'", "AppData/Roaming/Processing",
-         "Library/Processing", "Documents/Processing",
-         ".processing", "sketchbook"].each do |prefix|
-          path = "#{ENV["HOME"]}/#{prefix}"
-          pref_path = path+"/preferences.txt"
+        ["'Application Data/Processing'", 'AppData/Roaming/Processing',
+         'Library/Processing', 'Documents/Processing',
+         '.processing', 'sketchbook'].each do |prefix|
+          path = "#{ENV['HOME']}/#{prefix}"
+          pref_path = path+'/preferences.txt'
           if test(?f, pref_path)
             preferences_paths << pref_path
           end
@@ -148,6 +147,5 @@ module Processing
         return sketchbook_path
       end
     end
-
   end
 end
