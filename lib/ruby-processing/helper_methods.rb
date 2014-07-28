@@ -34,10 +34,8 @@ module Processing
       if args.length == 1
         if a.is_a?(Fixnum) && a >= 2**31
           args = [ a - 2**32 ]
-        elsif a.is_a?(String) && a[0].eql('#')
-          h = a[1..-1]
-          # add opaque alpha channel
-          h.rjust(6, '0').prepend('ff')
+        elsif a.is_a?(String) && a[0].eql?('#')
+          h = a[1..-1].rjust(6, '0').prepend('ff')
           return color(h.hex)
         end
       end

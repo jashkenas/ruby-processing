@@ -106,7 +106,7 @@ module Processing
       extensions = extension ? [extension] : %w{jar rb}
       extensions.each do |ext|
         [ "#{SKETCH_ROOT}/library/#{library_name}",
-          "#{Processing::CONFIG['PROCESSING_ROOT']}/modes/java/libraries/#{library_name}/library",
+          "#{Processing::RB_CONFIG['PROCESSING_ROOT']}/modes/java/libraries/#{library_name}/library",
           "#{RP5_ROOT}/library/#{library_name}/library",
           "#{RP5_ROOT}/library/#{library_name}",
           "#{@sketchbook_library_path}/#{library_name}/library",
@@ -123,7 +123,7 @@ module Processing
     def find_sketchbook_path
       preferences_paths = []
       sketchbook_paths = []
-      if sketchbook_path = Processing::CONFIG['sketchbook_path']
+      if sketchbook_path = Processing::RB_CONFIG['sketchbook_path']
         return File.expand_path(sketchbook_path)
       else
         ["'Application Data/Processing'", 'AppData/Roaming/Processing',

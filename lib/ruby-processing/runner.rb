@@ -133,9 +133,9 @@ module Processing
     def check(proc_root, installed)
       show_version
       root = '  PROCESSING_ROOT = Not Set!!!' unless proc_root
-      root ||= "  PROCESSING_ROOT = #{Processing::CONFIG['PROCESSING_ROOT']}"
+      root ||= "  PROCESSING_ROOT = #{Processing::RB_CONFIG['PROCESSING_ROOT']}"
       puts root
-      puts "  JRUBY = #{Processing::CONFIG['JRUBY']}"
+      puts "  JRUBY = #{Processing::RB_CONFIG['JRUBY']}"
       puts "  jruby-complete installed = #{installed}"
     end
 
@@ -161,7 +161,7 @@ module Processing
     def spin_up(starter_script, sketch, args)
       runner = "#{RP5_ROOT}/lib/ruby-processing/runners/#{starter_script}"
       warn('The --jruby flag is no longer required') if @options.jruby
-      @options.nojruby = true if Processing::CONFIG['JRUBY'] == 'false'
+      @options.nojruby = true if Processing::RB_CONFIG['JRUBY'] == 'false'
       java_args = discover_java_args(sketch)
       command = @options.nojruby ?
         ['java', java_args, '-cp', jruby_complete, 'org.jruby.Main', runner, sketch, args].flatten :
@@ -179,8 +179,8 @@ module Processing
       args += dock_icon
       if File.exist?(arg_file)
         args += File.read(arg_file).split(/\s+/)
-      elsif Processing::CONFIG['java_args']
-        args += Processing::CONFIG['java_args'].split(/\s+/)
+      elsif Processing::RB_CONFIG['java_args']
+        args += Processing::RB_CONFIG['java_args'].split(/\s+/)
       end
       args.map! { |arg| "-J#{arg}" } unless @options.nojruby
       args
