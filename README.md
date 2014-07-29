@@ -24,9 +24,9 @@ Then install ruby-processing (from rubygems-org) in the usual way
 
 To install jruby-complete use our built in tool (relies on `wget` to download [jruby-complete-1.7.12](http://jruby.org/download))
 
-`install_jruby_complete` or since ruby-processing-2.5.0 `rp5 setup install`
+since ruby-processing-2.5.0 `rp5 setup install` (was `install_jruby_complete`)
 
-If you haven't got `wget` just download jruby-complete-1.7.12 (jruby-complete-1.7.13 since ruby-processing-2.5.0)to the vendors folder (then run above tool)
+If you haven't got `wget` just download jruby-complete-1.7.13 (for ruby-processing-2.5.0)to the vendors folder (then run above tool)
 
 The vendored jruby-complete is only required for application export, and running certain sketches (eg shader sketches see wiki).
 
@@ -104,6 +104,11 @@ This library has been tested with the following ruby implementations
 
 NB: Support for ruby-2.0 syntax is limited (and experimental see jruby documentation)
 
+## Supported Processing Version
+
+* processing-2.2.1 (recommended)
+* seems also work with processing-3.0a1 (but there is probably no reason to use it)
+
 [License][]
 
 [license]:LICENSE.md
@@ -115,10 +120,5 @@ NB: Support for ruby-2.0 syntax is limited (and experimental see jruby documenta
 [wiki]:http://github.com/jashkenas/ruby-processing/wikis/
 [FAQs]:http://github.com/jashkenas/ruby-processing/wikis/FAQs/
 [release]:https://github.com/jashkenas/ruby-processing/releases/
-
-## What's new
-
-New capabilities since processing-2.0 include ability to use OPENGL VBO (PShape) and GLSL shaders (PShader), to keep abreast of latest shader developments for processing check out the [codeanticode blog](http://codeanticode.wordpress.com/2013/06/04/processing-2-0-is-out-processing-2-0-is-in/). Some worked examples using new feature are included in the samples. The update to the latest jruby is also significant as the default is to run with ruby-1.9 support (or even use ruby-2.0 syntax with `compat.version=2.0` in your `.jrubyrc` config), and there have been many performance improvements. Some performance improvements will not be available on the Mac as they require at least java-7+, and there is even more to come with java-8+ (adventurous Mac users can read more about [Oracle java here](http://www.java.com/en/download/faq/java_mac.xml) ). More than 330 worked examples are included in the [Samples][], many of which are rubified version of the examples included with vanilla processing, and or the contributed libraries, additions are welcome. In my experience ruby-processing works even better with the recently released jdk-8 (try `-XX:+TieredCompilation` option in java_args.txt). But please note you will not be able to use jdk-8 with vanilla-processing, at least for the forseeable future. 
-
 
 
