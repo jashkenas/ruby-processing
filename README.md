@@ -64,7 +64,7 @@ def draw
 end
 ```
 
-or a simple 3D sketch ``cube.rb``
+or a simple 3D sketch ``cube.rb`` features ArcBall from vecmath library
 
 ```ruby
 load_library :vecmath
