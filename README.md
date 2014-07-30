@@ -10,8 +10,6 @@ Is a ruby wrapper around the [Processing][] code art framework, built using [JRu
   load_image, load_pixels, mouse_pressed, noise, rect, saturation, shape, 
   smooth, text_align, translate, triangle...
   
-## How to build latest version 2.5.0
-See [wiki](https://github.com/jashkenas/ruby-processing/wiki/How-to-build-latest-version)
 
 ## Installation
 MacOSX users please try out this new  [method](https://github.com/jashkenas/ruby-processing/wiki/Installing-ruby-processing-on-the-mac)
@@ -30,6 +28,9 @@ If you haven't got `wget` just download jruby-complete-1.7.13 (for ruby-processi
 
 The vendored jruby-complete is only required for application export, and running certain sketches (eg shader sketches see wiki).
 
+
+### How to build latest version 2.5.0
+See [wiki](https://github.com/jashkenas/ruby-processing/wiki/How-to-build-latest-version)
 
 ## Documentation
 
