@@ -44,7 +44,7 @@ See also [FAQs][], [Contributing][] and [Samples][]
 rp5 run my_sketch.rb 
 ```
 
-or if not using system jruby
+or if not using system jruby (and not `JRUBY: 'false'` in `~/.rp5rc`)
 
 ```bash
 rp5 --nojruby run my_sketch.rb
