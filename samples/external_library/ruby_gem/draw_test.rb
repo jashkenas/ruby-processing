@@ -103,7 +103,7 @@ def train
     error = net.train(sq_input, [0, 1.0, 0])
     error = net.train(cr_input, [0, 0, 1.0])
     error = net.train(ci_input, [0, 1.0, 1.0])
-    puts "Error after iteration #{i}:\t#{format("%.5f", error)}" if i%20 == 0
+    puts "Error after iteration #{i}:\t#{format('%0.5f', error)}" if i%20 == 0
   end
 end
 

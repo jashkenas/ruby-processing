@@ -27,6 +27,6 @@ def draw
   shader(landscape) 
   rect(0, 0, width, height)
 
-  frame.set_title 'frame: #{frame_count} - fps: #{format('%.2f', frame_rate)}'     
+  frame.set_title "frame: #{frame_count} - fps: #{format('%0.2f', frame_rate)}"     
 end
 

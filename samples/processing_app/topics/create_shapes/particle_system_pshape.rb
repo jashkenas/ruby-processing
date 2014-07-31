@@ -32,7 +32,7 @@ def draw
   # Display frame rate
   fill(255, 0, 255)
   text_size(16)
-  text('Frame rate: #{format('%.2f', frame_rate)}', 10, 20)
+  text("Frame rate: #{format('%0.2f', frame_rate)}", 10, 20)
   
 end
 

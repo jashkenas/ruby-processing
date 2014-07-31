@@ -78,7 +78,7 @@ def network_status
   text("Total iterations: #{count}", 10, 40)
   mse += (result - known) * (result - known)    
   rmse = Math::sqrt(mse / 4.0)
-  out = "Root mean squared error: #{format("%.5f", rmse)}"
+  out = "Root mean squared error: #{format('%0.5f', rmse)}"
   hint DISABLE_DEPTH_SORT
   text(out, 10, 60) 
   hint ENABLE_DEPTH_SORT
