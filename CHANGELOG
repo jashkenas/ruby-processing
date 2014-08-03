@@ -1,3 +1,5 @@
+v2.5.1 Some fixes, and remove eval hack from base_exporter
+
 v2.5.0 Some refactoring, and a new install procedure
 * Some re-factoring of both code and examples, including
 * replacing the overuse of __FILE__ with 'relative_require'
