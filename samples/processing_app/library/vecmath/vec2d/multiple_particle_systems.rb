@@ -41,7 +41,7 @@ def setup
   color_mode(RGB, 255, 255, 255, 100)
   ellipse_mode(CENTER)    
   origin = rand(5 .. 16)
-  start_pos = Vec2D.new(width / start2, height / 2)
+  start_pos = Vec2D.new(width / 2, height / 2)
   @particle_systems = ParticleSystem.new(origin, start_pos)
 end
 

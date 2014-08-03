@@ -9,7 +9,7 @@ load_library :vecmath
 
 def setup
   size(600, 600, P3D)
-  smooth(16)
+  smooth(8)
   ArcBall.init(self, 300, 300, 250)
   fill 180
 end

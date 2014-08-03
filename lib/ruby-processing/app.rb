@@ -57,16 +57,32 @@ module Processing
 
 
     # Class methods that we should make available in the instance.
-    [:map, :pow, :norm, :lerp, :second, :minute, :hour, :day, :month, :year,
-      :sq, :constrain, :dist, :blend_color, :degrees, :radians, :mag, :println,
-      :hex, :min, :max, :abs, :binary, :ceil, :nf, :nfc, :nfp, :nfs,
-      :norm, :round, :trim, :unbinary, :unhex ].each do |meth|
-      method = <<-EOS
-      def #{meth}(*args)
-      self.class.#{meth}(*args)
-      end
-      EOS
-      eval method
+    # [:map, :pow, :norm, :lerp, :second, :minute, :hour, :day, :month, :year,
+      # :sq, :constrain, :dist, :blend_color, :degrees, :radians, :mag, :println,
+      # :hex, :min, :max, :abs, :binary, :ceil, :nf, :nfc, :nfp, :nfs,
+      # :norm, :round, :trim, :unbinary, :unhex ].each do |meth|
+      # method = <<-EOS
+      # def #{meth}(*args)
+      # self.class.#{meth}(*args)
+      # end
+      # EOS
+      # eval method
+    # end
+    
+    def blend_color(c1, c2, mode)
+      PImage.blendColor(c1, c2, mode)
+    end
+    
+    def hour
+      PApplet.hour
+    end
+    
+    def minute
+      PApplet.minute
+    end
+    
+    def second
+      PApplet.second
     end
 
     # Handy getters and setters on the class go here:
@@ -81,10 +97,6 @@ module Processing
     def self.inherited(subclass)
       super(subclass)
       @sketch_class = subclass
-    end
-
-    def self.has_slider(*args) #:nodoc:
-      raise "has_slider has been replaced with a nicer control_panel library. Check it out."
     end
 
     @@library_loader = LibraryLoader.new
