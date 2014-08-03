@@ -53,9 +53,8 @@ module Processing
       if methods_to_alias.keys.include?(method_name)
         alias_method methods_to_alias[method_name], method_name
       end
-    end
-
-
+    end    
+    
     # Class methods that we should make available in the instance.
     # [:map, :pow, :norm, :lerp, :second, :minute, :hour, :day, :month, :year,
       # :sq, :constrain, :dist, :blend_color, :degrees, :radians, :mag, :println,
@@ -69,20 +68,13 @@ module Processing
       # eval method
     # end
     
+    # Above block deprecated from processing-2.5.1, you should in general prefer 
+    # ruby alternatives (eg t = Time.now and t.sec to second):-
+    # constrain, dist, map, norm, lerp and blend_color are implemented directly
+    
+    # Uses PImage class method under hood
     def blend_color(c1, c2, mode)
       PImage.blendColor(c1, c2, mode)
-    end
-    
-    def hour
-      PApplet.hour
-    end
-    
-    def minute
-      PApplet.minute
-    end
-    
-    def second
-      PApplet.second
     end
 
     # Handy getters and setters on the class go here:
@@ -121,14 +113,15 @@ module Processing
 
     def library_loaded?(library_name)
       self.class.library_loaded?(library_name)
-    end
+    end    
 
-    # When you make a new sketch, you pass in (optionally),
-    # a width, height, x, y, title, and whether or not you want to
-    # run in full-screen.
-    #
-    # This is a little different than Processing where height
-    # and width are declared inside the setup method instead.
+    # It is 'NOT' usually necessary to directly pass options to a sketch, it 
+    # gets done automatically for you. Since processing-2.0 you should prefer
+    # setting the sketch width and height and renderer using the size method,
+    # in the sketch (as with vanilla processing), which should be the first 
+    # argument in setup. Sensible options to pass are x and y to locate sketch
+    # on the screen, or full_screen: true (prefer new hash syntax)
+   
     def initialize(options={})
       super()
       $app = self
@@ -144,8 +137,11 @@ module Processing
         close
       end
 
-      # for the list of all available args, see
-      # http://processing.org/reference/
+      # For the list of all available args, see:-
+      # http://processing.org/reference/, however not all convenience functions
+      # are implemented in ruby-processing (you should in general prefer ruby
+      # alternatives when available and methods using java reflection, are best
+      # avoided entirely)
 
       args = []
       @width, @height = options[:width], options[:height]
@@ -156,7 +152,7 @@ module Processing
       @render_mode  ||= JAVA2D
       x = options[:x] || 0
       y = options[:y] || 0
-      args << "--location=#{x}, #{y}"
+      args << "--location=#{x},#{y}"  # important no spaces here
       title = options[:title] || File.basename(SKETCH_PATH).sub(/(\.rb)$/, '').titleize
       args << title
       PApplet.run_sketch(args, self)
@@ -194,7 +190,6 @@ module Processing
       self.dispose
       self.frame.dispose
     end
-
 
     private
 
