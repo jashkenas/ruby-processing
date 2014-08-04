@@ -111,29 +111,34 @@ module Processing
 
     # explicitly provide 'processing.org' pow instance method
     def pow(x, exp)
-      warn 'pow(x, exp) is deprecated use x**exp to avoid this warning'
+      # warn 'pow(x, exp) is deprecated use x**exp to avoid this warning'
       x**exp
     end
 
     # explicitly provide 'processing.org' radians instance method
     def radians(theta)
-      warn 'radians(theta) is deprecated use theta.radians to avoid this warning'
+      # warn 'radians(theta) is deprecated use theta.radians to avoid this warning'
       theta.radians
     end
     
     def hour
-      warn 'deprecated use t = Time.now and t.hour'
+      # warn 'deprecated use t = Time.now and t.hour'
       PApplet.hour
     end
     
     def second
-      warn 'deprecated use t = Time.now and t.sec'
+      # warn 'deprecated use t = Time.now and t.sec'
       PApplet.second
     end
     
     def minute
-      warn 'deprecated use t = Time.now and t.min'
+      # warn 'deprecated use t = Time.now and t.min'
       PApplet.minute
+    end
+    
+    # Uses PImage class method under hood
+    def blend_color(c1, c2, mode)
+      PImage.blendColor(c1, c2, mode)
     end
 
     # There's just so many functions in Processing,

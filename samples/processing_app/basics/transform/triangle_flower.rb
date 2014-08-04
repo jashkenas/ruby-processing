@@ -2,7 +2,7 @@
 # by Ira Greenberg. 
 # 
 # Using rotate() and triangle() functions generate a pretty 
-# flower. Uncomment the line "# rotate(rot+=radians(spin));"
+# flower. Uncomment the line "# rotate(rot+=spin.radians);"
 # in the triBlur() function for a nice variation.
 
 attr_reader :pt, :shift, :spin, :fade
@@ -31,8 +31,8 @@ def tri_blur
   @fill_color += fade  	
   rotate spin  	
   # try these lines also ..
-  #@rot += radians spin
-  #rotate @rot  	
+  # @rot += spin.radians
+  # rotate @rot  	
   pt[0].x += shift
   pt[0].y -= shift / 2
   pt[1].x -= shift

@@ -6,7 +6,7 @@
 # Hold down 'y' key and drag mouse to rotate about y axis
 ########################################################
 
-load_libraries :cs_grammar, :vecmath
+load_libraries :cs_grammar, :vecmath, :fastmath
 attr_reader :csplant
 
 def setup
@@ -47,8 +47,8 @@ class CSPlant
     )
     @production = axiom
     @len = len
-    @theta = radians 25
-    @phi = radians 25
+    @theta = 25.radians
+    @phi = 25.radians
     no_stroke
   end
 

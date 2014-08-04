@@ -11,7 +11,7 @@ class Bird
 	attr_accessor :flap_speed
 	attr_accessor :rot_speed
 
-	def initialize ( offset_x, offset_y, offset_z, w, h )
+	def initialize(offset_x, offset_y, offset_z, w, h)
 
 		defaults
 		@offset_x, @offset_y, @offset_z = offset_x, offset_y, offset_z
@@ -27,18 +27,18 @@ class Bird
 		@radius_x, @radius_y, @radius_z = 120.0, 200.0, 700.0
 	end
 
-	def set_flight ( radius_x, radius_y, radius_z, rot_x, rot_y, rot_z )
+	def set_flight(radius_x, radius_y, radius_z, rot_x, rot_y, rot_z)
 		@radius_x, @radius_y, @radius_z = radius_x, radius_y, radius_z
 		@rot_x, @rot_y, @rot_z = rot_x, rot_y, rot_z
 		return self  # return self means we can chain methods
 	end
 
-	def set_wing_speed ( flap_speed )
+	def set_wing_speed(flap_speed)
 		@flap_speed = flap_speed
 		return self  # return self means we can chain methods
 	end
 
-	def set_rot_speed ( rot_speed )
+	def set_rot_speed(rot_speed)
 		@rot_speed = rot_speed
 		return self  # return self means we can chain methods
 	end
@@ -47,17 +47,17 @@ class Bird
 
 		push_matrix
 
-			px = sin( radians @ang3 ) * @radius_x
-			py = cos( radians @ang3 ) * @radius_y
-			pz = sin( radians @ang4 ) * @radius_z
+			px = sin(@ang3.radians) * @radius_x
+			py = cos(@ang3.radians) * @radius_y
+			pz = sin(@ang4.radians) * @radius_z
 
 			translate @offset_x + px,
 					  @offset_y + py,
 					  @offset_z + pz
 
-			rotate_x sin( radians @ang2 ) * @rot_x
-			rotate_y sin( radians @ang2 ) * @rot_y
-			rotate_z sin( radians @ang2 ) * @rot_z
+			rotate_x sin(@ang2.radians) * @rot_x
+			rotate_y sin(@ang2.radians) * @rot_y
+			rotate_z sin(@ang2.radians) * @rot_z
 
 			fill @body_fill
 			box @w/5, @h, @w/5
@@ -65,12 +65,12 @@ class Bird
 			fill @wing_fill
 
 			push_matrix
-				rotate_y sin( radians @ang ) * 20
+				rotate_y sin(@ang.radians) * 20
 				rect 0, -@h/2, @w, @h
 			pop_matrix
 
 			push_matrix
-				rotate_y sin( radians @ang ) * -20
+				rotate_y sin(@ang.radians) * -20
 				rect -@w, -@h/2, @w, @h
 			pop_matrix
 

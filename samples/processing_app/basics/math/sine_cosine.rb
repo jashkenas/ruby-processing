@@ -22,14 +22,14 @@ end
 def draw
   background(0)
 
-  ang1 = radians(angle1)
-  ang2 = radians(angle2)
+  ang1 = angle1.radians
+  ang2 = angle2.radians
 
-  x1 = width/2 + (SCALAR * cos(ang1))
-  x2 = width/2 + (SCALAR * cos(ang2))
+  x1 = width / 2 + (SCALAR * cos(ang1))
+  x2 = width / 2 + (SCALAR * cos(ang2))
   
-  y1 = height/2 + (SCALAR * sin(ang1))
-  y2 = height/2 + (SCALAR * sin(ang2))
+  y1 = height / 2 + (SCALAR * sin(ang1))
+  y2 = height / 2 + (SCALAR * sin(ang2))
   
   fill(255)
   rect(width * 0.5, height * 0.5, 140, 140)

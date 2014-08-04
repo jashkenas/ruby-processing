@@ -55,28 +55,21 @@ module Processing
       end
     end    
     
-    # Class methods that we should make available in the instance.
-    # [:map, :pow, :norm, :lerp, :second, :minute, :hour, :day, :month, :year,
-      # :sq, :constrain, :dist, :blend_color, :degrees, :radians, :mag, :println,
-      # :hex, :min, :max, :abs, :binary, :ceil, :nf, :nfc, :nfp, :nfs,
-      # :norm, :round, :trim, :unbinary, :unhex ].each do |meth|
-      # method = <<-EOS
-      # def #{meth}(*args)
-      # self.class.#{meth}(*args)
-      # end
-      # EOS
-      # eval method
-    # end
+    # Some class methods made available in the instance.
+     [:day, :month, :year, :sq, :mag, :println, :hex, :abs, :binary, :ceil,
+      :nf, :nfc, :nfp, :nfs, :round, :trim, :unbinary, :unhex ].each do |meth|
+      method = <<-EOS
+      def #{meth}(*args)
+        self.class.#{meth}(*args)
+      end
+      EOS
+      eval method
+    end
     
     # Above block deprecated from processing-2.5.1, you should in general prefer 
     # ruby alternatives (eg t = Time.now and t.sec to second):-
     # constrain, dist, map, norm, lerp and blend_color are implemented directly
     
-    # Uses PImage class method under hood
-    def blend_color(c1, c2, mode)
-      PImage.blendColor(c1, c2, mode)
-    end
-
     # Handy getters and setters on the class go here:
     def self.sketch_class;  @sketch_class;        end
     @@full_screen = false

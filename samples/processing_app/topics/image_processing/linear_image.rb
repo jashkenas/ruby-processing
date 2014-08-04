@@ -26,7 +26,7 @@ def draw
     @direction = direction * -1
   end
   if mouse_pressed? 
-    @signal = abs(mouse_y % img.height)
+    @signal = (mouse_y % img.height).abs
   else 
     @signal += (0.3*direction)
   end

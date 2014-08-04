@@ -3,7 +3,7 @@
 # Starts a network client that connects to a server on port 80,
 # sends an HTTP 1.0 GET request, and prints the results. 
 # Note that this code is not necessary for simple HTTP GET request:
-# Simply calling loadStrings("http://www.processing.org") would do
+# Simply calling load_strings("http://www.processing.org") would do
 # the same thing as (and more efficiently than) this example.
 # This example is for people who might want to do something more 
 # complicated later.
@@ -25,7 +25,9 @@ end
 def draw
   if (client.available() > 0)   # If there's incoming data from the client...
     data = client.read_string()  # ...then grab it and print it
-    println(data)
+    puts data
   end
 end
+
+#@todo replace with a pure ruby alternative
 

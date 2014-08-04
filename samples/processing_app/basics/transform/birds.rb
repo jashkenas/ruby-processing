@@ -24,6 +24,6 @@ end
 def draw  
   background 0  
   translate width/2, height/2, -700  
-  @birds.map {|b| b.fly} 
+  @birds.map { |b| b.fly } 
 end
 

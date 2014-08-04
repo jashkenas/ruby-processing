@@ -10,32 +10,27 @@
 # Down Arrow - decreases points
 # 'p' key toggles between cube/pyramid
 
+load_library :vecmath
+attr_reader :renderer
 
 
-def setup
-  
+def setup  
   size 640, 360, P3D
-  
-  no_stroke
-  
-  @angle_inc = PI/300
-  
+  @renderer = AppRender.new(self)  
+  no_stroke  
+  @angle_inc = PI / 300  
   @pts = 4
   @angle = 0
   @radius = 99
-  @cylinder_length = 95
-  
-  @is_pyramid = false
-  
+  @cylinder_length = 95  
+  @is_pyramid = false  
 end
 
-def draw
-  
+def draw  
   background 170, 95, 95
   lights
-  fill 255, 200, 200
-  
-  translate width/2, height/2
+  fill 255, 200, 200  
+  translate width / 2, height / 2
   rotate_x frame_count * @angle_inc
   rotate_y frame_count * @angle_inc
   rotate_z frame_count * @angle_inc
@@ -46,10 +41,10 @@ def draw
     @angle = 0
     vertices[i] = []
     0.upto(@pts) { |j|
-      pvec = PVector.new 0, 0
+      pvec = Vec3D.new 0, 0
       (
-        pvec.x = cos(radians( @angle )) * @radius
-        pvec.y = sin(radians( @angle )) * @radius
+        pvec.x = cos(@angle.radians) * @radius
+        pvec.y = sin(@angle.radians) * @radius
         
         ) unless ( @is_pyramid && i == 1 )
         
@@ -63,15 +58,15 @@ def draw
   
   begin_shape QUAD_STRIP
     0.upto(@pts) { |j|
-      vertex vertices[0][j].x, vertices[0][j].y, vertices[0][j].z
-      vertex vertices[1][j].x, vertices[1][j].y, vertices[1][j].z
+      vertices[0][j].to_vertex(renderer)
+      vertices[1][j].to_vertex(renderer)
     }
     end_shape
     
     [0,1].each { |i|
       begin_shape
         0.upto(@pts) { |j|
-          vertex vertices[i][j].x, vertices[i][j].y, vertices[i][j].z
+          vertices[i][j].to_vertex(renderer)
         }
         end_shape CLOSE
     }
