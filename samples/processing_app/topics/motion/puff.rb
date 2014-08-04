@@ -39,11 +39,11 @@ def draw
   # Follow the leader
   (0 ... CELLS).each do |i|
     if (i == 0)
-      px[i] = head_x + sin(radians(angle[i]))*radii_x[i]
-      py[i] = head_y + cos(radians(angle[i]))*radii_y[i]
+      px[i] = head_x + sin(angle[i].radians)*radii_x[i]
+      py[i] = head_y + cos(angle[i].radians)*radii_y[i]
     else
-      px[i] = px[i-1] + cos(radians(angle[i]))*radii_x[i]
-      py[i] = py[i-1] + sin(radians(angle[i]))*radii_y[i]
+      px[i] = px[i-1] + cos(angle[i].radians)*radii_x[i]
+      py[i] = py[i-1] + sin(angle[i].radians)*radii_y[i]
       
       # Check collision of body
       if ((px[i] >= width-cell_radius[i] / 2) || (px[i] <= cell_radius[i] / 2))

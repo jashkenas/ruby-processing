@@ -60,8 +60,85 @@ module Processing
       if block_given?
         Thread.new *args, &block
       else
-        raise ArgumentError, 'thread must be called with a block' , caller
+        fail ArgumentError, 'thread must be called with a block' , caller
       end
+    end
+    
+     # explicitly provide 'processing.org' map instance method
+    def map(value, start1, stop1, start2, stop2)
+      start2 + (stop2 - start2) * ((value - start1).to_f / (stop1 - start1))
+    end
+
+    # explicitly provide 'processing.org' norm instance method
+    def norm(value, start, stop)
+      (value - start).to_f / (stop - start)
+    end
+
+    # explicitly provide 'processing.org' lerp instance method
+    def lerp(start, stop, amt)
+      start + (stop - start) * amt
+    end
+
+    # explicitly provide 'processing.org' min instance method
+    # to return a float:- a, b and c need to be floats
+
+    def min(*args)
+      args.min { |a,b| a <=> b }
+    end
+
+    # explicitly provide 'processing.org' max instance method
+    # to return a float:- a, b and c need to be floats
+
+    def max(*args)
+      args.max { |a, b| a <=> b }
+    end
+
+    # explicitly provide 'processing.org' dist instance method
+    def dist(*args)
+      alen = args.length
+      return Math.hypot(args[0] - args[2], args[1] - args[3]) if alen == 4
+      return Math.sqrt((args[0] - args[3]) * (args[0] - args[3]) +
+          (args[1] - args[4]) * (args[1] - args[4]) +
+          (args[2] - args[5]) * (args[2] - args[5])) if alen == 6
+      fail ArgumentError, 'takes 4 or 6 parameters'
+    end
+
+    # explicitly provide 'processing.org' constrain instance method
+    # to return a float:- amt, low and high need to be floats
+    def constrain(amt, low, high)
+      (amt < low) ? low : ((amt > high) ? high : amt)
+    end
+
+    # explicitly provide 'processing.org' pow instance method
+    def pow(x, exp)
+      # warn 'pow(x, exp) is deprecated use x**exp to avoid this warning'
+      x**exp
+    end
+
+    # explicitly provide 'processing.org' radians instance method
+    def radians(theta)
+      # warn 'radians(theta) is deprecated use theta.radians to avoid this warning'
+      theta.radians
+    end
+    
+    def hour
+      # warn 'deprecated use t = Time.now and t.hour'
+      PApplet.hour
+    end
+    
+    def second
+      # warn 'deprecated use t = Time.now and t.sec'
+      PApplet.second
+    end
+    
+    def minute
+      # warn 'deprecated use t = Time.now and t.min'
+      PApplet.minute
+    end
+    
+    # Uses PImage class method under hood
+    def blend_color(c1, c2, mode)
+      PImage.blendColor(c1, c2, mode)
     end
 
     # There's just so many functions in Processing,
@@ -85,8 +162,6 @@ module Processing
       field = @declared_fields['sketchPath']
       field.set_value(java_self, path || SKETCH_ROOT)
     end
-
-
 
     # Fix java conversion problems getting the last key
     # If it's ASCII, return the character, otherwise the integer

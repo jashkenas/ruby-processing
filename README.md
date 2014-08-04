@@ -106,6 +106,11 @@ NB: Support for ruby-2.0 syntax is limited (and experimental see jruby documenta
 * processing-2.2.1 (recommended)
 * seems also work with processing-3.0a1 (but there is probably no reason to use it)
 
+## Deprecated Methods
+
+From version 2.5.1 some processing methods are deprecated in favor of ruby alternatives
+for details see wiki [notice][]
+
 [License][]
 
 [license]:LICENSE.md
@@ -115,6 +120,7 @@ NB: Support for ruby-2.0 syntax is limited (and experimental see jruby documenta
 [download]:https://processing.org/download/
 [samples]:https://github.com/jashkenas/ruby-processing/tree/master/samples/
 [wiki]:http://github.com/jashkenas/ruby-processing/wikis/
+[notice]:http://github.com/jashkenas/ruby-processing/wikis/Deprecation-of-methods
 [FAQs]:http://github.com/jashkenas/ruby-processing/wikis/FAQs/
 [release]:https://github.com/jashkenas/ruby-processing/releases/
 

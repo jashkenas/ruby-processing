@@ -12,10 +12,6 @@ def setup
   @frame_time = nil
 end
 
-def radians(x)
-  return x * (Math::PI / 180)
-end
-
 def draw
   t = Time.now
   if @frame_time
@@ -29,7 +25,7 @@ def draw
   # Let's pick an angle 0 to 90 degrees based on the mouse position
   a = (@x / width) * 90
   # Convert it to radians
-  @theta = radians(a)
+  @theta = a.radians
   # Start the tree from the bottom of the screen
   translate(width / 2, height)
   # Draw a line 60 pixels

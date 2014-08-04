@@ -49,7 +49,7 @@ def draw
   # required for texLight shader
   pointLight(255, 255, 255, 2 * (mouse_x - width / 2), 2 * (mouse_y - height / 2), 500)
   translate(width / 2, height / 2)   # translate to center of the screen
-  rotate_x(radians(60))          # fixed rotation of 60 degrees over the X axis
+  rotate_x(60.radians)           # fixed rotation of 60 degrees over the X axis
   rotate_z(frame_count * 0.005)  # dynamic frameCount-based rotation over the Z axis
 
   background(0) # black background

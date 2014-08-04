@@ -1,4 +1,11 @@
 v2.5.1 Some fixes, and remove eval hack from base_exporter
+* Since this release some processing convenience methods are
+* deprecated see wiki (includes second, minute, hour in favor
+* of ruby alternatives t = Time.now, t.hour, t.sec, t.min
+* and theta.radians should be used instead of radians(theta))
+* These changes will be seen in 2.6.0 release, with removal of
+* yet another eval hack.
+ 
 
 v2.5.0 Some refactoring, and a new install procedure
 * Some re-factoring of both code and examples, including

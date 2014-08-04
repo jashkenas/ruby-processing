@@ -4,7 +4,7 @@
 # author Martin Prout
 ##########################
 
-load_library 'vecmath'
+load_library :vecmath
 
 PTS = [-1, 0, 1]
 MIN_SIZE = 20
@@ -23,7 +23,7 @@ def draw
   background(20, 20, 200)
   no_stroke
   lights
-  define_light
+  define_lights
   render
 end
 

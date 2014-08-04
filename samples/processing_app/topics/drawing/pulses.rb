@@ -20,10 +20,10 @@ def draw
   # Draw only when mouse is pressed
   if mouse_pressed?
     @angle += 5
-    val = cos(radians(angle)) * 12.0
+    val = cos(angle.radians) * 12.0
     (0 ... 360).step(75) do |a|
-      xoff = cos(radians(a)) * val
-      yoff = sin(radians(a)) * val
+      xoff = cos(a.radians) * val
+      yoff = sin(a.radians) * val
       fill(0)
       ellipse(mouse_x + xoff, mouse_y + yoff, val, val)
     end

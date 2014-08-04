@@ -1,6 +1,8 @@
-# The current time can be read with the second(), minute(), 
-# and hour() functions. In this example, sin() and cos() values
-# are used to set the position of the hands.
+# Current time can be read with the t = Time.now. Get hour, minute and second 
+# using t.hour, t.min, t.sec functions. The processing hour(), minute() and 
+# second are deprecated since ruby-processing-2.5.1. In this example, sine and 
+# cosine values are used to set the position of the hands.
+
 load_library :fastmath
 
 def setup
@@ -12,17 +14,16 @@ end
 def draw
   background 0
   fill 80
-  no_stroke 
-
+  no_stroke
   ellipse 100, 100, 160, 160 
-  
+  t = Time.now  # access time from ruby
   stroke 255
   stroke_weight 1
-  line( 100, 100, calc_hand_x(second, 0, 72, 100), calc_hand_y(second, 0, 72, 100) )
+  line( 100, 100, calc_hand_x(t.sec, 0, 72, 100), calc_hand_y(t.sec, 0, 72, 100) )
   stroke_weight 2
-  line( 100, 100, calc_hand_x(minute, second, 60, 100), calc_hand_y(minute, second, 60, 100) )
+  line( 100, 100, calc_hand_x(t.min, t.sec, 60, 100), calc_hand_y(t.min, t.sec, 60, 100) )
   stroke_weight 4
-  line( 100, 100, calc_hand_x(hour, minute, 50, 100), calc_hand_y(hour, minute, 50, 100) )
+  line( 100, 100, calc_hand_x(t.hour, t.min, 50, 100), calc_hand_y(t.hour, t.min, 50, 100) )
   
   # Draw the minute ticks
   stroke_weight 2
@@ -33,7 +34,7 @@ def draw
   end
 end
 
-# Angles for sin() and cos() start at 3 o'clock;
+# Angles for sin and cos start at 3 o'clock
 # subtract 90 degrees to make them start at the top
 
 def calc_hand_x(time, time_bit, length, origin)

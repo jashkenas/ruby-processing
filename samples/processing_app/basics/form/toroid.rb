@@ -17,9 +17,11 @@
 # 	'h' key _________ toggle sphere/helix 
 
 load_library :vecmath
+attr_reader :renderer
 
 def setup  
-  size 640, 360, P3D  
+  size 640, 360, P3D
+  @renderer = AppRender.new(self)  
   @pts = 40
   @angle = 0.0
   @radius = 60.0
@@ -42,7 +44,7 @@ def draw
     fill 150, 195, 125
   end
   
-  translate width/2, height/2, -100
+  translate width / 2, height / 2, -100
   
   rotate_x frame_count * PI / 150
   rotate_y frame_count * PI / 170
@@ -51,32 +53,25 @@ def draw
   vertices = []
   vertices2 = []
   
-  0.upto(@pts) do |i|
-    
+  0.upto(@pts) do |i|    
     vertices2[i] = Vec3D.new
-    vertices[i] = Vec3D.new
-    
-    vertices[i].x = @lathe_radius + sin( radians( @angle ) ) * @radius
-    
+    vertices[i] = Vec3D.new    
+    vertices[i].x = @lathe_radius + sin(@angle.radians) * @radius    
     if @is_helix
-      vertices[i].z = cos( radians( @angle ) ) * @radius - (@helix_offset * @segments) / 2
+      vertices[i].z = cos(@angle.radians) * @radius - (@helix_offset * @segments) / 2
     else
-      vertices[i].z = cos( radians( @angle ) ) * @radius
-    end
-    
+      vertices[i].z = cos(@angle.radians) * @radius
+    end    
     @angle += 360.0 / @pts
-  end
-  
-  @lathe_angle = 0
-  
+  end  
+  @lathe_angle = 0  
   0.upto(@segments) do |i|
     begin_shape QUAD_STRIP
       (0..@pts).each do |j|
         vertex_for_vector vertices2[j] if i > 0
         
-        vertices2[j].x = cos( radians( @lathe_angle ) ) * vertices[j].x
-        vertices2[j].y = sin( radians( @lathe_angle )
-          ) * vertices[j].x
+        vertices2[j].x = cos(@lathe_angle.radians) * vertices[j].x
+        vertices2[j].y = sin(@lathe_angle.radians) * vertices[j].x
         vertices2[j].z = vertices[j].z
         
         vertices[j].z += @helix_offset if @is_helix
@@ -90,8 +85,8 @@ def draw
   
 end
 
-def vertex_for_vector ( pvec )
-  vertex( pvec.x, pvec.y, pvec.z )
+def vertex_for_vector (pvec)
+  pvec.to_vertex(renderer)
 end
 
 def key_pressed 
