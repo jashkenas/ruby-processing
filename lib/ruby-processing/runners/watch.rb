@@ -1,18 +1,15 @@
 require_relative '../runners/base'
 
 module Processing
-
   # A sketch loader, observer, and reloader, to tighten
   # the feedback between code and effect.
   class Watcher
-
     # Sic a new Processing::Watcher on the sketch
     def initialize
       reload_files_to_watch
       @time = Time.now
       start_watching
     end
-
 
     # Kicks off a thread to watch the sketch, reloading Ruby-Processing
     # and restarting the sketch whenever it changes.

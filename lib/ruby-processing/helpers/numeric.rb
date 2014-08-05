@@ -1,5 +1,4 @@
 class Numeric #:nodoc
-
   def degrees
     self * 180 / Math::PI
   end

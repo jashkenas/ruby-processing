@@ -56,8 +56,7 @@ module Processing
     end    
     
     # Some class methods made available in the instance.
-     [:day, :month, :year, :sq, :mag, :println, :hex, :abs, :binary, :ceil,
-      :nf, :nfc, :nfp, :nfs, :round, :trim, :unbinary, :unhex ].each do |meth|
+     [:day, :month, :year, :mag, :nfc, :nfp, :nfs].each do |meth|
       method = <<-EOS
       def #{meth}(*args)
         self.class.#{meth}(*args)
