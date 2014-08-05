@@ -139,6 +139,12 @@ module Processing
       theta.radians
     end
     
+        # explicitly provide 'processing.org' degrees instance method
+    def degrees(theta)
+      warn 'degrees(theta) is deprecated use theta.radians to avoid this warning'
+      theta.degrees
+    end
+    
     # explicitly provide 'processing.org' hex instance method
     def hex(x)
       warn 'hex(x) is deprecated use x.hex to avoid this warning'
