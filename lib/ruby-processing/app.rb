@@ -56,14 +56,14 @@ module Processing
     end    
     
     # Some class methods made available in the instance.
-     [:day, :month, :year, :mag, :nfc, :nfp, :nfs].each do |meth|
-      method = <<-EOS
-      def #{meth}(*args)
-        self.class.#{meth}(*args)
-      end
-      EOS
-      eval method
-    end
+     # [:day, :month, :year, :mag, :nfc, :nfp, :nfs].each do |meth|
+      # method = <<-EOS
+      # def #{meth}(*args)
+        # self.class.#{meth}(*args)
+      # end
+      # EOS
+      # eval method
+    # end
     
     # Above block deprecated from processing-2.5.1, you should in general prefer 
     # ruby alternatives (eg t = Time.now and t.sec to second):-

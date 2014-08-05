@@ -33,7 +33,7 @@ module Processing
       # convert to signed int
       if args.length == 1
         if a.is_a?(Fixnum) && a >= 2**31
-          args = [ a - 2**32 ]
+          args = [a - 2**32]
         elsif a.is_a?(String) && a[0].eql?('#')
           h = a[1..-1].rjust(6, '0').prepend('ff')
           return color(h.hex)
@@ -93,16 +93,19 @@ module Processing
       args.max { |a, b| a <=> b }
     end
     
+    # explicitly provide 'processing.org' abs instance method
     def abs(val)
       warn 'abs(val) is deprecated use val.abs to avoid this warning'
       val.abs
     end
 
+    # explicitly provide 'processing.org' ceil instance method
     def ceil(val)
       warn 'ceil(val) is deprecated use val.ceil to avoid this warning'
       val.ceil
     end
-
+    
+    # explicitly provide 'processing.org' round instance method
     def round(val)
       warn 'round(val) is deprecated use val.round to avoid this warning'
       val.round
@@ -148,13 +151,13 @@ module Processing
       str.to_i(base=16)
     end
     
-    # explicitly provide 'processing.org' hex instance method
+    # explicitly provide 'processing.org' binary instance method
     def binary(x)
       warn 'binary(x) is deprecated use x.to_s(2) to avoid this warning'
-      x.hex
+      x.to_s(2)
     end
     
-    # explicitly provide 'processing.org' hex instance method
+    # explicitly provide 'processing.org' unbinary instance method
     def unhex(str)
       warn 'unbinary(str) is deprecated use str.to_i(base=2)'
       str.to_i(base=2)
@@ -173,6 +176,7 @@ module Processing
       end
     end
 
+     # explicitly provide 'processing.org' mag instance method
     def mag(*vec)
       warn 'mag(x, y) is deprecated use hypot(x, y)'
       if vec.length == 2
@@ -184,26 +188,31 @@ module Processing
       end
     end
     
+    # explicitly provide 'processing.org' trim instance method
     def trim(str)
       warn 'deprecated use str.strip'
       str.strip
     end
-
+    
+    # explicitly provide 'processing.org' println instance method
     def println(str)
       warn 'deprecated use puts(str)'
       puts str
     end
     
+    # explicitly provide 'processing.org' hour instance method
     def hour
       warn 'deprecated use t = Time.now and t.hour'
       PApplet.hour
     end
     
+    # explicitly provide 'processing.org' second instance method
     def second
       warn 'deprecated use t = Time.now and t.sec'
       PApplet.second
     end
     
+    # explicitly provide 'processing.org' minute instance method
     def minute
        'deprecated use t = Time.now and t.min'
       PApplet.minute
