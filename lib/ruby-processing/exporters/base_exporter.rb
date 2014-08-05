@@ -53,7 +53,8 @@ module Processing
       size_match = source.match(/^[^#]*size\(?\s*(\d+)\s*,\s*(\d+)\s*\)?/)
       return match[1] if match
       return (dimension == 'width' ? size_match[1] : size_match[2]) if size_match
-      warn 'using default dimensions for export, please use constants integer values in size() call instead of computed ones'
+      warn 'using default dimensions for export, please use constants integer'\
+      'values in size() call instead of computed ones'
       DEFAULT_DIMENSIONS[dimension]
     end
 
@@ -83,11 +84,14 @@ module Processing
       requirements = []
       partial_paths = []
       loop do
-        matchdata = code.match(/^.*[^::\.\w](require_relative|require|load)\b.*$/)
+        matchdata = code.match(
+	/^.*[^::\.\w](require_relative|require|load)\b.*$/
+	)
         break unless matchdata
         line = matchdata[0].gsub('__FILE__', "'#{@main_file_path}'")
-        if (line =~ /\b(require_relative|require|load)\b/)
-          ln = line.gsub(/\b(require_relative|require|load)\b/, '') 
+        req = /\b(require_relative|require|load)\b/
+        if req =~ line
+          ln = line.gsub(req, '') 
           partial_paths << ln
           where = "{#{local_dir}/,}{#{partial_paths.join(',')}}"
           where += '.{rb,jar}' unless line =~ /\.[^.]+$/

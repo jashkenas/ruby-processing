@@ -33,7 +33,7 @@ module Processing
       # convert to signed int
       if args.length == 1
         if a.is_a?(Fixnum) && a >= 2**31
-          args = [ a - 2**32 ]
+          args = [a - 2**32]
         elsif a.is_a?(String) && a[0].eql?('#')
           h = a[1..-1].rjust(6, '0').prepend('ff')
           return color(h.hex)
@@ -92,6 +92,24 @@ module Processing
     def max(*args)
       args.max { |a, b| a <=> b }
     end
+    
+    # explicitly provide 'processing.org' abs instance method
+    def abs(val)
+      warn 'abs(val) is deprecated use val.abs to avoid this warning'
+      val.abs
+    end
+
+    # explicitly provide 'processing.org' ceil instance method
+    def ceil(val)
+      warn 'ceil(val) is deprecated use val.ceil to avoid this warning'
+      val.ceil
+    end
+    
+    # explicitly provide 'processing.org' round instance method
+    def round(val)
+      warn 'round(val) is deprecated use val.round to avoid this warning'
+      val.round
+    end
 
     # explicitly provide 'processing.org' dist instance method
     def dist(*args)
@@ -111,28 +129,98 @@ module Processing
 
     # explicitly provide 'processing.org' pow instance method
     def pow(x, exp)
-      # warn 'pow(x, exp) is deprecated use x**exp to avoid this warning'
+      warn 'pow(x, exp) is deprecated use x**exp to avoid this warning'
       x**exp
     end
 
     # explicitly provide 'processing.org' radians instance method
     def radians(theta)
-      # warn 'radians(theta) is deprecated use theta.radians to avoid this warning'
+      warn 'radians(theta) is deprecated use theta.radians to avoid this warning'
       theta.radians
     end
     
+        # explicitly provide 'processing.org' degrees instance method
+    def degrees(theta)
+      warn 'degrees(theta) is deprecated use theta.radians to avoid this warning'
+      theta.degrees
+    end
+    
+    # explicitly provide 'processing.org' hex instance method
+    def hex(x)
+      warn 'hex(x) is deprecated use x.hex to avoid this warning'
+      x.hex
+    end
+    
+     # explicitly provide 'processing.org' unhex instance method
+    def unhex(str)
+      warn 'unhex(str) is deprecated use str.to_i(base=16)'
+      str.to_i(base=16)
+    end
+    
+    # explicitly provide 'processing.org' binary instance method
+    def binary(x)
+      warn 'binary(x) is deprecated use x.to_s(2) to avoid this warning'
+      x.to_s(2)
+    end
+    
+    # explicitly provide 'processing.org' unbinary instance method
+    def unhex(str)
+      warn 'unbinary(str) is deprecated use str.to_i(base=2)'
+      str.to_i(base=2)
+    end
+    
+    # explicitly provide 'processing.org' nf instance method
+    def nf(*args)
+      warn 'nf(num, digits) is deprecated use num.to_s.rjust(digits) '\
+        'to avoid this warning'
+      if args.length == 2
+        return args[0].to_s.rjust(args[1], '0')
+      elsif args.length == 3
+        return args[0].to_s.rjust(args[1], '0').ljust(args[1] + args[2], '0')
+      else
+        fail ArgumentError, 'takes 2 or 3 parameters'
+      end
+    end
+
+     # explicitly provide 'processing.org' mag instance method
+    def mag(*vec)
+      warn 'mag(x, y) is deprecated use hypot(x, y)'
+      if vec.length == 2
+        return hypot(vec[0], vec[1])
+      elsif vec.length == 3
+        return Math.sqrt(vec[0] * vec[0] + vec[1] * vec[1] + vec[2] * vec[2])
+      else
+        fail ArgumentError, 'takes 2 or 3 parameters'
+      end
+    end
+    
+    # explicitly provide 'processing.org' trim instance method
+    def trim(str)
+      warn 'deprecated use str.strip'
+      str.strip
+    end
+    
+    # explicitly provide 'processing.org' println instance method
+    def println(str)
+      warn 'deprecated use puts(str)'
+      puts str
+    end
+    
+    # explicitly provide 'processing.org' hour instance method
     def hour
-      # warn 'deprecated use t = Time.now and t.hour'
+      warn 'deprecated use t = Time.now and t.hour'
       PApplet.hour
     end
     
+    # explicitly provide 'processing.org' second instance method
     def second
-      # warn 'deprecated use t = Time.now and t.sec'
+      warn 'deprecated use t = Time.now and t.sec'
       PApplet.second
     end
     
+    # explicitly provide 'processing.org' minute instance method
     def minute
-      # warn 'deprecated use t = Time.now and t.min'
+       'deprecated use t = Time.now and t.min'
       PApplet.minute
     end
     
