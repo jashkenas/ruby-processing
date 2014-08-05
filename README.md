@@ -31,7 +31,7 @@ The vendored jruby-complete is only required for application export, and running
 
 ### How to build latest version 2.6.0
 See [wiki](https://github.com/jashkenas/ruby-processing/wiki/How-to-build-latest-version)
-For current release (version 2.5.1) checkout the "stable" branch
+For current release (version 2.5.1) checkout the "stable" branch and follow the same instructions
 
 ## Documentation
 
