@@ -50,7 +50,7 @@ module Processing
         key_released:   :keyReleased,
         key_typed:      :keyTyped
       }
-      if methods_to_alias.keys.include?(method_name)
+      if methods_to_alias.key?(method_name)
         alias_method methods_to_alias[method_name], method_name
       end
     end    
