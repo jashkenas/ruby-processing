@@ -23,7 +23,7 @@ module Processing
     run:              run sketch once
     watch:            watch for changes on the file and relaunch it on the fly
     live:                  launch sketch and give an interactive IRB shell
-    create [width height]: create a new sketch.
+    create [width height][mode][flag]: create a new sketch.
     app:              create an application version of the sketch
     setup:            check setup, install jruby-complete, unpack samples
 
@@ -34,8 +34,8 @@ module Processing
     Examples:
     rp5 setup unpack_samples
     rp5 run samples/contributed/jwishy.rb
-    rp5 create some_new_sketch 640 480
-    rp5 create some_new_sketch --p3d 640 480
+    rp5 create some_new_sketch 640 480 p3d (P3D mode example) 
+    rp5 create some_new_sketch 640 480 --wrap (a class wrapped default sketch)
     rp5 watch some_new_sketch.rb
 
     Everything Else:
@@ -56,7 +56,7 @@ module Processing
       when 'run'    then run(@options.path, @options.args)
       when 'watch'  then watch(@options.path, @options.args)
       when 'live'   then live(@options.path, @options.args)
-      when 'create' then create(@options.path, @options.args, @options.p3d)
+      when 'create' then create(@options.path, @options.args)
       when 'app'    then app(@options.path)
       when 'setup'  then setup(@options.path)
       when /-v/     then show_version
@@ -69,7 +69,8 @@ module Processing
     # Parse the command-line options. Keep it simple.
     def parse_options(args)
       @options = OpenStruct.new
-      @options.p3d   = !args.delete('--p3d').nil?
+      @options.wrap   = !args.delete('--wrap').nil?
+      @options.inner   = !args.delete('--inner').nil?
       @options.jruby  = !args.delete('--jruby').nil?
       @options.nojruby  = !args.delete('--nojruby').nil?
       @options.action = args[0]     || nil
@@ -79,9 +80,14 @@ module Processing
 
     # Create a fresh Ruby-Processing sketch, with the necessary
     # boilerplate filled out.
-    def create(sketch, args, p3d)
+    def create(sketch, args)
       require_relative '../ruby-processing/exporters/creator'
-      Processing::Creator.new.create!(sketch, args, p3d)
+      return Processing::Inner.new.create!(sketch, args) if @options.inner
+      if @options.wrap
+        Processing::ClassSketch.new.create!(sketch, args)
+      else
+        Processing::BasicSketch.new.create!(sketch, args)
+      end
     end
 
     # Just simply run a ruby-processing sketch.

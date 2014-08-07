@@ -1,0 +1,15 @@
+# <%= @param.file_name %>.rb
+
+class <%= @param.name %> < Processing::App
+
+  def setup
+    <%= "size #{@param.width}, #{@param.height}, #{@param.mode.upcase}" if @with_size %>
+    
+  end
+  
+  def draw
+  
+  end  
+end
+
+<%= @param.name %>.new(x: 20, y: 30)
