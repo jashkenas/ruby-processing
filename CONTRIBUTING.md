@@ -27,8 +27,8 @@ the bug, including your gem version, Ruby version, and operating system.
 2. [Submit a pull request.][pr]
 
 [free-sw]: http://www.fsf.org/licensing/essays/free-sw.html
-[here]: https://github.com/rubygems/gems/issues
-[issues]: https://github.com/rubygems/gems/issues
+[here]: https://github.com/jashkenas/ruby-processing/issues
+[issues]: https://github.com/jashkenas/ruby-processing/issues
 [gist]: https://gist.github.com/
 [fork]: http://help.github.com/fork-a-repo/
 [pr]: http://help.github.com/send-pull-requests/
