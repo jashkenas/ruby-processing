@@ -3,7 +3,7 @@ In the spirit of [free software][free-sw], **everyone** is encouraged to help im
 
 Here are some ways *you* can contribute:
 
-* by reporting bugs
+* by reporting bugs or problems [here][]
 * by suggesting/implementing new features ( _export using warbler would be cool, as would live using pry_ )
 * by writing or editing documentation ( _expert Windows users could help write install instructions_ )
 * by contributing examples ( _show your creativity, or translate someone elses masterpiece_ )
@@ -27,6 +27,7 @@ the bug, including your gem version, Ruby version, and operating system.
 2. [Submit a pull request.][pr]
 
 [free-sw]: http://www.fsf.org/licensing/essays/free-sw.html
+[here]: https://github.com/rubygems/gems/issues
 [issues]: https://github.com/rubygems/gems/issues
 [gist]: https://gist.github.com/
 [fork]: http://help.github.com/fork-a-repo/
