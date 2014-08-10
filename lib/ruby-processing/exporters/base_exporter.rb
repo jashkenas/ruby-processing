@@ -4,10 +4,9 @@ require_relative '../../ruby-processing/library_loader'
 
 module Processing
   # This base exporter implements some of the common
-  # code-munging needed to generate apps.
+  # code-munging needed to generate apps/ blank sketches.
   class BaseExporter
     include FileUtils
-    ## hashes with strings as keys need to retain old hash syntax
     DEFAULT_DIMENSIONS = { 'width' => '100', 'height' => '100' }
     DEFAULT_DESCRIPTION = ''
     NECESSARY_FOLDERS = %w(data lib vendor)
@@ -43,18 +42,20 @@ module Processing
 
     # Searches the source for a title.
     def extract_title(source)
-      match = source.match(/#{@info[:class_name]}\.new.*?:title\s=>\s["'](.+?)["']/m)
+      filter = /#{@info[:class_name]}\.new.*?:title\s=>\s["'](.+?)["']/m
+      match = source.match(filter)
       match ? match[1] : File.basename(@file, '.rb').titleize
     end
 
     # Searches the source for the width and height of the sketch.
     def extract_dimension(source, dimension)
-      match = source.match(/#{@info[:class_name]}\.new.*?:#{dimension}\s?=>\s?(\d+)/m)
-      size_match = source.match(/^[^#]*size\(?\s*(\d+)\s*,\s*(\d+)\s*\)?/)
+      filter = /#{@info[:class_name]}\.new.*?:#{dimension}\s?=>\s?(\d+)/m
+      match = source.match(filter)
+      sz_match = source.match(/^[^#]*size\(?\s*(\d+)\s*,\s*(\d+)\s*\)?/)
       return match[1] if match
-      return (dimension == 'width' ? size_match[1] : size_match[2]) if size_match
+      return (dimension == 'width' ? sz_match[1] : sz_match[2]) if sz_match
       warn 'using default dimensions for export, please use constants integer'\
-      'values in size() call instead of computed ones'
+        'values in size() call instead of computed ones'
       DEFAULT_DIMENSIONS[dimension]
     end
 
@@ -85,13 +86,13 @@ module Processing
       partial_paths = []
       loop do
         matchdata = code.match(
-	/^.*[^::\.\w](require_relative|require|load)\b.*$/
-	)
+          /^.*[^::\.\w](require_relative|require|load)\b.*$/
+        )
         break unless matchdata
         line = matchdata[0].gsub('__FILE__', "'#{@main_file_path}'")
         req = /\b(require_relative|require|load)\b/
         if req =~ line
-          ln = line.gsub(req, '') 
+          ln = line.gsub(req, '')
           partial_paths << ln
           where = "{#{local_dir}/,}{#{partial_paths.join(',')}}"
           where += '.{rb,jar}' unless line =~ /\.[^.]+$/

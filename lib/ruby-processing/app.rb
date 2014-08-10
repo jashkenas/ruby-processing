@@ -10,7 +10,8 @@ require_relative '../ruby-processing/config'
 Dir["#{Processing::RB_CONFIG["PROCESSING_ROOT"]}/core/library/\*.jar"].each { |jar| require jar }
 
 # Include some core processing classes that we'd like to use:
-%w(PApplet PConstants PFont PImage PShape PShapeOBJ PShapeSVG PStyle PGraphicsJava2D PGraphics PFont PVector PMatrix2D PMatrix3D).each do |klass|
+%w(PApplet PConstants PFont PImage PShape PShapeOBJ PShapeSVG PStyle 
+   PGraphicsJava2D PGraphics PFont PVector PMatrix2D PMatrix3D).each do |klass|
   java_import "processing.core.#{klass}"
 end
 
@@ -54,21 +55,7 @@ module Processing
         alias_method methods_to_alias[method_name], method_name
       end
     end    
-    
-    # Some class methods made available in the instance.
-     # [:day, :month, :year, :mag, :nfc, :nfp, :nfs].each do |meth|
-      # method = <<-EOS
-      # def #{meth}(*args)
-        # self.class.#{meth}(*args)
-      # end
-      # EOS
-      # eval method
-    # end
-    
-    # Above block deprecated from processing-2.5.1, you should in general prefer 
-    # ruby alternatives (eg t = Time.now and t.sec to second):-
-    # constrain, dist, map, norm, lerp and blend_color are implemented directly
-    
+   
     # Handy getters and setters on the class go here:
     def self.sketch_class;  @sketch_class;        end
     @@full_screen = false

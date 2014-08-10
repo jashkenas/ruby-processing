@@ -55,7 +55,7 @@ module Processing
       cp_r(@libraries, File.join(@dest, @prefix, 'library')) unless @libraries.empty?
       # Then move the icon
       potential_icon = Dir.glob(File.join(@dest, @prefix, 'data/*.icns'))[0]
-      move(potential_icon, File.join(@dest, 'Contents/Resources/sketch.icns'), force: true) if potential_icon
+      move(potential_icon, File.join(@dest, 'Contents/Resources/sketch.icns'), force: true) if potential_icon 
     end
 
     def calculate_substitutions
@@ -66,7 +66,7 @@ module Processing
     end
 
     def create_executables
-      render_erb_in_path_with_binding(@dest, binding, :delete => true)
+      render_erb_in_path_with_binding(@dest, binding, delete: true)
       rm Dir.glob(@dest + '/**/*.java')
       runnable = @dest + '/' + File.basename(@main_file, '.rb')
       move @dest + '/run', runnable
