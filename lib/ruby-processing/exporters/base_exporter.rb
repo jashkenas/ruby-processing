@@ -87,11 +87,7 @@ module Processing
       loop do
         matchdata = code.match(
           /^.*[^::\.\w](require_relative|require|load)\b.*$/
-<<<<<<< Updated upstream
         )
-=======
-          )
->>>>>>> Stashed changes
         break unless matchdata
         line = matchdata[0].gsub('__FILE__', "'#{@main_file_path}'")
         req = /\b(require_relative|require|load)\b/
