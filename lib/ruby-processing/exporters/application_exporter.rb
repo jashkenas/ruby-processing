@@ -66,7 +66,7 @@ module Processing
     end
 
     def create_executables
-      render_erb_in_path_with_binding(@dest, binding, :delete => true)
+      render_erb_in_path_with_binding(@dest, binding, delete: true)
       rm Dir.glob(@dest + '/**/*.java')
       runnable = @dest + '/' + File.basename(@main_file, '.rb')
       move @dest + '/run', runnable

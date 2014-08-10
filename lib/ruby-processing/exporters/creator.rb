@@ -1,7 +1,7 @@
 module Processing
   require_relative '../../ruby-processing/exporters/base_exporter'
   Param = Struct.new(:name, :file_name, :title, :width, :height, :mode)
-
+  # An abstract class providing common methods for real creators
   class Creator < BaseExporter
 
     ALL_DIGITS = /\A\d+\Z/
@@ -35,12 +35,13 @@ module Processing
       # Make the file
       dir = File.dirname path
       mkdir_p dir
-      full_path = File.join(dir, "#{param.file_name}.rb")
-      File.open(full_path, 'w') { |f| f.print(rendered) }
-      puts "Created #{type} \"#{param.title}\" in #{full_path.sub(/\A\.\//, '')}"
+      ful_path = File.join(dir, "#{param.file_name}.rb")
+      File.open(ful_path, 'w') { |f| f.print(rendered) }
+      puts "Created #{type} \"#{param.title}\" in #{ful_path.sub(/\A\.\//, '')}"
     end
   end
 
+  # This class creates bare sketches, with an optional render mode
   class BasicSketch < Creator
     # Create a blank sketch, given a path.
     def create!(path, args)
@@ -65,6 +66,7 @@ module Processing
     end
   end
 
+  # This class creates class wrapped sketches, with an optional render mode
   class ClassSketch < Creator
     # Create a bare blank sketch, given a path.
     def create!(path, args)
@@ -89,6 +91,7 @@ module Processing
     end
   end
 
+  # This class creates a ruby-processing class that mimics java inner class
   class Inner < Creator
     # Create a blank sketch, given a path.
     def create!(path, _args_)
