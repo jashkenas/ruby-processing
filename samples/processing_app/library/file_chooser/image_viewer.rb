@@ -11,7 +11,6 @@ attr_reader :img
 
 def setup
   file_chooser do |fc|
-    fc.look_feel "Metal"                           # optional, "Metal" might be best linux (Gtk+ theme)
     fc.set_filter "Image Files",  [".png", ".jpg"] # easily customizable chooser
     @img = load_image(fc.display)                  # fc.display returns a path String
     size(img.width, img.height)

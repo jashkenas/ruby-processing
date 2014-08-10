@@ -55,7 +55,7 @@ module Processing
       cp_r(@libraries, File.join(@dest, @prefix, 'library')) unless @libraries.empty?
       # Then move the icon
       potential_icon = Dir.glob(File.join(@dest, @prefix, 'data/*.icns'))[0]
-      move(potential_icon, File.join(@dest, 'Contents/Resources/sketch.icns'), force: true) if potential_icon
+      move(potential_icon, File.join(@dest, 'Contents/Resources/sketch.icns'), force: true) if potential_icon 
     end
 
     def calculate_substitutions

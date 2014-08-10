@@ -13,4 +13,4 @@ Gemfile.lock
 .jrubyrc
 tmp
 
-/nbproject/private/
+nbproject
