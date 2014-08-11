@@ -12,6 +12,8 @@ Is a ruby wrapper around the [Processing][] code art framework, built using [JRu
   
 
 ## Installation
+We assume you have some version of ruby installed if not, there is a [guide to installing][] ruby on various platforms including windows. 
+
 MacOSX users please try out this new  [method](https://github.com/jashkenas/ruby-processing/wiki/Installing-ruby-processing-on-the-mac)
 
 Ideally you should install [jruby](http://jruby.org/download), at the very least you will have at least ruby-1.9.3 installed.  You should [download][] and install vanilla [processing-2.2.1](https://processing.org/download/) prior to installing this version of ruby-processing. You must also set the `PROCESSING_ROOT` in the .rp5rc yaml configuration file, the easiest way to do this is by running the [SetProcessingRoot.pde](https://gist.github.com/monkstone/7438749) sketch in the processing ide. 
@@ -125,5 +127,5 @@ for details see wiki [notice][]
 [notice]:http://github.com/jashkenas/ruby-processing/wikis/Deprecation-of-methods
 [FAQs]:http://github.com/jashkenas/ruby-processing/wikis/FAQs/
 [release]:https://github.com/jashkenas/ruby-processing/releases/
-
+[guide to installing]:https://www.ruby-lang.org/en/installation/
 
