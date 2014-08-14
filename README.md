@@ -26,7 +26,7 @@ To install jruby-complete use our built in tool (relies on `wget` to download [j
 
 since ruby-processing-2.5.0 `rp5 setup install` (was `install_jruby_complete`)
 
-If you haven't got `wget` just download jruby-complete-1.7.13 (for ruby-processing-2.5.1)to the vendors folder (then run above tool)
+If you haven't got `wget` just download jruby-complete-1.7.13 (for ruby-processing-2.6.0)to the vendors folder (then run above tool)
 
 The vendored jruby-complete is only required for application export, and running certain sketches (eg shader sketches see wiki).
 
@@ -34,7 +34,7 @@ The vendored jruby-complete is only required for application export, and running
 ### How to build latest version 2.6.0
 See [wiki](https://github.com/jashkenas/ruby-processing/wiki/How-to-build-latest-version)
 
-For current release (version 2.5.1) checkout the "stable" branch and follow the same instructions
+For current release (version 2.6.0) checkout the "stable" branch and follow the same instructions
 
 ## Documentation
 
