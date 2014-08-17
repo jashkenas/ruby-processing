@@ -12,7 +12,7 @@ Is a ruby wrapper around the [Processing][] code art framework, built using [JRu
   
 
 ## Installation
-We assume you have some version of ruby installed if not, there is a [guide to installing][] ruby on various platforms including windows. 
+We assume you have some version of ruby installed if not, there is a [guide to installing][] ruby on various platforms including windows. Or here is [alternative install][] guide.
 
 MacOSX users please try out this new  [method](https://github.com/jashkenas/ruby-processing/wiki/Installing-ruby-processing-on-the-mac)
 
@@ -128,4 +128,5 @@ for details see wiki [notice][]
 [FAQs]:http://github.com/jashkenas/ruby-processing/wikis/FAQs/
 [release]:https://github.com/jashkenas/ruby-processing/releases/
 [guide to installing]:https://www.ruby-lang.org/en/installation/
+[alternative install]:http://tutorials.jumpstartlab.com/topics/environment/environment.html
 
