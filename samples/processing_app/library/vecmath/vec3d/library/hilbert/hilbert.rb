@@ -45,8 +45,8 @@ class Hilbert
     @grammar = Grammar.new(axiom, rule) 
     @production = grammar.generate gen
     @distance = size / (gen**2 - 1)
-    @theta = radians 90
-    @phi = radians 90  
+    @theta = 90.radians
+    @phi = 90.radians  
     @adj_array = [0, 0.5, 1.5, 3.5, 7.5, 15].map { |x| Vec3D.new(x * -1, x, x * -1) }
   end
 

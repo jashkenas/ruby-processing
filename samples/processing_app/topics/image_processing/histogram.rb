@@ -14,30 +14,30 @@ def setup
   
   # Load an image from the data directory
   # Load a different image by modifying the comments
-  img = loadImage('frontier.jpg')
+  img = load_image('frontier.jpg')
   image(img, 0, 0)
+  img.load_pixels
   @hist = Array.new(256, 0)
   
   # Calculate the histogram
   (0 ... img.width).each do |i|
     (0 ... img.height).each do |j|
-      bright = (brightness(get(i, j))).to_i
+      bright = (brightness(img.pixels[j * img.width + i]))
       hist[bright] += 1  
     end
   end
   
-  # Find the largest value in the histogram using processings max function
-  # that's why we use to java cinversion
-  histMax = max(hist.to_java Java::int)
+  # Find the largest value in the histogram using ruby array max function
+  hist_max = hist.max
   
   stroke(255)
   # Draw half of the histogram (skip every second value)
   (0 ... img.width).step(2) do |i|
     # Map i (from 0..img.width) to a location in the histogram (0..255)
-    which = (map(i, 0, img.width, 0, 255)).to_i
+    which = map1d(i, (0 .. img.width), (0 .. 255))
     # Convert the histogram value to a location between 
     # the bottom and the top of the picture
-    y = (map(hist[which], 0, histMax, img.height, 0)).to_i
+    y = map1d(hist[which], (0 .. hist_max), (img.height .. 0))
     line(i, img.height, i, y)
   end
 end

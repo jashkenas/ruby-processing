@@ -65,7 +65,7 @@ module Processing
     end
     
      # explicitly provide 'processing.org' map instance method
-    def map(value, start1, stop1, start2, stop2)
+    def map(value, start1, stop1, start2, stop2) 
       start2 + (stop2 - start2) * ((value - start1).to_f / (stop1 - start1))
     end
 
@@ -154,7 +154,7 @@ module Processing
      # explicitly provide 'processing.org' unhex instance method
     def unhex(str)
       warn 'unhex(str) is deprecated use str.to_i(base=16)'
-      str.to_i(base=16)
+      str.to_i(base = 16)
     end
     
     # explicitly provide 'processing.org' binary instance method
@@ -165,8 +165,8 @@ module Processing
     
     # explicitly provide 'processing.org' unbinary instance method
     def unhex(str)
-      warn 'unbinary(str) is deprecated use str.to_i(base=2)'
-      str.to_i(base=2)
+      warn 'unbinary(str) is deprecated use str.to_i(base = 2)'
+      str.to_i(base = 2)
     end
     
     # explicitly provide 'processing.org' nf instance method
@@ -193,7 +193,7 @@ module Processing
         fail ArgumentError, 'takes 2 or 3 parameters'
       end
     end
-    
+
     # explicitly provide 'processing.org' trim instance method
     def trim(str)
       warn 'deprecated use str.strip'
@@ -220,7 +220,7 @@ module Processing
     
     # explicitly provide 'processing.org' minute instance method
     def minute
-       'deprecated use t = Time.now and t.min'
+      warn 'deprecated use t = Time.now and t.min'
       PApplet.minute
     end
     

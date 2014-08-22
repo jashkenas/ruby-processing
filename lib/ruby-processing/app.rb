@@ -7,7 +7,7 @@ require_relative '../ruby-processing/helper_methods'
 require_relative '../ruby-processing/library_loader'
 require_relative '../ruby-processing/config'
 
-Dir["#{Processing::RB_CONFIG["PROCESSING_ROOT"]}/core/library/\*.jar"].each { |jar| require jar }
+Dir["#{Processing::RP_CONFIG["PROCESSING_ROOT"]}/core/library/\*.jar"].each { |jar| require jar }
 
 # Include some core processing classes that we'd like to use:
 %w(PApplet PConstants PFont PImage PShape PShapeOBJ PShapeSVG PStyle 
