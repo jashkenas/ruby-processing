@@ -34,10 +34,10 @@ def setup
   # Draw half of the histogram (skip every second value)
   (0 ... img.width).step(2) do |i|
     # Map i (from 0..img.width) to a location in the histogram (0..255)
-    which = map1d(i, (0 .. img.width), (0 .. 255))
+    which = map(i, 0, img.width, 0, 255)
     # Convert the histogram value to a location between 
     # the bottom and the top of the picture
-    y = map1d(hist[which], (0 .. hist_max), (img.height .. 0))
+    y = map(hist[which], 0, hist_max, img.height, 0)
     line(i, img.height, i, y)
   end
 end
