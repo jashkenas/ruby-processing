@@ -72,7 +72,6 @@ module Processing
     # @param [range] start1, stop2
     # @return [float] mapped value
     def map(value, start1, stop1, start2, stop2)
->>>>>>> d1c7436f6b8e73ad3752b952a93415d5542d99a9
       start2 + (stop2 - start2) * ((value - start1).to_f / (stop1 - start1))
     end
 
@@ -161,6 +160,7 @@ module Processing
      # explicitly provide 'processing.org' unhex instance method
     def unhex(str)
       warn 'unhex(str) is deprecated use str.to_i(base=16)'
+      str.to_i(base=16)
     end
     
     # explicitly provide 'processing.org' binary instance method
@@ -170,7 +170,9 @@ module Processing
     end
     
     # explicitly provide 'processing.org' unbinary instance method
-    def unhex(str)
+    def unbinary(str)
+      warn 'unbinary(str) is deprecated use str.to_i(base=2)'
+      str.to_i(base=2)
     end
     
     # explicitly provide 'processing.org' nf instance method
