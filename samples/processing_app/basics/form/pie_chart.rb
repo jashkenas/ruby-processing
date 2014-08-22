@@ -13,7 +13,7 @@ def setup
   smooth(4)
   no_stroke
   
-  diameter = min(width, height) * 0.75
+  diameter = [width, height].min * 0.75
   angles = [30, 10, 45, 35 ,60, 38, 75, 67]
   last_angle = 0.0
   

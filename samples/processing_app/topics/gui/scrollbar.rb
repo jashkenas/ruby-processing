@@ -42,12 +42,11 @@ def draw
 end
 
 
-class HScrollbar
-
+class HScrollbar 
+  include Processing::Proxy
   attr_reader :swidth, :sheight, :xpos, :ypos, :spos, :newspos
   attr_reader :spos_max, :spos_min, :loose, :over, :locked, :ratio 
   def initialize(xp, yp, sw, sh, l)
-    super
     @swidth = sw
     @sheight = sh
     widthtoheight = sw - sh
@@ -66,10 +65,6 @@ class HScrollbar
     @locked = (!mouse_pressed?)? false : (mouse_pressed? && over)? true : false  
     @newspos = constrain(mouse_x - sheight / 2, spos_min, spos_max) if locked    
     @spos = spos + (newspos - spos) / loose if (newspos - spos).abs > 1
-  end
-
-  def constrain(val, minv, maxv)
-    min(max(val, minv), maxv)
   end
 
   def over_event?

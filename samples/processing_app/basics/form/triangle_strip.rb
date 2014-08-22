@@ -13,7 +13,7 @@ def setup
   size 640, 360  
   @x = width/2
   @y = height/2
-  @outer_radius = min(width, height) * 0.4
+  @outer_radius = [width, height].min * 0.4
   @inner_radius = outer_radius * 0.6
 end
 

@@ -66,8 +66,7 @@ def update_spring
   # Set and constrain the position of top bar
   if (@move) 
     @ps = mouseY - @s_height/2
-    @ps = @min if (@ps < @min)
-    @ps = @max if (@ps > @max)
+    @ps = constrain(@ps, @min, @max)
   end
 end
 

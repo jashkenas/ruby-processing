@@ -34,7 +34,7 @@ end
 def draw    
   if add_points 
     @nbr_points += 1
-    @nbr_points = min(nbr_points, KMAX_POINTS)
+    @nbr_points = [nbr_points, KMAX_POINTS].min
     init_sphere(nbr_points)
   end
   
@@ -52,7 +52,7 @@ end
 
 def render_globe
   push_matrix
-  (0 .. min(nbr_points, pts.length)).each do |i|    
+  (0 .. [nbr_points, pts.length].min).each do |i|    
     lat = pts[i].lat 
     lon = pts[i].lon    
     push_matrix

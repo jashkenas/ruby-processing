@@ -102,7 +102,7 @@ class Handle
     (mouse_x >= x && mouse_x <= x + width && mouse_y >= y && mouse_y <= y + height)
   end
   
-  def lock(val, minv, maxv) 
-    min(max(val, minv), maxv) 
-  end 
+  def lock(val, first, last)
+    constrain(val, first, last)
+  end
 end
