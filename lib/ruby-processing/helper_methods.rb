@@ -64,8 +64,15 @@ module Processing
       end
     end
     
-     # explicitly provide 'processing.org' map instance method
-    def map(value, start1, stop1, start2, stop2) 
+    # Explicitly provides 'processing.org' map instance method, in which
+    # value is mapped from range 1, to range 2 (NB: values are not clamped to
+    # range 1). It may be better to explicitly write your own interpolate function
+    # @param [float] value input
+    # @param [range] start1, stop1
+    # @param [range] start1, stop2
+    # @return [float] mapped value
+    def map(value, start1, stop1, start2, stop2)
+>>>>>>> d1c7436f6b8e73ad3752b952a93415d5542d99a9
       start2 + (stop2 - start2) * ((value - start1).to_f / (stop1 - start1))
     end
 
@@ -154,7 +161,6 @@ module Processing
      # explicitly provide 'processing.org' unhex instance method
     def unhex(str)
       warn 'unhex(str) is deprecated use str.to_i(base=16)'
-      str.to_i(base = 16)
     end
     
     # explicitly provide 'processing.org' binary instance method
@@ -165,8 +171,6 @@ module Processing
     
     # explicitly provide 'processing.org' unbinary instance method
     def unhex(str)
-      warn 'unbinary(str) is deprecated use str.to_i(base = 2)'
-      str.to_i(base = 2)
     end
     
     # explicitly provide 'processing.org' nf instance method
@@ -193,7 +197,6 @@ module Processing
         fail ArgumentError, 'takes 2 or 3 parameters'
       end
     end
-
     # explicitly provide 'processing.org' trim instance method
     def trim(str)
       warn 'deprecated use str.strip'
@@ -220,7 +223,6 @@ module Processing
     
     # explicitly provide 'processing.org' minute instance method
     def minute
-      warn 'deprecated use t = Time.now and t.min'
       PApplet.minute
     end
     

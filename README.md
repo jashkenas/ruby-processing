@@ -12,6 +12,8 @@ Is a ruby wrapper around the [Processing][] code art framework, built using [JRu
   
 
 ## Installation
+We assume you have some version of ruby installed if not, there is a [guide to installing][] ruby on various platforms including windows. Or here is an [alternative install][] guide.
+
 MacOSX users please try out this new  [method](https://github.com/jashkenas/ruby-processing/wiki/Installing-ruby-processing-on-the-mac)
 
 Ideally you should install [jruby](http://jruby.org/download), at the very least you will have at least ruby-1.9.3 installed.  You should [download][] and install vanilla [processing-2.2.1](https://processing.org/download/) prior to installing this version of ruby-processing. You must also set the `PROCESSING_ROOT` in the .rp5rc yaml configuration file, the easiest way to do this is by running the [SetProcessingRoot.pde](https://gist.github.com/monkstone/7438749) sketch in the processing ide. 
@@ -24,7 +26,7 @@ To install jruby-complete use our built in tool (relies on `wget` to download [j
 
 since ruby-processing-2.5.0 `rp5 setup install` (was `install_jruby_complete`)
 
-If you haven't got `wget` just download jruby-complete-1.7.13 (for ruby-processing-2.5.0)to the vendors folder (then run above tool)
+If you haven't got `wget` just download jruby-complete-1.7.13 (for ruby-processing-2.6.0)to the vendors folder (then run above tool)
 
 The vendored jruby-complete is only required for application export, and running certain sketches (eg shader sketches see wiki).
 
@@ -32,7 +34,7 @@ The vendored jruby-complete is only required for application export, and running
 ### How to build latest version 2.6.0
 See [wiki](https://github.com/jashkenas/ruby-processing/wiki/How-to-build-latest-version)
 
-For current release (version 2.5.1) checkout the "stable" branch and follow the same instructions
+For current release (version 2.6.0) checkout the "stable" branch and follow the same instructions
 
 ## Documentation
 
@@ -125,5 +127,6 @@ for details see wiki [notice][]
 [notice]:http://github.com/jashkenas/ruby-processing/wikis/Deprecation-of-methods
 [FAQs]:http://github.com/jashkenas/ruby-processing/wikis/FAQs/
 [release]:https://github.com/jashkenas/ruby-processing/releases/
-
+[guide to installing]:https://www.ruby-lang.org/en/installation/
+[alternative install]:http://tutorials.jumpstartlab.com/topics/environment/environment.html
 
