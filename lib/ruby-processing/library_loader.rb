@@ -39,9 +39,9 @@ module Processing
         end
       end
 
-      path = get_library_paths(library_name, 'rb').first
-      return false unless path
-      return @loaded_libraries[library_name] = (require path)
+      lpath = get_library_paths(library_name, 'rb').first
+      return false unless lpath
+      return @loaded_libraries[library_name] = (require lpath)
     end
 
     # For pure java libraries, such as the ones that are available
@@ -53,14 +53,14 @@ module Processing
     def load_java_library(library_name)
       library_name = library_name.to_sym
       return true if @loaded_libraries[library_name]
-      path = get_library_directory_path(library_name, 'jar')
+      jpath = get_library_directory_path(library_name, 'jar')
       jars = get_library_paths(library_name, 'jar')
       return false if jars.empty?
       jars.each {|jar| require jar }
 
-      platform_specific_library_paths = get_platform_specific_library_paths(path)
-      platform_specific_library_paths = platform_specific_library_paths.select do |path|
-        test(?d, path) && !Dir.glob(File.join(path, '*.{so,dll,jnilib}')).empty?
+      platform_specific_library_paths = get_platform_specific_library_paths(jpath)
+      platform_specific_library_paths = platform_specific_library_paths.select do |ppath|
+        test(?d, ppath) && !Dir.glob(File.join(ppath, '*.{so,dll,jnilib}')).empty?
       end
 
       if !platform_specific_library_paths.empty?
@@ -111,9 +111,9 @@ module Processing
           "#{RP5_ROOT}/library/#{library_name}",
           "#{@sketchbook_library_path}/#{library_name}/library",
           "#{@sketchbook_library_path}/#{library_name}"
-        ].each do |path|
-          if File.exist?(path) && !Dir.glob(path + "/*.#{ext}").empty?
-            return path
+        ].each do |jpath|
+          if File.exist?(jpath) && !Dir.glob(jpath + "/*.#{ext}").empty?
+            return jpath
           end
         end
       end
@@ -129,13 +129,13 @@ module Processing
         ["'Application Data/Processing'", 'AppData/Roaming/Processing',
          'Library/Processing', 'Documents/Processing',
          '.processing', 'sketchbook'].each do |prefix|
-          path = "#{ENV['HOME']}/#{prefix}"
-          pref_path = path+'/preferences.txt'
+          spath = "#{ENV['HOME']}/#{prefix}"
+          pref_path = spath + '/preferences.txt'
           if test(?f, pref_path)
             preferences_paths << pref_path
           end
-          if test(?d, path)
-            sketchbook_paths << path
+          if test(?d, spath)
+            sketchbook_paths << spath
           end
         end
         if !preferences_paths.empty?

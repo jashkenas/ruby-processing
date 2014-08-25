@@ -56,14 +56,14 @@ module Processing
 
     # Overrides Processing convenience function thread, which takes a String
     # arg (for a function) to more rubylike version, takes a block...
-    def thread(*args, &block)
+    def thread(&block)
       if block_given?
-        Thread.new *args, &block
+        Thread.new(&block)
       else
         fail ArgumentError, 'thread must be called with a block' , caller
       end
     end
-    
+
     # Explicitly provides 'processing.org' map instance method, in which
     # value is mapped from range 1, to range 2 (NB: values are not clamped to
     # range 1). It may be better to explicitly write your own interpolate function
@@ -98,7 +98,7 @@ module Processing
     def max(*args)
       args.max { |a, b| a <=> b }
     end
-    
+
     # explicitly provide 'processing.org' abs instance method
     def abs(val)
       warn 'abs(val) is deprecated use val.abs to avoid this warning'
@@ -110,7 +110,7 @@ module Processing
       warn 'ceil(val) is deprecated use val.ceil to avoid this warning'
       val.ceil
     end
-    
+
     # explicitly provide 'processing.org' round instance method
     def round(val)
       warn 'round(val) is deprecated use val.round to avoid this warning'
@@ -144,37 +144,37 @@ module Processing
       warn 'radians(theta) is deprecated use theta.radians to avoid this warning'
       theta.radians
     end
-    
+
         # explicitly provide 'processing.org' degrees instance method
     def degrees(theta)
       warn 'degrees(theta) is deprecated use theta.radians to avoid this warning'
       theta.degrees
     end
-    
+
     # explicitly provide 'processing.org' hex instance method
     def hex(x)
       warn 'hex(x) is deprecated use x.hex to avoid this warning'
       x.hex
     end
-    
+
      # explicitly provide 'processing.org' unhex instance method
     def unhex(str)
       warn 'unhex(str) is deprecated use str.to_i(base=16)'
       str.to_i(base=16)
     end
-    
+
     # explicitly provide 'processing.org' binary instance method
     def binary(x)
       warn 'binary(x) is deprecated use x.to_s(2) to avoid this warning'
       x.to_s(2)
     end
-    
+
     # explicitly provide 'processing.org' unbinary instance method
     def unbinary(str)
       warn 'unbinary(str) is deprecated use str.to_i(base=2)'
       str.to_i(base=2)
     end
-    
+
     # explicitly provide 'processing.org' nf instance method
     def nf(*args)
       warn 'nf(num, digits) is deprecated use num.to_s.rjust(digits) '\
@@ -204,30 +204,30 @@ module Processing
       warn 'deprecated use str.strip'
       str.strip
     end
-    
+
     # explicitly provide 'processing.org' println instance method
     def println(str)
       warn 'deprecated use puts(str)'
       puts str
     end
-    
+
     # explicitly provide 'processing.org' hour instance method
     def hour
       warn 'deprecated use t = Time.now and t.hour'
       PApplet.hour
     end
-    
+
     # explicitly provide 'processing.org' second instance method
     def second
       warn 'deprecated use t = Time.now and t.sec'
       PApplet.second
     end
-    
+
     # explicitly provide 'processing.org' minute instance method
     def minute
       PApplet.minute
     end
-    
+
     # Uses PImage class method under hood
     def blend_color(c1, c2, mode)
       PImage.blendColor(c1, c2, mode)
@@ -250,9 +250,9 @@ module Processing
 
     # By default, your sketch path is the folder that your sketch is in.
     # If you'd like to do something fancy, feel free.
-    def set_sketch_path(path = nil)
+    def set_sketch_path(spath = nil)
       field = @declared_fields['sketchPath']
-      field.set_value(java_self, path || SKETCH_ROOT)
+      field.set_value(java_self, spath || SKETCH_ROOT)
     end
 
     # Fix java conversion problems getting the last key

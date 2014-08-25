@@ -10,7 +10,7 @@ require_relative '../ruby-processing/config'
 Dir["#{Processing::RP_CONFIG["PROCESSING_ROOT"]}/core/library/\*.jar"].each { |jar| require jar }
 
 # Include some core processing classes that we'd like to use:
-%w(PApplet PConstants PFont PImage PShape PShapeOBJ PShapeSVG PStyle 
+%w(PApplet PConstants PFont PImage PShape PShapeOBJ PShapeSVG PStyle
    PGraphicsJava2D PGraphics PFont PVector PMatrix2D PMatrix3D).each do |klass|
   java_import "processing.core.#{klass}"
 end
@@ -54,8 +54,8 @@ module Processing
       if methods_to_alias.key?(method_name)
         alias_method methods_to_alias[method_name], method_name
       end
-    end    
-   
+    end
+
     # Handy getters and setters on the class go here:
     def self.sketch_class;  @sketch_class;        end
     @@full_screen = false
@@ -92,15 +92,15 @@ module Processing
 
     def library_loaded?(library_name)
       self.class.library_loaded?(library_name)
-    end    
+    end
 
-    # It is 'NOT' usually necessary to directly pass options to a sketch, it 
+    # It is 'NOT' usually necessary to directly pass options to a sketch, it
     # gets done automatically for you. Since processing-2.0 you should prefer
     # setting the sketch width and height and renderer using the size method,
-    # in the sketch (as with vanilla processing), which should be the first 
+    # in the sketch (as with vanilla processing), which should be the first
     # argument in setup. Sensible options to pass are x and y to locate sketch
     # on the screen, or full_screen: true (prefer new hash syntax)
-   
+
     def initialize(options={})
       super()
       $app = self
@@ -160,7 +160,8 @@ module Processing
 
     # Provide a loggable string to represent this sketch.
     def inspect
-      "#<Processing::App:#{self.class}:#{@title}>"
+      #"#<Processing::App:#{self.class}:#{@title}>"
+      "#<Processing::App:#{self.class}>"
     end
 
     # Cleanly close and shutter a running sketch.
@@ -202,8 +203,8 @@ module Processing
 
     # Proxy methods through to the sketch.
     def self.proxy_methods(inner_class)
-      code = desired_method_names(inner_class).inject('') do |code, method|
-        code << <<-EOS
+      code = desired_method_names(inner_class).inject('') do |rcode, method|
+        rcode << <<-EOS
         def #{method}(*args, &block)                # def rect(*args, &block)
         if block_given?                           #   if block_given?
         $app.send :'#{method}', *args, &block   #     $app.send(:rect, *args, &block)
