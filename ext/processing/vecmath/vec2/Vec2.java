@@ -23,8 +23,8 @@ import processing.vecmath.JRender;
 public class Vec2 extends RubyObject {
 
     static final double EPSILON = 1.0e-04; // matches processing.org EPSILON
-    double jx = 0;
-    double jy = 0;
+    private double jx = 0;
+    private double jy = 0;
 
     /**
      *
