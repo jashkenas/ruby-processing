@@ -1,3 +1,7 @@
+v2.6.1 The templates for the improved sketch creator, broke app export
+* fix means templates are now hard coded (functionality retained)
+* update to use jruby-complete-1.7.14.
+
 v2.6.0 Removal of eval hack, and deprecating / removing processing
 * convenience methods. New improved sketch creator, added templates 
 * class wrapped --wrap, and "inner class mixin" --inner.
