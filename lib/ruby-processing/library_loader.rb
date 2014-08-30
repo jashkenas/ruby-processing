@@ -39,9 +39,9 @@ module Processing
         end
       end
 
-      lpath = get_library_paths(library_name, 'rb').first
-      return false unless lpath
-      return @loaded_libraries[library_name] = (require lpath)
+      path = get_library_paths(library_name, 'rb').first
+      return false unless path
+      return @loaded_libraries[library_name] = (require path)
     end
 
     # For pure java libraries, such as the ones that are available

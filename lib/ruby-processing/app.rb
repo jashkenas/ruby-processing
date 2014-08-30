@@ -160,8 +160,8 @@ module Processing
 
     # Provide a loggable string to represent this sketch.
     def inspect
-      #"#<Processing::App:#{self.class}:#{@title}>"
-      "#<Processing::App:#{self.class}>"
+      "#<Processing::App:#{self.class}:#{@title}>"
+      #"#<Processing::App:#{self.class}>"
     end
 
     # Cleanly close and shutter a running sketch.

@@ -1,7 +1,8 @@
 require 'rbconfig'
+require_relative 'base_exporter'
 
 module Processing
-  require_relative '../../ruby-processing/exporters/base_exporter'
+
   # A utility class to export Ruby-Processing sketches as
   # Mac/Win/Nix Applications.
   class ApplicationExporter < BaseExporter
@@ -43,7 +44,7 @@ module Processing
       @prefix = 'lib'
       cp_r(Dir["#{RP5_ROOT}/lib/templates/application/{*,**}"], @dest)
       @necessary_files = [@main_file_path]
-      @necessary_files += Dir["#{RB_CONFIG['PROCESSING_ROOT']}/core/library/{*,**}"]
+      @necessary_files += Dir["#{RP_CONFIG['PROCESSING_ROOT']}/core/library/{*,**}"]
       @necessary_files += Dir["#{RP5_ROOT}/lib/{*,**}"]
       @necessary_files += @real_requires
       NECESSARY_FOLDERS.each do |folder|
@@ -55,19 +56,19 @@ module Processing
       cp_r(@libraries, File.join(@dest, @prefix, 'library')) unless @libraries.empty?
       # Then move the icon
       potential_icon = Dir.glob(File.join(@dest, @prefix, 'data/*.icns'))[0]
-      move(potential_icon, File.join(@dest, 'Contents/Resources/sketch.icns'), force: true) if potential_icon 
+      move(potential_icon, File.join(@dest, 'Contents/Resources/sketch.icns'), force: true) if potential_icon
     end
 
     def calculate_substitutions
       file_list = ['lib/ruby/jruby-complete.jar']
-      @class_path = file_list.map { |f| '$JAVAROOT/' + f.sub(@prefix+'/', '') }.join(':')
+      @class_path = file_list.map { |f| '$JAVAROOT/' + f.sub(@prefix + "/", '') }.join(":")
       @linux_class_path = '.:../lib/ruby/*:../lib/*:../lib/library/*'
       @windows_class_path = '.;../lib/ruby/*;../lib/*;../lib/library/*'
     end
 
     def create_executables
       render_erb_in_path_with_binding(@dest, binding, delete: true)
-      rm Dir.glob(@dest + '/**/*.java')
+      rm Dir.glob(@dest + "/**/*.java")
       runnable = @dest + '/' + File.basename(@main_file, '.rb')
       move @dest + '/run', runnable
       move @dest + '/run.exe', "#{runnable}.exe"

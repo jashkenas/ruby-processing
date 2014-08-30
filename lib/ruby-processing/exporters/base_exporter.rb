@@ -1,6 +1,6 @@
 require 'fileutils'
 require 'erb'
-require_relative '../../ruby-processing/library_loader'
+require_relative '../library_loader'
 
 module Processing
   # This base exporter implements some of the common
@@ -42,8 +42,7 @@ module Processing
 
     # Searches the source for a title.
     def extract_title(source)
-      filter = /#{@info[:class_name]}\.new.*?:title\s=>\s["'](.+?)["']/m
-      match = source.match(filter)
+      match = source.match(/#{@info[:class_name]}\.new.*?:title\s=>\s["'](.+?)["']/m)
       match ? match[1] : File.basename(@file, '.rb').titleize
     end
 
@@ -103,7 +102,6 @@ module Processing
       requirements
     end
 
-
     protected
 
     def read_source_code
@@ -115,7 +113,7 @@ module Processing
     end
 
     def hash_to_ivars(hash)
-      hash.each { |k, v| instance_variable_set('@' + k.to_s, v) }
+      hash.each { |k, v| instance_variable_set("@#{k}", v) }
     end
 
     def wipe_and_recreate_destination
@@ -124,7 +122,7 @@ module Processing
     end
 
     def render_erb_in_path_with_binding(path, some_binding, opts = {})
-      erbs = Dir.glob(path + '/**/*.erb')
+      erbs = Dir.glob(path + "/**/*.erb") # double quotes required
       erbs.each do |erb|
         string = File.open(erb) { |f| f.read }
         rendered = render_erb_from_string_with_binding(string, some_binding)
@@ -138,4 +136,3 @@ module Processing
     end
   end
 end
-

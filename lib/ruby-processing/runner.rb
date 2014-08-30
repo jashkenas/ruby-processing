@@ -34,7 +34,7 @@ module Processing
     Examples:
     rp5 setup unpack_samples
     rp5 run samples/contributed/jwishy.rb
-    rp5 create some_new_sketch 640 480 p3d (P3D mode example) 
+    rp5 create some_new_sketch 640 480 p3d (P3D mode example)
     rp5 create some_new_sketch 640 480 --wrap (a class wrapped default sketch)
     rp5 watch some_new_sketch.rb
 
@@ -231,7 +231,7 @@ module Processing
       data = {}
       path = File.expand_path("#{ENV['HOME']}/.rp5rc")
       if @os == :macosx
-        data['PROCESSING_ROOT'] = %q(/Applications/Processing.app/Contents/Java')
+        data['PROCESSING_ROOT'] = %q(/Applications/Processing.app/Contents/Java)
       else
         root = "#{ENV['HOME']}/processing-2.2.1"
         data['PROCESSING_ROOT'] = root

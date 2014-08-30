@@ -8,7 +8,7 @@ WARNING = <<-EOS
       
 EOS
 
-JRUBY_VERSION      = "1.7.13"
+JRUBY_VERSION      = "1.7.14"
 
 CLOBBER.include("jruby-complete-#{JRUBY_VERSION}.jar")
 
@@ -21,7 +21,7 @@ task :download => ["jruby-complete-#{JRUBY_VERSION}.jar"]
 file "jruby-complete-#{JRUBY_VERSION}.jar" do
   begin
     sh "wget http://jruby.org.s3.amazonaws.com/downloads/#{JRUBY_VERSION}/jruby-complete-#{JRUBY_VERSION}.jar"
-    check_sha1("jruby-complete-#{JRUBY_VERSION}.jar", "0dfca68810a5eed7f12ae2007dc2cc47554b4cc6")
+    check_sha1("jruby-complete-#{JRUBY_VERSION}.jar", "ad70c18834a143afa6686ebcda27351ebfef7385")
   rescue
     warn(WARNING)
   end
