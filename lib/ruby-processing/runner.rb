@@ -140,6 +140,8 @@ module Processing
       show_version
       root = '  PROCESSING_ROOT = Not Set!!!' unless proc_root
       root ||= "  PROCESSING_ROOT = #{Processing::RP_CONFIG['PROCESSING_ROOT']}"
+      x_off ||= "  X_OFF = #{Processing::RP_CONFIG['X_OFF']}"
+      y_off ||= "  Y_OFF = #{Processing::RP_CONFIG['Y_OFF']}"
       puts root
       puts "  JRUBY = #{Processing::RP_CONFIG['JRUBY']}"
       puts "  jruby-complete installed = #{installed}"

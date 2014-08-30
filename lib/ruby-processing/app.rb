@@ -129,8 +129,10 @@ module Processing
         args << "--present"
       end
       @render_mode  ||= JAVA2D
-      x = options[:x] || 0
-      y = options[:y] || 0
+      xc = Processing::RP_CONFIG["X_OFF"] ||= 0
+      yc = Processing::RP_CONFIG["Y_OFF"] ||= 0
+      x = options[:x] || xc
+      y = options[:y] || yc
       args << "--location=#{x},#{y}"  # important no spaces here
       title = options[:title] || File.basename(SKETCH_PATH).sub(/(\.rb)$/, '').titleize
       args << title
