@@ -3,12 +3,12 @@ require 'rake/clean'
 WARNING = <<-EOS 
    WARNING: you may not have wget installed, you could just download
    the correct version of jruby-complete to the vendors folder, and 
-   re-run k9 setup install instead of installing wget. Some systems
+   re-run rp5 setup install instead of installing wget. Some systems
    may also require 'sudo' access to install, NB: this is untested....
       
 EOS
 
-JRUBY_VERSION      = "1.7.14"
+JRUBY_VERSION      = "1.7.15"
 
 CLOBBER.include("jruby-complete-#{JRUBY_VERSION}.jar")
 
@@ -20,11 +20,11 @@ task :download => ["jruby-complete-#{JRUBY_VERSION}.jar"]
 
 file "jruby-complete-#{JRUBY_VERSION}.jar" do
   begin
-    sh "wget http://jruby.org.s3.amazonaws.com/downloads/#{JRUBY_VERSION}/jruby-complete-#{JRUBY_VERSION}.jar"
-    check_sha1("jruby-complete-#{JRUBY_VERSION}.jar", "ad70c18834a143afa6686ebcda27351ebfef7385")
+    sh "wget http://jruby.org.s3.amazonaws.com/downloads/#{JRUBY_VERSION}/jruby-complete-#{JRUBY_VERSION}.jar"    
   rescue
     warn(WARNING)
   end
+  check_sha1("jruby-complete-#{JRUBY_VERSION}.jar", "4d9cb332bad3633c9c23a720542f456dc0c58a81")
 end
 
 directory "../lib/ruby"
@@ -46,3 +46,6 @@ def check_sha1(filename, expected_hash)
     raise "bad sha1 checksum for #{filename} (expected #{expected_hash} got #{sha1.hexdigest})"
   end
 end
+
+
+
