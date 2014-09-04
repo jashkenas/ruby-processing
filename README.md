@@ -108,7 +108,7 @@ NB: Support for ruby-2.0 syntax is limited (and experimental see jruby documenta
 ## Supported Processing Version
 
 * processing-2.2.1 (recommended)
-* seems also work with processing-3.0a1 (but there is probably no reason to use it)
+* seems also work with processing-3.0a3 (but there is probably no reason to use it)
 
 ## Deprecated Methods
 
