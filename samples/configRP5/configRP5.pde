@@ -1,10 +1,11 @@
+import java.io.File;
+
 Button enter, nojruby;
 String processingRoot = "enter your processing root here"; // edit this line in the sketch
 String done = "Done";
 String OS = System.getProperty("os.name").toLowerCase();
 String home, suggestion, separator, root;
 PFont font;
-StringBuilder header = new StringBuilder(200);
 float rectX, rectX2, rectY;      // Position of buttons
 float rectHeight = 30;           // height of rect
 float rectWidth = 90;            // width of rect
@@ -16,17 +17,16 @@ boolean acceptOver = false;
 boolean noJruby = false;
 boolean selected = false;
 boolean no_jruby = false;
-
+// The JSON object
+JSONObject json;
 
 void setup() {
   size(600, 200);
   home = System.getProperty("user.home");
   File f = new File(home);
+  json = new JSONObject();
   root = f.getParent();
   separator = System.getProperty("file.separator");
-  header.append("# YAML configuration file for ruby-processing\n");
-  header.append("# RP5HOME: \"").append(root).append(separator).append("ruby193 ... ").append(separator);
-  header.append("ruby-processing\" #windows users may need to set this\n");
   font = createFont("Helvetica", 18);
   if (OS.contains("mac")) {
     suggestion = "/Applications/Processing.app/Contents/Resources/Java";
@@ -40,7 +40,7 @@ void setup() {
   selectedColor = color(0);
   rectX = rectWidth + 20;
   rectX2 = rectWidth + 150;
-  rectY = height * 0.8f - rectHeight / 4;
+  rectY = height * 0.8 - rectHeight / 4;
   enter = new Button(rectX2, rectY, rectWidth, rectHeight, "enter");
   nojruby = new Button(rectX, rectY, rectWidth, rectHeight, "nojruby");
 }
@@ -71,18 +71,15 @@ void draw() {
 void writeRoot() {
   rectColor = selectedColor;
   rectHighlight = selectedColor;
-  header.append("PROCESSING_ROOT: \"").append(processingRoot).append("\"\n");
-  if (no_jruby) {
-    header.append("JRUBY: \'false\'\n");
-  } else {
-    header.append("JRUBY: \'true\'\n");
-  }
-  PrintWriter pw = createWriter(home + separator + ".rp5rc");
-  pw.append(header);
-  pw.flush();
-  pw.close();
+  json.setString("PROCESSING_ROOT", processingRoot);
+  json.setBoolean("JRUBY", no_jruby);
+  json.setInt("X_OFF", floor(displayWidth * 0.1));
+  json.setInt("Y_OFF", floor(displayHeight * 0.1));
+
+  saveJSONObject(json, home + separator + ".rp5rc");
   processingRoot = done;
 }
+
 
 void keyReleased() {
   if (key != CODED) {
@@ -107,6 +104,7 @@ void update(float x, float y) {
   acceptOver = enter.overRect();
   noJruby = nojruby.overRect();
 }
+
 
 void mouseClicked() {
   update(mouseX, mouseY);
@@ -147,4 +145,3 @@ class Button {
       && mouseY >= y && mouseY <= y + h);
   }
 }
-

@@ -164,11 +164,12 @@ module Processing
 
     private
 
-    # Trade in this Ruby instance for a JRuby instance, loading in a
-    # starter script and passing it some arguments.
-    # Unless --nojruby is passed, use the installed version of jruby, instead of
-    # our vendored jarred one (vendored version is required for some sketches eg shaders).
-    # For people with system jruby they can use ~.rp5rc config to use option without flag
+    # Trade in this Ruby instance for a JRuby instance, loading in a starter
+    # script and passing it some arguments.Unless '--nojruby' is passed, the
+    # installed version of jruby is used instead of our vendored jarred one
+    # (which is required for some sketches eg shaders and for export). To use
+    # jruby-complete by default set JRUBY: false in ~/.rp5rc config
+    # (but that will make using other gems in your sketches hard....)
     def spin_up(starter_script, sketch, args)
       runner = "#{RP5_ROOT}/lib/ruby-processing/runners/#{starter_script}"
       warn('The --jruby flag is no longer required') if @options.jruby

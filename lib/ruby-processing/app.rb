@@ -103,6 +103,7 @@ module Processing
 
     def initialize(options={})
       super()
+      post_initialize(options)
       $app = self
       proxy_java_fields
       set_sketch_path #unless Processing.online?
@@ -152,6 +153,10 @@ module Processing
         end
       end
       super(*args)
+    end
+
+    def post_initialize(args)
+      nil
     end
 
     # Make sure we set the size if we set it before we start the animation thread.

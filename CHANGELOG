@@ -1,12 +1,16 @@
-v2.6.2 Update to use jruby-complete-1.7.15 (previous version had issues)
+v2.6.2 Update to use jruby-complete-1.7.15
 * X and Y screen offset for sketch, can be set in ~/.rp5rc
+* A post initialization hook has been included to allow custom parameter setting
+* More deprecated methods have been removed anyone wanting pow(x), sq(x),
+* radians(x) can easily make their own if they must. Prefer x**2, x * x and
+* x.radians in ruby-processing etc..
 
 v2.6.1 The templates for the improved sketch creator, broke app export
 * fix means templates are now hard coded (functionality retained)
 * update to use jruby-complete-1.7.14.
 
 v2.6.0 Removal of eval hack, and deprecating / removing processing
-* convenience methods. New improved sketch creator, added templates 
+* convenience methods. New improved sketch creator, added templates
 * class wrapped --wrap, and "inner class mixin" --inner.
 
 v2.5.1 Some fixes, and remove eval hack from base_exporter
@@ -60,8 +64,8 @@ v2.2.2 Update to JRuby-1.7.6
 # requires ruby filename to match that of library
 
 v2.2.1 Replacing 'arcball' library with 'vecmath' library
-* Arcball functionality is retained (in vecmath library), Vec2D and Vec3D 
-* have been added to 'vecmath' library, they provide a pure ruby alternative 
+* Arcball functionality is retained (in vecmath library), Vec2D and Vec3D
+* have been added to 'vecmath' library, they provide a pure ruby alternative
 * to processings PVector class, and hence a more ruby like interface
 
 
@@ -104,19 +108,19 @@ v2.0.1 First minor revision for ruby-processing-2.0
   * Added support for 'require_relative' on export
 
 v2.0.0 A major revision, now based on processing-2.0 and JRuby 1.7+
-  * Processing updated to processing-2.0.1 export to applet has disappeared, also P3D is 
-  * the new OPENGL (except Jogl2 instead of Jogl1.1) if you've got an old graphics card or even some new netbook 
+  * Processing updated to processing-2.0.1 export to applet has disappeared, also P3D is
+  * the new OPENGL (except Jogl2 instead of Jogl1.1) if you've got an old graphics card or even some new netbook
   * with onboard graphics you may have issues
-  * http://forum.processing.org/one/topic/processing-2-0-won-t-run-on-netbooks-and-older-cheaper-hardware. 
-  * Processing-2.0  has its own event system (replacing java.awt.event), ruby-processing sketches will normally 
+  * http://forum.processing.org/one/topic/processing-2-0-won-t-run-on-netbooks-and-older-cheaper-hardware.
+  * Processing-2.0  has its own event system (replacing java.awt.event), ruby-processing sketches will normally
   * use this event system.
   * JRuby upgraded to 1.7.4 (default is ruby 1.9 and 2.0 is possible with a switch)
   * NB: bare sketches replace class wrapped sketches see samples...
   * Samples have been extended to include vanilla processing library examples.
   * References to the 'online' variable have been removed (deprecated in processing-2.0 slated for removal)
   * test suite now uses MiniTest some old tests have been remove. Others that probably will fail anyway, are
-  * temporarily marked as skip.	
-  * Samples now rely on ruby 1.9 (almost 2.0) and processing-2.0 
+  * temporarily marked as skip.
+  * Samples now rely on ruby 1.9 (almost 2.0) and processing-2.0
   * Where possible examples have been 'fixed' to run with new version (backward compability is not possible)
 
 v1.0.11 Fixing broken stuffs...
@@ -146,37 +150,37 @@ v1.0.8 Polishing the Windows...
   * Windows Application exporting works again, merely by virtue of
     not cluttering up the classpath.
   * Safer Ruby Platform detection.
-  
+
 v1.0.7 Stability...
   * Added preliminary support for embedding Ruby-Processing in the Processing
     IDE (see the ruby-processing-plugin project).
   * Added 'width' and 'height' as methods that should get proxied down
     to inner classes and classes that include the Processing::Proxy.
   * Fixed a padding bug that put tiny gray margins on Windows and Linux.
-  * Updated JRuby to 1.2.0 final as well as the Processing libraries. 
+  * Updated JRuby to 1.2.0 final as well as the Processing libraries.
   * Got a little bit better at detecting full-screen support on Linux.
   * Fixed some applet and app exporting problems on Windows.
   * The Boids library had a speed limit fix that should make 'em less flighty.
   * Peter Krenn contributed a simple Pong example.
-  
+
 v1.0.6 Inner Classes...
-  * Java-style inner classes. Any inner class of a sketch will now have the 
+  * Java-style inner classes. Any inner class of a sketch will now have the
     Processing methods and constants proxied down for convenience.
   * Sketches with tiny sizes get displayed in a nicer fashion.
   * New Blue Logo: Ruby-Processing, literally.
   * Moumar contributed a patch for the control_panel library, allowing your
     sliders and buttons to have an initial value.
-    
+
 v1.0.5 Spring Cleaning...
-  * The "Learning Processing" examples are now a separate project, a 
-    long-merited change. They'll grow up on their own at 
+  * The "Learning Processing" examples are now a separate project, a
+    long-merited change. They'll grow up on their own at
     http://github.com/jashkenas/learning-processing-with-ruby
   * The watcher is now a bit better about catching recoverable exceptions.
   * load_strings and save_strings methods have been added to Processing::App.
   * Fixing a permissions problem with applet/application exporting.
 
 v1.0.4 Bare is Beautiful...
-  * Ruby-Processing now supports "bare" sketches, which are sketches that 
+  * Ruby-Processing now supports "bare" sketches, which are sketches that
     consist of only setup and draw methods, or sketches that contain no method
     definitions at all (implicitly wrapping them in a 'setup'). This works
     by pre-processing the code.
@@ -190,7 +194,7 @@ v1.0.4 Bare is Beautiful...
 v1.0.3 Tweaks and Tuneups...
   * "rp5 watch" is now a bit more robust, and tries to reload every
   * file, global, and constant that it thinks it needs to.
-  * Many, many examples have been contributed by Marc Chung, 
+  * Many, many examples have been contributed by Marc Chung,
     Peter Krenn, and Florian Jenett.
   * Andreas Haller contributed a patch that added Ruby-1.9 compatibility.
   * The render mode now defaults to JAVA2D, as does Processing.
@@ -202,7 +206,7 @@ v1.0.3 Tweaks and Tuneups...
 v1.0.2 Bugfixes and Java Args...
   * Application exporting, long plagued, should now be a little
     closer to rock-solid. If you need to pass command-line options
-    to the JVM, add a java_args.txt file in your sketch's data 
+    to the JVM, add a java_args.txt file in your sketch's data
     folder that sets stack size, memory size, or whatever ails you.
 
 v1.0.1 Gemmin' it up.
@@ -210,7 +214,7 @@ v1.0.1 Gemmin' it up.
     Ruby-Processing has undergone a great refactor, kicked off by
     Peter Gassner's initial efforts to make a gem out of it. Now
     available as a real RubyGem.
-    
+
   * Changes all around: The main interface to Ruby-Processing is now
     through the 'rp5' command. Try rp5 --help to get started.
 
@@ -222,123 +226,123 @@ v1.0. Ruby-Processing goes 1.0 with Processing 1.0
   * Processing updated to 1.0.1 (congrats to the Processing team),
     and JRuby updated to the latest trunk. Most sketches run a good
     bit faster now.
-    
+
   * Ruby-Processing now comes with many default libraries: Boids, DXF,
     Javascript, Minim, Net, OpenGL, PDF, Serial, Slider, and Video
     are now included in the download.
-    
+
   * has_slider moved out into an included ruby library.
 
 v0.9. Multi-platform Application export, live coding, and more.
-  * Inspired by NodeBox, Ruby-Processing now sports the ability 
+  * Inspired by NodeBox, Ruby-Processing now sports the ability
     to have sliders control numeric variables in your sketches.
-    If you're using an instance variable, say, @speed, to control 
-    the speed of your sketch. 
-    
+    If you're using an instance variable, say, @speed, to control
+    the speed of your sketch.
+
     has_slider :speed
-    
-    Will bring up a panel alongside with a slider that controls 
-    the speed. It can take a range of values as an optional parameter. 
+
+    Will bring up a panel alongside with a slider that controls
+    the speed. It can take a range of values as an optional parameter.
     Check out and run jwishy.rb for an example.
-  
-  * Multi-platform app export! Exporting your Ruby-Processing 
+
+  * Multi-platform app export! Exporting your Ruby-Processing
     apps will now create executable apps for Mac/Windows/Linux.
-    
-  * Live coding support. Now you can do script/live path/to/sketch.rb 
+
+  * Live coding support. Now you can do script/live path/to/sketch.rb
     to open up an interactive session with your sketch available
     as $app.
-    
+
   * Nick Sieger donated an additional sample.
 
 v0.8. Exporting Applications
-  * Ruby-Processing can now export Mac applications! Running 
-    script/application my_sketch.rb will create MySketch.app, 
-    complete with all of its data and libraries. If you have 
-    a .icns file inside of your data folder, it will become 
+  * Ruby-Processing can now export Mac applications! Running
+    script/application my_sketch.rb will create MySketch.app,
+    complete with all of its data and libraries. If you have
+    a .icns file inside of your data folder, it will become
     the app's icon.
-    
-  * Added a mathematical Fern sample. It's a port of Luis 
+
+  * Added a mathematical Fern sample. It's a port of Luis
     Correia's java original, with algorithms from Wikipedia.
-    
-  * Sketches now have a library_loaded? method, so that you can 
-    check if a library has been started successfully, and 
+
+  * Sketches now have a library_loaded? method, so that you can
+    check if a library has been started successfully, and
     conditionally enable things. (Good for OpenGL.)
-    
+
   * The Boids library is now about 40% faster. It also comes with
     an example in library/boids/samples.
-    
+
   * Specs have been started both for exporting and for Ruby-
     Processing itself.
 
 v0.7. Flocking Boids and OpenGL Applets
-  * Thanks to MenTaLguY, once again, for work on the JRubyApplet, OpenGL 
-    is now a first-class citizen. If you're using OpenGL in your sketch, 
-    the applet exporter should just work. It has also been moved and 
+  * Thanks to MenTaLguY, once again, for work on the JRubyApplet, OpenGL
+    is now a first-class citizen. If you're using OpenGL in your sketch,
+    the applet exporter should just work. It has also been moved and
     renamed, so now you can use it like:
-    
+
     script/applet my_sketch.rb
-  
-  * An app generator has been added for getting started. It'll give you 
+
+  * An app generator has been added for getting started. It'll give you
     a template for an empty Ruby-Processing sketch, with setup and draw
     methods and all that. Usage:
-    
+
     script/generate my_sketch 800 600
-    
+
     Will create a file called my_sketch.rb, with a title of "My Sketch",
     800 pixels wide and 600 pixels tall. Width and height are optional.
-    
-  * Ruby-Processing now includes its first pure-Ruby library, a port 
+
+  * Ruby-Processing now includes its first pure-Ruby library, a port
     of Tom de Smedt's "Boids", for algorithmic flocking.
 
 v0.6. Generating Applets
-  * Now we're baking up some applet pie. The applet_tree script will 
-    take your Ruby-Processing sketch, export it as an applet, and 
-    generate an HTML page for you to post. It's way easier now than it 
+  * Now we're baking up some applet pie. The applet_tree script will
+    take your Ruby-Processing sketch, export it as an applet, and
+    generate an HTML page for you to post. It's way easier now than it
     would have been before. (thanks to MenTaLguY.) Use it like so:
-    
+
     ./applet_tree my_sketch.rb
-    
-    But there are caveats: Applets don't work with native libraries, so 
-    no OpenGL. If you're requiring other files that aren't part of the 
-    standard Ruby distro, you'll need to include them as libraries, which 
+
+    But there are caveats: Applets don't work with native libraries, so
+    no OpenGL. If you're requiring other files that aren't part of the
+    standard Ruby distro, you'll need to include them as libraries, which
     means: Drop them in a folder inside of "library". Use
     load_ruby_library("folder_name") or load_java_library() to load 'em.
-    These methods replace the previous load_library(). Ruby libs will 
-    load the .rb with the same name as the folder. Java libs will just 
+    These methods replace the previous load_library(). Ruby libs will
+    load the .rb with the same name as the folder. Java libs will just
     load up all of the .jars in the folder.
-    
+
     Demos — all of the standard samples are available as applets:
     http://fiercefrontiers.com/applets/jwishy/
     http://fiercefrontiers.com/applets/tree/
     http://fiercefrontiers.com/applets/circle_collision/
     http://fiercefrontiers.com/applets/reflection/
-    
+
 
 v0.5. With Native Libraries
-  * Ruby-Processing gets easy native library support. Now you can take 
-    Processing libraries, drop them in the library folder, and load them 
+  * Ruby-Processing gets easy native library support. Now you can take
+    Processing libraries, drop them in the library folder, and load them
     up like so (inside your sketch):
-    
+
     load_library "opengl"
-    
+
     It works by loading up all of the .jars in that folder, and setting
     the java.library.path to that folder, so that the native extensions
     can be found.
-    
-  * Full Screen OpenGL demo added, but you'll need to copy over the 
+
+  * Full Screen OpenGL demo added, but you'll need to copy over the
     OpenGL library to use it.
 
 v0.4. Going Fullscreen
-  * Ruby-Processing goes fullscreen. Just pass :full_screen => true 
+  * Ruby-Processing goes fullscreen. Just pass :full_screen => true
     into the options when you’re starting up your app. Like so:
 
     MyApp.new(:title => "MyApp", :full_screen => true)
 
-  * Because Processing has just so many methods, you can now search 
+  * Because Processing has just so many methods, you can now search
     through them: find_method "method_name"
 
 v0.3. First Real Release
-  * Processing::App.current will give you a handle on the app. (Useful 
+  * Processing::App.current will give you a handle on the app. (Useful
     in jirb).
   * samples/jwishy.rb has some new hooks for live coding.
   * circle_collision and tree samples added (Joe Holt)
