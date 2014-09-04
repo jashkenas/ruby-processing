@@ -7,8 +7,8 @@
 
 def setup
   size 640, 360
-  @arm = SpinArm.new({ x: width/2, y: height/2, s: 0.01 })
-  @spots = SpinSpots.new({ x: width/2, y: height/2, s: -0.02, d: 90.0 })
+  @arm = SpinArm.new(x: width / 2, y: height / 2, s: 0.01)
+  @spots = SpinSpots.new(x: width / 2, y: height / 2, s: -0.02, d: 90.0)
 end
 
 def draw
@@ -16,7 +16,6 @@ def draw
   @arm.display
   @spots.display
 end
-
 
 class Spin
 
@@ -34,12 +33,11 @@ class Spin
     @angle += speed
   end
 
-  def post_initialize args
+  def post_initialize(_args)
     nil
   end
 
 end
-
 
 class SpinArm < Spin # inherit from (or "extend") class Spin
   # NB: initialize inherited from Spin class
@@ -60,7 +58,7 @@ end
 class SpinSpots < Spin
   attr_accessor :dim
 
-  def post_initialize args
+  def post_initialize(args)
     @dim = args[:d]
   end
 
@@ -70,9 +68,8 @@ class SpinSpots < Spin
     translate x, y
     update
     rotate angle
-    ellipse(-dim/2, 0, dim, dim)
-    ellipse(dim/2, 0, dim, dim)
+    ellipse(-dim / 2, 0, dim, dim)
+    ellipse(dim / 2, 0, dim, dim)
     pop_matrix
   end
 end
-
