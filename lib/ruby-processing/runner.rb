@@ -213,20 +213,19 @@ module Processing
     end
 
     def os
-      @os ||=
-        host_os = RbConfig::CONFIG['host_os']
-        case host_os
-        when /mswin|msys|mingw|cygwin|bccwin|wince|emc/
-          :windows
-        when /darwin|mac os/
-          :macosx
-        when /linux/
-          :linux
-        when /solaris|bsd/
-          :unix
-        else
-          raise "unknown os: #{host_os.inspect}"
-        end
+      @os ||= host_os = RbConfig::CONFIG['host_os']
+      case host_os
+      when /mswin|msys|mingw|cygwin|bccwin|wince|emc/
+        :windows
+      when /darwin|mac os/
+        :macosx
+      when /linux/
+        :linux
+      when /solaris|bsd/
+        :unix
+      else
+        raise "unknown os: #{host_os.inspect}"
+      end
     end
 
 
@@ -242,7 +241,7 @@ module Processing
         root = "#{ENV['HOME']}/processing-2.2.1"
         data['PROCESSING_ROOT'] = root
       end
-      data['JRUBY'] = %q(true)
+      data['JRUBY'] = true
       open(path, 'w:UTF-8') {|f| f.write(data.to_yaml) }
     end
 

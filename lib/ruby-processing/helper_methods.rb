@@ -95,14 +95,14 @@ module Processing
     # to return a float:- a, b and c need to be floats
 
     def min(*args)
-      args.min { |a,b| a <=> b }
+      args.min  #  { |a,b| a <=> b } optional block not reqd
     end
 
     # explicitly provide 'processing.org' max instance method
     # to return a float:- a, b and c need to be floats
 
     def max(*args)
-      args.max { |a, b| a <=> b }
+      args.max  #  { |a, b| a <=> b } optional block not reqd
     end
     
 

@@ -165,7 +165,7 @@ end
     def inner_class_template
 %{
 class <%=@name%>
-  include_module Processing::Proxy
+  include Processing::Proxy
 
 end
 }
