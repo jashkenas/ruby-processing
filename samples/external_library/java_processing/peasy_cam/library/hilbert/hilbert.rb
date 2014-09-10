@@ -51,11 +51,11 @@ class Hilbert
     @rule = "^<XF^<XFX-F^>>XFX&F+>>XFX-F>X->"
     @distance = len
     @theta = Math::PI/180 * 90
-    @phi = Math::PI/180 * 90  
+    @phi = Math::PI/180 * 90
     grammar.add_rule(premis, rule)
   end
 
-  def render()    
+  def render()
     translate( -distance * ADJUSTMENT[gen], distance *  ADJUSTMENT[gen], -distance * ADJUSTMENT[gen])
     fill(0, 75, 152)
     light_specular(204, 204, 204)
@@ -92,9 +92,9 @@ class Hilbert
 
   def create_grammar(gen)
     @gen = gen    # required for depth adjustment
-    @distance *= 1/(pow(2, gen) - 1)
+    @distance *= 1/(2**gen) - 1)
     @production = @grammar.generate gen
   end
-  
+
 
 end

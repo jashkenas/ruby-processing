@@ -12,7 +12,7 @@ def setup
   @brick_layers = 18
   @brick_width, @brick_height, @brick_depth = 60, 25, 25
   @radius = 175.0
-  @angle = 0  
+  @angle = 0
   @brick = Cubeish.new(@brick_width, @brick_height, @brick_depth)
 end
 
@@ -24,7 +24,7 @@ def draw
   lights
   translate(width / 2.0, height * 1.2, -380)             # move viewpoint into position
   rotate_x(-45.radians)                                  # tip tower to see inside
-  rotate_y(frame_count * PI/600)                         # slowly rotate tower
+  rotate_y(frame_count * PI / 600)                         # slowly rotate tower
   brick_layers.times { |i| draw_layer(i) }
 end
 
@@ -42,9 +42,8 @@ def draw_bricks(brick_num)
   translate temp_x, temp_y, temp_z
   rotate_y(angle.radians)
   top_layer = layer_num == brick_layers - 1
-  even_brick = brick_num % 2 == 0
   brick.create unless top_layer                          # main tower
-  brick.create if top_layer && even_brick                # add crenelation
+  brick.create if top_layer && brick_num.even?           # add crenelation
   pop_matrix
   @angle += 360.0 / bricks_per_layer
 end
@@ -65,13 +64,11 @@ class Cubeish
            top: ['-- ', '---', ' --', ' - '],
            bottom: ['-  ', '- -', '  -', '   ']}
 
-  SIGNS = {'-' => -1,
-           ' ' =>  1}
+  SIGNS = {'-' => -1, ' ' =>  1}
 
   def initialize(width, height, depth)
     @vertices = {}
     @w, @h, @d = width, height, depth
-
     SIDES.each do |side, signs|
       vertices[side] = signs.map do |s|
         s = s.split('').map { |el| SIGNS[el] }
@@ -87,7 +84,6 @@ class Cubeish
       end_shape
     end
   end
-
 end
 
 Vect = Struct.new(:x, :y, :z)

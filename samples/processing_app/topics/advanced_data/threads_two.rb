@@ -16,8 +16,7 @@ def setup
   @curr = 0
   thread do    # supply a block in ruby-processing rather than use reflection
     FRAMES.times do |i|
-      frames << load_image("a#{i.to_s.rjust(3, "0")} copy.jpg") # ruby syntax
-      #frames << load_image("a#{nf(i, 3)} copy.jpg") # processing function nf           
+      frames << load_image("a#{i.to_s.rjust(3, '0')} copy.jpg") # ruby syntax
       @curr = i
       delay(75) #just slows down this thread - the main draw cycle is unaffected...
     end

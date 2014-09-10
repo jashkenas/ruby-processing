@@ -1,6 +1,6 @@
 #
-# Moving On Curves. 
-# 
+# Moving On Curves.
+#
 # In this example, the circles moves along the curve y = x^4.
 # Click the mouse to have it move to a new position.
 #
@@ -13,7 +13,7 @@ def setup
   @begin_x = 20.0  # Initial x-coordinate
   @begin_y = 10.0  # Initial y-coordinate
   @end_x = 570.0   # Final x-coordinate
-  @end_y = 320.0   # Final y-coordinate  
+  @end_y = 320.0   # Final y-coordinate
   @exponent = 4   # Determines the curve
   @x = 0.0        # Current x-coordinate
   @y = 0.0        # Current y-coordinate
@@ -29,7 +29,7 @@ def draw
   @pct += STEP
   if (pct < 1.0)
     @x = begin_x + (pct * dist_x)
-    @y = begin_y + (pow(pct, exponent) * dist_y)
+    @y = begin_y + pct**exponent * dist_y
   end
   fill(255)
   ellipse(x, y, 20, 20)

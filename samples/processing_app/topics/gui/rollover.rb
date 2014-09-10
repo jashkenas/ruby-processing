@@ -1,9 +1,9 @@
 #
-# Button. 
-# 
-# Click on one of the colored squares in the 
-# center of the image to change the color of 
-# the background. 
+# Button.
+#
+# Click on one of the colored squares in the
+# center of the image to change the color of
+# the background.
 #
 
 RECT_SIZE = 90     # Diameter of rect
@@ -26,26 +26,26 @@ def setup
 end
 
 def draw
-  update(mouse_x, mouse_y) 
-  if (rect_over) 
+  update(mouse_x, mouse_y)
+  if (rect_over)
     background(rect_color)
-  elsif (circle_over) 
+  elsif (circle_over)
     background(circle_color)
-  else 
+  else
     background(base_color)
   end
   stroke(255)
   fill(rect_color)
-  rect(rect_x, rect_y, RECT_SIZE, RECT_SIZE) 
+  rect(rect_x, rect_y, RECT_SIZE, RECT_SIZE)
   stroke(0)
   fill(circle_color)
   ellipse(circle_x, circle_y, CIRCLE_SIZE, CIRCLE_SIZE)
 end
 
 def update(x, y)
-  if over_circle?(circle_x, circle_y, CIRCLE_SIZE) 
+  if over_circle?(circle_x, circle_y, CIRCLE_SIZE)
     @circle_over, @rect_over = true, false
-  elsif over_rect?(rect_x, rect_y, RECT_SIZE, RECT_SIZE) 
+  elsif over_rect?(rect_x, rect_y, RECT_SIZE, RECT_SIZE)
     @circle_over, @rect_over = false, true
   else
     @circle_over, @rect_over = false, false
@@ -59,5 +59,5 @@ end
 def over_circle?(x, y, diameter)
   dis_x = x - mouse_x
   dis_y = y - mouse_y
-  (sqrt(sq(dis_x) + sq(dis_y)) < diameter/2 )
+  (hypot(dis_x, dis_y) < diameter/2 )
 end

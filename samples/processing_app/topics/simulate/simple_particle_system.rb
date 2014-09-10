@@ -3,7 +3,7 @@
 # Particles are generated each cycle, fall with gravity and fade out over
 # time. A ParticleSystem (Array) object manages a variable size list of
 # particles.
-
+require 'forwardable'
 load_library :vecmath
 
 attr_reader :ps
@@ -21,50 +21,39 @@ end
 
 module Runnable
   def run
-    self.reject! { |item| item.lifespan <= 0 }
-    self.each    { |item| item.run   }
+    reject! { |item| item.lifespan <= 0 }
+    each    { |item| item.run   }
   end
 end
 
-class ParticleSystem 
-  extend Enumerable 
-  include Runnable
-  
-  attr_reader :origin, :particle_system
+class ParticleSystem
+  include Enumerable, Runnable
+  extend Forwardable
+  def_delegators(:@particles, :reject!, :<<, :each, :empty?)
+  def_delegator(:@particles, :empty?, :dead?)
+
+  attr_reader :origin
 
   def initialize(loc)
-    @particle_system = []
-    @origin = loc.dup
+    @particles = []
+    @origin = loc
   end
-  
-  def each &block
-    particle_system.each &block    
-  end
-  
-  def add_particle
-    particle_system << Particle.new(origin) 
-  end
-  
-  def reject! &block
-    particle_system.reject! &block
-  end
-  
-  def dead?
-    particle_systems.empty?
-  end 
 
+  def add_particle
+    self << Particle.new(origin)
+  end
 end
 
 # A simple Particle class
 
-class Particle 
-  include Processing::Proxy 
-  
+class Particle
+  include Processing::Proxy
+
   attr_reader :loc, :vel, :acc, :lifespan
-  def initialize(l) 
+  def initialize(l)
     @acc = Vec2D.new(0, 0.05)
     @vel = Vec2D.new(rand(-1.0 .. 1), rand(-2.0 .. 0))
-    @loc = l.dup
+    @loc = l.copy
     @lifespan = 255.0
   end
 
@@ -86,5 +75,4 @@ class Particle
     fill(255,lifespan)
     ellipse(loc.x, loc.y, 8, 8)
   end
-  
 end

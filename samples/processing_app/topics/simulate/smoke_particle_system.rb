@@ -45,7 +45,7 @@ end
 
 module Runnable
   def run
-    self.reject! { |item| item.lifespan <= 0 }
+    reject! { |item| item.lifespan <= 0 }
     each    { |item| item.run }
   end
 end
