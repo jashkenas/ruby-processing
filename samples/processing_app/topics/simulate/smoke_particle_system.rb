@@ -52,7 +52,6 @@ end
 
 require 'forwardable'
 
-
 class ParticleSystem
   include Enumerable, Runnable
   extend Forwardable
@@ -68,7 +67,6 @@ class ParticleSystem
       particles << Particle.new(origin, image)
     end
   end
-
 
   def add_particle(p = Particle.new(origin, image))
     self << p
@@ -122,7 +120,6 @@ class Particle
   def apply_force(f)
     @acc += f
   end
-
 end
 
 
