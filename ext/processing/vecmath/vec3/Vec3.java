@@ -349,9 +349,11 @@ public final class Vec3 extends RubyObject {
         }
         double new_mag = (Double) scalar.toJava(Double.class);
         double current = Math.sqrt(jx * jx + jy * jy + jz * jz);
-        jx *= new_mag / current;
-        jy *= new_mag / current;
-        jz *= new_mag / current;
+        if (current > EPSILON){
+            jx *= new_mag / current;
+            jy *= new_mag / current;
+            jz *= new_mag / current;
+        }
         return this;
     }
 
@@ -363,7 +365,10 @@ public final class Vec3 extends RubyObject {
     @JRubyMethod(name = "normalize!")
 
     public IRubyObject normalize_bang(ThreadContext context) {
-        double mag = Math.sqrt(jx * jx + jy * jy + jz * jz);
+        if (Math.abs(jx) < EPSILON && Math.abs(jy) < EPSILON && Math.abs(jz) < EPSILON) {
+          return this;
+        }
+        double mag = Math.sqrt(jx * jx + jy * jy + jz * jz); 
         jx /= mag;
         jy /= mag;
         jz /= mag;

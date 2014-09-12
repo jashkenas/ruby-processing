@@ -322,6 +322,21 @@ describe 'Vec3D#copy' do
   end
 end
 
+describe 'Vec3D#normalize! zero vector' do
+  it 'should do nothing' do
+    a = Vec3D.new
+    b = a.normalize!    
+    expect(a).to eq(b)
+  end
+end
+
+describe 'Vec3D#normalize zero vector' do
+  it 'should do nothing' do
+    a = Vec3D.new
+    b = a.normalize    
+    expect(a).to eq(b)
+  end
+end
 
 describe 'Vec3D#dist_squared' do
   it 'should return Vec3D.dist_squared(a, b)' do
@@ -352,6 +367,13 @@ describe 'Vec3D#normalize!' do
     a = Vec3D.new(3, 5, 2)
     a.normalize!
     expect(a.mag).to be_within(EPSILON).of(1.0)
+  end
+end
+
+describe 'Vec3D#set_mag zero vector' do
+  it 'should return zero vector' do
+    a = Vec3D.new(0, 0, 0)
+    expect(a.set_mag(Math.sqrt(48))).to eq Vec3D.new(0, 0, 0)
   end
 end
 
