@@ -333,8 +333,9 @@ end
 describe 'Vec3D#normalize zero vector' do
   it 'should do nothing' do
     a = Vec3D.new
-    b = a.normalize    
+    b = a.normalize 
     expect(a).to eq(b)
+    expect(a).to_not equal(b)
   end
 end
 
