@@ -71,10 +71,12 @@ class Boid
   end
 end
 
+require 'forwardable'
 
-
-class Boids 
-  extend Enumerable  
+class Boids
+  include Enumerable
+  extend Forwardable
+  def_delegators(:@boids, :reject, :<<, :each, :shuffle!, :length, :next)
   
   attr_accessor :boids, :x, :y, :w, :h, 
                 :scattered, :has_goal, :flee
@@ -86,28 +88,7 @@ class Boids
   def initialize
     @boids = []	  
   end
-  
-  def each &block
-    boids.each &block	  
-  end
-  
-  def reject &block
-    boids.reject &block
-  end
-
-
-  def shuffle!
-    boids.shuffle!	  
-  end
-
-  def << obj
-    boids << obj	  
-  end
-
-  def length
-    boids.length	  
-  end
-              
+         
   def self.flock(n, x, y, w, h)
     return Boids.new.setup(n, x, y, w, h)
   end
