@@ -1,11 +1,9 @@
 require 'psych'
 
 module Processing
-
   if Processing.exported?
     RP_CONFIG = { 'PROCESSING_ROOT' => RP5_ROOT, 'JRUBY' => 'false' }
   end
-
   unless defined? RP_CONFIG
     begin
       CONFIG_FILE_PATH = File.expand_path('~/.rp5rc')

@@ -20,10 +20,10 @@ module Processing
     def load_libraries(*args)
       args.each do |lib|
         loaded = load_ruby_library(lib) || load_java_library(lib)
-        raise LoadError.new( "no such file to load -- #{lib}") if !loaded
+        fail(LoadError.new, "no such file to load -- #{lib}") unless loaded
       end
     end
-    alias :load_library :load_libraries
+    alias_method :load_library, :load_libraries
 
     # For pure ruby libraries.
     # The library should have an initialization ruby file
@@ -38,17 +38,16 @@ module Processing
           return false
         end
       end
-
       path = get_library_paths(library_name, 'rb').first
       return false unless path
-      return @loaded_libraries[library_name] = (require path)
+      @loaded_libraries[library_name] = (require path)
     end
 
     # For pure java libraries, such as the ones that are available
     # on this page: http://processing.org/reference/libraries/index.html
     #
     # P.S. -- Loading libraries which include native code needs to
-    # hack the Java ClassLoader, so that you don't have to
+    # hack the 'Java ClassLoader', so that you don't have to
     # futz with your PATH. But it's probably bad juju.
     def load_java_library(library_name)
       library_name = library_name.to_sym
@@ -56,26 +55,23 @@ module Processing
       jpath = get_library_directory_path(library_name, 'jar')
       jars = get_library_paths(library_name, 'jar')
       return false if jars.empty?
-      jars.each {|jar| require jar }
-
+      jars.each { |jar| require jar }
       platform_specific_library_paths = get_platform_specific_library_paths(jpath)
       platform_specific_library_paths = platform_specific_library_paths.select do |ppath|
         test(?d, ppath) && !Dir.glob(File.join(ppath, '*.{so,dll,jnilib}')).empty?
       end
 
-      if !platform_specific_library_paths.empty?
+      unless platform_specific_library_paths.empty?
         platform_specific_library_paths << java.lang.System.getProperty('java.library.path')
         new_library_path = platform_specific_library_paths.join(java.io.File.pathSeparator)
-
         java.lang.System.setProperty('java.library.path', new_library_path)
-
         field = java.lang.Class.for_name('java.lang.ClassLoader').get_declared_field('sys_paths')
         if field
           field.accessible = true
           field.set(java.lang.Class.for_name('java.lang.System').get_class_loader, nil)
         end
       end
-      return @loaded_libraries[library_name] = true
+      @loaded_libraries[library_name] = true
     end
 
     def get_platform_specific_library_paths(basename)
@@ -87,12 +83,11 @@ module Processing
         java.lang.System.getProperty('java.vm.name').index('64')
         bits = '64'
       end
-
-      _match_string_, platform = {'Mac' => 'macosx', 'Linux' => 'linux', 'Windows' => 'windows' }.detect do |string, _platform_|
+      _match_string_, platform = {'Mac' => 'macosx', 'Linux' => 'linux', 'Windows' => 'windows' }.find do |string, _platform_|
         java.lang.System.getProperty('os.name').index(string)
       end
       platform ||= 'other'
-      [platform, platform + bits].collect { |p| File.join(basename, p) }
+      [platform, platform + bits].map { |p| File.join(basename, p) }
     end
 
     def get_library_paths(library_name, extension = nil)
@@ -103,7 +98,7 @@ module Processing
     protected
 
     def get_library_directory_path(library_name, extension = nil)
-      extensions = extension ? [extension] : %w{jar rb}
+      extensions = extension ? [extension] : %w(jar rb)
       extensions.each do |ext|
         [ "#{SKETCH_ROOT}/library/#{library_name}",
           "#{Processing::RP_CONFIG['PROCESSING_ROOT']}/modes/java/libraries/#{library_name}/library",
@@ -138,7 +133,7 @@ module Processing
             sketchbook_paths << spath
           end
         end
-        if !preferences_paths.empty?
+        unless preferences_paths.empty?
           matched_lines = File.readlines(preferences_paths.first).grep(/^sketchbook\.path=(.+)/) { $1 }
           sketchbook_path = matched_lines.first
         else

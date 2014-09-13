@@ -46,7 +46,7 @@ module Processing
     # if supplied, otherwise perform as the PApplet class would
     def loop(&block)
       if block_given?
-        while true do
+        while
           yield
         end
       else
@@ -108,18 +108,27 @@ module Processing
 
     # explicitly provide 'processing.org' dist instance method
     def dist(*args)
-      alen = args.length
-      return Math.hypot(args[0] - args[2], args[1] - args[3]) if alen == 4
-      return Math.sqrt((args[0] - args[3]) * (args[0] - args[3]) +
-          (args[1] - args[4]) * (args[1] - args[4]) +
-          (args[2] - args[5]) * (args[2] - args[5])) if alen == 6
-      fail ArgumentError, 'takes 4 or 6 parameters'
+      case args.length
+      when 4
+        dx = args[0] - args[2]
+        dy = args[1] - args[3]
+        return 0 if (dx.abs < EPSILON && dy.abs < EPSILON)
+        return Math.hypot(dx, dy)
+      when 6
+        dx = args[0] - args[3]
+        dy = args[1] - args[4]
+        dz = args[2] - args[5]
+        return 0 if (dx.abs < EPSILON && dy.abs < EPSILON && dz.abs < EPSILON)
+        return Math.sqrt(dx * dx + dy * dy + dz * dz)
+      else
+        fail ArgumentError, 'takes 4 or 6 parameters'
+      end
     end
 
     # explicitly provide 'processing.org' constrain instance method
     # to return a float:- amt, low and high need to be floats
     def constrain(amt, low, high)
-      (amt < low) ? low : ((amt > high) ? high : amt)
+      (low..high).clip(amt)
     end
 
 

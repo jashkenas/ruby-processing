@@ -75,7 +75,7 @@ module Processing
       def load_libraries(*args)
         @@library_loader.load_library(*args)
       end
-      alias :load_library :load_libraries
+      alias_method :load_library, :load_libraries
 
       def library_loaded?(library_name)
         @@library_loader.library_loaded?(library_name)
@@ -101,7 +101,7 @@ module Processing
     # argument in setup. Sensible options to pass are x and y to locate sketch
     # on the screen, or full_screen: true (prefer new hash syntax)
 
-    def initialize(options={})
+    def initialize(options = {})
       super()
       post_initialize(options)
       $app = self
@@ -113,7 +113,7 @@ module Processing
       java.lang.Thread.default_uncaught_exception_handler = proc do |_thread_, exception|
         puts(exception.class.to_s)
         puts(exception.message)
-        puts(exception.backtrace.collect { |trace| "\t" + trace })
+        puts(exception.backtrace.map { |trace| '\t' + trace })
         close
       end
 
@@ -127,18 +127,17 @@ module Processing
       @width, @height = options[:width], options[:height]
       if @@full_screen || options[:full_screen]
         @@full_screen = true
-        args << "--present"
+        args << '--present'
       end
       @render_mode  ||= JAVA2D
-      xc = Processing::RP_CONFIG["X_OFF"] ||= 0
-      yc = Processing::RP_CONFIG["Y_OFF"] ||= 0
+      xc = Processing::RP_CONFIG['X_OFF'] ||= 0
+      yc = Processing::RP_CONFIG['Y_OFF'] ||= 0
       x = options[:x] || xc
       y = options[:y] || yc
       args << "--location=#{x},#{y}"  # important no spaces here
       title = options[:title] || File.basename(SKETCH_PATH).sub(/(\.rb)$/, '').titleize
       args << title
       PApplet.run_sketch(args, self)
-      #end
     end
 
     def size(*args)
@@ -155,13 +154,13 @@ module Processing
       super(*args)
     end
 
-    def post_initialize(args)
+    def post_initialize(_args)
       nil
     end
 
     # Make sure we set the size if we set it before we start the animation thread.
     def start
-      self.size(@width, @height) if @width && @height
+      size(@width, @height) if @width && @height
       super()
     end
 
@@ -174,8 +173,8 @@ module Processing
     # Cleanly close and shutter a running sketch.
     def close
       control_panel.remove if respond_to?(:control_panel)
-      self.dispose
-      self.frame.dispose
+      dispose
+      frame.dispose
     end
 
     private
@@ -183,7 +182,6 @@ module Processing
     # Mix the Processing::Proxy into any inner classes defined for the
     # sketch, attempting to mimic the behavior of Java's inner classes.
     def mix_proxy_into_inner_classes
-
       klass = Processing::App.sketch_class
       klass.constants.each do |name|
         const = klass.const_get name
@@ -203,14 +201,14 @@ module Processing
     def self.desired_method_names(inner_class)
       bad_method = /__/    # Internal JRuby methods.
       unwanted = PApplet.superclass.instance_methods + Object.instance_methods
-      unwanted -= ['width', 'height', 'cursor', 'create_image', 'background', 'size', 'resize']
+      unwanted -= %w(width height cursor create_image background size resize)
       methods = Processing::App.public_instance_methods
-      methods.reject {|m| unwanted.include?(m) || bad_method.match(m) || inner_class.method_defined?(m) }
+      methods.reject { |m| unwanted.include?(m) || bad_method.match(m) || inner_class.method_defined?(m) }
     end
 
     # Proxy methods through to the sketch.
     def self.proxy_methods(inner_class)
-      code = desired_method_names(inner_class).inject('') do |rcode, method|
+      code = desired_method_names(inner_class).reduce('') do |rcode, method|
         rcode << <<-EOS
         def #{method}(*args, &block)                # def rect(*args, &block)
         if block_given?                           #   if block_given?
