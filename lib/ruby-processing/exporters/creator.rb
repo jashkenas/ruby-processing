@@ -62,7 +62,7 @@ module Processing
   class BasicSketch < Creator
     # Create a blank sketch, given a path.
     def basic_template
-%{
+%(
 def setup
   size <%=@width%>, <%=@height%>
 end
@@ -70,11 +70,11 @@ end
 def draw
 
 end
-}
+)
     end
 
     def basic_template_mode
-%{
+%(
 def setup
   size <%=@width%>, <%=@height%>, <%=@mode%>
 end
@@ -82,7 +82,7 @@ end
 def draw
 
 end
-}
+)
     end
 
     def create!(path, args)
@@ -109,7 +109,7 @@ end
   class ClassSketch < Creator
 
     def class_template
-%{
+%(
 class <%=@name%> < Processing::App
   def setup
     size <%=@width%>, <%=@height%>
@@ -121,11 +121,11 @@ class <%=@name%> < Processing::App
 end
 
 # <%=@name%>.new(x: 20, y: 20)
-}
+)
     end
 
     def class_template_mode
-%{
+%(
 class <%=@name%> < Processing::App
   def setup
     size <%=@width%>, <%=@height%>, <%=@mode%>
@@ -137,7 +137,7 @@ class <%=@name%> < Processing::App
 end
 
 # <%=@name%>.new(x: 20, y: 20)
-}
+)
     end
     # Create a bare blank sketch, given a path.
     def create!(path, args)
@@ -163,12 +163,12 @@ end
   # This class creates a ruby-processing class that mimics java inner class
   class Inner < Creator
     def inner_class_template
-%{
+%(
 class <%=@name%>
   include Processing::Proxy
 
 end
-}
+)
     end
     # Create a blank sketch, given a path.
     def create!(path, _args_)

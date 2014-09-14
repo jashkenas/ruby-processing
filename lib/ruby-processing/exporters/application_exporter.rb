@@ -61,7 +61,7 @@ module Processing
 
     def calculate_substitutions
       file_list = ['lib/ruby/jruby-complete.jar']
-      @class_path = file_list.map { |f| '$JAVAROOT/' + f.sub(@prefix + "/", '') }.join(":")
+      @class_path = file_list.map { |f| '$JAVAROOT/' + f.sub(@prefix + '/', '') }.join(':')
       @linux_class_path = '.:../lib/ruby/*:../lib/*:../lib/library/*'
       @windows_class_path = '.;../lib/ruby/*;../lib/*;../lib/library/*'
     end
