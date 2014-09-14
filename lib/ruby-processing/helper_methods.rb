@@ -43,31 +43,20 @@ module Processing
       super(*args)
     end
 
-    # Overrides convenience function loop, to add ability to loop over a block
-    # if supplied, otherwise perform as the PApplet class would
-    # def loop(&block)
-      # if block_given?
-        # while true do
-          # yield
-        # end
-      # else
-        # super
-      # end
-    # end
-
     # Overrides Processing convenience function thread, which takes a String
     # arg (for a function) to more rubylike version, takes a block...
     def thread(&block)
       if block_given?
         Thread.new(&block)
       else
-        fail ArgumentError, 'thread must be called with a block' , caller
+        fail ArgumentError, 'thread must be called with a block', caller
       end
     end
 
     # Explicitly provides 'processing.org' map instance method, in which
     # value is mapped from range 1, to range 2 (NB: values are not clamped to
-    # range 1). It may be better to explicitly write your own interpolate function
+    # range 1). It may be better to explicitly write your own interpolate
+    # function
     # @param [float] value input
     # @param [range] start1, stop1
     # @param [range] start1, stop2
@@ -77,9 +66,10 @@ module Processing
     end
 
     # ruby alternative implementation of map using range parameters
-    # NB: (begin .. end) and excluded end (begin ... end) versions produce the same result
+    # (begin..end) and excluded end (begin...end) produce the same result
     def map1d(val, r_in, r_out)
-      r_out.begin + (r_out.end - r_out.begin) * ((val - r_in.begin).to_f / (r_in.end - r_in.begin))
+      r_out.begin + (r_out.end - r_out.begin) *
+        ((val - r_in.begin).to_f / (r_in.end - r_in.begin))
     end
 
     # explicitly provide 'processing.org' norm instance method
@@ -106,24 +96,22 @@ module Processing
       args.max  #  { |a, b| a <=> b } optional block not reqd
     end
 
-
     # explicitly provide 'processing.org' dist instance method
     def dist(*args)
-      case args.length
-      when 4
+      len = args.length
+      if len == 4
         dx = args[0] - args[2]
         dy = args[1] - args[3]
-        return 0 if (dx.abs < EPSILON && dy.abs < EPSILON)
+        return 0 if dx.abs < EPSILON && dy.abs < EPSILON
         return Math.hypot(dx, dy)
-      when 6
+      elsif len == 6
         dx = args[0] - args[3]
         dy = args[1] - args[4]
         dz = args[2] - args[5]
-        return 0 if (dx.abs < EPSILON && dy.abs < EPSILON && dz.abs < EPSILON)
+        return 0 if dx.abs < EPSILON && dy.abs < EPSILON && dz.abs < EPSILON
         return Math.sqrt(dx * dx + dy * dy + dz * dz)
-      else
-        fail ArgumentError, 'takes 4 or 6 parameters'
       end
+      fail ArgumentError, 'takes 4 or 6 parameters'
     end
 
     # explicitly provide 'processing.org' constrain instance method
@@ -131,7 +119,6 @@ module Processing
     def constrain(amt, low, high)
       (low..high).clip(amt)
     end
-
 
     # Uses PImage class method under hood
     def blend_color(c1, c2, mode)
@@ -142,7 +129,7 @@ module Processing
     # Here's a convenient way to look for them.
     def find_method(method_name)
       reg = Regexp.new("#{method_name}", true)
-      self.methods.sort.select { |meth| reg.match(meth) }
+      methods.sort.select { |meth| reg.match(meth) }
     end
 
     # Proxy over a list of Java declared fields that have the same name as
@@ -169,7 +156,7 @@ module Processing
 
     # Provide a convenient handle for the Java-space version of self.
     def java_self
-      @java_self ||= self.to_java(Java::ProcessingCore::PApplet)
+      @java_self ||= to_java(Java::ProcessingCore::PApplet)
     end
 
 
@@ -180,13 +167,18 @@ module Processing
 
     # Fields that should be made accessible as under_scored.
     def mouse_x;      mouseX;       end
-    def mouse_y;      mouseY;       end
-    def pmouse_x;     pmouseX;      end
-    def pmouse_y;     pmouseY;      end
-    def frame_count;  frameCount;   end
-    def mouse_button; mouseButton;  end
-    def key_code;     keyCode;      end
 
+    def mouse_y;      mouseY;       end
+
+    def pmouse_x;     pmouseX;      end
+
+    def pmouse_y;     pmouseY;      end
+
+    def frame_count;  frameCount;   end
+
+    def mouse_button; mouseButton;  end
+
+    def key_code;     keyCode;      end
 
     # Ensure that load_strings returns a real Ruby array
     def load_strings(file_or_url)

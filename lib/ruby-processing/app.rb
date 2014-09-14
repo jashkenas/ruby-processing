@@ -7,7 +7,7 @@ require_relative '../ruby-processing/helper_methods'
 require_relative '../ruby-processing/library_loader'
 require_relative '../ruby-processing/config'
 
-Dir["#{Processing::RP_CONFIG["PROCESSING_ROOT"]}/core/library/\*.jar"].each { |jar| require jar }
+Dir["#{Processing::RP_CONFIG['PROCESSING_ROOT']}/core/library/\*.jar"].each { |jar| require jar }
 
 # Include some core processing classes that we'd like to use:
 %w(PApplet PConstants PFont PImage PShape PShapeOBJ PShapeSVG PStyle
@@ -29,7 +29,7 @@ module Processing
     include HelperMethods
 
     # Alias some methods for familiarity for Shoes coders.
-    #attr_accessor :frame, :title
+    # attr_accessor :frame, :title
     alias_method :oval, :ellipse
     alias_method :stroke_width, :stroke_weight
     alias_method :rgb, :color
@@ -57,11 +57,13 @@ module Processing
     end
 
     # Handy getters and setters on the class go here:
-    def self.sketch_class;  @sketch_class;        end
-    @@full_screen = false
-    def self.full_screen;   @@full_screen = true; end
-    def full_screen?;       @@full_screen;        end
-
+    class << self
+      attr_accessor :sketch_class
+    end
+    
+    def sketch_class
+      self.class.sketch_class
+    end
 
     # Keep track of what inherits from the Processing::App, because we're going
     # to want to instantiate one.
@@ -106,9 +108,9 @@ module Processing
       post_initialize(options)
       $app = self
       proxy_java_fields
-      set_sketch_path #unless Processing.online?
+      set_sketch_path # unless Processing.online?
       mix_proxy_into_inner_classes
-      #@started = false
+      # @started = false
 
       java.lang.Thread.default_uncaught_exception_handler = proc do |_thread_, exception|
         puts(exception.class.to_s)
@@ -125,8 +127,8 @@ module Processing
 
       args = []
       @width, @height = options[:width], options[:height]
-      if @@full_screen || options[:full_screen]
-        @@full_screen = true
+      if @full_screen || options[:full_screen]
+        @full_screen = true
         args << '--present'
       end
       @render_mode  ||= JAVA2D
@@ -167,7 +169,6 @@ module Processing
     # Provide a loggable string to represent this sketch.
     def inspect
       "#<Processing::App:#{self.class}:#{@title}>"
-      #"#<Processing::App:#{self.class}>"
     end
 
     # Cleanly close and shutter a running sketch.

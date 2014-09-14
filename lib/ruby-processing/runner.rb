@@ -45,7 +45,7 @@ module Processing
 
     # Start running a ruby-processing sketch from the passed-in arguments
     def self.execute
-      runner = self.new
+      runner = new
       runner.parse_options(ARGV)
       runner.execute!
     end
@@ -92,20 +92,20 @@ module Processing
 
     # Just simply run a ruby-processing sketch.
     def run(sketch, args)
-    ensure_exists(sketch)
+      ensure_exists(sketch)
       spin_up('run.rb', sketch, args)
     end
 
     # Run a sketch, keeping an eye on it's file, and reloading
     # whenever it changes.
     def watch(sketch, args)
-    ensure_exists(sketch)
+      ensure_exists(sketch)
       spin_up('watch.rb', sketch, args)
     end
 
     # Run a sketch, opening its guts to IRB, letting you play with it.
     def live(sketch, args)
-    ensure_exists(sketch)
+      ensure_exists(sketch)
       spin_up('live.rb', sketch, args)
     end
 
@@ -124,7 +124,7 @@ module Processing
         check(proc_root, installed)
       when /install/
         system "cd #{RP5_ROOT}/vendors && rake"
-        if !proc_root
+        unless proc_root
           set_processing_root
           warn 'PROCESSING_ROOT set optimistically, run check to confirm'
         end
@@ -199,7 +199,7 @@ module Processing
     end
 
     def ensure_exists(sketch)
-      puts "Couldn't find: #{sketch}" and exit unless File.exist?(sketch)
+      puts "Couldn't find: #{sketch}" && exit unless File.exist?(sketch)
     end
 
     def jruby_complete
@@ -224,10 +224,9 @@ module Processing
       when /solaris|bsd/
         :unix
       else
-        raise "unknown os: #{host_os.inspect}"
+        fail "unknown os: #{host_os.inspect}"
       end
     end
-
 
     # Optimistically set processing root
     def set_processing_root
@@ -236,13 +235,13 @@ module Processing
       data = {}
       path = File.expand_path("#{ENV['HOME']}/.rp5rc")
       if @os == :macosx
-        data['PROCESSING_ROOT'] = %q(/Applications/Processing.app/Contents/Java)
+        data['PROCESSING_ROOT'] = '/Applications/Processing.app/Contents/Java'
       else
         root = "#{ENV['HOME']}/processing-2.2.1"
         data['PROCESSING_ROOT'] = root
       end
       data['JRUBY'] = true
-      open(path, 'w:UTF-8') {|f| f.write(data.to_yaml) }
+      open(path, 'w:UTF-8') { |f| f.write(data.to_yaml) }
     end
 
     # On the Mac, we can display a fat, shiny ruby in the Dock.
