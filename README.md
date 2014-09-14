@@ -8,7 +8,7 @@ Is a ruby wrapper around the [Processing][] code art framework, built using [JRu
   
   alpha, arc, background, blend, blue, ellipse, frame_rate, hue, lerp, 
   load_image, load_pixels, mouse_pressed, noise, rect, saturation, shape, 
-  smooth, text_align, translate, triangle...
+  smooth, text_align, translate, triangle, vertex...
   
 
 ## Installation
@@ -26,7 +26,7 @@ To install jruby-complete use our built in tool (relies on `wget` to download [j
 
 since ruby-processing-2.5.0 `rp5 setup install` (was `install_jruby_complete`)
 
-If you haven't got `wget` just download jruby-complete-1.7.15 (for ruby-processing-2.6.2)to the vendors folder (then run above tool)
+If you haven't got `wget` just download jruby-complete-1.7.15 (for ruby-processing-2.6.3)to the vendors folder (then run above tool)
 
 The vendored jruby-complete is only required for application export, and running certain sketches (eg shader sketches see wiki).
 
@@ -108,7 +108,7 @@ NB: Support for ruby-2.0 syntax is limited (and experimental see jruby documenta
 ## Supported Processing Version
 
 * processing-2.2.1 (recommended)
-* seems also work with processing-3.0a3 (but there is probably no reason to use it)
+* seems also work with processing-3.0a4 (but there is probably no reason to use it)
 
 ## Deprecated Methods
 
