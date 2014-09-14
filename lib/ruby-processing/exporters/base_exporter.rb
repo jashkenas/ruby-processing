@@ -83,7 +83,7 @@ module Processing
       code = source.dup
       requirements = []
       partial_paths = []
-      loop do
+      Kernel.loop do
         matchdata = code.match(
           /^.*[^::\.\w](require_relative|require|load)\b.*$/
         )

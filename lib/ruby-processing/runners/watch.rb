@@ -15,7 +15,7 @@ module Processing
     # and restarting the sketch whenever it changes.
     def start_watching
       start_runner
-      loop do
+      Kernel.loop do
         if @files.find { |file| File.exist?(file) && File.stat(file).mtime > @time }
           puts 'reloading sketch...'
           $app && $app.close

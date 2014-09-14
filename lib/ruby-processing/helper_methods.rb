@@ -1,6 +1,7 @@
 module Processing
   module HelperMethods
-
+    # processings epsilon may not be defined yet
+    EPSILON ||= 1.0e-04
     # Nice block method to draw to a buffer.
     # You can optionally pass it a width, a height, and a renderer.
     # Takes care of starting and ending the draw for you.
@@ -44,15 +45,15 @@ module Processing
 
     # Overrides convenience function loop, to add ability to loop over a block
     # if supplied, otherwise perform as the PApplet class would
-    def loop(&block)
-      if block_given?
-        while
-          yield
-        end
-      else
-        super
-      end
-    end
+    # def loop(&block)
+      # if block_given?
+        # while true do
+          # yield
+        # end
+      # else
+        # super
+      # end
+    # end
 
     # Overrides Processing convenience function thread, which takes a String
     # arg (for a function) to more rubylike version, takes a block...
@@ -74,7 +75,7 @@ module Processing
     def map(value, start1, stop1, start2, stop2)
       start2 + (stop2 - start2) * ((value - start1).to_f / (stop1 - start1))
     end
-    
+
     # ruby alternative implementation of map using range parameters
     # NB: (begin .. end) and excluded end (begin ... end) versions produce the same result
     def map1d(val, r_in, r_out)
@@ -104,7 +105,7 @@ module Processing
     def max(*args)
       args.max  #  { |a, b| a <=> b } optional block not reqd
     end
-    
+
 
     # explicitly provide 'processing.org' dist instance method
     def dist(*args)
