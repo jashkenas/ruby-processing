@@ -21,10 +21,10 @@ def setup
   @speed_x = 0.7
   @speed_y = 0.9
   # Fill body arrays
-  @radii_x = Array.new(CELLS, rand(-7 .. 7)) 
-  @radii_y = Array.new(CELLS, rand(-7 .. 7) )
-  @frequency = Array.new(CELLS, rand(-7 .. 7) )
-  @cell_radius= Array.new(CELLS, rand(16 .. 30) )
+  @radii_x = Array.new(CELLS, rand(-7..7)) 
+  @radii_y = Array.new(CELLS, rand(-7..7) )
+  @frequency = Array.new(CELLS, rand(-7..7) )
+  @cell_radius= Array.new(CELLS, rand(16..30) )
   @angle = Array.new(CELLS, 0)
   @px = Array.new(CELLS, 0)
   @py = Array.new(CELLS, 0)

@@ -7,7 +7,7 @@
 #
 load_library :vecmath
 
-QUANTITY = 16000
+QUANTITY = 16_000
 
 attr_reader :orb, :phi, :radius, :rx, :ry
 
@@ -43,9 +43,9 @@ def draw
 end
 
 def create_hair radius
-  z = rand(-radius .. radius)
-  phi = rand(0 .. TAU)
-  len = rand(1.15 .. 1.2)
+  z = rand(-radius..radius)
+  phi = rand(0..TAU)
+  len = rand(1.15..1.2)
   theta = Math.asin(z / radius)
   Hair.new(z, phi, len, theta)
 end

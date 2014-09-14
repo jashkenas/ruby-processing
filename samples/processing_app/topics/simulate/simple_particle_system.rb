@@ -52,7 +52,7 @@ class Particle
   attr_reader :loc, :vel, :acc, :lifespan
   def initialize(l)
     @acc = Vec2D.new(0, 0.05)
-    @vel = Vec2D.new(rand(-1.0 .. 1), rand(-2.0 .. 0))
+    @vel = Vec2D.new(rand(-1.0..1), rand(-2.0..0))
     @loc = l.copy
     @lifespan = 255.0
   end

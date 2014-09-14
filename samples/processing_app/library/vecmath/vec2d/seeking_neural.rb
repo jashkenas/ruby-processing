@@ -9,7 +9,7 @@ module SeekingNeural
   class Perceptron
     # Perceptron is created with n weights and learning constant
     def initialize(n, c)
-      @weights = Array.new(n) { rand(0 .. 1.0) }
+      @weights = Array.new(n) { rand(0..1.0) }
       @c = c
     end
     
@@ -25,7 +25,8 @@ module SeekingNeural
     # Give me a steering result
     def feedforward(forces)
       # Sum all values
-      forces.zip(@weights).map { |a, b| a * b }.inject(Vec2D.new, :+)
+      forces.zip(@weights).map { |a, b| a * b }.reduce(Vec2D.new, :+)
+      # forces.zip(@weights).map { |a, b| a * b }.reduce(:+)
     end
   end
   

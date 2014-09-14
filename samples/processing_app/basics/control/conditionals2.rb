@@ -12,7 +12,7 @@ def setup
   (2 ... width - 2 ).step(2) do |i|
     
     # If 'i' divides by 20 with no remainder 
-    # draw the first line .. 
+    # draw the first line..
     # else if 'i' divides by 10 with no remainder 
     # draw second line, else draw third line
     

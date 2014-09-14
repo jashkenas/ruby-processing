@@ -10,7 +10,7 @@ class Ball
     @position = Vec2D.new(x, y)
     @r = r
     @m = r * 0.1
-    @velocity = Vec2D.new(rand(-3.0 .. 3), rand(-3.0 .. 3))
+    @velocity = Vec2D.new(rand(-3.0..3), rand(-3.0..3))
   end 
   
   def update
@@ -18,10 +18,10 @@ class Ball
   end
   
   def check_boundary width, height 
-    if !(r .. width - r).include?(position.x)
+    if !(r..width - r).include?(position.x)
       (position.x > width - r)? position.x = width - r : position.x = r
       velocity.x *= -1
-    elsif !(r .. height - r).include?(position.y)
+    elsif !(r..height - r).include?(position.y)
       (position.y > height - r)? position.y = height - r : position.y = r
       velocity.y *= -1
     end    

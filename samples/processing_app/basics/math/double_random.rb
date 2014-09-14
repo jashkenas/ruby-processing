@@ -22,9 +22,9 @@ def draw
   background 0
   rand_y = 0.0  
   (1 ... steps).each do |i|
-    noise_y = (rand_y > 0)? rand(-rand_y .. rand_y) : rand(rand_y .. -rand_y)    
+    noise_y = (rand_y > 0)? rand(-rand_y..rand_y) : rand(rand_y..-rand_y)    
     point( (width/steps) * i, (height/2) + noise_y )
-    rand_y += rand(-5 .. 5)  
+    rand_y += rand(-5..5)  
   end
 end
 

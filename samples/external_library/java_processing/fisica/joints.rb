@@ -62,11 +62,11 @@ def key_pressed
 end
 
 def create_spider
-  pos_x = rand(MAIN_SIZE/2 .. width-MAIN_SIZE/2)
-  pos_y = rand(MAIN_SIZE/2 .. height-MAIN_SIZE/2)  
+  pos_x = rand(MAIN_SIZE/2..width-MAIN_SIZE/2)
+  pos_y = rand(MAIN_SIZE/2..height-MAIN_SIZE/2)  
   main = Fis::FCircle.new(MAIN_SIZE)
   main.set_position(pos_x, pos_y)
-  main.set_velocity(rand(-20 .. 20), rand(-20 .. 20))
+  main.set_velocity(rand(-20..20), rand(-20..20))
   main.set_fill_color(body_color)
   main.set_no_stroke
   main.set_group_index(2)
@@ -78,7 +78,7 @@ def create_spider
     y = LEG_SIZE * sin(i * TAU/3) + pos_y    
     leg = Fis::FCircle.new(MAIN_SIZE/2)
     leg.set_position(pos_x, pos_y)
-    leg.set_velocity(rand(-20 .. 20), rand(-20 ..20))
+    leg.set_velocity(rand(-20..20), rand(-20 ..20))
     leg.set_fill_color(body_color)
     leg.set_no_stroke
     world.add(leg)    

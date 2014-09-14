@@ -125,7 +125,7 @@ module PS
       @body = box2d.create_body(bd)
       
       # Give it some initial random velocity
-      body.set_linear_velocity(PS::Vec2.new(rand(-1 .. 1), rand(-1 .. 1)))
+      body.set_linear_velocity(PS::Vec2.new(rand(-1..1), rand(-1..1)))
       
       # Make the body's shape a circle
       cs = PS::CircleShape.new

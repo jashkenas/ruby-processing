@@ -16,8 +16,8 @@ def setup
   @dx = []					        # Value for incrementing X, to be calculated as a function of period and x_spacing
   
   @max_waves.times do |i|
-    amplitude << rand(10 .. 30)
-    period = rand(100 .. 300) # How many pixels before the wave repeats
+    amplitude << rand(10..30)
+    period = rand(100..300) # How many pixels before the wave repeats
     dx << (TAU / period) * @x_spacing
   end
   

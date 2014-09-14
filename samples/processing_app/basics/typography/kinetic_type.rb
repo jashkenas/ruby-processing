@@ -49,7 +49,7 @@
     end
     
     def compute_curve(line_num)
-      base = millis / 10000.0 * PI * 2
+      base = millis / 10_000.0 * PI * 2
       sin((line_num + 1.0) * base) * sin((8.0 - line_num) * base)
     end
     

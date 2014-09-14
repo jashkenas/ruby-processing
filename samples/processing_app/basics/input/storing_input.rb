@@ -30,7 +30,7 @@ def draw
   which = frame_count % NUM
   pos[which] = Vec.new(mouse_x, mouse_y)
   
-  (1 .. NUM).each do |i|
+  (1..NUM).each do |i|
     # which + 1 is the smallest (the oldest in the array)
     idx = (which + i) % NUM
     ellipse(pos[idx].x, pos[idx].y, i, i)

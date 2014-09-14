@@ -37,7 +37,7 @@ def draw
   if systems.size > 0
     systems.each do |system|
       system.run 
-      system.add_particles(box2d, rand(0 .. 2)) 
+      system.add_particles(box2d, rand(0..2)) 
     end
   end  
   # Display all the boundaries

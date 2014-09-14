@@ -9,7 +9,7 @@ def setup
   
   size 640, 360, P3D
   
-  @concentration = 600 # try values between 1 <-> 10000
+  @concentration = 600 # try values between 1 <-> 10_000
   
   no_stroke
   fill 204

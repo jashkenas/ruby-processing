@@ -24,7 +24,7 @@ end
 def draw
   background 145
   draw_ellipse
-  set_ellipse rand(3 .. 12), rand(-100 .. 150), rand(-100 .. 150)
+  set_ellipse rand(3..12), rand(-100..150), rand(-100..150)
 end
 
 def draw_ellipse    

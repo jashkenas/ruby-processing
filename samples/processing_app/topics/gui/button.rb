@@ -64,7 +64,7 @@ def mouse_pressed
 end
 
 def over_rect?(x, y, width, height)
-  (x .. width + x).include?(mouse_x) && (y .. height + y).include?(mouse_y)
+  (x..width + x).include?(mouse_x) && (y..height + y).include?(mouse_y)
 end
 
 def over_circle?(x, y, diameter)

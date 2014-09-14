@@ -34,7 +34,7 @@ def setup
   size 640, 580
   color_mode(RGB, 255, 255, 255, 100)
   ellipse_mode(CENTER)
-  @particle_systems = ParticleSystem.new(rand(5 .. 26), Vec2D.new(width / 2, height / 2))
+  @particle_systems = ParticleSystem.new(rand(5..26), Vec2D.new(width / 2, height / 2))
 end
 
 def draw
@@ -43,7 +43,7 @@ def draw
 end
 
 def mouse_pressed
-  origin = rand(5 .. 26)
+  origin = rand(5..26)
   vector = Vec2D.new(mouse_x, mouse_y)
   particle_systems << ParticleSystem.new(origin, vector)
 end
@@ -54,7 +54,7 @@ class Particle
 
   def initialize(origin)
     @origin = origin
-    @velocity = Vec2D.new(rand(-1.0 .. 1), rand(-2.0 .. 0))
+    @velocity = Vec2D.new(rand(-1.0..1), rand(-2.0..0))
     @acceleration = Vec2D.new(0, 0.05)
     @radius = 10
     @lifespan = 100

@@ -22,7 +22,7 @@ class Cube
     # Random velocity vector
     @velocity = Vect.random_3d
     # Random rotation
-    @rotation = Vect.new(rand(40 .. 100), rand(40 .. 100), rand(40 .. 100))
+    @rotation = Vect.new(rand(40..100), rand(40..100), rand(40..100))
     
     # cube composed of 6 quads
     #front
@@ -116,7 +116,7 @@ end
 Vect = Struct.new(:x, :y, :z) do
 
   def self.random_3d
-    Vect.new(rand(-1 .. 1.0), rand(-1 .. 1.0), rand(-1 .. 1.0))
+    Vect.new(rand(-1..1.0), rand(-1..1.0), rand(-1..1.0))
   end
 
   def add v

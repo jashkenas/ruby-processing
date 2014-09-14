@@ -47,7 +47,7 @@ class BubbleData
   end  
   
   def create_new_bubble x, y
-    self.add Bubble.new(x, y, rand(40 .. 80), 'new label')    
+    self.add Bubble.new(x, y, rand(40..80), 'new label')    
     save_data 
     load_data path
   end

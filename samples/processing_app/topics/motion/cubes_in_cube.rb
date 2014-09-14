@@ -27,7 +27,7 @@ def setup
   @cubies = []
   CUBE_NO.times do 
     # Cubies are randomly sized
-    cubie_size = rand(5 .. 15)
+    cubie_size = rand(5..15)
     cubies << Cube.new(cubie_size, cubie_size, cubie_size)
   end
   smooth 8

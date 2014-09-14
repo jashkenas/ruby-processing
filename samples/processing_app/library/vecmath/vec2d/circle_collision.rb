@@ -72,7 +72,7 @@ end
 def empty_space(r)
   pos = nil
   while !pos || !empty_space?(pos, r) do
-    pos = Vec2D.new(rand(r .. width - r), rand(r .. height - r))
+    pos = Vec2D.new(rand(r..width - r), rand(r..height - r))
   end
   return pos
 end
@@ -162,8 +162,8 @@ end
 
 # reverse ball velocity if at sketch boundary
 def check_boundary_collision(ball)  
-  ball.velocity.x *= -1 unless (ball.r .. width - ball.r).include? ball.position.x 
-  ball.velocity.y *= -1 unless (ball.r .. height - ball.r).include? ball.position.y 
+  ball.velocity.x *= -1 unless (ball.r..width - ball.r).include? ball.position.x 
+  ball.velocity.y *= -1 unless (ball.r..height - ball.r).include? ball.position.y 
 end
 
 

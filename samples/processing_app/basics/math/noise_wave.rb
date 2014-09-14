@@ -23,7 +23,7 @@ def draw
   # xoff = yoff # Option #2: 1D Noise
   
   # Iterate over horizontal pixels
-  (0 .. width).step(10) do |x|
+  (0..width).step(10) do |x|
     # Calculate a y value according to noise, map to 
     y = map(noise(xoff, yoff), 0, 1, 200,300) # Option #1: 2D Noise
     # y = map(noise(xoff), 0, 1, 200,300)    # Option #2: 1D Noise

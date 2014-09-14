@@ -24,8 +24,8 @@ def draw
     ay[i-1] = ay[i]
   end  
   # Put a new value at the end of the array
-  ax[NUM-1] += rand(-RANGE .. RANGE)
-  ay[NUM-1] += rand(-RANGE .. RANGE)
+  ax[NUM-1] += rand(-RANGE..RANGE)
+  ay[NUM-1] += rand(-RANGE..RANGE)
   
   # Constrain all points to the screen
   ax[NUM-1] = constrain(ax[NUM-1], 0, width)

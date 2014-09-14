@@ -64,13 +64,13 @@ def scribble(x1, y1, x2, y2, steps, scrib_val, style)
   (0 ... steps).each do |i|
     if(style == SCRIBBLE)
       if (i < steps-1)
-        line(x1, y1, x1 += x_step+rand(-scrib_val .. scrib_val), y1 += y_step + rand(-scrib_val .. scrib_val))      
+        line(x1, y1, x1 += x_step+rand(-scrib_val..scrib_val), y1 += y_step + rand(-scrib_val..scrib_val))      
       else
         # extra line needed to attach line back to point- not necessary in HATCHING style
         line(x1, y1, x2, y2)
       end
     elsif (style == HATCHING)
-      line(x1, y1, (x1 += x_step)+rand(-scrib_val .. scrib_val), (y1 += y_step) + rand(-scrib_val .. scrib_val))
+      line(x1, y1, (x1 += x_step)+rand(-scrib_val..scrib_val), (y1 += y_step) + rand(-scrib_val..scrib_val))
     end
   end
 end

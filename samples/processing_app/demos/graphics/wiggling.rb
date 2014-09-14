@@ -18,10 +18,10 @@ def setup
   @cosine = []
   wiggling = false 
   # Dry up that processing code a tiny bit
-  (0 .. TAU).step(TAU / CIRCLE_RES) do |i|
+  (0..TAU).step(TAU / CIRCLE_RES) do |i|
     sine << CIRCLE_RAD * sin(i)
   end
-  (0 .. TAU).step(TAU / CIRCLE_RES) do |i|
+  (0..TAU).step(TAU / CIRCLE_RES) do |i|
     cosine << CIRCLE_RAD * cos(i)
   end
   @cube = create_cube
@@ -41,9 +41,9 @@ def draw
       face = cube.get_child(i)
       face.get_vertex_count.times do |j|
       x, y, z = face.get_vertex_x(j), face.get_vertex_y(j), face.get_vertex_z(j)
-      x += rand(-NOISE_MAG/2 .. NOISE_MAG/2)
-      y += rand(-NOISE_MAG/2 .. NOISE_MAG/2)
-      z += rand(-NOISE_MAG/2 .. NOISE_MAG/2)
+      x += rand(-NOISE_MAG/2..NOISE_MAG/2)
+      y += rand(-NOISE_MAG/2..NOISE_MAG/2)
+      z += rand(-NOISE_MAG/2..NOISE_MAG/2)
       face.set_vertex(j, x, y, z)
     end
   end

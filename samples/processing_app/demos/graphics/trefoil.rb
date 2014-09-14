@@ -32,7 +32,7 @@ def draw
   background(0)
   
   pg.begin_draw    
-  pg.ellipse(rand(0.0 .. pg.width), rand(0.0 .. pg.height), 4, 4)
+  pg.ellipse(rand(0.0..pg.width), rand(0.0..pg.height), 4, 4)
   pg.end_draw 
 
   ambient(250, 250, 250)

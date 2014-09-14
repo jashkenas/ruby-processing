@@ -6,9 +6,9 @@ class Star
   def initialize(width, height)
     @width = width
     @height = height
-    @x = rand(100 .. width-100)
-    @y = rand(100 .. height-100) 
-    @speed = rand(0.5 .. 3)
+    @x = rand(100..width-100)
+    @y = rand(100..height-100) 
+    @speed = rand(0.5..3)
     # First create the shape
     @s = createShape
     s.beginShape

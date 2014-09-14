@@ -20,10 +20,10 @@ def setup
   FACE_COUNT.times do |i|
 
     # calc some random triangles in 3 space
-    val = Vec3D.new(rand(-width/2 .. width/2), rand(-width/2 .. width/2), rand(-width/2 .. width/2))
-    v0 = Vec3D.new(rand(-val.x .. -val.x + 100), rand(-val.y .. -val.y + 100), rand(-val.z .. -val.z + 100))
-    v1 = Vec3D.new(rand(-val.x .. -val.x + 100), rand(-val.y .. -val.y + 100), rand(-val.z .. -val.z + 100))
-    v2 = Vec3D.new(rand(-val.x .. -val.x + 100), rand(-val.y .. -val.y + 100), rand(-val.z .. -val.z + 100))
+    val = Vec3D.new(rand(-width/2..width/2), rand(-width/2..width/2), rand(-width/2..width/2))
+    v0 = Vec3D.new(rand(-val.x..-val.x + 100), rand(-val.y..-val.y + 100), rand(-val.z..-val.z + 100))
+    v1 = Vec3D.new(rand(-val.x..-val.x + 100), rand(-val.y..-val.y + 100), rand(-val.z..-val.z + 100))
+    v2 = Vec3D.new(rand(-val.x..-val.x + 100), rand(-val.y..-val.y + 100), rand(-val.z..-val.z + 100))
     p << Plane.new([v0, v1, v2])
 
     # build some cute little cylinders

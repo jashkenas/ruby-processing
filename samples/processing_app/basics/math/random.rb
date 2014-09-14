@@ -14,7 +14,7 @@ def draw
   background 0    
   (0...width).each do |i|    
     r = rand(255)
-    x = rand(0 .. width)
+    x = rand(0..width)
     stroke(r, 100)
     line(i, 0, x, height)
   end    

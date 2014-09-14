@@ -23,7 +23,7 @@ end
 def mouse_pressed
   return if mouse_x == 0 || mouse_y == 0
   return if particle_grab
-  particles << Particle.new(mouse_x, mouse_y, rand(0.1 .. 8))
+  particles << Particle.new(mouse_x, mouse_y, rand(0.1..8))
 end
 
 def mouse_released

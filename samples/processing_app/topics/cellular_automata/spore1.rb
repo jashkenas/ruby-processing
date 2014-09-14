@@ -15,7 +15,7 @@ attr_reader  :cells, :black, :spore_colour
 MAX_CELLS = 6700
 
 # set lower for smoother animation, higher for faster simulation
-RUNS_PER_LOOP = 10000
+RUNS_PER_LOOP = 10_000
 
 def setup 
   size(640, 360)

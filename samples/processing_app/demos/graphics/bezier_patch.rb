@@ -68,7 +68,7 @@ end
 def build_geometry
   @outp = []
   @normp = []
-  @inp = Array.new(NI){|i| Array.new(NJ){|j| Vec3D.new(i, j, rand(-3.0 .. 3))}}
+  @inp = Array.new(NI){|i| Array.new(NJ){|j| Vec3D.new(i, j, rand(-3.0..3))}}
   uitang = Vec3D.new
   ujtang = Vec3D.new
 

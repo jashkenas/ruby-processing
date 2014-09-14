@@ -87,8 +87,8 @@ def tick!  # When the clock ticks
     (0 ... column).each do |y|
       # And visit all the neighbours of each cell
       neighbours = 0 # We'll count the neighbours
-      (x - 1 .. x + 1).each do |xx|
-        (y - 1 .. y + 1).each do |yy|
+      (x - 1..x + 1).each do |xx|
+        (y - 1..y + 1).each do |yy|
           # Make sure you are not out of bounds
           if [(xx>=0), (xx<row), (yy>=0), (yy<column)].all? {|in_bounds| in_bounds == true}
             # Make sure to check against self
@@ -101,7 +101,7 @@ def tick!  # When the clock ticks
         end # End of yy loop
       end #End of xx loop
       # We've checked the neighbours: apply rules in one line (only in ruby)!
-      cells.set([x, y], (cells_buffer.get([x, y]))?  ((2 .. 3) === neighbours) : (neighbours == 3))
+      cells.set([x, y], (cells_buffer.get([x, y]))?  ((2..3) === neighbours) : (neighbours == 3))
     end # End of y loop
   end # End of x loop
 end # End of function

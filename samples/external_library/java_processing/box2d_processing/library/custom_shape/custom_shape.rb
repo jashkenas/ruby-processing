@@ -91,8 +91,8 @@ module B2D
       
       
       # Give it some initial random velocity
-      body.set_linear_velocity(Vec2.new(rand(-5 .. 5), rand(2 .. 5)))
-      body.set_angular_velocity(rand(-5 .. 5))
+      body.set_linear_velocity(Vec2.new(rand(-5..5), rand(2..5)))
+      body.set_angular_velocity(rand(-5..5))
     end
   end
   

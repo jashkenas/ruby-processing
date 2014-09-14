@@ -36,8 +36,8 @@ def setup
   path.begin_shape
   path.no_fill
   path.stroke(255)
-  (-PI .. 0).step(0.1) do |theta|
-    r = rand(60 .. 70)
+  (-PI..0).step(0.1) do |theta|
+    r = rand(60..70)
     path.vertex(r*cos(theta), r*sin(theta))
   end
   path.end_shape

@@ -14,7 +14,7 @@ def setup
   # Load the image
   sprite = loadImage('sprite.png')
   # A new particle system with 10,000 particles
-  @ps = ParticleSystem.new(width, height, sprite, 10000)
+  @ps = ParticleSystem.new(width, height, sprite, 10_000)
   # Writing to the depth buffer is disabled to avoid rendering
   # artifacts due to the fact that the particles are semi-transparent
   # but not z-sorted.

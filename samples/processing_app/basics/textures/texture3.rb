@@ -21,8 +21,8 @@ end
 def draw
   background 0
   translate width / 2, height / 2
-  rotate_x map1d(mouse_y, (0 .. height), (-PI .. PI))
-  rotate_y map1d(mouse_x, (0 .. width), (-PI .. PI))
+  rotate_x map1d(mouse_y, (0..height), (-PI..PI))
+  rotate_y map1d(mouse_x, (0..width), (-PI..PI))
   begin_shape QUAD_STRIP
   texture img
   (0 ... tube_res).each { |i|

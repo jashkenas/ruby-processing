@@ -21,35 +21,35 @@ def setup
     pt << rand(TAU) # Random X axis rotation
     pt << rand(TAU) # Random Y axis rotation
     
-    pt << rand(60 .. 80) # Short to quarter-circle arcs
+    pt << rand(60..80) # Short to quarter-circle arcs
     if (rand(100)>90)
-      pt[pt.length - 1] = rand(8 .. 27) * 10
+      pt[pt.length - 1] = rand(8..27) * 10
     end     
-    pt << rand(2 .. 50) * 5 # Radius. Space them out nicely
+    pt << rand(2..50) * 5 # Radius. Space them out nicely
     
-    pt << rand(4 .. 32) # Width of band
+    pt << rand(4..32) # Width of band
     if (rand(100) > 90)
-      pt[pt.length - 1] = rand(40 .. 60) # Width of band
+      pt[pt.length - 1] = rand(40..60) # Width of band
     end
     
-    pt << rand(0.005 .. 0.0334)# Speed of rotation
+    pt << rand(0.005..0.0334)# Speed of rotation
     
     # get colors
     prob = rand(100)
     case prob
-    when (0 .. 30)
+    when (0..30)
       style[i*2] = color_blended(rand, 255,0,100, 255,0,0, 210)
-    when (30 .. 70) 
+    when (30..70) 
       style[i*2] = color_blended(rand, 0,153,255, 170,225,255, 210)
-    when (70 .. 90) 
+    when (70..90) 
       style[i*2] = color_blended(rand, 200,255,0, 150,255,0, 210)
     else 
       style[i*2] = color(255,255,255, 220)
     end
     case prob
-    when (0 .. 50)
+    when (0..50)
       style[i*2] = color_blended(rand, 200,255,0, 50,120,0, 210)
-    when (50 .. 90)
+    when (50..90)
       style[i*2] = color_blended(rand, 255,100,0, 255,255,0, 210)
     else
       style[i*2] = color(255, 255, 255, 220)

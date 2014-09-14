@@ -12,7 +12,7 @@ def setup
   @mods = []  
   wide_count.times do |i|
     height_count.times do |j|
-      mods << CustomObject.new(j * UNIT, i * UNIT, UNIT/2, UNIT/2, rand(0.05 .. 0.8))
+      mods << CustomObject.new(j * UNIT, i * UNIT, UNIT/2, UNIT/2, rand(0.05..0.8))
     end
   end    
   no_stroke
@@ -41,7 +41,7 @@ class CustomObject
   
   def update
     @x += @speed * @xdir
-    unless (0 .. size).cover? x 
+    unless (0..size).cover? x 
       @xdir *= -1
       @x += @xdir
       @y += @ydir

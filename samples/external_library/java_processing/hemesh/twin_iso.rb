@@ -11,11 +11,11 @@ def setup
   ArcBall.init(self)
   smooth(8)
   values = []               # build a multi-dimensional array in ruby
-  (0 .. RES).each do |i|    # the inclusive range is intentional here
+  (0..RES).each do |i|    # the inclusive range is intentional here
     valu = []
-    (0 .. RES).each do |j|
+    (0..RES).each do |j|
       val = []
-      (0 .. RES).each do |k|
+      (0..RES).each do |k|
         val << 2.1 * noise(0.35 * i, 0.35 * j, 0.35 * k)
       end
       valu << val

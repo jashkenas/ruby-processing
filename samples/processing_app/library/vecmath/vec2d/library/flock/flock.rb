@@ -7,7 +7,7 @@ class Flock
   include Enumerable
   
   def initialize(size, position)
-    @boids = (0 .. size).map{ Boid.new(position) }	  
+    @boids = (0..size).map{ Boid.new(position) }	  
   end
 
   def run
@@ -27,7 +27,7 @@ class Boid
   attr_reader :width, :height
   def initialize(loc)
     @acceleration = Vec2D.new
-    @velocity = Vec2D.new(rand(-1.0 .. 1), rand(-1.0 .. 1))
+    @velocity = Vec2D.new(rand(-1.0..1), rand(-1.0..1))
     @location = loc
     @r = 2.0
     @maxspeed = 2
@@ -122,7 +122,7 @@ class Boid
     boids.reject{ |bd| bd.equal? self }.each do |other|
       d = location.dist(other.location)
       # If the distance is greater than 0 and less than an arbitrary amount 
-      if (0.0001 .. desiredseparation).include? d
+      if (0.0001..desiredseparation).include? d
         # Calculate vector pointing away from neighbor
         diff = location - other.location
         diff.normalize!
@@ -156,7 +156,7 @@ class Boid
     count = 0
     boids.reject{ |bd| bd.equal? self }.each do |other|
       d = location.dist(other.location)
-      if (0 .. neighbordist).include? d
+      if (0..neighbordist).include? d
         sum += other.velocity
         count += 1
       end
@@ -180,7 +180,7 @@ class Boid
     count = 0
     boids.reject { |bd| bd.equal? self }.each do |other|
       d = location.dist(other.location)
-      if (0.0001 .. neighbordist).include? d
+      if (0.0001..neighbordist).include? d
         sum += other.location # Add location
         count += 1
       end

@@ -10,7 +10,7 @@ def setup
   fill(200, 200, 0)
   f = create_font('Arial', 16, true)
   text_font(f)
-  (0 .. 7).each do |i|
+  (0..7).each do |i|
     grammar = Grammar.new(
       'baaaaaa',
       {

@@ -17,8 +17,8 @@ def setup
   lights
   smooth(8)
   fill(0)
-  @nodeA = GD::Node.new(rand * width, rand * height, rand(-200 .. 200))
-  @nodeB = GD::Node.new(rand * width, rand * height, rand(-200 .. 200))
+  @nodeA = GD::Node.new(rand * width, rand * height, rand(-200..200))
+  @nodeB = GD::Node.new(rand * width, rand * height, rand(-200..200))
   nodeA.setStrength(-2)
   nodeB.setStrength(-2)
   nodeA.setDamping(0.1)

@@ -30,7 +30,7 @@ def draw
   # Add gravity to velocity
   @velocity += gravity
   # Bounce off edges
-  velocity.x *= -1 unless (RADIUS .. width - RADIUS).include?(loc.x)
+  velocity.x *= -1 unless (RADIUS..width - RADIUS).include?(loc.x)
   if loc.y > (height - RADIUS)
     # We're reducing velocity ever so slightly 
     # when it hits the bottom of the window

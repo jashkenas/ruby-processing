@@ -144,8 +144,8 @@ module SB
       # Attach fixture to body
       body.create_fixture(fd)      
       # Give it a random initial velocity (and angular velocity)
-      body.set_linear_velocity(SB::Vec2.new(rand(-10 .. 10), rand(5 .. 10)))
-      body.set_angular_velocity(rand(-10 .. 10))      
+      body.set_linear_velocity(SB::Vec2.new(rand(-10..10), rand(5..10)))
+      body.set_angular_velocity(rand(-10..10))      
     end      
   end    
 end  

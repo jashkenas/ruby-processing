@@ -52,7 +52,7 @@ end
 
 def render_globe
   push_matrix
-  (0 .. [nbr_points, pts.length].min).each do |i|    
+  (0..[nbr_points, pts.length].min).each do |i|    
     lat = pts[i].lat 
     lon = pts[i].lon    
     push_matrix
@@ -73,7 +73,7 @@ end
 SpherePoint = Struct.new(:lat, :lon)
 
 def init_sphere(num)  
-  (0 .. num).each do |i| 
+  (0..num).each do |i| 
     lon = GA * i
     lon /= TAU
     lon -= lon.floor

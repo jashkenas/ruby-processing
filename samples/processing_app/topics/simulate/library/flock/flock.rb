@@ -33,7 +33,7 @@ class Boid
   def initialize(x, y)
     @width, @height = $app.width, $app.height
     @acceleration = Vec2D.new(0, 0)
-    @velocity = Vec2D.new(rand(-1.0 .. 1), rand(-1.0 .. 1))
+    @velocity = Vec2D.new(rand(-1.0..1), rand(-1.0..1))
     @location = Vec2D.new(x, y)
     @sz = 4.0
   end

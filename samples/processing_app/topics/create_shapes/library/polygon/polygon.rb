@@ -7,9 +7,9 @@ class Polygon
 
   def initialize(s_, width, height)
     @x = rand(width)
-    @y = rand(-500 .. -100)
+    @y = rand(-500..-100)
     @s = s_
-    @speed = rand(2 .. 6)
+    @speed = rand(2..6)
     @height = height
   end
   

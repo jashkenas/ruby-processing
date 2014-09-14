@@ -14,7 +14,7 @@ def setup
   @morph = []
   @state = false
   # Create a circle using vectors pointing from center
-  (0 .. 360).step(9) do |angle|
+  (0..360).step(9) do |angle|
     # Note we are not starting from 0 in order to match the
     # path of a circle.
     v = PVector.from_angle((angle - 135).radians)
@@ -26,11 +26,11 @@ def setup
 
   # A square is a bunch of vertices along straight lines
   # Top of square
-  (-50 .. 50).step(10) do |x|
+  (-50..50).step(10) do |x|
     square << PVector.new(x, -50)
   end
   # Right side
-  (-50 .. 50).step(10) do |y|
+  (-50..50).step(10) do |y|
     square << PVector.new(50, y)
   end
   # Bottom, NB: can't negative step ruby so use your loaf

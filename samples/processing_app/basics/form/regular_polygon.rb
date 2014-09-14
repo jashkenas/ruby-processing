@@ -37,7 +37,7 @@ end
 def polygon(x, y, radius, npoints)
   angle = TAU / npoints
   begin_shape
-  (0 .. TAU).step(angle) do |a|
+  (0..TAU).step(angle) do |a|
     sx = x + cos(a) * radius
     sy = y + sin(a) * radius
     vertex(sx, sy)

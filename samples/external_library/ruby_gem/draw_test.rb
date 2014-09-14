@@ -108,13 +108,13 @@ def train
 end
 
 def result_label(result)
-  if result.inject(0, :+).between?(1.9, 2.1)
+  if result.reduce(0, :+).between?(1.9, 2.1)
     if result[0] < 0.01 && result[1].between?(0.99, 1.0) && result[2].between?(0.99, 1.0)
       return "CIRCLE"
     else
       return "UNKNOWN"
     end
-  elsif result.inject(0, :+).between?(0.95, 1.1)
+  elsif result.reduce(0, :+).between?(0.95, 1.1)
     if result[0].between?(0.95, 1.0) && (result[1] + result[2]) < 0.01
       return "TRIANGLE"
     elsif result[1].between?(0.95, 1.0) && (result[0] + result[2]) < 0.01

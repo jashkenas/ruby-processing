@@ -24,7 +24,7 @@ def draw
   step = 180.0/pts # degrees
   
   begin_shape TRIANGLE_STRIP
-  (0 .. pts).each do 
+  (0..pts).each do 
     px = x + cos(angle.radians)*outer_radius
     py = y + sin(angle.radians)*outer_radius
     angle += step

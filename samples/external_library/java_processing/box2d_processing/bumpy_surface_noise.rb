@@ -38,7 +38,7 @@ def draw
   # Draw the surface
   surface.display
   # NB question mark is reqd to call mouse_pressed value, else method gets called.
-  particles << Particle.new(box2d, mouse_x, mouse_y, rand(2.0 .. 6)) if mouse_pressed?    
+  particles << Particle.new(box2d, mouse_x, mouse_y, rand(2.0..6)) if mouse_pressed?    
   # Draw all particles
   particles.each do |p|
     p.display

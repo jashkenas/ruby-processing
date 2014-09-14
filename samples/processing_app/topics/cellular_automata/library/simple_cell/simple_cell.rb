@@ -28,7 +28,7 @@ class Cell
     if (outer.getpix(x + 1, y) == black)
       move(0, 1)
     elsif (outer.getpix(x, y - 1) != black && outer.getpix(x - 1, y - 1) != black)
-      move(rand(-4 .. 4), rand(-4 .. 4))     
+      move(rand(-4..4), rand(-4..4))     
     end
   end
   

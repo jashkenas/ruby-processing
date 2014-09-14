@@ -26,7 +26,7 @@ end
 
 def draw    
   background 51  	
-  @jitter = rand(-0.1 .. 0.1) if Time.now.sec.even? 	
+  @jitter = rand(-0.1..0.1) if Time.now.sec.even? 	
   @angle += @jitter
   translate width / 2, height / 2
   rotate cos(@angle)   	

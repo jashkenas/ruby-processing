@@ -21,7 +21,7 @@ def setup
   @renderer = AppRender.new(self)
   frame_rate(15)
   # Create a circle using vectors pointing from center
-  (ALPHA .. OMEGA).step(THETA) do |angle|
+  (ALPHA..OMEGA).step(THETA) do |angle|
     # Note we are not starting from 0 in order to match the
     # path of a circle.
     circle << Vec2D.from_angle(angle) * 100
@@ -31,11 +31,11 @@ def setup
 
   # A square is a bunch of vertices along straight line
   # Top of square
-  (-50 .. 50).step(10) do |x|
+  (-50..50).step(10) do |x|
     square << Vec2D.new(x, -50)
   end
   # Right side
-  (-50 .. 50).step(10) do |y|
+  (-50..50).step(10) do |y|
     square << Vec2D.new(50, y)
   end
   # Bottom, NB: can't negative step ruby so use your loaf

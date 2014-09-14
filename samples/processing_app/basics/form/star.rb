@@ -36,7 +36,7 @@ def star(x, y, radius1, radius2, npoints)
   angle = TAU / npoints
   half_angle = angle/2.0
   begin_shape
-  (0 .. TAU).step(angle) do |a|
+  (0..TAU).step(angle) do |a|
     sx = x + cos(a) * radius2
     sy = y + sin(a) * radius2
     vertex(sx, sy)

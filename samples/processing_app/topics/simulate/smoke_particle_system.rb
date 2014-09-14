@@ -16,7 +16,7 @@ end
 def draw
   background(0)
   # Calculate a "wind" force based on mouse horizontal position
-  dx = map1d(mouse_x, (0 .. width), (-0.2 .. 0.2))
+  dx = map1d(mouse_x, (0..width), (-0.2..0.2))
   wind = Vec2D.new(dx, 0)
   ps.apply_force(wind)
   ps.run

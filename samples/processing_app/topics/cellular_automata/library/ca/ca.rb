@@ -23,7 +23,7 @@ class CA
   
   # Return a random ruleset
   def randomize
-    @rules = Array.new(8) {rand(0 .. 1)}
+    @rules = Array.new(8) {rand(0..1)}
   end
   
   # Reset to generation 0
@@ -46,7 +46,7 @@ class CA
       nextgen[i] = execute_rules(left, me, right) # Compute next generation state based on ruleset
     end
     # Copy the array into current value
-    (1 .. cells.length - 1).each do |i|
+    (1..cells.length - 1).each do |i|
       cells[i] = nextgen[i]
     end
     @generation += 1

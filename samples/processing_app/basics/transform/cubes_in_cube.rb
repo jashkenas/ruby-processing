@@ -20,11 +20,11 @@ def setup
   @cubes = []
   
   0.upto( @cube_count ) do |i|    
-    cube_size = rand(5 .. 15)    
+    cube_size = rand(5..15)    
     c = Cube.new(cube_size)    
     c.position = Vec3D.new(0.0, 0.0, 0.0)
-    c.speed    = Vec3D.new(rand(-1.0 .. 1), rand(-1.0 .. 1), rand(-1.0 .. 1)) 
-    c.rotation = Vec3D.new(rand(40 .. 100), rand(40 .. 100), rand(40 .. 100))    
+    c.speed    = Vec3D.new(rand(-1.0..1), rand(-1.0..1), rand(-1.0..1)) 
+    c.rotation = Vec3D.new(rand(40..100), rand(40..100), rand(40..100))    
     @cubes << c
   end
   

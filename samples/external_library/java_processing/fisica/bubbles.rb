@@ -56,9 +56,9 @@ def draw
   fill(0)
   if ((frame_count % 40) == 1)
     b = FBlob.new
-    s = rand(30 .. 40)
+    s = rand(30..40)
     space = (width - SIDE_MARGIN * 2-s)
-    @x_pos = (x_pos + rand(s .. space/2.0)) % space
+    @x_pos = (x_pos + rand(s..space/2.0)) % space
     b.set_as_circle(SIDE_MARGIN + x_pos + s / 2, height - rand(100), s, 20)
     b.set_stroke(0)
     b.set_stroke_weight(2)

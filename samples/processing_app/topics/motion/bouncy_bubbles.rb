@@ -16,7 +16,7 @@ def setup
   size(640, 360)
   @balls = []
   (0 ... NUM_BALLS).each do |i|
-    balls << Ball.new(rand(width), rand(height), rand(30 .. 70), i, balls)
+    balls << Ball.new(rand(width), rand(height), rand(30..70), i, balls)
   end
   noStroke
   fill(255, 204)

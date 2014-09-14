@@ -12,7 +12,7 @@ class Word
   def initialize(s)
     @width, @height = $app.width, $app.height
     @count_dracula, @count_franken, @total_count = 0, 0, 0
-    @position = [rand(width), rand(-height .. height*2)]
+    @position = [rand(width), rand(-height..height*2)]
     @word = s
   end
 

@@ -15,12 +15,12 @@ def setup
   no_stroke
   color_mode(HSB, 1.0)
   background(0)
-  frame_rate(4000)
+  frame_rate(4_000)
 end
 
 def draw
   translate(width / 2, height / 2)
-  dot(rand(-180 .. 180), rand(-180 .. 180), rand(CMIN .. CMAX)) unless frame_count > 200_000
+  dot(rand(-180..180), rand(-180..180), rand(CMIN..CMAX)) unless frame_count > 200_000
 end
 
 def dot(px, py, c)
@@ -31,6 +31,6 @@ def dot(px, py, c)
     fill(((CMIN - c) / (CMIN - CMAX)), 1, 1)
     ellipse px * width / 360, py * height / 360, SZ, SZ
   else
-    dot(rand(-180 .. 180), rand(-180 .. 180), rand(CMIN .. CMAX))
+    dot(rand(-180..180), rand(-180..180), rand(CMIN..CMAX))
   end
 end

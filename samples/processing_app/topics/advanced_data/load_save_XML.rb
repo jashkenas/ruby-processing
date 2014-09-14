@@ -90,7 +90,7 @@ def mouse_pressed
   # Set the diameter element
   diameter = bubble.add_child('diameter')
   # Here for a node's content, we have to convert to a String
-  diameter.set_content(rand(40.0 .. 80).to_s)
+  diameter.set_content(rand(40.0..80).to_s)
 
   # Set a label
   label = bubble.add_child('label')

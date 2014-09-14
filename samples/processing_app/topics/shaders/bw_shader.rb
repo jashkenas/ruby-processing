@@ -26,7 +26,7 @@ def create_can(r, h, detail, tex)
   sh.begin_shape(QUAD_STRIP)
   sh.no_stroke
   sh.texture(tex)
-  (0 .. detail).each do |i|
+  (0..detail).each do |i|
     angle = TAU / detail
     x = sin(i * angle)
     z = cos(i * angle)

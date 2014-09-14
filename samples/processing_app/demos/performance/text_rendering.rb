@@ -5,7 +5,7 @@ end
 
 def draw
   background(255)
-  (0 .. 10000).each do
+  (0..10_000).each do
     x = rand(width)
     y = rand(height)
     text("HELLO", x, y)

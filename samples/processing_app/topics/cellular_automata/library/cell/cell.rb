@@ -38,7 +38,7 @@ class Cell
       elsif (outer.getpix(x + 1, y) == spore1 && outer.getpix(x + 1, y - 1) == black)
         move(1, -1)
       else
-        move(rand(1 .. 2), 0)
+        move(rand(1..2), 0)
       end
     elsif (my_color == spore2)
       if (outer.getpix(x - 1, y + 1) == black && outer.getpix(x + 1, y + 1) == black && outer.getpix(x, y + 1) == black)
@@ -52,7 +52,7 @@ class Cell
       elsif (outer.getpix(x - 1, y) == spore2 && outer.getpix(x - 1, y - 1) == black)
         move(-1, -1)
       else
-        move(rand(1 .. 2), 0)
+        move(rand(1..2), 0)
       end
     elsif (my_color == spore3)
       if (outer.getpix(x - 1, y - 1) == black && outer.getpix(x + 1, y - 1) == black && outer.getpix(x, y - 1) == black)
@@ -66,7 +66,7 @@ class Cell
       elsif (outer.getpix(x + 1, y) == spore3 && outer.getpix(x + 1, y + 1) == black)
         move(1, 1)
       else
-        move(rand(1 .. 2), 0)
+        move(rand(1..2), 0)
       end
     elsif (my_color == spore4)
       if (outer.getpix(x - 1, y - 1) == black && outer.getpix(x + 1, y - 1) == black && outer.getpix(x, y - 1) == black)
@@ -80,7 +80,7 @@ class Cell
       elsif (outer.getpix(x - 1, y) == spore4 && outer.getpix(x - 1, y + 1) == black)
         move(-1, 1)
       else
-        move(rand(1 .. 2), 0)
+        move(rand(1..2), 0)
       end
     end
   end

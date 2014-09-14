@@ -50,7 +50,7 @@ class Particle
 
   def initialize width, height, sprite
     @width, @height, @sprite = width, height, sprite
-    part_size = rand(10 .. 60)
+    part_size = rand(10..60)
     # The particle is a textured quad
     @s_shape = create_shape
     s_shape.begin_shape(QUAD)
@@ -71,8 +71,8 @@ class Particle
   end
 
   def rebirth(x, y)
-    theta = rand(-PI .. PI)
-    speed = rand(0.5 .. 4)
+    theta = rand(-PI..PI)
+    speed = rand(0.5..4)
     # A velocity with random angle and magnitude
     @velocity = Vec2D.from_angle(theta)
     @velocity *= speed

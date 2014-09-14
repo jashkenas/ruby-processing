@@ -22,7 +22,7 @@ def setup
   # start ellipse at middle top of screen
   @position = Vec2D.new(width/2, 0)  
   # set initial random direction
-  @direction = Vec2D.new(rand(-1.0 .. 1), rand(-1.0 .. 1))
+  @direction = Vec2D.new(rand(-1.0..1), rand(-1.0..1))
   @velocity = Vec2D.new
 end
 
@@ -87,8 +87,8 @@ def draw
     @position.y = radius
     @direction.y *= -1
     # randomize base top
-    @base1.y = rand(height - 100 .. height)
-    @base2.y = rand(height - 100 .. height)
+    @base1.y = rand(height - 100..height)
+    @base2.y = rand(height - 100..height)
     @coords = create_ground
   end
 end

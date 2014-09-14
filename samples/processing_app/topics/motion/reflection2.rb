@@ -21,7 +21,7 @@ def setup
   # Initialize ground peak heights 
   @peakHeights = []
   (SEGS + 1).times do
-    @peakHeights << rand(height - 40.0 .. height - 30.0)
+    @peakHeights << rand(height - 40.0..height - 30.0)
   end
   @ground = []  
   

@@ -25,8 +25,8 @@ def draw
   (1 ... img.height - 1).each do |y| 
     (1 ... img.width - 1).each do |x| 
       sum = 0 # Kernel sum for this pixel
-      (-1 .. 1).each do |ky| 
-        (-1 .. 1).each do |kx|
+      (-1..1).each do |ky| 
+        (-1..1).each do |kx|
           # Calculate the adjacent pixel for this kernel point
           pos = (y + ky)*img.width + (x + kx)
           # Image is grayscale, red/green/blue are identical

@@ -23,9 +23,9 @@ def draw
   translate(width / 3, height / 3, -200)
   rotate_z(map(mouse_y, 0, height, 0, PI))
   rotateY(map(mouse_x, 0, width, 0, HALF_PI))
-  (-2 .. 2).step do |y|
-    (-2 .. 2).step do |x| 
-      (-2 .. 2).step do |z|
+  (-2..2).step do |y|
+    (-2..2).step do |x| 
+      (-2..2).step do |z|
         push_matrix
         translate(120*x, 120*y, -120*z)
         sphere(30)

@@ -10,7 +10,7 @@ class Ball
     @position = Vec2D.new(x, y)
     @r = r
     @m = r * 0.1
-    @velocity = Vec2D.new(rand(-3.0 .. 3), rand(-3.0 .. 3))
+    @velocity = Vec2D.new(rand(-3.0..3), rand(-3.0..3))
   end 
   
   def update

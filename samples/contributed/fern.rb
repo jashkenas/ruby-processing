@@ -16,10 +16,10 @@ def draw
   x0, y0 = 0.0, 0.0
   x, y, r = 0.0, 0.0, 0.0
   i, j = 0, 0
-  max_iterations = 200000
+  max_iterations = 200_000
   
   max_iterations.times do
-    r = rand(0 .. 100.0)
+    r = rand(0..100.0)
     if r <= 1
       x = 0.0
       y = 0.16 * y0
