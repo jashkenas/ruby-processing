@@ -59,7 +59,7 @@ module ControlPanel
 
   # Creates check-box elements for control_panel
   class Checkbox < javax.swing.JCheckBox
-    def initialize(control_panel, name, proc=nil)
+    def initialize(control_panel, name, proc = nil)
       @control_panel = control_panel
       super(name.to_s)
       set_preferred_size(java.awt.Dimension.new(190, 64))
@@ -107,7 +107,7 @@ module ControlPanel
       set_size 200, 30 + (64 * elements.size)
       set_default_close_operation javax.swing.JFrame::HIDE_ON_CLOSE
       set_resizable false
-      set_location($app.width + 10, 0) unless ($app.width + 10 > $app.displayWidth)
+      set_location($app.width + 10, 0) unless $app.width + 10 > $app.displayWidth
       panel.visible = true
     end
 
@@ -154,7 +154,7 @@ module ControlPanel
       laf = lafinfo.select do |info|
         info.getName.eql? lf.capitalize
       end
-      javax.swing.UIManager.setLookAndFeel(laf[0].getClassName) 
+      javax.swing.UIManager.setLookAndFeel(laf[0].getClassName)
     end
   end
 

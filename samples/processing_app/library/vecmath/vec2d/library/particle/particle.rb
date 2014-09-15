@@ -40,16 +40,17 @@ end
 
 class Particle
   include Processing::Proxy
-
+  
   GRAVITY = Vec2D.new(0, 0.1)
 
   attr_reader :center, :velocity, :lifespan, :s_shape, :part_size,
-  :width, :height, :sprite
-
+  :boundary_x, :boundary_y, :sprite
 
   def initialize width, height, sprite
-    @width, @height, @sprite = width, height, sprite
-    part_size = rand(10 .. 60)
+    @sprite = sprite
+    @boundary_x = Boundary.new(0, width)
+    @boundary_y = Boundary.new(0, height)
+    part_size = rand(10..60)
     # The particle is a textured quad
     @s_shape = create_shape
     s_shape.begin_shape(QUAD)
@@ -61,10 +62,8 @@ class Particle
     s_shape.vertex(+part_size / 2.0, +part_size / 2.0, sprite.width, sprite.height)
     s_shape.vertex(-part_size / 2.0, +part_size / 2.0, 0, sprite.height)
     s_shape.end_shape
-
     # Initialize center vector
     @center = Vec2D.new
-
     # Set the particle starting location
     rebirth(width / 2.0, height / 2.0)
   end
@@ -87,8 +86,8 @@ class Particle
   # Is it off the screen, or its lifespan is over?
   def dead?
     return true if lifespan < 0
-    return true if center.y > height || center.y < 0
-    return true if center.x > width || center.x < 0
+    return true if boundary_y.exclude? center.y
+    return true if boundary_x.exclude? center.x
     false
   end
 
@@ -100,8 +99,15 @@ class Particle
     s_shape.set_tint(color(255, lifespan))
     # Move the particle according to its velocity
     s_shape.translate(velocity.x, velocity.y)
-    # and also update the center
+    # and also update the center location
     @center += velocity
   end
 end
 
+# unusually in this case we are looking for excluded values
+
+Boundary = Struct.new(:lower, :upper) do
+  def exclude? val
+    true unless (lower...upper).cover? val
+  end
+end
