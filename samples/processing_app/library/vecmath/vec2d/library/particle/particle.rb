@@ -1,17 +1,17 @@
 # The Particle System
 
-class ParticleSystem 
+class ParticleSystem
   include Processing::Proxy
 
   attr_reader :particles, :particle_shape
 
-  def initialize(width, height, sprite, n) 
+  def initialize(width, height, sprite, n)
     @particles = []
     # The PShape is a group
     @particle_shape = create_shape(GROUP)
 
     # Make all the Particles
-    n.times do |i|       
+    n.times do |i|
       particles << Particle.new(width, height, sprite)
       # Each particle's PShape gets added to the System PShape
       particle_shape.add_child(particles[i].s_shape)
@@ -24,10 +24,10 @@ class ParticleSystem
     end
   end
 
-  def set_emitter(x, y) 
+  def set_emitter(x, y)
     particles.each do |p|
-      # Each particle gets reborn at the emitter location     
-      p.rebirth(x, y) if (p.dead?) 
+      # Each particle gets reborn at the emitter location
+      p.rebirth(x, y) if (p.dead?)
     end
   end
 
@@ -40,12 +40,12 @@ end
 
 class Particle
   include Processing::Proxy
-  
-  GRAVITY = Vec2D.new(0, 0.1) 
-  
-  attr_reader :center, :velocity, :lifespan, :s_shape, :part_size, 
+
+  GRAVITY = Vec2D.new(0, 0.1)
+
+  attr_reader :center, :velocity, :lifespan, :s_shape, :part_size,
   :width, :height, :sprite
- 
+
 
   def initialize width, height, sprite
     @width, @height, @sprite = width, height, sprite
@@ -63,8 +63,8 @@ class Particle
     s_shape.end_shape
 
     # Initialize center vector
-    @center = Vec2D.new 
-    
+    @center = Vec2D.new
+
     # Set the particle starting location
     rebirth(width / 2.0, height / 2.0)
   end
@@ -79,16 +79,17 @@ class Particle
     @lifespan = 255
     # Set location using translate
     s_shape.reset_matrix
-    s_shape.translate(x, y) 
-    
+    s_shape.translate(x, y)
     # Update center vector
     center.x, center.y = x, y
   end
 
   # Is it off the screen, or its lifespan is over?
   def dead?
-    (center.x > width  || center.x < 0 || 
-        center.y > height || center.y < 0 || lifespan < 0)
+    return true if lifespan < 0
+    return true if center.y > height || center.y < 0
+    return true if center.x > width || center.x < 0
+    false
   end
 
   def update

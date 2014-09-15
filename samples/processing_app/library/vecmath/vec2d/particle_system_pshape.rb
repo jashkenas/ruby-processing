@@ -12,14 +12,14 @@ attr_reader :ps
 def setup
   size(640, 360, P2D)
   # Load the image
-  sprite = loadImage('sprite.png')
+  sprite = load_image('sprite.png')
   # A new particle system with 10,000 particles
   @ps = ParticleSystem.new(width, height, sprite, 10_000)
   # Writing to the depth buffer is disabled to avoid rendering
   # artifacts due to the fact that the particles are semi-transparent
   # but not z-sorted.
   hint(DISABLE_DEPTH_MASK)
-end 
+end
 
 def draw
   background(0)
@@ -31,6 +31,6 @@ def draw
   # Display frame rate
   fill(255, 0, 255)
   text_size(16)
-  text("Frame rate: #{frame_rate.round(1)}", 10, 20)
+  text("Frame rate: #{format('%0.1f', frame_rate)}", 10, 20)
 end
 
