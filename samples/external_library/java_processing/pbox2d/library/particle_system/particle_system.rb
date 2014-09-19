@@ -2,59 +2,47 @@ module PS
   include_package 'org.jbox2d.collision.shapes'
   include_package 'org.jbox2d.common'
   include_package 'org.jbox2d.dynamics'
-  java_import 'pbox2d.PBox2D'
-  
-  
+  include_package 'shiffman.box2d'
+
   # Box2D Particle System
-  # <http://www.shiffman.net/teaching/nature>
-  # Spring 2010
-  
   # A class to describe a group of Particles
-  # An ArrayList is used to manage the list of Particles 
+  # An Array is used to manage the list of Particles 
+  require 'forwardable'
+  
+  module Runnable
+    def run
+      # Display all the particles
+      self.each(&:display)
+      # Particles that leave the screen, we delete them
+      # (note they have to be deleted from both the box2d world and our list
+      self.reject!(&:done)
+    end
+  end
   
   class ParticleSystem
+    extend Forwardable
+    def_delegators(:@particles, :each, :<<, :reject!, :empty?)
+    def_delegator(:@particles, :empty?, :dead?)
+    include Enumerable, Runnable
     
     attr_reader :particles, :x, :y
     
     def initialize(bd, num, x, y)
-      @particles = []          # Initialize the ArrayList
+      @particles = []          # Initialize the Array
       @x, @y = x, y            # Store the origin point  
       num.times do
-        particles << PS::Particle.new(bd, x, y)
-      end
-    end
-    
-    def run
-      # Display all the particles
-      particles.each do |p|
-        p.display
-      end    
-      # Particles that leave the screen, we delete them
-      # (note they have to be deleted from both the box2d world and our list
-      
-      particles.each_with_index do |p, i|
-        if (p.done)
-          particles.delete_at(i)
-        end
+        self << PS::Particle.new(bd, x, y)
       end
     end
     
     def add_particles(bd, n)
       n.times do
-        particles << PS::Particle.new(bd, x, y)
+        self << PS::Particle.new(bd, x, y)
       end
-    end
-    
-    # A method to test if the particle system still has particles
-    def dead  
-      particles.empty?
-    end
-    
+    end    
   end
   
   # The Nature of Code
-  # <http://www.shiffman.net/teaching/nature>
-  # Spring 2012
   # PBox2D example
   
   # A Particle
@@ -73,7 +61,7 @@ module PS
       # Add the box to the box2d world
       # Here's a little trick, let's make a tiny tiny radius
       # This way we have collisions, but they don't overwhelm the system
-      make_body(PS::Vec2.new(x,y), 0.2)
+      make_body(PS::Vec2.new(x, y), 0.2)
     end
     
     # This function removes the particle from the box2d world
@@ -106,12 +94,12 @@ module PS
       
       # Draw particle as a trail
       begin_shape
-        noFill
-        stroke_weight(2)
-        stroke(0,150)
-        trail.each do |v|
-          vertex(v[0], v[1])
-        end
+      no_fill
+      stroke_weight(2)
+      stroke(0, 150)
+      trail.each do |v|
+        vertex(v[0], v[1])
+      end
       end_shape
     end
     
@@ -120,45 +108,31 @@ module PS
       # Define and create the body
       bd = PS::BodyDef.new
       bd.type = PS::BodyType::DYNAMIC
-      
       bd.position.set(box2d.coord_pixels_to_world(center))
       @body = box2d.create_body(bd)
-      
       # Give it some initial random velocity
-      body.set_linear_velocity(PS::Vec2.new(rand(-1..1), rand(-1..1)))
-      
+      body.set_linear_velocity(PS::Vec2.new(rand(-1..1.0), rand(-1..1)))
       # Make the body's shape a circle
       cs = PS::CircleShape.new
       cs.m_radius = box2d.scalar_pixels_to_world(r)
-      
       fd = PS::FixtureDef.new
       fd.shape = cs
-      
       fd.density = 1
       fd.friction = 0  # Slippery when wet!
       fd.restitution = 0.5
-      
       # We could use this if we want to turn collisions off
-      #cd.filter.groupIndex = -10
-      
+      # cd.filter.groupIndex = -10
       # Attach fixture to body
       body.create_fixture(fd)
-      
     end
-    
   end
+  
   # The Nature of Code
-  # <http://www.shiffman.net/teaching/nature>
-  # Spring 2012
   # PBox2D example
-  
   # A fixed boundary class (now incorporates angle)
-  
-  
-  
   class Boundary
     
-    attr_reader :box2d, :b, :x, :y, :w, :h #, :a
+    attr_reader :box2d, :b, :x, :y, :w, :h 
     
     def initialize(b2d, x, y, w, h, a)
       @box2d = b2d
@@ -166,24 +140,19 @@ module PS
       @y = y
       @w = w
       @h = h
-      
       # Define the polygon
       sd = PS::PolygonShape.new
-      
       # Figure out the box2d coordinates
-      box2dW = box2d.scalar_pixels_to_world(w/2)
-      box2dH = box2d.scalar_pixels_to_world(h/2)
+      box2dW = box2d.scalar_pixels_to_world(w / 2)
+      box2dH = box2d.scalar_pixels_to_world(h / 2)
       # We're just a box
       sd.set_as_box(box2dW, box2dH)
-      
-      
       # Create the body
       bd = PS::BodyDef.new
       bd.type = PS::BodyType::STATIC
       bd.angle = a
-      bd.position.set(box2d.coord_pixels_to_world(x,y))
+      bd.position.set(box2d.coord_pixels_to_world(x, y))
       @b = box2d.create_body(bd)
-      
       # Attached the shape to the body using a Fixture
       b.create_fixture(sd,1)
     end
@@ -196,17 +165,10 @@ module PS
       rect_mode(CENTER)
       a = b.get_angle
       push_matrix
-      translate(x,y)
+      translate(x, y)
       rotate(-a)
-      rect(0,0,w,h)
+      rect(0, 0, w, h)
       pop_matrix
     end
-    
   end
-  
 end
-  
-  
-  
-  
-
