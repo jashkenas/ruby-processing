@@ -5,7 +5,7 @@
 
 def setup    
   size 640, 360    
-  @font = create_font "Georgia", 24 
+  @font = create_font 'Georgia', 24 
   text_font @font
   text_align CENTER, CENTER    
 end
@@ -16,7 +16,7 @@ def draw
   x, y = 0.0, 0.0
   gap = 30  
   # ranges -> arrays -> joined!  	
-  letters = ("A".."Z").to_a + ("0".."9").to_a  + ("a".."z").to_a
+  letters = ('A'..'Z').to_a + ('0'..'9').to_a  + ('a'..'z').to_a
   letters.each do |letter|  	    
     fill 255
     fill 204, 204, 0 if letter =~ /[AEIOU]/
