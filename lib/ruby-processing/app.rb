@@ -7,7 +7,10 @@ require_relative '../ruby-processing/helper_methods'
 require_relative '../ruby-processing/library_loader'
 require_relative '../ruby-processing/config'
 
-Dir["#{Processing::RP_CONFIG['PROCESSING_ROOT']}/core/library/\*.jar"].each { |jar| require jar }
+Dir["#{Processing::RP_CONFIG['PROCESSING_ROOT']}/core/library/\*.jar"].each do
+|jar|
+  require jar
+end
 
 # Include some core processing classes that we'd like to use:
 %w(PApplet PConstants PFont PImage PShape PShapeOBJ PShapeSVG PStyle
@@ -16,7 +19,6 @@ Dir["#{Processing::RP_CONFIG['PROCESSING_ROOT']}/core/library/\*.jar"].each { |j
 end
 
 module Processing
-
   # This is the main Ruby-Processing class, and is what you'll
   # inherit from when you create a sketch. This class can call
   # all of the methods available in Processing, and has two
@@ -27,14 +29,12 @@ module Processing
   class App < PApplet
     include Math
     include HelperMethods
-
     # Alias some methods for familiarity for Shoes coders.
     # attr_accessor :frame, :title
     alias_method :oval, :ellipse
     alias_method :stroke_width, :stroke_weight
     alias_method :rgb, :color
     alias_method :gray, :color
-
 
     # When certain special methods get added to the sketch, we need to let
     # Processing call them by their expected Java names.
@@ -60,7 +60,7 @@ module Processing
     class << self
       attr_accessor :sketch_class
     end
-    
+
     def sketch_class
       self.class.sketch_class
     end
@@ -112,7 +112,8 @@ module Processing
       mix_proxy_into_inner_classes
       # @started = false
 
-      java.lang.Thread.default_uncaught_exception_handler = proc do |_thread_, exception|
+      java.lang.Thread.default_uncaught_exception_handler = proc do
+      |_thread_, exception|
         puts(exception.class.to_s)
         puts(exception.message)
         puts(exception.backtrace.map { |trace| '\t' + trace })
@@ -137,7 +138,8 @@ module Processing
       x = options[:x] || xc
       y = options[:y] || yc
       args << "--location=#{x},#{y}"  # important no spaces here
-      title = options[:title] || File.basename(SKETCH_PATH).sub(/(\.rb)$/, '').titleize
+      title = options[:title] ||
+      File.basename(SKETCH_PATH).sub(/(\.rb)$/, '').titleize
       args << title
       PApplet.run_sketch(args, self)
     end
@@ -148,8 +150,10 @@ module Processing
       @height          ||= h     unless @height
       @render_mode     ||= mode  unless @render_mode
       if [P3D, P2D].include? @render_mode
-        # Include some opengl processing classes that we'd like to use:
-        %w(FontTexture FrameBuffer LinePath LineStroker PGL PGraphics2D PGraphics3D PGraphicsOpenGL PShader PShapeOpenGL Texture).each do |klass|
+        # Include processing opengl classes that we'd like to use:
+        %w(FontTexture FrameBuffer LinePath LineStroker PGL
+           PGraphics2D PGraphics3D PGraphicsOpenGL PShader
+           PShapeOpenGL Texture).each do |klass|
           java_import "processing.opengl.#{klass}"
         end
       end
@@ -160,7 +164,7 @@ module Processing
       nil
     end
 
-    # Make sure we set the size if we set it before we start the animation thread.
+    # Set the size if we set it before we start the animation thread.
     def start
       size(@width, @height) if @width && @height
       super()
@@ -197,27 +201,31 @@ module Processing
   # unfettered access to the methods defined in the surrounding class.
   module Proxy
     include Math
-    # Generate the list of method names that we'd like to proxy for inner classes.
+    # Generate a list of method names to proxy for inner classes.
     # Nothing camelCased, nothing __internal__, just the Processing API.
     def self.desired_method_names(inner_class)
       bad_method = /__/    # Internal JRuby methods.
       unwanted = PApplet.superclass.instance_methods + Object.instance_methods
       unwanted -= %w(width height cursor create_image background size resize)
       methods = Processing::App.public_instance_methods
-      methods.reject { |m| unwanted.include?(m) || bad_method.match(m) || inner_class.method_defined?(m) }
+      methods.reject do |m|
+        unwanted.include?(m) ||
+        bad_method.match(m) ||
+        inner_class.method_defined?(m)
+      end
     end
 
     # Proxy methods through to the sketch.
     def self.proxy_methods(inner_class)
       code = desired_method_names(inner_class).reduce('') do |rcode, method|
         rcode << <<-EOS
-        def #{method}(*args, &block)                # def rect(*args, &block)
-        if block_given?                           #   if block_given?
-        $app.send :'#{method}', *args, &block   #     $app.send(:rect, *args, &block)
-        else                                      #   else
-        $app.#{method} *args                    #     $app.rect *args
-        end                                       #   end
-        end                                         # end
+        def #{method}(*args, &block)           # def rect(*args, &block)
+        if block_given?                        #   if block_given?
+        $app.send :'#{method}', *args, &block  #   ...
+        else                                   #   else
+        $app.#{method} *args                   #     $app.rect *args
+        end                                    #   end
+        end                                    # end
         EOS
       end
       inner_class.class_eval(code)

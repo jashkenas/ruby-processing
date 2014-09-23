@@ -175,16 +175,25 @@ module Processing
       warn('The --jruby flag is no longer required') if @options.jruby
       @options.nojruby = true if Processing::RP_CONFIG['JRUBY'] == 'false'
       java_args = discover_java_args(sketch)
-      command = @options.nojruby ?
-        ['java', java_args, '-cp', jruby_complete, 'org.jruby.Main', runner, sketch, args].flatten :
-        ['jruby', java_args, runner, sketch, args].flatten
+      if @options.nojruby
+        command = ['java',
+                   java_args,
+                   '-cp',
+                   jruby_complete,
+                   'org.jruby.Main',
+                   runner,
+                   sketch,
+                   args].flatten
+      else
+        command = ['jruby', java_args, runner, sketch, args].flatten
+      end
       exec(*command)
       # exec replaces the Ruby process with the JRuby one.
     end
 
     # If you need to pass in arguments to Java, such as the ones on this page:
     # http://docs.oracle.com/javase/1.5.0/docs/tooldocs/windows/java.html
-    # then type them into a java_args.txt in your data directory next to your sketch.
+    # add them to a java_args.txt in your data directory next to your sketch.
     def discover_java_args(sketch)
       arg_file = "#{File.dirname(sketch)}/data/java_args.txt"
       args = []
@@ -256,4 +265,3 @@ module Processing
     end
   end # class Runner
 end # module Processing
-
