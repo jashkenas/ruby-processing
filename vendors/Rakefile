@@ -8,7 +8,7 @@ WARNING = <<-EOS
       
 EOS
 
-JRUBY_VERSION      = "1.7.15"
+JRUBY_VERSION      = "1.7.16"
 
 CLOBBER.include("jruby-complete-#{JRUBY_VERSION}.jar")
 
@@ -24,7 +24,7 @@ file "jruby-complete-#{JRUBY_VERSION}.jar" do
   rescue
     warn(WARNING)
   end
-  check_sha1("jruby-complete-#{JRUBY_VERSION}.jar", "4d9cb332bad3633c9c23a720542f456dc0c58a81")
+  check_sha1("jruby-complete-#{JRUBY_VERSION}.jar", "8ef6c848cc5491c5f22ddad4532c68fe778421f6")
 end
 
 directory "../lib/ruby"

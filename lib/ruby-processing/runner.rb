@@ -42,6 +42,17 @@ module Processing
     http://wiki.github.com/jashkenas/ruby-processing
 
     EOS
+    
+    WIN_PATTERNS = [
+      /bccwin/i,
+      /cygwin/i,
+      /djgpp/i,
+      /mingw/i,
+      /mswin/i,
+      /wince/i
+    ]
+    
+    attr_reader :os
 
     # Start running a ruby-processing sketch from the passed-in arguments
     def self.execute
@@ -221,29 +232,26 @@ module Processing
       end
     end
 
-    def os
-      @os ||= host_os = RbConfig::CONFIG['host_os']
-      case host_os
-      when /mswin|msys|mingw|cygwin|bccwin|wince|emc/
-        :windows
-      when /darwin|mac os/
-        :macosx
-      when /linux/
-        :linux
-      when /solaris|bsd/
-        :unix
+    def host_os
+      detect_os = RbConfig.host_os
+      case detect_os
+      when /mac|darwin/ then :mac
+      when /linux/ then :linux
+      when /solaris|bsd/ then :unix
       else
-        fail "unknown os: #{host_os.inspect}"
+        WIN_PATTERNS.find { |r| detect_os =~ r }
+        fail "unknown os: #{detect_os.inspect}" if Regexp.last_match.nil?
+        :windows
       end
     end
 
     # Optimistically set processing root
     def set_processing_root
       require 'psych'
-      os
+      @os ||= host_os
       data = {}
       path = File.expand_path("#{ENV['HOME']}/.rp5rc")
-      if @os == :macosx
+      if os == :mac
         data['PROCESSING_ROOT'] = '/Applications/Processing.app/Contents/Java'
       else
         root = "#{ENV['HOME']}/processing-2.2.1"
@@ -255,9 +263,9 @@ module Processing
 
     # On the Mac, we can display a fat, shiny ruby in the Dock.
     def dock_icon
-      os
+      @os ||= host_os
       icon = []
-      if @os == :mac
+      if os == :mac
         icon << '-Xdock:name=Ruby-Processing'
         icon << "-Xdock:icon=#{RP5_ROOT}/lib/templates/application/Contents/Resources/sketch.icns"
       end

@@ -1,4 +1,5 @@
-v2.6.3 Avoid Vec2D hypot NaNN with guards, correct 
+v2.6.3 Update to use jruby-complete-1.7.16
+* Avoid Vec2D hypot NaNN with guards, correct 
 * --inner template, some more refactoring, full_screen is now only
 * available via a runtime arg (there is only one way to do it..)
 * now adding Range.clip (like numpy.clip) which is used to implement
