@@ -233,7 +233,7 @@ module Processing
     end
 
     def host_os
-      detect_os = RbConfig.host_os
+      detect_os = RbConfig::CONFIG['host_os']
       case detect_os
       when /mac|darwin/ then :mac
       when /linux/ then :linux
