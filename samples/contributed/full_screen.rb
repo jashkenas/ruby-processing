@@ -4,7 +4,7 @@
 
 class FullScreen < Processing::App  
   def setup
-    size displayWidth, displayHeight, P3D
+    size 1000, 800, P3D
     no_stroke
   end
   
@@ -26,4 +26,4 @@ class FullScreen < Processing::App
   end  
 end
 # Full screen should now be set at runtime, now there is only one way to do it!
-FullScreen.new(full_screen: true)
+FullScreen.new(full_screen: true, bgcolor: '#ffffff')

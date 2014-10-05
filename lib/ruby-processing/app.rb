@@ -128,9 +128,10 @@ module Processing
 
       args = []
       @width, @height = options[:width], options[:height]
-      if @full_screen || options[:full_screen]
-        @full_screen = true
-        args << '--present'
+      if full_screen? || options[:full_screen]
+        fullScreen = true
+        args << '--full-screen'
+        args << "--bgcolor=#{options[:bgcolor]}" if options[:bgcolor]
       end
       @render_mode  ||= JAVA2D
       xc = Processing::RP_CONFIG['X_OFF'] ||= 0
@@ -141,7 +142,7 @@ module Processing
       title = options[:title] ||
       File.basename(SKETCH_PATH).sub(/(\.rb)$/, '').titleize
       args << title
-      PApplet.run_sketch(args, self)
+      PApplet.run_sketch(args.to_java(:string), self)
     end
 
     def size(*args)
