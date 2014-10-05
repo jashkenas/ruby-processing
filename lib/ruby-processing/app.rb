@@ -128,8 +128,8 @@ module Processing
 
       args = []
       @width, @height = options[:width], options[:height]
-      if full_screen? || options[:full_screen]
-        fullScreen = true
+      if options[:full_screen]
+        fullscreen = true
         args << '--full-screen'
         args << "--bgcolor=#{options[:bgcolor]}" if options[:bgcolor]
       end

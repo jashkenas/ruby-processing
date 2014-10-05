@@ -174,8 +174,6 @@ module Processing
     define_method(:pmouse_y) { pmouseY }
 
     define_method(:frame_count) { frameCount }
-    
-    define_method(:full_screen?) { frameCount }    
 
     define_method(:mouse_button) { mouseButton }
 
