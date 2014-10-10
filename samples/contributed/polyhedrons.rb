@@ -3,11 +3,8 @@
 ###
 
 Vert = Struct.new(:x, :y, :z) do
-  def distance(vec)
-    sqrt(
-      (x - vec.x) * (x - vec.x) +
-      (y - vec.y) * (y - vec.y) +
-      (z - vec.z) * (z - vec.z))
+  def dist_sq(v)
+    (x - v.x) * (x - v.x) + (y - v.y) * (y - v.y) + (z - v.z) * (z - v.z)
   end
 end
 
@@ -20,13 +17,13 @@ attr_reader :verts, :curr_id, :scayl, :ang, :spd, :name, :notes, :off_x, :off_y
 attr_reader :off_z, :len_edge
 
 def setup
-  size(700, 450, P3D)
-  smooth
-  textSize(11)
+  size(1020, 576, P3D)
+  smooth 4
+  text_size(14)
   # some positional variables for translation
   @off_y = height / 2
-  @off_x = off_y - 20
-  @off_z = -off_y
+  @off_x = width / 2 - 100
+  @off_z = -off_y / 8
   # angle and speed for rotation
   @ang = 0.0
   @spd = 0.015
@@ -56,9 +53,9 @@ def draw
   hint(DISABLE_DEPTH_TEST)
   # show some notes
   fill(80, 50, 20)
-  text(name, height - 50, 50)
-  text(notes, height - 30, 70)
-  text('Click to view next polyhedron...', height - 50, height - 50)
+  text(name, width - 360, 50)
+  text(notes, width - 340, 70)
+  text('Click to view next polyhedron...',  width - 360, height - 50)
   hint(ENABLE_DEPTH_TEST)
   # bump up the angle for the spin
   @ang += spd
@@ -77,8 +74,8 @@ end
 def edge?(v1, v2)
   # had some rounding errors, now a bit more forgiving...
   pres = 1000
-  d = v1.distance(v2) + 0.00001
-  ((d *  pres).round == (len_edge * pres).round)
+  d = v1.dist_sq(v2) + 0.00001
+  ((d *  pres).round == (len_edge * len_edge * pres).round)
 end
 
 def add_verts(x, y, z)
