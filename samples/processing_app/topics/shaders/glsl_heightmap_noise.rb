@@ -61,7 +61,7 @@ def draw
   shape(height_map)                       # display the PShape
 
   # write the fps and the current colorMap in the top-left of the window
-  frame.set_title('FrameRate: #{frame_rate.to_i} | colorMap: #{current_color_map + 1}')
+  frame.set_title("FrameRate: #{frame_rate.to_i} | colorMap: #{current_color_map + 1}")
 end
 
 # custom method to create a PShape plane with certain xy DIMensions

@@ -12,12 +12,6 @@ Dir["#{Processing::RP_CONFIG['PROCESSING_ROOT']}/core/library/\*.jar"].each do
   require jar
 end
 
-# Include some core processing classes that we'd like to use:
-%w(PApplet PConstants PFont PImage PShape PShapeOBJ PShapeSVG PStyle
-   PGraphicsJava2D PGraphics PFont PVector PMatrix2D PMatrix3D).each do |klass|
-  java_import "processing.core.#{klass}"
-end
-
 module Processing
   # This is the main Ruby-Processing class, and is what you'll
   # inherit from when you create a sketch. This class can call
@@ -26,6 +20,10 @@ module Processing
   # should define in your sketch. 'setup' will be called one
   # time when the sketch is first loaded, and 'draw' will be
   # called constantly, for every frame.
+
+  # Include some core processing classes that we'd like to use:
+  include_package 'processing.core' 
+  
   class App < PApplet
     include Math
     include HelperMethods
@@ -147,15 +145,15 @@ module Processing
 
     def size(*args)
       w, h, mode       = *args
-      @width           ||= w     unless @width
-      @height          ||= h     unless @height
-      @render_mode     ||= mode  unless @render_mode
-      if [P3D, P2D].include? @render_mode
+      @width           ||= w     
+      @height          ||= h     
+      @render_mode     ||= mode  
+      if /opengl/ =~ mode
         # Include processing opengl classes that we'd like to use:
         %w(FontTexture FrameBuffer LinePath LineStroker PGL
-           PGraphics2D PGraphics3D PGraphicsOpenGL PShader
-           PShapeOpenGL Texture).each do |klass|
-          java_import "processing.opengl.#{klass}"
+         PGraphics2D PGraphics3D PGraphicsOpenGL PShader
+         PShapeOpenGL Texture).each do |klass|
+         java_import "processing.opengl.#{klass}"        
         end
       end
       super(*args)
