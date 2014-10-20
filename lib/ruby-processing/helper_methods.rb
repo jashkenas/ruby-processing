@@ -122,7 +122,7 @@ module Processing
 
     # Uses PImage class method under hood
     def blend_color(c1, c2, mode)
-      PImage.blendColor(c1, c2, mode)
+      Java::ProcessingCore::PImage::blendColor(c1, c2, mode)
     end
 
     # There's just so many functions in Processing,
