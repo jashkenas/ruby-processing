@@ -17,9 +17,7 @@ class StochasticGrammar
   #####################################################
 
   def stochastic_rule(rules)
-    total = rules.reduce(0) do |sum, rule_and_weight|
-      sum + rule_and_weight[PROB]
-    end
+    total = rules.reduce(0) { |rule_and_weight| rule_and_weight[PROB] }
     srand
     chance = rand * total
     rules.each do |item, weight|
