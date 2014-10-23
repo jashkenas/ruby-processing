@@ -12,5 +12,5 @@ Gemfile.lock
 .ruby-version
 .jrubyrc
 tmp
-
+vendors/*.tar.gz
 nbproject

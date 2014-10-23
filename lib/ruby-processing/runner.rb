@@ -140,8 +140,7 @@ module Processing
           warn 'PROCESSING_ROOT set optimistically, run check to confirm'
         end
       when /unpack_samples/
-        require 'fileutils'
-        FileUtils.cp_r("#{RP5_ROOT}/samples", "#{Dir.pwd}/rp_samples")
+        system "cd #{RP5_ROOT}/vendors && rake unpack_samples"
       else
         puts usage
       end
