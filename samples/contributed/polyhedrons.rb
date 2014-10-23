@@ -6,12 +6,17 @@ Vert = Struct.new(:x, :y, :z) do
   def dist_sq(v)
     (x - v.x) * (x - v.x) + (y - v.y) * (y - v.y) + (z - v.z) * (z - v.z)
   end
+
+  def self.permutations(x, y, z)
+    [new(x, y, z), new(z, x, y), new(y, z, x)]
+  end
 end
 
 PHI = (1 + sqrt(5)) / 2
 PHI_SQ = PHI * PHI
 PHI_CU = PHI * PHI * PHI
 ROOT2 = sqrt(2)
+TYPE = "Type Archimedian\nFaces: %d " 
 
 attr_reader :verts, :curr_id, :scayl, :ang, :spd, :name, :notes, :off_x, :off_y
 attr_reader :off_z, :len_edge
@@ -90,11 +95,9 @@ def add_verts(x, y, z)
   verts << Vert.new(-x, -y, -z) unless (z == 0.0)
 end
 
-def add_permutations(x, y, z)
+def permutations(x, y, z)
   # adds vertices for all three permutations of x, y, and z
-  add_verts(x, y, z)
-  add_verts(z, x, y)
-  add_verts(y, z, x)
+  Vert.permutations(x, y, z).each { |v| add_verts(v.x, v.y, v.z) }
 end
 
 def draw_axis
@@ -121,115 +124,115 @@ def create_poly(id)
   case (id)
   when 0
     @name = 'Cube:'
-    @notes = "Type platonic\nFaces 6 squares\nVertices 8\nEdges 12"
+    @notes = "Type platonic\nFaces: 6 squares\nVertices 8\nEdges 12"
     add_verts(1, 1, 1)
     @len_edge = 2
     @scayl = 140
   when 1
     @name = 'Octohedron:'
-    @notes = "Type platonic\nFaces 8 triangles\nVertices 6\nEdges 12"
-    add_permutations(1, 0, 0)
+    @notes = "Type platonic\nFaces: 8 triangles\nVertices 6\nEdges 12"
+    permutations(1, 0, 0)
     @len_edge = ROOT2
     @scayl = 220
   when 2
     @name = 'Dodecahedron:'
-    @notes = "Type platonic\nFaces 12 pentagons\nVertices 20\nEdges 30"
+    @notes = "Type platonic\nFaces: 12 pentagons\nVertices 20\nEdges 30"
     add_verts(1, 1, 1)
-    add_permutations(0, 1 / PHI, PHI)
+    permutations(0, 1 / PHI, PHI)
     @len_edge = 2 / PHI
     @scayl = 130
   when 3
     @name = 'Icosahedron:'
-    @notes = "Type platonic\nFaces 20 triangles\nVertices 12\nEdges 30"
-    add_permutations(0, 1, PHI)
+    @notes = "Type platonic\nFaces: 20 triangles\nVertices 12\nEdges 30"
+    permutations(0, 1, PHI)
     @len_edge = 2.0
     @scayl = 120
   when 4
     @name = 'Rhombic Dodecahedron:'
-    @notes = "Type Catalan\nFaces 12 rhombuses\nVertices 14\nEdges 24"
+    @notes = "Type Catalan\nFaces: 12 rhombuses\nVertices 14\nEdges 24"
     add_verts(1, 1, 1)
-    add_permutations(0, 0, 2)
+    permutations(0, 0, 2)
     @len_edge = sqrt(3)
     @scayl = 110
   when 5
     @name = 'Rhombic Triacontahedron:'
-    @notes = "Type Catalan\nFaces 30 rhombuses\nVertices 32\nEdges 60"
+    @notes = "Type Catalan\nFaces: 30 rhombuses\nVertices 32\nEdges 60"
     add_verts(PHI_SQ, PHI_SQ, PHI_SQ)
-    add_permutations(PHI_SQ, 0, PHI_CU)
-    add_permutations(0, PHI, PHI_CU)
+    permutations(PHI_SQ, 0, PHI_CU)
+    permutations(0, PHI, PHI_CU)
     @len_edge = PHI * sqrt(PHI + 2)
     @scayl = 46
   when 6
     @name = 'Cuboctahedron:'
-    @notes = "Type Archimedian\nFaces 8 triangles, 6 squares\nVertices 12\nEdges 24"
-    add_permutations(1, 0, 1)
+    @notes = "#{TYPE}triangles, 6 squares\nVertices 12\nEdges 24" % 8
+    permutations(1, 0, 1)
     @len_edge = ROOT2
     @scayl = 170
   when 7
     @name = 'Truncated Cube:'
-    @notes = "Type Archimedian\nFaces 8 triangles, 6 octogons\nVertices 24\nEdges 36"
-    add_permutations(ROOT2 - 1, 1, 1)
+    @notes = "#{TYPE}triangles, 6 octogons\nVertices 24\nEdges 36" % 8
+    permutations(ROOT2 - 1, 1, 1)
     @len_edge = 2 * (ROOT2 - 1)
     @scayl = 155
   when 8
     @name = 'Truncated Octahedron:'
-    @notes = "Type Archimedian\nFaces 6 squares, 8 hexagons\nVertices 24\nEdges 36"
-    add_permutations(0, 1, 2)
-    add_permutations(2, 1, 0)
+    @notes = "#{TYPE}squares, 8 hexagons\nVertices 24\nEdges 36" % 6
+    permutations(0, 1, 2)
+    permutations(2, 1, 0)
     @len_edge = ROOT2
     @scayl = 100
   when 9
     @name = 'Rhombicuboctahedron:'
-    @notes = "Type Archimedian\nFaces 8 triangles, 18 squares\nVertices 24\nEdges 48"
-    add_permutations(ROOT2 + 1, 1, 1)
+    @notes = "#{TYPE}triangles, 18 squares\nVertices 24\nEdges 48" % 8
+    permutations(ROOT2 + 1, 1, 1)
     @len_edge = 2
     @scayl = 80
   when 10
     @name = 'Truncated Cuboctahedron:'
-    @notes = "Type Archimedian\nFaces 12 squares, 8 hexagons, 6 octogons\nVertices 48\nEdges 72"
-    add_permutations(ROOT2 + 1, 2 * ROOT2 + 1, 1)
-    add_permutations(ROOT2 + 1, 1, 2 * ROOT2 + 1)
+    @notes = "#{TYPE}squares, 8 hexagons, 6 octogons\nVertices 48\nEdges 72" % 12
+    permutations(ROOT2 + 1, 2 * ROOT2 + 1, 1)
+    permutations(ROOT2 + 1, 1, 2 * ROOT2 + 1)
     @len_edge = 2
     @scayl = 50
   when 11
     @name = 'Icosidodecahedron:'
-    @notes = "Type Archimedian\nFaces 20 triangles, 12 pentagons\nVertices 30\nEdges 60"
-    add_permutations(0, 0, 2 * PHI)
-    add_permutations(1, PHI, PHI_SQ)
+    @notes = "#{TYPE}triangles, 12 pentagons\nVertices 30\nEdges 60" % 20
+    permutations(0, 0, 2 * PHI)
+    permutations(1, PHI, PHI_SQ)
     @len_edge = 2
     @scayl = 70
   when 12
     @name = 'Truncated Dodecahedron:'
-    @notes = "Type Archimedian\nFaces 20 triangles, 12 decagons\nVertices 60\nEdges 90"
-    add_permutations(0, 1 / PHI, PHI + 2)
-    add_permutations(1 / PHI, PHI, 2 * PHI)
-    add_permutations(PHI, 2, PHI_SQ)
+    @notes = "#{TYPE}triangles, 12 decagons\nVertices 60\nEdges 90" % 20
+    permutations(0, 1 / PHI, PHI + 2)
+    permutations(1 / PHI, PHI, 2 * PHI)
+    permutations(PHI, 2, PHI_SQ)
     @len_edge = 2 * (PHI - 1)
     @scayl = 60
   when 13
     @name = 'Truncated Icosahedron:'
-    @notes = "Type Archimedian\nFaces 12 pentagons, 20 hexagons\nVertices 60\nEdges 90"
-    add_permutations(0, 1, 3 * PHI)
-    add_permutations(2, 2 * PHI + 1, PHI)
-    add_permutations(1, PHI + 2, 2 * PHI)
+    @notes = "#{TYPE}pentagons, 20 hexagons\nVertices 60\nEdges 90" % 12
+    permutations(0, 1, 3 * PHI)
+    permutations(2, 2 * PHI + 1, PHI)
+    permutations(1, PHI + 2, 2 * PHI)
     @len_edge = 2
     @scayl = 45
   when 14
     @name = 'Small Rhombicosidodecahedron:'
-    @notes = "Type Archimedian\nFaces 20 triangles, 30 squares, 12 pentagons\nVertices 60\nEdges 120"
-    add_permutations(1, 1, PHI_CU)
-    add_permutations(PHI_SQ, PHI, 2 * PHI)
-    add_permutations(PHI + 2, 0, PHI_SQ)
+    @notes = "#{TYPE}triangles, 30 squares, 12 pentagons\nVertices 60\nEdges 120" %20
+    permutations(1, 1, PHI_CU)
+    permutations(PHI_SQ, PHI, 2 * PHI)
+    permutations(PHI + 2, 0, PHI_SQ)
     @len_edge = 2
     @scayl = 50
   when 15
     @name = 'Great Rhombicosidodecahedron:'
-    @notes = "Type Archimedian\nFaces 30 squares, 20 hexagons, 12 decagons\nVertices 120\nEdges 180"
-    add_permutations(1 / PHI, 1 / PHI, PHI + 3)
-    add_permutations(2 / PHI, PHI, 2 * PHI + 1)
-    add_permutations(1 / PHI, PHI_SQ, 3 * PHI - 1)
-    add_permutations(2 * PHI - 1, 2, PHI + 2)
-    add_permutations(PHI, 3, 2 * PHI)
+    @notes = "#{TYPE}squares, 20 hexagons, 12 decagons\nVertices 120\nEdges 180" %30
+    permutations(1 / PHI, 1 / PHI, PHI + 3)
+    permutations(2 / PHI, PHI, 2 * PHI + 1)
+    permutations(1 / PHI, PHI_SQ, 3 * PHI - 1)
+    permutations(2 * PHI - 1, 2, PHI + 2)
+    permutations(PHI, 3, 2 * PHI)
     @len_edge = 2 * PHI - 2
     @scayl = 48
   else    # start again

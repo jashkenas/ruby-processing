@@ -10,7 +10,7 @@ module Processing
   # Utility class to handle the different commands that the 'rp5' command
   # offers. Able to run, watch, live, create, app, and unpack
   class Runner
-    HELP_MESSAGE = <<-EOS
+    HELP_MESSAGE ||= <<-EOS
     Version: #{RubyProcessing::VERSION}
 
     Ruby-Processing is a little shim between Processing and JRuby that helps

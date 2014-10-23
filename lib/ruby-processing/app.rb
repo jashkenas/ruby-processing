@@ -24,6 +24,19 @@ module Processing
   # Include some core processing classes that we'd like to use:
   include_package 'processing.core' 
   
+  # Watch the definition of these methods, to make sure
+  # that Processing is able to call them during events.
+  METHODS_TO_ALIAS ||= {
+    mouse_pressed: :mousePressed,
+    mouse_dragged: :mouseDragged,
+    mouse_clicked: :mouseClicked,
+    mouse_moved: :mouseMoved,
+    mouse_released: :mouseReleased,
+    key_pressed: :keyPressed,
+    key_released: :keyReleased,
+    key_typed: :keyTyped
+  }
+  
   class App < PApplet
     include Math
     include HelperMethods
@@ -37,20 +50,8 @@ module Processing
     # When certain special methods get added to the sketch, we need to let
     # Processing call them by their expected Java names.
     def self.method_added(method_name) #:nodoc:
-      # Watch the definition of these methods, to make sure
-      # that Processing is able to call them during events.
-      methods_to_alias = {
-        mouse_pressed:  :mousePressed,
-        mouse_dragged:  :mouseDragged,
-        mouse_clicked:  :mouseClicked,
-        mouse_moved:    :mouseMoved,
-        mouse_released: :mouseReleased,
-        key_pressed:    :keyPressed,
-        key_released:   :keyReleased,
-        key_typed:      :keyTyped
-      }
-      if methods_to_alias.key?(method_name)
-        alias_method methods_to_alias[method_name], method_name
+      if METHODS_TO_ALIAS.key?(method_name)
+        alias_method METHODS_TO_ALIAS[method_name], method_name
       end
     end
 

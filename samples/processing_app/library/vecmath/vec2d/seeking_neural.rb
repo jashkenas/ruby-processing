@@ -1,6 +1,9 @@
 # Based on SeekingNeural example by Daniel Shiffman
 # The Nature of Code
 # http://natureofcode.com
+# This variant demonstrates the direct use of range.clip(val) rather 
+# than the constrain(val, range.begin, range.end) processing method
+# it is used implement (for a more ruby like experience).
 
 load_library :vecmath
 
