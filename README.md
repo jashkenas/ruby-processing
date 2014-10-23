@@ -122,7 +122,7 @@ for details see wiki [notice][]
 [jruby]:http://www.jruby.org/
 [processing]: http://www.processing.org/
 [download]:https://processing.org/download/
-[samples]:https://github.com/jashkenas/ruby-processing/tree/master/samples/
+[samples]:https://github.com/ruby-processing/Example-Sketches/tree/master/samples
 [wiki]:http://github.com/jashkenas/ruby-processing/wikis/
 [notice]:http://github.com/jashkenas/ruby-processing/wikis/Deprecation-of-methods
 [FAQs]:http://github.com/jashkenas/ruby-processing/wikis/FAQs/
