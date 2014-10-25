@@ -6,9 +6,7 @@ Is a ruby wrapper around the [Processing][] code art framework, built using [JRu
 [Processing][] provides a tidy API, with a bunch of handy methods you can call 
   from Ruby-Processing. Here's a smattering:
   
-  alpha, arc, background, blend, blue, ellipse, frame_rate, hue, lerp, 
-  load_image, load_pixels, mouse_pressed, noise, rect, saturation, shape, 
-  smooth, text_align, translate, triangle, vertex...
+  `alpha`, `arc`, `background`, `blend`, `blue`, `ellipse`, `frame_rate`, `hue`, `lerp`,  `load_image`, `load_pixels`, `mouse_pressed`, `noise`, `rect`, `saturation`, `shape`, `smooth`, `text_align`, `translate`, `triangle`, `vertex`...
   
 
 ## Installation
