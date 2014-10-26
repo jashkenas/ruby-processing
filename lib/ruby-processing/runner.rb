@@ -42,7 +42,7 @@ module Processing
     http://wiki.github.com/jashkenas/ruby-processing
 
     EOS
-    
+
     WIN_PATTERNS = [
       /bccwin/i,
       /cygwin/i,
@@ -51,7 +51,7 @@ module Processing
       /mswin/i,
       /wince/i
     ]
-    
+
     attr_reader :os
 
     # Start running a ruby-processing sketch from the passed-in arguments
@@ -127,28 +127,29 @@ module Processing
     end
 
     def setup(choice)
-      usage = 'Usage: rp5 setup [check | install | unpack_samples]'
-      installed = File.exist?("#{RP5_ROOT}/lib/ruby/jruby-complete.jar")
       proc_root = File.exist?("#{ENV['HOME']}/.rp5rc")
       case choice
       when /check/
-        check(proc_root, installed)
+        check(proc_root, File.exist?("#{RP5_ROOT}/lib/ruby/jruby-complete.jar"))
       when /install/
-        system "cd #{RP5_ROOT}/vendors && rake"
-        unless proc_root
-          set_processing_root
-          warn 'PROCESSING_ROOT set optimistically, run check to confirm'
-        end
+        install(proc_root)
       when /unpack_samples/
         system "cd #{RP5_ROOT}/vendors && rake unpack_samples"
       else
-        puts usage
+        puts 'Usage: rp5 setup [check | install | unpack_samples]'
       end
     end
 
-    def check(proc_root, installed)
+    def install(root_exist)
+      system "cd #{RP5_ROOT}/vendors && rake"
+      return if root_exist
+      set_processing_root
+      warn 'PROCESSING_ROOT set optimistically, run check to confirm'
+    end
+
+    def check(root_exist, installed)
       show_version
-      root = '  PROCESSING_ROOT = Not Set!!!' unless proc_root
+      root = '  PROCESSING_ROOT = Not Set!!!' unless root_exist
       root ||= "  PROCESSING_ROOT = #{Processing::RP_CONFIG['PROCESSING_ROOT']}"
       jruby = Processing::RP_CONFIG['JRUBY']
       x_off = Processing::RP_CONFIG['X_OFF']
