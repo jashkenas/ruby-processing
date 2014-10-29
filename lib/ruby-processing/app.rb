@@ -115,7 +115,7 @@ module Processing
       |_thread_, exception|
         puts(exception.class.to_s)
         puts(exception.message)
-        puts(exception.backtrace.map { |trace| '\t' + trace })
+        puts(exception.backtrace.map { |trace| "\t#{trace}" })
         close
       end
 
