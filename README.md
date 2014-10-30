@@ -110,7 +110,7 @@ NB: Support for ruby-2.0 syntax is limited (and experimental see jruby documenta
 
 ## Deprecated Methods
 
-From version 2.5.1 some previously implemented processing (convenience) methods were deprecated in favor of ruby alternatives for details see wiki [notice][], and they have mostly been removed in favor or ruby alternatives.
+From version 2.5.1 some previously implemented processing (convenience) methods were deprecated in favor of ruby alternatives for details see wiki [notice][], and they have since mostly been removed in favor or ruby alternatives.
 
 [License][]
 
