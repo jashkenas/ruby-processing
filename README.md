@@ -26,7 +26,7 @@ since ruby-processing-2.5.0 `rp5 setup install` (was `install_jruby_complete`)
 
 If you haven't got `wget` just download jruby-complete-1.7.16.1 (for ruby-processing-2.6.4)to the vendors folder (then run above tool)
 
-The vendored jruby-complete is only required for application export, and running certain sketches (eg shader sketches see wiki).
+The vendored jruby-complete is only required for application export, and running certain sketches (eg shader sketches see [wiki][]).
 
 
 ### How to build latest development version 2.6.4
