@@ -22,8 +22,8 @@ module Processing
   # called constantly, for every frame.
 
   # Include some core processing classes that we'd like to use:
-  include_package 'processing.core' 
-  
+  include_package 'processing.core'
+
   # Watch the definition of these methods, to make sure
   # that Processing is able to call them during events.
   METHODS_TO_ALIAS ||= {
@@ -36,7 +36,7 @@ module Processing
     key_released: :keyReleased,
     key_typed: :keyTyped
   }
-  
+
   class App < PApplet
     include Math
     include HelperMethods
@@ -112,7 +112,7 @@ module Processing
       # @started = false
 
       java.lang.Thread.default_uncaught_exception_handler = proc do
-      |_thread_, exception|
+        |_thread_, exception|
         puts(exception.class.to_s)
         puts(exception.message)
         puts(exception.backtrace.map { |trace| "\t#{trace}" })
@@ -146,15 +146,15 @@ module Processing
 
     def size(*args)
       w, h, mode       = *args
-      @width           ||= w     
-      @height          ||= h     
-      @render_mode     ||= mode  
+      @width           ||= w
+      @height          ||= h
+      @render_mode     ||= mode
       if /opengl/ =~ mode
         # Include processing opengl classes that we'd like to use:
         %w(FontTexture FrameBuffer LinePath LineStroker PGL
-         PGraphics2D PGraphics3D PGraphicsOpenGL PShader
-         PShapeOpenGL Texture).each do |klass|
-         java_import "processing.opengl.#{klass}"        
+           PGraphics2D PGraphics3D PGraphicsOpenGL PShader
+           PShapeOpenGL Texture).each do |klass|
+          java_import "processing.opengl.#{klass}"
         end
       end
       super(*args)

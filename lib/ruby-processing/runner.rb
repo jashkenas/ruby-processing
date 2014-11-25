@@ -94,11 +94,8 @@ module Processing
     def create(sketch, args)
       require_relative '../ruby-processing/exporters/creator'
       return Processing::Inner.new.create!(sketch, args) if @options.inner
-      if @options.wrap
-        Processing::ClassSketch.new.create!(sketch, args)
-      else
-        Processing::BasicSketch.new.create!(sketch, args)
-      end
+      return Processing::ClassSketch.new.create!(sketch, args) if @options.wrap
+      Processing::BasicSketch.new.create!(sketch, args)
     end
 
     # Just simply run a ruby-processing sketch.
@@ -224,12 +221,9 @@ module Processing
 
     def jruby_complete
       rcomplete = File.join(RP5_ROOT, 'lib/ruby/jruby-complete.jar')
-      if File.exist?(rcomplete)
-        return rcomplete
-      else
-        warn "#{rcomplete} does not exist\nTry running `rp5 setup install`"
-        exit
-      end
+      return rcomplete if File.exist?(rcomplete)
+      warn "#{rcomplete} does not exist\nTry running `rp5 setup install`"
+      exit
     end
 
     def host_os

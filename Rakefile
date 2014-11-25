@@ -10,7 +10,7 @@ end
 
 desc 'Build and install gem'
 task :install => :build do
-  sh "gem install #{Dir.glob('*.gem').join(' ')} --no-ri --no-rdoc"
+  sh "jruby -S gem install #{Dir.glob('*.gem').join(' ')} --no-ri --no-rdoc"
 end
 
 desc 'Uninstall gem'
@@ -34,7 +34,7 @@ end
 
 desc 'Build gem'
 task :build do
-  sh "gem build ruby-processing.gemspec"
+  sh "jruby -S gem build ruby-processing.gemspec"
 end
 
 desc 'Test'
