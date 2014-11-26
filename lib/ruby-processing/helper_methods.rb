@@ -1,4 +1,5 @@
 module Processing
+  # Provides some convenience methods available in vanilla processing
   module HelperMethods
     # processings epsilon may not be defined yet
     EPSILON ||= 1.0e-04
@@ -100,16 +101,9 @@ module Processing
     def dist(*args)
       len = args.length
       if len == 4
-        dx = args[0] - args[2]
-        dy = args[1] - args[3]
-        return 0 if dx.abs < EPSILON && dy.abs < EPSILON
-        return Math.hypot(dx, dy)
+        return dist2d(*args)
       elsif len == 6
-        dx = args[0] - args[3]
-        dy = args[1] - args[4]
-        dz = args[2] - args[5]
-        return 0 if dx.abs < EPSILON && dy.abs < EPSILON && dz.abs < EPSILON
-        return Math.sqrt(dx * dx + dy * dy + dz * dz)
+        return dist3d(*args)
       end
       fail ArgumentError, 'takes 4 or 6 parameters'
     end
@@ -204,6 +198,23 @@ module Processing
     # Is a key pressed for this frame?
     def key_pressed?
       @declared_fields['keyPressed'].value(java_self)
+    end
+
+    private
+
+    def dist2d(*args)
+      dx = args[0] - args[2]
+      dy = args[1] - args[3]
+      return 0 if dx.abs < EPSILON && dy.abs < EPSILON
+      Math.hypot(dx, dy)
+    end
+
+    def dist3d(*args)
+      dx = args[0] - args[3]
+      dy = args[1] - args[4]
+      dz = args[2] - args[5]
+      return 0 if dx.abs < EPSILON && dy.abs < EPSILON && dz.abs < EPSILON
+      Math.sqrt(dx * dx + dy * dy + dz * dz)
     end
   end
 end
