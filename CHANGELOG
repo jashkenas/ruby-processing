@@ -1,3 +1,6 @@
+v2.6.5 Update to use jruby-complete-1.7.17
+* Some more refactoring including helper_methods
+
 v2.6.4 Update to use jruby-complete-1.7.16.1
 * Some general refactoring of app.rb, moved examples to
 * their own github repo.

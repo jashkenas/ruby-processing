@@ -9,7 +9,7 @@ require_relative '../ruby-processing/config'
 
 Dir["#{Processing::RP_CONFIG['PROCESSING_ROOT']}/core/library/\*.jar"].each do
 |jar|
-  require jar
+require jar
 end
 
 module Processing
@@ -36,7 +36,7 @@ module Processing
     key_released: :keyReleased,
     key_typed: :keyTyped
   }
-
+  # All sketches extend this class
   class App < PApplet
     include Math
     include HelperMethods
@@ -109,8 +109,6 @@ module Processing
       proxy_java_fields
       set_sketch_path # unless Processing.online?
       mix_proxy_into_inner_classes
-      # @started = false
-
       java.lang.Thread.default_uncaught_exception_handler = proc do
         |_thread_, exception|
         puts(exception.class.to_s)
@@ -118,30 +116,7 @@ module Processing
         puts(exception.backtrace.map { |trace| "\t#{trace}" })
         close
       end
-
-      # For the list of all available args, see:-
-      # http://processing.org/reference/, however not all convenience functions
-      # are implemented in ruby-processing (you should in general prefer ruby
-      # alternatives when available and methods using java reflection, are best
-      # avoided entirely)
-
-      args = []
-      @width, @height = options[:width], options[:height]
-      if options[:full_screen]
-        present = true
-        args << '--full-screen'
-        args << "--bgcolor=#{options[:bgcolor]}" if options[:bgcolor]
-      end
-      @render_mode  ||= JAVA2D
-      xc = Processing::RP_CONFIG['X_OFF'] ||= 0
-      yc = Processing::RP_CONFIG['Y_OFF'] ||= 0
-      x = options[:x] || xc
-      y = options[:y] || yc
-      args << "--location=#{x},#{y}"  # important no spaces here
-      title = options[:title] ||
-      File.basename(SKETCH_PATH).sub(/(\.rb)$/, '').titleize
-      args << title
-      PApplet.run_sketch(args.to_java(:string), self)
+      run_sketch(options)
     end
 
     def size(*args)
@@ -149,14 +124,7 @@ module Processing
       @width           ||= w
       @height          ||= h
       @render_mode     ||= mode
-      if /opengl/ =~ mode
-        # Include processing opengl classes that we'd like to use:
-        %w(FontTexture FrameBuffer LinePath LineStroker PGL
-           PGraphics2D PGraphics3D PGraphicsOpenGL PShader
-           PShapeOpenGL Texture).each do |klass|
-          java_import "processing.opengl.#{klass}"
-        end
-      end
+      import_opengl if /opengl/ =~ mode
       super(*args)
     end
 
@@ -193,6 +161,36 @@ module Processing
         next if const.class != Class || const.to_s.match(/^Java::/)
         const.class_eval 'include Processing::Proxy'
       end
+    end
+
+    def import_opengl
+      # Include processing opengl classes that we'd like to use:
+      %w(FontTexture FrameBuffer LinePath LineStroker PGL
+         PGraphics2D PGraphics3D PGraphicsOpenGL PShader
+         PShapeOpenGL Texture).each do |klass|
+        java_import "processing.opengl.#{klass}"
+      end
+    end
+    
+    def run_sketch(options = {})
+      args = []
+      @width, @height = options[:width], options[:height]
+      if options[:full_screen]
+        present = true
+        args << '--full-screen'
+        args << "--bgcolor=#{options[:bgcolor]}" if options[:bgcolor]
+      end
+      xc = Processing::RP_CONFIG['X_OFF'] ||= 0
+      yc = Processing::RP_CONFIG['Y_OFF'] ||= 0
+      x = options.fetch(:x, xc)
+      y = options.fetch(:y, yc)
+      args << "--location=#{x},#{y}"  # important no spaces here
+      title = options.fetch(
+        :title,
+        File.basename(SKETCH_PATH).sub(/(\.rb)$/, '').titleize
+        )
+      args << title
+      PApplet.run_sketch(args.to_java(:string), self)
     end
   end # Processing::App
 

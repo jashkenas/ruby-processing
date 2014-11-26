@@ -14,7 +14,7 @@ module Processing
   <%= source %>
   <% else %>
   def setup
-  size(DEFAULT_WIDTH, DEFAULT_HEIGHT, JAVA2D)
+  size(DEFAULT_WIDTH, DEFAULT_HEIGHT)
   <%= source %>
   no_loop
   end
