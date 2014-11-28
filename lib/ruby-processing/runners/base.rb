@@ -8,17 +8,19 @@ require_relative '../../ruby-processing/app'
 
 module Processing
   # For use with "bare" sketches that don't want to define a class or methods
-  SKETCH_TEMPLATE = <<-EOS
+  BARE_TEMPLATE = <<-EOS
   class Sketch < Processing::App
-  <% if has_methods %>
-  <%= source %>
-  <% else %>
-  def setup
-  size(DEFAULT_WIDTH, DEFAULT_HEIGHT)
-  <%= source %>
-  no_loop
+    %s
   end
-  <% end %>
+  EOS
+
+  NAKED_TEMPLATE = <<-EOS
+  class Sketch < Processing::App
+    def setup
+      size(DEFAULT_WIDTH, DEFAULT_HEIGHT)
+      %s
+      no_loop
+    end
   end
   EOS
 
@@ -28,15 +30,14 @@ module Processing
     has_sketch = !source.match(/^[^#]*< Processing::App/).nil?
     has_methods = !source.match(/^[^#]*(def\s+setup|def\s+draw)/).nil?
 
-    if has_sketch
-      load File.join(SKETCH_ROOT, SKETCH_PATH)
-      Processing::App.sketch_class.new unless $app
+    return load File.join(SKETCH_ROOT, SKETCH_PATH) if has_sketch
+    if has_methods
+      code = format(BARE_TEMPLATE, source)
     else
-      require 'erb'
-      code = ERB.new(SKETCH_TEMPLATE).result(binding)
-      Object.class_eval code, SKETCH_PATH, -1
-      Processing::App.sketch_class.new
+      code = format(NAKED_TEMPLATE, source)
     end
+    Object.class_eval code, SKETCH_PATH, -1
+    Processing::App.sketch_class.new
   end
 
   # Read in the sketch source code. Needs to work both online and offline.

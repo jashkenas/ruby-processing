@@ -1,5 +1,8 @@
 v2.6.5 Update to use jruby-complete-1.7.17
-* Some more refactoring including helper_methods
+* Some more refactoring including helper_methods, and base runner
+* No need for erb when running bare sketches. For class wrapped sketches
+* make sure to call new, after all the only point in writing a class wrapped
+* sketch is to send runtime parameter (:title, :fullscreen, etc)
 
 v2.6.4 Update to use jruby-complete-1.7.16.1
 * Some general refactoring of app.rb, moved examples to
