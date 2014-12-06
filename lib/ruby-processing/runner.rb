@@ -214,9 +214,11 @@ module Processing
       args.map! { |arg| "-J#{arg}" } unless @options.nojruby
       args
     end
+    
+    # NB: we really do require 'and' not '&&' to get message returned
 
     def ensure_exists(sketch)
-      puts "Couldn't find: #{sketch}" && exit unless File.exist?(sketch)
+      puts "Couldn't find: #{sketch}" and exit unless File.exist?(sketch)
     end
 
     def jruby_complete
