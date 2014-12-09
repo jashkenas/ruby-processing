@@ -138,15 +138,15 @@ module Processing
             sketchbook_paths << spath
           end
         end
-        unless preferences_paths.empty?
+        if preferences_paths.empty?
+          sketchbook_path = sketchbook_paths.first
+        else
           lines = File.readlines(preferences_paths.first)
-          regex1=/^sketchbook\.path=(.+)/           # processing-2.0
-          regex2=/^sketchbook\.path\.three=(.+)/    # processing-3.0
+          regex1 = /^sketchbook\.path=(.+)/           # processing-2.0
+          regex2 = /^sketchbook\.path\.three=(.+)/    # processing-3.0
           matched_lines = lines.grep(regex1) { $1 } unless $1 == ''
           matched_lines = lines.grep(regex2) { $1 } unless $1 == ''
           sketchbook_path = matched_lines.first
-        else
-          sketchbook_path = sketchbook_paths.first
         end
         return sketchbook_path
       end
