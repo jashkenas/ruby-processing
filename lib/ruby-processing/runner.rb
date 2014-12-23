@@ -193,7 +193,7 @@ module Processing
                    sketch,
                    args].flatten
       else
-        command = ['jruby --dev', java_args, runner, sketch, args].flatten
+        command = ['jruby', java_args, runner, sketch, args].flatten
       end
       exec(*command)
       # exec replaces the Ruby process with the JRuby one.
