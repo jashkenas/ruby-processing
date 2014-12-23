@@ -1,4 +1,4 @@
-v2.6.6 Update to use jruby-complete-1.7.17
+v2.6.6 Update to use jruby-complete-1.7.18
 
 v2.6.5 Update to use jruby-complete-1.7.16.2
 * Some more refactoring including helper_methods, and base runner
