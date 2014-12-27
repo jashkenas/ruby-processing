@@ -94,7 +94,7 @@ end
 
 ## Supported Ruby Version
 
-This library has been tested with the following ruby implementations
+This gem has been tested with the following ruby implementations
 
 * Ruby 1.9.3
 * Ruby 2.0.0
