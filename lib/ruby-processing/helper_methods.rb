@@ -1,4 +1,5 @@
 module Processing
+  # Provides some convenience methods available in vanilla processing
   module HelperMethods
     # processings epsilon may not be defined yet
     EPSILON ||= 1.0e-04
@@ -100,16 +101,9 @@ module Processing
     def dist(*args)
       len = args.length
       if len == 4
-        dx = args[0] - args[2]
-        dy = args[1] - args[3]
-        return 0 if dx.abs < EPSILON && dy.abs < EPSILON
-        return Math.hypot(dx, dy)
+        return dist2d(*args)
       elsif len == 6
-        dx = args[0] - args[3]
-        dy = args[1] - args[4]
-        dz = args[2] - args[5]
-        return 0 if dx.abs < EPSILON && dy.abs < EPSILON && dz.abs < EPSILON
-        return Math.sqrt(dx * dx + dy * dy + dz * dz)
+        return dist3d(*args)
       end
       fail ArgumentError, 'takes 4 or 6 parameters'
     end
@@ -122,7 +116,7 @@ module Processing
 
     # Uses PImage class method under hood
     def blend_color(c1, c2, mode)
-      PImage.blendColor(c1, c2, mode)
+      Java::ProcessingCore::PImage::blendColor(c1, c2, mode)
     end
 
     # There's just so many functions in Processing,
@@ -135,9 +129,9 @@ module Processing
     # Proxy over a list of Java declared fields that have the same name as
     # some methods. Add to this list as needed.
     def proxy_java_fields
-      @declared_fields = {}
       fields = %w(sketchPath key frameRate frame mousePressed keyPressed)
-      fields.each { |f| @declared_fields[f] = java_class.declared_field(f) }
+      methods  = fields.map { |field| java_class.declared_field(field) }
+      @declared_fields = Hash[fields.zip(methods)]
     end
 
     # By default, your sketch path is the folder that your sketch is in.
@@ -159,26 +153,25 @@ module Processing
       @java_self ||= to_java(Java::ProcessingCore::PApplet)
     end
 
-
     # Get the sketch path
     def sketch_path
       @declared_fields['sketchPath'].value(java_self)
     end
 
     # Fields that should be made accessible as under_scored.
-    def mouse_x;      mouseX;       end
+    define_method(:mouse_x) { mouseX }
 
-    def mouse_y;      mouseY;       end
+    define_method(:mouse_y) { mouseY }
 
-    def pmouse_x;     pmouseX;      end
+    define_method(:pmouse_x) { pmouseX }
 
-    def pmouse_y;     pmouseY;      end
+    define_method(:pmouse_y) { pmouseY }
 
-    def frame_count;  frameCount;   end
+    define_method(:frame_count) { frameCount }
 
-    def mouse_button; mouseButton;  end
+    define_method(:mouse_button) { mouseButton }
 
-    def key_code;     keyCode;      end
+    define_method(:key_code) { keyCode }
 
     # Ensure that load_strings returns a real Ruby array
     def load_strings(file_or_url)
@@ -205,6 +198,23 @@ module Processing
     # Is a key pressed for this frame?
     def key_pressed?
       @declared_fields['keyPressed'].value(java_self)
+    end
+
+    private
+
+    def dist2d(*args)
+      dx = args[0] - args[2]
+      dy = args[1] - args[3]
+      return 0 if dx.abs < EPSILON && dy.abs < EPSILON
+      Math.hypot(dx, dy)
+    end
+
+    def dist3d(*args)
+      dx = args[0] - args[3]
+      dy = args[1] - args[4]
+      dz = args[2] - args[5]
+      return 0 if dx.abs < EPSILON && dy.abs < EPSILON && dz.abs < EPSILON
+      Math.sqrt(dx * dx + dy * dy + dz * dz)
     end
   end
 end

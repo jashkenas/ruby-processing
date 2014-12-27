@@ -1,1 +1,0 @@
-Some sketches in this folder may need to be run with the "--nojruby" flag. eg threads_two.rb, and word_frequency.rb the load_json.rb relies json or json-ruby gem.

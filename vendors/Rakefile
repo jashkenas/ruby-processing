@@ -8,30 +8,33 @@ WARNING = <<-EOS
       
 EOS
 
-JRUBY_VERSION      = "1.7.15"
+JRUBYC_VERSION     = '1.7.18'
+EXAMPLES           = '1.2'
+HOME_DIR = ENV['HOME']
+MAC_OR_LINUX = /linux|mac|darwin/ =~ RbConfig::CONFIG['host_os'] 
 
-CLOBBER.include("jruby-complete-#{JRUBY_VERSION}.jar")
+CLOBBER.include("jruby-complete-#{JRUBYC_VERSION}.jar")
 
 desc "download, and copy to ruby-processing"
 task :default => [:download, :copy_ruby]
 
 desc "download JRuby upstream sources"
-task :download => ["jruby-complete-#{JRUBY_VERSION}.jar"]
+task :download => ["jruby-complete-#{JRUBYC_VERSION}.jar"]
 
-file "jruby-complete-#{JRUBY_VERSION}.jar" do
+file "jruby-complete-#{JRUBYC_VERSION}.jar" do
   begin
-    sh "wget http://jruby.org.s3.amazonaws.com/downloads/#{JRUBY_VERSION}/jruby-complete-#{JRUBY_VERSION}.jar"    
+    sh "wget https://s3.amazonaws.com/jruby.org/downloads/#{JRUBYC_VERSION}/jruby-complete-#{JRUBYC_VERSION}.jar"    
   rescue
     warn(WARNING)
   end
-  check_sha1("jruby-complete-#{JRUBY_VERSION}.jar", "4d9cb332bad3633c9c23a720542f456dc0c58a81")
+  check_sha1("jruby-complete-#{JRUBYC_VERSION}.jar", "a1be3e1790aace5c99614a87785454d875eb21c2")
 end
 
 directory "../lib/ruby"
 
 desc "copy jruby-complete"
 task :copy_ruby => ["../lib/ruby"] do
-  sh "cp -v jruby-complete-#{JRUBY_VERSION}.jar ../lib/ruby/jruby-complete.jar"
+  sh "cp -v jruby-complete-#{JRUBYC_VERSION}.jar ../lib/ruby/jruby-complete.jar"
 end
 
 def check_sha1(filename, expected_hash)
@@ -47,5 +50,31 @@ def check_sha1(filename, expected_hash)
   end
 end
 
+desc "download, and copy to ruby-processing"
+task :unpack_samples => [:download_examples, :copy_examples]
 
+desc 'download and copy examples to user home'
+task :download_examples
+file_name = (MAC_OR_LINUX.nil?) ? "#{EXAMPLES}.zip" : "#{EXAMPLES}.tar.gz"
+file file_name do
+  begin
+    if MAC_OR_LINUX.nil?
+      sh "wget https://github.com/ruby-processing/Example-Sketches/archive/#{EXAMPLES}.zip"      
+    else
+      sh "wget https://github.com/ruby-processing/Example-Sketches/archive/#{EXAMPLES}.tar.gz"
+    end
+  rescue
+    warn(WARNING)
+  end
+end
 
+desc "copy examples"
+task :copy_examples => file_name do
+  if MAC_OR_LINUX.nil?
+    sh "unzip #{EXAMPLES},zip"
+  else
+    sh "tar xzvf #{EXAMPLES}.tar.gz" 
+  end
+  sh "cp -r Example-Sketches-#{EXAMPLES} #{HOME_DIR}/rp_samples"  
+  sh "rm -r Example-Sketches-#{EXAMPLES}"   
+end

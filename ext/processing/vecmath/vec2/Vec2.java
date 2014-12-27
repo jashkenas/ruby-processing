@@ -577,6 +577,18 @@ public class Vec2 extends RubyObject {
         JRender renderer = (JRender) object.toJava(JRender.class);
         renderer.vertex(jx, jy);
     }
+    
+   /**
+    *
+    * @param context
+    * @param object
+    */
+    @JRubyMethod(name = "to_curve_vertex")
+
+    public void toCurveVertex(ThreadContext context, IRubyObject object) {
+        JRender renderer = (JRender) object.toJava(JRender.class);
+        renderer.curveVertex(jx, jy);
+    }
 
 
     /**

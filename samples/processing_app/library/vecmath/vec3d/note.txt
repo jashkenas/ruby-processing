@@ -1,1 +1,0 @@
-retained menger requires compat.version=2.0 (jruby-1.7.xx)

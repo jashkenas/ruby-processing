@@ -73,20 +73,25 @@ module Processing
       end
       @loaded_libraries[library_name] = true
     end
+    
+    def platform
+      match = %w(Mac Linux Windows).find do |os|
+        java.lang.System.getProperty('os.name').index(os)
+      end
+      return 'other' unless match
+      return match.downcase unless match =~ /Mac/
+      return 'macosx'
+    end
 
     def get_platform_specific_library_paths(basename)
       bits = 'universal'  # for MacOSX, but does this even work, or does Mac return '64'?
       if java.lang.System.getProperty('sun.arch.data.model') == '32' ||
-        java.lang.System.getProperty('java.vm.name').index('32')
+          java.lang.System.getProperty('java.vm.name').index('32')
         bits = '32'
       elsif java.lang.System.getProperty('sun.arch.data.model') == '64' ||
-        java.lang.System.getProperty('java.vm.name').index('64')
-        bits = '64'
+          java.lang.System.getProperty('java.vm.name').index('64')
+        bits = '64' unless platform =~ /macosx/
       end
-      _match_string_, platform = {'Mac' => 'macosx', 'Linux' => 'linux', 'Windows' => 'windows' }.find do |string, _platform_|
-        java.lang.System.getProperty('os.name').index(string)
-      end
-      platform ||= 'other'
       [platform, platform + bits].map { |p| File.join(basename, p) }
     end
 
@@ -122,8 +127,8 @@ module Processing
         return File.expand_path(sketchbook_path)
       else
         ["'Application Data/Processing'", 'AppData/Roaming/Processing',
-         'Library/Processing', 'Documents/Processing',
-         '.processing', 'sketchbook'].each do |prefix|
+          'Library/Processing', 'Documents/Processing',
+          '.processing', 'sketchbook'].each do |prefix|
           spath = "#{ENV['HOME']}/#{prefix}"
           pref_path = spath + '/preferences.txt'
           if test(?f, pref_path)
@@ -133,11 +138,15 @@ module Processing
             sketchbook_paths << spath
           end
         end
-        unless preferences_paths.empty?
-          matched_lines = File.readlines(preferences_paths.first).grep(/^sketchbook\.path=(.+)/) { $1 }
-          sketchbook_path = matched_lines.first
-        else
+        if preferences_paths.empty?
           sketchbook_path = sketchbook_paths.first
+        else
+          lines = File.readlines(preferences_paths.first)
+          regex1 = /^sketchbook\.path=(.+)/           # processing-2.0
+          regex2 = /^sketchbook\.path\.three=(.+)/    # processing-3.0
+          matched_lines = lines.grep(regex1) { $1 } unless $1 == ''
+          matched_lines = lines.grep(regex2) { $1 } unless $1 == ''
+          sketchbook_path = matched_lines.first
         end
         return sketchbook_path
       end

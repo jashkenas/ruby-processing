@@ -19,6 +19,11 @@ public class ShapeRender implements JRender {
     public void vertex(double x, double y) {
         shape.vertex((float) x, (float) y);
     }
+    
+    @Override
+    public void curveVertex(double x, double y) {
+        throw new UnsupportedOperationException("Not implemented for this renderer");
+    }
 
     @Override
     public void vertex(double x, double y, double z) {
@@ -34,5 +39,11 @@ public class ShapeRender implements JRender {
     public void vertex(double x, double y, double z, double u, double v) {
         shape.vertex((float) x, (float) y, (float) z, (float) u, (float) v);
     }
+    
+    @Override
+    public void curveVertex(double x, double y, double z) {
+        throw new UnsupportedOperationException("Not implemented for this renderer");
+    }
+
 
 }

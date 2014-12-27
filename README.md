@@ -6,9 +6,7 @@ Is a ruby wrapper around the [Processing][] code art framework, built using [JRu
 [Processing][] provides a tidy API, with a bunch of handy methods you can call 
   from Ruby-Processing. Here's a smattering:
   
-  alpha, arc, background, blend, blue, ellipse, frame_rate, hue, lerp, 
-  load_image, load_pixels, mouse_pressed, noise, rect, saturation, shape, 
-  smooth, text_align, translate, triangle, vertex...
+  `alpha`, `arc`, `background`, `blend`, `blue`, `ellipse`, `frame_rate`, `hue`, `lerp`,  `load_image`, `load_pixels`, `mouse_pressed`, `noise`, `rect`, `saturation`, `shape`, `smooth`, `text_align`, `translate`, `triangle`, `vertex`...
   
 
 ## Installation
@@ -22,19 +20,19 @@ Then install ruby-processing (from rubygems-org) in the usual way
 
 `gem install ruby-processing` some systems eg Ubuntu may require `sudo` access
 
-To install jruby-complete use our built in tool (relies on `wget` to download [jruby-complete-1.7.15](http://jruby.org/download))
+To install jruby-complete use our built in tool (relies on `wget` to download [jruby-complete-1.7.18](http://jruby.org/download))
 
 since ruby-processing-2.5.0 `rp5 setup install` (was `install_jruby_complete`)
 
-If you haven't got `wget` just download jruby-complete-1.7.15 (for ruby-processing-2.6.3)to the vendors folder (then run above tool)
+If you haven't got `wget` just download jruby-complete-1.7.18 (for ruby-processing-2.6.6)to the vendors folder (then run above tool)
 
-The vendored jruby-complete is only required for application export, and running certain sketches (eg shader sketches see wiki).
+The vendored jruby-complete is only required for application export, and running certain sketches (eg shader sketches see [wiki][]).
 
 
-### How to build latest development version 2.6.3
+### How to build latest development version 2.6.6
 See [wiki](https://github.com/jashkenas/ruby-processing/wiki/How-to-build-latest-version)
 
-For previous release (version 2.6.1) checkout the "stable" branch and follow the same instructions
+For previous release (version 2.6.5) checkout the "stable" branch and follow the same instructions
 
 ## Documentation
 
@@ -96,24 +94,25 @@ end
 
 ## Supported Ruby Version
 
-This library has been tested with the following ruby implementations
+This gem has been tested with the following ruby implementations
 
 * Ruby 1.9.3
 * Ruby 2.0.0
 * Ruby 2.1.2
+* Ruby 2.2.0
 * [JRuby][] preferred (required to use rubygems in sketches)
 
 NB: Support for ruby-2.0 syntax is limited (and experimental see jruby documentation)
+If you experiment with JRuby-9.0.0.0-SNAPSHOT you will find majority of sketches will only run in watch mode (this has [been reported][])
 
 ## Supported Processing Version
 
 * processing-2.2.1 (recommended)
-* seems also work with processing-3.0a4 (but there is probably no reason to use it, it would be more interesting to test the future releases, where big changes are slated to happen....)
+* seems also work with processing-3.0a5 (might be worth upgrading to, a more recent jogl etc....)
 
 ## Deprecated Methods
 
-From version 2.5.1 some processing methods are deprecated in favor of ruby alternatives
-for details see wiki [notice][]
+From version 2.5.1 some previously implemented processing (convenience) methods were deprecated in favor of ruby alternatives for details see wiki [notice][], and they have since mostly been removed in favor or ruby alternatives.
 
 [License][]
 
@@ -122,11 +121,12 @@ for details see wiki [notice][]
 [jruby]:http://www.jruby.org/
 [processing]: http://www.processing.org/
 [download]:https://processing.org/download/
-[samples]:https://github.com/jashkenas/ruby-processing/tree/master/samples/
+[samples]:https://github.com/ruby-processing/Example-Sketches
 [wiki]:http://github.com/jashkenas/ruby-processing/wikis/
 [notice]:http://github.com/jashkenas/ruby-processing/wikis/Deprecation-of-methods
 [FAQs]:http://github.com/jashkenas/ruby-processing/wikis/FAQs/
 [release]:https://github.com/jashkenas/ruby-processing/releases/
 [guide to installing]:https://www.ruby-lang.org/en/installation/
 [alternative install]:http://tutorials.jumpstartlab.com/topics/environment/environment.html
+[been reported]:https://github.com/jruby/jruby/issues/1917
 

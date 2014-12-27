@@ -468,6 +468,18 @@ public final class Vec3 extends RubyObject {
         renderer.vertex(jx, jy, jz);
     }
     
+       /**
+    *
+    * @param context
+    * @param object
+    */
+    @JRubyMethod(name = "to_curve_vertex")
+
+    public void toCurveVertex(ThreadContext context, IRubyObject object) {
+        JRender renderer = (JRender) object.toJava(JRender.class);
+        renderer.curveVertex(jx, jy, jz);
+    }
+    
     /**
     * 
     * @param context
