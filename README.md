@@ -99,9 +99,11 @@ This library has been tested with the following ruby implementations
 * Ruby 1.9.3
 * Ruby 2.0.0
 * Ruby 2.1.2
+* Ruby 2.2.0
 * [JRuby][] preferred (required to use rubygems in sketches)
 
 NB: Support for ruby-2.0 syntax is limited (and experimental see jruby documentation)
+If you experiment with JRuby-9.0.0.0-SNAPSHOT you will find majority of sketches will only run in watch mode (this has [been reported][])
 
 ## Supported Processing Version
 
@@ -126,4 +128,5 @@ From version 2.5.1 some previously implemented processing (convenience) methods 
 [release]:https://github.com/jashkenas/ruby-processing/releases/
 [guide to installing]:https://www.ruby-lang.org/en/installation/
 [alternative install]:http://tutorials.jumpstartlab.com/topics/environment/environment.html
+[been reported]:https://github.com/jruby/jruby/issues/1917
 
