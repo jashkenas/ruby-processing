@@ -102,8 +102,8 @@ This gem has been tested with the following ruby implementations
 * Ruby 2.2.0
 * [JRuby][] preferred (required to use rubygems in sketches)
 
-NB: Support for ruby-2.0 syntax is limited (and experimental see jruby documentation)
-If you experiment with JRuby-9.0.0.0-SNAPSHOT you will find majority of sketches will only run in watch mode (this has [been reported][])
+NB: current support for ruby-2.0 syntax is limited (and experimental see jruby documentation)
+However if you use JRuby-9.0.0.0-SNAPSHOT (since this [fix][]) you will find ruby-2.2 syntax is now supported. Future development of ruby-processing will target ruby-2.2 (with probable backward compatibitility with MRI ruby-2.1)
 
 ## Supported Processing Version
 
@@ -128,5 +128,5 @@ From version 2.5.1 some previously implemented processing (convenience) methods 
 [release]:https://github.com/jashkenas/ruby-processing/releases/
 [guide to installing]:https://www.ruby-lang.org/en/installation/
 [alternative install]:http://tutorials.jumpstartlab.com/topics/environment/environment.html
-[been reported]:https://github.com/jruby/jruby/issues/1917
+[fix]:https://github.com/jruby/jruby/issues/1917
 
