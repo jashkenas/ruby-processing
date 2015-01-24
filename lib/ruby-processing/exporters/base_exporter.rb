@@ -1,6 +1,7 @@
 require 'fileutils'
 require 'erb'
 require_relative '../library_loader'
+require_relative '../helpers/string_extra'
 
 module Processing
   # This base exporter implements some of the common
@@ -42,8 +43,9 @@ module Processing
 
     # Searches the source for a title.
     def extract_title(source)
+      generated_title = StringExtra.new(File.basename(@file, '.rb')).titleize
       match = source.match(/#{@info[:class_name]}\.new.*?:title\s=>\s["'](.+?)["']/m)
-      match ? match[1] : File.basename(@file, '.rb').titleize
+      match ? match[1] : generated_title
     end
 
     # Searches the source for the width and height of the sketch.

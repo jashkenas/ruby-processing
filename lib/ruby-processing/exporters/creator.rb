@@ -50,11 +50,14 @@ end
 CODE
 
 module Processing
+  require_relative '../helpers/string_extra'
+  require_relative '../helpers/camel_string'
   # Write file to disk
   class SketchWriter
     attr_reader :file
     def initialize(path)
-      @file = "#{File.dirname(path)}/#{path.underscore}.rb"
+      underscore = StringExtra.new(path).underscore
+      @file = "#{File.dirname(path)}/#{underscore}.rb"
     end
 
     def save(template)
@@ -69,7 +72,8 @@ module Processing
     ALL_DIGITS = /\A\d+\Z/
 
     def already_exist(path)
-      new_file = "#{File.dirname(path)}/#{path.underscore}.rb"
+      underscore = StringExtra.new(path).underscore
+      new_file = "#{File.dirname(path)}/#{underscore}.rb"
       return if !File.exist?(path) && !File.exist?(new_file)
       puts 'That file already exists!'
       exit
@@ -131,9 +135,9 @@ module Processing
       main_file = File.basename(path, '.rb') # allow uneeded extension input
       # Check to make sure that the main file doesn't exist already
       already_exist(path)
-      @name = main_file.camelize
+      @name = CamelString.new(main_file).camelize
       writer = SketchWriter.new(main_file)
-      @title = main_file.titleize
+      @title = StringExtra.new(main_file).titleize
       @width, @height = args[0], args[1]
       @mode = args[2].upcase unless args[2].nil?
       template = @mode.nil? ? class_template : class_template_mode

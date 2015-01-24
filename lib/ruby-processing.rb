@@ -9,7 +9,6 @@ end
 SKETCH_ROOT ||= Dir.pwd
 
 require 'ruby-processing/version'
-require 'ruby-processing/helpers/string'
 require 'ruby-processing/helpers/numeric'
 require 'ruby-processing/helpers/range'
 

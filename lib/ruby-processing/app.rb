@@ -4,6 +4,7 @@
 # web applets, going fullscreen and so on.
 require 'java'
 require_relative '../ruby-processing/helper_methods'
+require_relative '../ruby-processing/helpers/string_extra'
 require_relative '../ruby-processing/library_loader'
 require_relative '../ruby-processing/config'
 
@@ -185,10 +186,8 @@ module Processing
       x = options.fetch(:x, xc)
       y = options.fetch(:y, yc)
       args << "--location=#{x},#{y}"  # important no spaces here
-      title = options.fetch(
-        :title,
-        File.basename(SKETCH_PATH).sub(/(\.rb)$/, '').titleize
-        )
+      string_extra = StringExtra.new(File.basename(SKETCH_PATH).sub(/(\.rb)$/, ''))
+      title = options.fetch(:title, string_extra.titleize)
       args << title
       PApplet.run_sketch(args.to_java(:string), self)
     end
