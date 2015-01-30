@@ -1,5 +1,5 @@
-v2.6.7 Replaced monkey patching of String
-* Created StringExtra and CamelString classes
+v2.6.7 Update to use jruby-complete-1.7.19, replaced monkey patching of 
+* String, by creating StringExtra and CamelString classes
 
 v2.6.6 Update to use jruby-complete-1.7.18
 
