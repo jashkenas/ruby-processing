@@ -8,9 +8,10 @@ require_relative '../ruby-processing/helpers/string_extra'
 require_relative '../ruby-processing/library_loader'
 require_relative '../ruby-processing/config'
 
-Dir["#{Processing::RP_CONFIG['PROCESSING_ROOT']}/core/library/\*.jar"].each do
-|jar|
-require jar
+jars = Dir["#{Processing::RP_CONFIG['PROCESSING_ROOT']}/core/library/\*.jar"]
+# We don't seem need to load the native jars so perhaps we shouldn't
+jars.reject { |jar| jar =~ /native/ }.each do |jar|
+  require jar
 end
 
 module Processing
@@ -58,7 +59,7 @@ module Processing
 
     # Handy getters and setters on the class go here:
     class << self
-      attr_accessor :sketch_class
+      attr_accessor :sketch_class, :library_loader
     end
 
     def sketch_class
@@ -72,23 +73,23 @@ module Processing
       @sketch_class = subclass
     end
 
-    @@library_loader = LibraryLoader.new
+    App.library_loader = LibraryLoader.new
     class << self
       def load_libraries(*args)
-        @@library_loader.load_library(*args)
+        App.library_loader.load_library(*args)
       end
       alias_method :load_library, :load_libraries
 
       def library_loaded?(library_name)
-        @@library_loader.library_loaded?(library_name)
+        App.library_loader.library_loaded?(library_name)
       end
 
       def load_ruby_library(*args)
-        @@library_loader.load_ruby_library(*args)
+        App.library_loader.load_ruby_library(*args)
       end
 
       def load_java_library(*args)
-        @@library_loader.load_java_library(*args)
+        App.library_loader.load_java_library(*args)
       end
     end
 
@@ -172,7 +173,7 @@ module Processing
         java_import "processing.opengl.#{klass}"
       end
     end
-    
+
     def run_sketch(options = {})
       args = []
       @width, @height = options[:width], options[:height]
@@ -206,9 +207,7 @@ module Processing
       unwanted -= %w(width height cursor create_image background size resize)
       methods = Processing::App.public_instance_methods
       methods.reject do |m|
-        unwanted.include?(m) ||
-        bad_method.match(m) ||
-        inner_class.method_defined?(m)
+        unwanted.include?(m) || bad_method.match(m) || inner_class.method_defined?(m)
       end
     end
 
