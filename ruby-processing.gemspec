@@ -7,9 +7,9 @@ require 'rake'
 Gem::Specification.new do |spec|
   spec.name = "ruby-processing"
   spec.version = RubyProcessing::VERSION
-  spec.authors = ["Jeremy Ashkenas", "Peter Gassner", "Martin Stannard", "Andrew Nanton",
-               "Marc Chung", "Peter Krenn", "Florian Jenett", "Andreas Haller",
-               "Juris Galang", "Guillaume Pierronnet", "Martin Prout"]
+  spec.authors = %w(Jeremy\ Ashkenas Peter\ Gassner\ Martin\ Stannard\ Andrew\ Nanton
+                Marc\ Chung Peter\ Krenn Florian\ Jenett Andreas\ Haller
+               Juris Galang\ Guillaume\ Pierronne Martin\ Prout)
   spec.email = "jeremy@ashkenas.com"
   spec.description = <<-EOS
 
@@ -44,7 +44,7 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ["lib"]
-
+  spec.required_ruby_version = '>= 1.9.3'
 
   spec.add_development_dependency "bundler", "~> 1.3"
   spec.add_development_dependency "rake", "~> 10.3"
