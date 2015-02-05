@@ -110,7 +110,7 @@ However if you use JRuby-9.0.0.0.pre1 you will find ruby-2.2 syntax is now suppo
 * processing-2.2.1 (recommended)
 * seems also work with processing-3.0a5 (might be worth upgrading to, a more recent jogl etc....)
 
-## Deprecated Methods
+## Replacements for processing convenience methods in ruby
 
 From version 2.5.1 some previously implemented processing (convenience) methods were deprecated in favor of ruby alternatives for details see wiki [notice][], and they have since mostly been removed in favor or ruby alternatives.
 
