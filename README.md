@@ -112,7 +112,7 @@ However if you use JRuby-9.0.0.0.pre1 you will find ruby-2.2 syntax is now suppo
 
 ## Replacements for processing convenience methods in ruby
 
-Many of processing (convenience) methods make little sense in ruby (and in recent versions of ruby-processing many ar no-longer implemented). See ruby alternatives for [details][].
+Many of processing (convenience) methods make little sense in ruby (and in recent versions of ruby-processing many are no-longer implemented). See ruby alternatives for [details][].
 
 [License][]
 
