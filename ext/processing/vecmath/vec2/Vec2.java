@@ -181,25 +181,6 @@ public class Vec2 extends RubyObject {
     * @param other
     * @return
     */
-    // @JRubyMethod(name = "dist_squared", required = 1)
-    //
-    // public IRubyObject dist_squared(ThreadContext context, IRubyObject other) {
-    // Vec2 b = null;
-    // if (other instanceof Vec2) {
-    // b = (Vec2) other.toJava(Vec2.class);
-    // } else {
-    // throw context.runtime.newTypeError("argument should be Vec2D");
-    // }
-    // double result = (jx - b.jx) * (jx - b.jx) + (jy - b.jy) * (jy - b.jy);
-    // return context.getRuntime().newFloat(result);
-    // }
-
-    /**
-    *
-    * @param context
-    * @param other
-    * @return
-    */
     @JRubyMethod(name = "cross", required = 1)
 
     public IRubyObject cross(ThreadContext context, IRubyObject other) {
@@ -312,17 +293,6 @@ public class Vec2 extends RubyObject {
     public IRubyObject heading(ThreadContext context) {
         return context.getRuntime().newFloat(Math.atan2(-jy, jx) * -1.0);
     }
-
-    /**
-    *
-    * @param context
-    * @return
-    */
-    // @JRubyMethod(name = "mag_squared")
-    //
-    // public IRubyObject mag_squared(ThreadContext context) {
-    // return context.getRuntime().newFloat(jx * jx + jy * jy);
-    // }
 
     /**
     *
@@ -592,11 +562,11 @@ public class Vec2 extends RubyObject {
 
 
     /**
-    *
+    * For jruby-9000 we alias to inspect
     * @param context
     * @return
     */
-    @JRubyMethod(name = "to_s")
+    @JRubyMethod(name = "to_s", alias = "inspect")
 
     public IRubyObject to_s(ThreadContext context) {
         return context.getRuntime().newString(String.format("Vec2D(x = %4.4f, y = %4.4f)", jx, jy));

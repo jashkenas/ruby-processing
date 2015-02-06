@@ -508,11 +508,11 @@ public final class Vec3 extends RubyObject {
     }
     
     /**
-    *
+    * For jruby-9000 we alias to inspect
     * @param context
     * @return
     */
-    @JRubyMethod(name = "to_s")
+    @JRubyMethod(name = "to_s", alias = "inspect")
     
     public IRubyObject to_s(ThreadContext context) {
         return context.getRuntime().newString(String.format("Vec3D(x = %4.4f, y = %4.4f, z = %4.4f)", jx, jy, jz));
