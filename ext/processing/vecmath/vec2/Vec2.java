@@ -566,7 +566,7 @@ public class Vec2 extends RubyObject {
     * @param context
     * @return
     */
-    @JRubyMethod(name = "to_s", alias = "inspect")
+    @JRubyMethod(name = {"to_s", "inspect"})
 
     public IRubyObject to_s(ThreadContext context) {
         return context.getRuntime().newString(String.format("Vec2D(x = %4.4f, y = %4.4f)", jx, jy));

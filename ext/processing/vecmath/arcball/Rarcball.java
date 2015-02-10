@@ -14,7 +14,7 @@ import processing.core.PApplet;
 
 /**
  *
- * @author tux
+ * @author Martin Prout
  */
 @JRubyClass(name = "ArcBall")
 public class Rarcball extends RubyObject {
