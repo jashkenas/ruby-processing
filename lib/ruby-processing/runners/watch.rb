@@ -16,7 +16,7 @@ module Processing
     def start_watching
       start_runner
       Kernel.loop do
-        if @files.find { |file| File.exist?(file) && File.stat(file).mtime > @time }
+        if @files.find { |file| FileTest.exist?(file) && File.stat(file).mtime > @time }
           puts 'reloading sketch...'
           $app && $app.close
           @time = Time.now
@@ -24,7 +24,8 @@ module Processing
           start_runner
           reload_files_to_watch
         end
-        sleep 0.33
+#        sleep 0.33
+        Thread.yield
       end
     end
 

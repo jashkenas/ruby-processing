@@ -124,10 +124,10 @@ module Processing
     end
 
     def setup(choice)
-      proc_root = File.exist?("#{ENV['HOME']}/.rp5rc")
+      proc_root = FileTest.exist?("#{ENV['HOME']}/.rp5rc")
       case choice
       when /check/
-        check(proc_root, File.exist?("#{RP5_ROOT}/lib/ruby/jruby-complete.jar"))
+        check(proc_root, FileTest.exist?("#{RP5_ROOT}/lib/ruby/jruby-complete.jar"))
       when /install/
         install(proc_root)
       when /unpack_samples/
@@ -206,7 +206,7 @@ module Processing
       arg_file = "#{File.dirname(sketch)}/data/java_args.txt"
       args = []
       args += dock_icon
-      if File.exist?(arg_file)
+      if FileTest.exist?(arg_file)
         args += File.read(arg_file).split(/\s+/)
       elsif Processing::RP_CONFIG['java_args']
         args += Processing::RP_CONFIG['java_args'].split(/\s+/)
@@ -218,12 +218,12 @@ module Processing
     # NB: we really do require 'and' not '&&' to get message returned
 
     def ensure_exists(sketch)
-      puts "Couldn't find: #{sketch}" and exit unless File.exist?(sketch)
+      puts "Couldn't find: #{sketch}" and exit unless FileTest.exist?(sketch)
     end
 
     def jruby_complete
       rcomplete = File.join(RP5_ROOT, 'lib/ruby/jruby-complete.jar')
-      return rcomplete if File.exist?(rcomplete)
+      return rcomplete if FileTest.exist?(rcomplete)
       warn "#{rcomplete} does not exist\nTry running `rp5 setup install`"
       exit
     end

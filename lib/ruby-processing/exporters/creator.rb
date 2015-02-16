@@ -74,7 +74,7 @@ module Processing
     def already_exist(path)
       underscore = StringExtra.new(path).underscore
       new_file = "#{File.dirname(path)}/#{underscore}.rb"
-      return if !File.exist?(path) && !File.exist?(new_file)
+      return if !FileTest.exist?(path) && !FileTest.exist?(new_file)
       puts 'That file already exists!'
       exit
     end

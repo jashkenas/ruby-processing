@@ -112,7 +112,7 @@ module Processing
           "#{@sketchbook_library_path}/#{library_name}/library",
           "#{@sketchbook_library_path}/#{library_name}"
         ].each do |jpath|
-          if File.exist?(jpath) && !Dir.glob(jpath + "/*.#{ext}").empty?
+          if FileTest.exist?(jpath) && !Dir.glob(jpath + "/*.#{ext}").empty?
             return jpath
           end
         end

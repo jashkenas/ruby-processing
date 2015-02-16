@@ -19,7 +19,7 @@ module Processing
     def export!(sketch)
       # Check to make sure that the main file exists
       @main_file_path, @main_file, @main_folder = *get_main_file(sketch)
-      usage(@main_file_path && File.exist?(@main_file_path))
+      usage(@main_file_path && FileTest.exist?(@main_file_path))
 
       extract_information
 
@@ -49,7 +49,7 @@ module Processing
       @necessary_files += @real_requires
       NECESSARY_FOLDERS.each do |folder|
         resource_path = File.join(@main_folder, folder)
-        @necessary_files << resource_path if File.exist?(resource_path)
+        @necessary_files << resource_path if FileTest.exist?(resource_path)
       end
       @necessary_files.uniq!
       cp_r(@necessary_files, File.join(@dest, @prefix))
