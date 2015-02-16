@@ -1,8 +1,3 @@
-/*
-* To change this license header, choose License Headers in Project Properties.
-* To change this template file, choose Tools | Templates
-* and open the template in the editor.
-*/
 package processing.vecmath.vec3;
 
 import java.io.IOException;
@@ -21,12 +16,6 @@ import org.jruby.runtime.builtin.IRubyObject;
 import processing.vecmath.JRender;
 
 
-/**
-*
-* @param runtime
-* @return true on success
-* @throws IOException
-*/
 /**
 *
 * @author Martin Prout
@@ -575,26 +564,4 @@ public final class Vec3 extends RubyObject {
         : RubyBoolean.newBoolean(context.runtime, true);
         return result; // return false as default unless not null && values equal
     }
-    
-    /**
-    *
-    * @param context
-    * @param other
-    * @return
-    */
-    //    @JRubyMethod(name = "almost_eql?", required = 1)
-    //
-    //    public IRubyObject almost_eql_p(ThreadContext context, IRubyObject other) {
-    //        Vec3 v = (other instanceof Vec3) ? (Vec3) other.toJava(Vec3.class) : null;
-    //        RubyBoolean result = (v == null) ? RubyBoolean.newBoolean(context.runtime, false)
-    //                : (Math.abs(jx - v.jx) > Vec3.EPSILON)
-    //                ? RubyBoolean.newBoolean(context.runtime, false)
-    //                : (Math.abs(jy - v.jy) > Vec3.EPSILON)
-    //                ? RubyBoolean.newBoolean(context.runtime, false)
-    //                : (Math.abs(jz - v.jz) > Vec3.EPSILON)
-    //                ? RubyBoolean.newBoolean(context.runtime, false)
-    //                : RubyBoolean.newBoolean(context.runtime, true);
-    //        return result; // return false as default unless not null && values equal
-    //    }
-    
 }

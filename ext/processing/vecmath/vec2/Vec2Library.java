@@ -21,5 +21,4 @@ public class Vec2Library implements Library{
     public void load(final Ruby runtime, boolean wrap) throws IOException {
         Vec2.createVec2(runtime);
     }  
-
 }
