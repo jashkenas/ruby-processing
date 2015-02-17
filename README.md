@@ -91,6 +91,7 @@ def draw
 end       
 
 ```
+See [samples][] for many more examples
 
 ## Supported Ruby Version
 
