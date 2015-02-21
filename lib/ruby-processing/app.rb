@@ -49,14 +49,6 @@ module Processing
     alias_method :rgb, :color
     alias_method :gray, :color
 
-    # When certain special methods get added to the sketch, we need to let
-    # Processing call them by their expected Java names.
-    def self.method_added(method_name) #:nodoc:
-      if METHODS_TO_ALIAS.key?(method_name)
-        alias_method METHODS_TO_ALIAS[method_name], method_name
-      end
-    end
-
     def sketch_class
       self.class.sketch_class
     end
