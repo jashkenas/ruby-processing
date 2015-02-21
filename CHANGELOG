@@ -1,3 +1,5 @@
+v2.6.8 Some more refactoring, mainly tidying up library_loader/app interface.
+
 v2.6.7 Update to use jruby-complete-1.7.19, replaced monkey patching of 
 * String, by creating StringExtra and CamelString classes
 
