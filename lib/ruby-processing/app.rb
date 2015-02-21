@@ -57,11 +57,6 @@ module Processing
       end
     end
 
-    # Handy getters and setters on the class go here:
-    class << self
-      attr_accessor :sketch_class, :library_loader
-    end
-
     def sketch_class
       self.class.sketch_class
     end
@@ -73,23 +68,33 @@ module Processing
       @sketch_class = subclass
     end
 
-    App.library_loader = LibraryLoader.new
     class << self
+      # Handy getters and setters on the class go here:
+      attr_accessor :sketch_class, :library_loader
+
       def load_libraries(*args)
-        App.library_loader.load_library(*args)
+        library_loader ||= LibraryLoader.new
+        library_loader.load_library(*args)
       end
       alias_method :load_library, :load_libraries
 
       def library_loaded?(library_name)
-        App.library_loader.library_loaded?(library_name)
+        library_loader.library_loaded?(library_name)
       end
 
       def load_ruby_library(*args)
-        App.library_loader.load_ruby_library(*args)
+        library_loader.load_ruby_library(*args)
       end
 
       def load_java_library(*args)
-        App.library_loader.load_java_library(*args)
+        library_loader.load_java_library(*args)
+      end
+
+      # When certain special methods get added to the sketch, we need to let
+      # Processing call them by their expected Java names.
+      def method_added(method_name) #:nodoc:
+        return unless METHODS_TO_ALIAS.key?(method_name)
+        alias_method METHODS_TO_ALIAS[method_name], method_name
       end
     end
 
