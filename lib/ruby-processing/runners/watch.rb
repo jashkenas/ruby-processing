@@ -5,6 +5,7 @@ module Processing
   # the feedback between code and effect.
   class Watcher
     # Sic a new Processing::Watcher on the sketch
+    SLEEP_TIME = 0.2
     def initialize
       reload_files_to_watch
       @time = Time.now
@@ -24,8 +25,7 @@ module Processing
           start_runner
           reload_files_to_watch
         end
-#        sleep 0.33
-        Thread.yield
+        sleep SLEEP_TIME
       end
     end
 
