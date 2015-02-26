@@ -43,12 +43,10 @@ module Processing
       @loaded_libraries[library_name] = (require path)
     end
 
-    # For pure java libraries, such as the ones that are available
+    # HACK: For pure java libraries, such as the ones that are available
     # on this page: http://processing.org/reference/libraries/index.html
-    #
-    # P.S. -- Loading libraries which include native code needs to
-    # hack the 'Java ClassLoader', so that you don't have to
-    # futz with your PATH. But it's probably bad juju.
+    # that include native code, we mess with the 'Java ClassLoader', so that
+    # you don't have to futz with your PATH. But it's probably bad juju.
     def load_java_library(library_name)
       library_name = library_name.to_sym
       return true if @loaded_libraries.include?(library_name)
@@ -80,7 +78,7 @@ module Processing
       end
       return 'other' unless match
       return match.downcase unless match =~ /Mac/
-      return 'macosx'
+      'macosx'
     end
 
     def get_platform_specific_library_paths(basename)
@@ -106,11 +104,10 @@ module Processing
       extensions = extension ? [extension] : %w(jar rb)
       extensions.each do |ext|
         ["#{SKETCH_ROOT}/library/#{library_name}",
-        "#{Processing::RP_CONFIG['PROCESSING_ROOT']}/modes/java/libraries/#{library_name}/library",
-        "#{RP5_ROOT}/library/#{library_name}/library",
-        "#{RP5_ROOT}/library/#{library_name}",
-        "#{@sketchbook_library_path}/#{library_name}/library",
-        "#{@sketchbook_library_path}/#{library_name}"
+         "#{Processing::RP_CONFIG['PROCESSING_ROOT']}/modes/java/libraries/#{library_name}/library",
+         "#{RP5_ROOT}/library/#{library_name}/library",
+         "#{RP5_ROOT}/library/#{library_name}",
+         "#{@sketchbook_library_path}/#{library_name}/library"
         ].each do |jpath|
           return jpath if FileTest.exist?(jpath) && !Dir.glob(jpath + "/*.#{ext}").empty?
         end
@@ -136,8 +133,7 @@ module Processing
       regex2 = /^sketchbook\.path\.three=(.+)/    # processing-3.0
       matched_lines = lines.grep(regex1) { $1 } unless $1 == ''
       matched_lines = lines.grep(regex2) { $1 } unless $1 == ''
-      sketchbook_path = matched_lines.first
-      sketchbook_path
+      matched_lines.first
     end
   end
 end
