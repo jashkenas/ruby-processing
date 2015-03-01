@@ -1,9 +1,10 @@
 module Processing
+  # Encapsulate library loader functionality as a class
   class LibraryLoader
     attr_reader :sketchbook_library_path
 
     def initialize
-      @sketchbook_library_path = File.join(find_sketchbook_path || '', 'libraries')
+      @sketchbook_library_path = File.join(find_sketchbook_path, 'libraries')
       @loaded_libraries = Hash.new(false)
     end
 
@@ -18,9 +19,10 @@ module Processing
     # If a library is put into a 'library' folder next to the sketch it will
     # be used instead of the library that ships with Ruby-Processing.
     def load_libraries(*args)
+      message = 'no such file to load -- %s'
       args.each do |lib|
         loaded = load_ruby_library(lib) || load_java_library(lib)
-        fail(LoadError.new, "no such file to load -- #{lib}") unless loaded
+        fail(LoadError.new, format(message, lib)) unless loaded
       end
     end
     alias_method :load_library, :load_libraries
@@ -58,7 +60,6 @@ module Processing
       platform_specific_library_paths = platform_specific_library_paths.select do |ppath|
         test(?d, ppath) && !Dir.glob(File.join(ppath, '*.{so,dll,jnilib}')).empty?
       end
-
       unless platform_specific_library_paths.empty?
         platform_specific_library_paths << java.lang.System.getProperty('java.library.path')
         new_library_path = platform_specific_library_paths.join(java.io.File.pathSeparator)
@@ -71,7 +72,7 @@ module Processing
       end
       @loaded_libraries[library_name] = true
     end
-
+    
     def platform
       match = %w(Mac Linux Windows).find do |os|
         java.lang.System.getProperty('os.name').index(os)
@@ -80,7 +81,7 @@ module Processing
       return match.downcase unless match =~ /Mac/
       'macosx'
     end
-
+    
     def get_platform_specific_library_paths(basename)
       bits = 'universal'  # for MacOSX, but does this even work, or does Mac return '64'?
       if java.lang.System.getProperty('sun.arch.data.model') == '32' ||
@@ -109,7 +110,9 @@ module Processing
          "#{RP5_ROOT}/library/#{library_name}",
          "#{@sketchbook_library_path}/#{library_name}/library"
         ].each do |jpath|
-          return jpath if FileTest.exist?(jpath) && !Dir.glob(jpath + "/*.#{ext}").empty?
+          if File.exist?(jpath) && !Dir.glob(format('%s/*.%s', jpath, ext)).empty?
+            return jpath
+          end
         end
       end
       nil
@@ -118,22 +121,22 @@ module Processing
     def find_sketchbook_path
       preferences_paths = []
       sketchbook_paths = []
-      return File.expand_path(sketchbook_path) if Processing::RP_CONFIG.fetch('sketchbook_path', false)
-      ["'Application Data/Processing'", 'AppData/Roaming/Processing',
-       'Library/Processing', 'Documents/Processing',
-       '.processing', 'sketchbook'].each do |prefix|
-        spath = "#{ENV['HOME']}/#{prefix}"
-        pref_path = spath + '/preferences.txt'
-        preferences_paths << pref_path if FileTest.exist?(pref_path)
-        sketchbook_paths << spath if FileTest.exist?(spath)
+      if sketchbook_path = Processing::RP_CONFIG.fetch('sketchbook_path', false)
+        return sketchbook_path
+      else
+        ["'Application Data/Processing'", 'AppData/Roaming/Processing',
+         'Library/Processing', 'Documents/Processing',
+         '.processing', 'sketchbook'].each do |prefix|
+          spath = format('%s/%s', ENV['HOME'], prefix)
+          pref_path = format('%s/preferences.txt', spath)
+          preferences_paths << pref_path if test(?f, pref_path)
+          sketchbook_paths << spath if test(?d, spath)
+        end
+        return sketchbook_paths.first if preferences_paths.empty?
+        lines = IO.readlines(preferences_paths.first)
+        matchedline = lines.grep(/^sketchbook/).first
+        matchedline[/=(.+)/].gsub('=', '')
       end
-      return sketchbook_paths.first if preferences_paths.empty?
-      lines = File.readlines(preferences_paths.first)
-      regex1 = /^sketchbook\.path=(.+)/           # processing-2.0
-      regex2 = /^sketchbook\.path\.three=(.+)/    # processing-3.0
-      matched_lines = lines.grep(regex1) { $1 } unless $1 == ''
-      matched_lines = lines.grep(regex2) { $1 } unless $1 == ''
-      matched_lines.first
     end
   end
 end
