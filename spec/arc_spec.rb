@@ -9,7 +9,6 @@ describe 'arcball new' do
   end
 end
 
-
 describe 'arcball center and radius' do
   let(:applet) { Java::ProcessingCore::PApplet.new }
   it 'center and radius pass' do
@@ -23,7 +22,6 @@ describe 'arcball center' do
     Processing::ArcBall.init(applet, 200, 100)
   end
 end
- 
 
 ##############################
 # Failed to mock camera version

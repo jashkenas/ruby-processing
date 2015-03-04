@@ -1,6 +1,5 @@
 require_relative '../lib/rpextras'
 
-
 Java::ProcessingVecmathVec2::Vec2Library.new.load(JRuby.runtime, false)
 Java::ProcessingVecmathVec3::Vec3Library.new.load(JRuby.runtime, false)
 
@@ -64,7 +63,6 @@ describe 'Vec2D#-' do
   end
 end
 
-
 describe 'Vec2D#*' do
   it 'should return Vec2D sum of a * b' do
     a = Vec2D.new(3, 5)
@@ -90,7 +88,7 @@ end
 describe 'Vec2D2#x=' do
   it 'should set x to supplied value' do
     a = Vec2D.new(3, 5)
-    a.x=23
+    a.x = 23
     expect(a.x).to eq 23.0
   end
 end
@@ -122,7 +120,6 @@ describe 'Vec2D mag' do
     expect(a.mag).to eq(1)
   end
 end
-
 
 describe 'Vec2D lerp' do
   it 'should return Vec2D lerp' do
@@ -187,7 +184,6 @@ describe 'Vec2D dist' do
   end
 end
 
-
 describe 'Vec2D dot' do
   it 'should return Vec2D dist(a, b)' do
     a = Vec2D.new(3, 5)
@@ -251,18 +247,18 @@ describe 'Vec2D#to_a' do
   end
 end
 
-#describe 'Vec2D#to_h' do
-#  it 'should return Vec2D as a hash' do
+# describe 'Vec2D#to_h' do
+#   it 'should return Vec2D as a hash' do
 #     x, y = 1.0000001, 1.01
 #     a = Vec2D.new(x, y)
 #     expect(a.to_h).to eq({x: x, y: y})
-#  end
-#end
+#   end
+# end
 
 describe 'Vec2D#array.reduce' do
   it 'should correctly sum objects of Vec2D' do
     array = [Vec2D.new(1, 2), Vec2D.new(10, 2), Vec2D.new(1, 2)]
-    sum = array.reduce(Vec2D.new) { |c, d| c + d }
+    sum = array.reduce(:+)
     expect(sum).to eq(Vec2D.new(12, 6))
   end
 end
@@ -286,7 +282,6 @@ describe 'Vec2D#rotate rot' do
   end
 end
 
-
 describe 'Vec2D#add Vec3D' do
   it 'it to raise exception' do
     a = Vec2D.new
@@ -294,7 +289,6 @@ describe 'Vec2D#add Vec3D' do
     expect { a += b }.to raise_error(TypeError)
   end
 end
-
 
 describe 'Vec3D#to_a' do
   it 'should return x, y, z as an array' do
@@ -325,7 +319,7 @@ end
 describe 'Vec3D#normalize! zero vector' do
   it 'should do nothing' do
     a = Vec3D.new
-    b = a.normalize!    
+    b = a.normalize!
     expect(a).to eq(b)
   end
 end
@@ -333,7 +327,7 @@ end
 describe 'Vec3D#normalize zero vector' do
   it 'should do nothing' do
     a = Vec3D.new
-    b = a.normalize 
+    b = a.normalize
     expect(a).to eq(b)
     expect(a).to_not equal(b)
   end
