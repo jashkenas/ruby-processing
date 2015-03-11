@@ -6,7 +6,7 @@ Here are some ways *you* can contribute:
 * by reporting bugs or problems [here][]
 * by suggesting/implementing new features ( _export using warbler would be cool, as would live using pry_ )
 * by writing or editing documentation ( _expert Windows users could help write install instructions_ )
-* by contributing examples ( _show your creativity, or translate someone elses masterpiece, you could learn a lot_ )
+* by [contributing examples][] ( _show your creativity, or translate someone elses masterpiece, you could learn a lot_ )
 * by refactoring examples to be more rubyfied
 * by closing [issues][]
 * by proselytizing ruby-processing, we need more champions
@@ -32,4 +32,5 @@ the bug, including your gem version, Ruby version, and operating system.
 [fork]: http://help.github.com/fork-a-repo/
 [pr]: http://help.github.com/send-pull-requests/
 [processing.org]: http://processing.org/foundation/
-[development branch]: https://github.com/monkstone/JRubyArt
+[development branch]: https://github.com/ruby-processing/JRubyArt
+[contributing examples]: https://github.com/ruby-processing/Example-Sketches/blob/master/CONTRIBUTING.md
