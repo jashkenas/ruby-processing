@@ -99,20 +99,20 @@ See [samples][] for many more examples
 * jdk7 from Oracle (latest version preferred, or required by Mac)
 * jdk8 from Oracle (latest version preferred, or required by Mac)
 
-### Supported Ruby Version
+### Supported ruby version
 
 This gem has been tested with the following ruby implementations
 
 * Ruby 1.9.3
 * Ruby 2.0.0
 * Ruby 2.1.2
-* Ruby 2.2.0
+* Ruby 2.2.1
 * [JRuby][] preferred (required to use rubygems in sketches)
 
 NB: current support for ruby-2.0 syntax is limited (and experimental see jruby documentation).
 However if you use JRuby-9.0.0.0.pre1 you will find ruby-2.2 syntax is now supported (try jruby-9000-pre branch). Future development of ruby-processing will target ruby-2.2 (with probable backward compatibitility with MRI ruby-2.1) any further backward compability will be accidental and unsupported (owing to limited resources).
 
-### Supported Processing Version
+### Supported processing version
 
 * processing-2.2.1 (recommended)
 * seems also work with processing-3.0a5 (might be worth upgrading to, a more recent jogl etc....)
