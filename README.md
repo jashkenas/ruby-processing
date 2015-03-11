@@ -93,7 +93,13 @@ end
 ```
 See [samples][] for many more examples
 
-## Supported Ruby Version
+### Supported java version
+
+* Open jdk8 (latest version preferred, is the default linux install)
+* jdk7 from Oracle (latest version preferred, or required by Mac)
+* jdk8 from Oracle (latest version preferred, or required by Mac)
+
+### Supported Ruby Version
 
 This gem has been tested with the following ruby implementations
 
@@ -106,12 +112,12 @@ This gem has been tested with the following ruby implementations
 NB: current support for ruby-2.0 syntax is limited (and experimental see jruby documentation).
 However if you use JRuby-9.0.0.0.pre1 you will find ruby-2.2 syntax is now supported (try jruby-9000-pre branch). Future development of ruby-processing will target ruby-2.2 (with probable backward compatibitility with MRI ruby-2.1) any further backward compability will be accidental and unsupported (owing to limited resources).
 
-## Supported Processing Version
+### Supported Processing Version
 
 * processing-2.2.1 (recommended)
 * seems also work with processing-3.0a5 (might be worth upgrading to, a more recent jogl etc....)
 
-## Replacements for processing convenience methods in ruby
+### Replacements for processing convenience methods in ruby
 
 Many of processing (convenience) methods make little sense in ruby (and in recent versions of ruby-processing many are no-longer implemented). See ruby alternatives for [details][].
 
