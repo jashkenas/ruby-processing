@@ -72,16 +72,16 @@ module Processing
       end
       @loaded_libraries[library_name] = true
     end
-    
+
     def platform
-      match = %w(Mac Linux Windows).find do |os|
-        java.lang.System.getProperty('os.name').index(os)
+      match = %w(mac linux windows).find do |os|
+        java.lang.System.getProperty('os.name').downcase.index(os)
       end
       return 'other' unless match
-      return match.downcase unless match =~ /Mac/
+      return match unless match =~ /mac/
       'macosx'
     end
-    
+
     def get_platform_specific_library_paths(basename)
       bits = 'universal'  # for MacOSX, but does this even work, or does Mac return '64'?
       if java.lang.System.getProperty('sun.arch.data.model') == '32' ||
@@ -105,10 +105,10 @@ module Processing
       extensions = extension ? [extension] : %w(jar rb)
       extensions.each do |ext|
         ["#{SKETCH_ROOT}/library/#{library_name}",
-         "#{Processing::RP_CONFIG['PROCESSING_ROOT']}/modes/java/libraries/#{library_name}/library",
-         "#{RP5_ROOT}/library/#{library_name}/library",
-         "#{RP5_ROOT}/library/#{library_name}",
-         "#{@sketchbook_library_path}/#{library_name}/library"
+        "#{Processing::RP_CONFIG['PROCESSING_ROOT']}/modes/java/libraries/#{library_name}/library",
+        "#{RP5_ROOT}/library/#{library_name}/library",
+        "#{RP5_ROOT}/library/#{library_name}",
+        "#{@sketchbook_library_path}/#{library_name}/library"
         ].each do |jpath|
           if File.exist?(jpath) && !Dir.glob(format('%s/*.%s', jpath, ext)).empty?
             return jpath
@@ -125,8 +125,8 @@ module Processing
         return sketchbook_path
       else
         ["'Application Data/Processing'", 'AppData/Roaming/Processing',
-         'Library/Processing', 'Documents/Processing',
-         '.processing', 'sketchbook'].each do |prefix|
+        'Library/Processing', 'Documents/Processing',
+        '.processing', 'sketchbook'].each do |prefix|
           spath = format('%s/%s', ENV['HOME'], prefix)
           pref_path = format('%s/preferences.txt', spath)
           preferences_paths << pref_path if test(?f, pref_path)

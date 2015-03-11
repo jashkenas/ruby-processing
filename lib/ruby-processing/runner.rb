@@ -47,7 +47,7 @@ module Processing
       /bccwin/i,
       /cygwin/i,
       /djgpp/i,
-      /mingw/i,
+      /ming/i,
       /mswin/i,
       /wince/i
     ]
