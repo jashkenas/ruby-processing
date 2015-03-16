@@ -123,7 +123,7 @@ ____
 
 ### Ruby alternatives for processing convenience methods
 
-Many of processing (convenience) methods make little sense in ruby (and many are no-longer implemented). See ruby alternatives for [details][].
+Many processing (convenience) methods make little sense in ruby (and many are no-longer implemented). See ruby alternatives for [details][].
 ____
 
 [License][]
