@@ -92,6 +92,7 @@ end
 
 ```
 See [samples][] for many more examples
+___
 
 ### Supported java version
 
