@@ -135,7 +135,7 @@ ____
 [download]:https://processing.org/download/
 [samples]:https://github.com/ruby-processing/Example-Sketches
 [wiki]:http://github.com/jashkenas/ruby-processing/wikis/
-[details]:http://github.com/jashkenas/ruby-processing/wikis/Deprecation-of-methods
+[details]:https://github.com/jashkenas/ruby-processing/wiki/Replacing-processing-convenience-methods
 [FAQs]:http://github.com/jashkenas/ruby-processing/wikis/FAQs/
 [release]:https://github.com/jashkenas/ruby-processing/releases/
 [guide to installing]:https://www.ruby-lang.org/en/installation/
