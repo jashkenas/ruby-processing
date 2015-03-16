@@ -119,9 +119,12 @@ However if you use JRuby-9.0.0.0.pre1 you will find ruby-2.2 syntax is now suppo
 * processing-2.2.1 (recommended)
 * seems also work with processing-3.0a5 (might be worth upgrading to, a more recent jogl etc....)
 
-### Replacements for processing convenience methods in ruby
+____
+
+### Ruby alternatives for processing convenience methods
 
 Many of processing (convenience) methods make little sense in ruby (and in recent versions of ruby-processing many are no-longer implemented). See ruby alternatives for [details][].
+____
 
 [License][]
 
