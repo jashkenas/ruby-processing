@@ -202,9 +202,11 @@ public final class Vec3 extends RubyObject {
             throw context.runtime.newTypeError("argument should be Vec3D");
         }
         return Vec3.rbNew(context, other.getMetaClass(), new IRubyObject[]{
-                context.runtime.newFloat(jy * vec.jz - jz * vec.jy),
-                context.runtime.newFloat(jz * vec.jx - jx * vec.jz),
-        context.runtime.newFloat(jx * vec.jy - jy * vec.jx)});
+            context.runtime.newFloat(jy * vec.jz - jz * vec.jy),
+            context.runtime.newFloat(jz * vec.jx - jx * vec.jz),
+            context.runtime.newFloat(jx * vec.jy - jy * vec.jx)
+        }
+        );
     }
     
     /**
@@ -527,20 +529,17 @@ public final class Vec3 extends RubyObject {
     */
     @Override
     public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
+        if (obj instanceof Vec3) {
         final Vec3 other = (Vec3) obj;
-        if (Double.doubleToLongBits(this.jx) != Double.doubleToLongBits(other.jx)) {
+        if (!((Double)this.jx).equals(other.jx)) {
             return false;
         }
-        if (Double.doubleToLongBits(this.jy) != Double.doubleToLongBits(other.jy)) {
+        if (!((Double)this.jy).equals(other.jy)) {
             return false;
         }
-        return (Double.doubleToLongBits(this.jz) == Double.doubleToLongBits(other.jz));
+        return ((Double)this.jz).equals(other.jz);
+        }
+        return false;
     }
     
     /**

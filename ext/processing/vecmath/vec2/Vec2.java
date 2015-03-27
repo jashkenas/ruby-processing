@@ -554,17 +554,14 @@ public class Vec2 extends RubyObject {
     */
     @Override
     public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
+        if (obj instanceof Vec2){
         final Vec2 other = (Vec2) obj;
-        if (Double.doubleToLongBits(this.jx) != Double.doubleToLongBits(other.jx)) {
+        if (!((Double)this.jx).equals(other.jx)) {
             return false;
         }
-        return (Double.doubleToLongBits(this.jy) == Double.doubleToLongBits(other.jy));
+        return ((Double)this.jy).equals(other.jy);
+        }
+        return false;
     }
 
     /**
