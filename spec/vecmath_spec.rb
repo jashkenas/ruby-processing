@@ -39,6 +39,37 @@ describe 'Vec2D#==' do
   end
 end
 
+describe 'Vec2D#eql?' do
+  it 'should return a.eql? b' do
+    a = Vec2D.new(3.0, 5.0)
+    b = Vec2D.new(3.0, 5.0)
+    expect(a.eql?(b)).to be true
+  end
+end
+
+describe 'Vec2D#eql?' do
+  it 'should return a.eql? b' do
+    a = Vec2D.new(3.0, 5.0)
+    b = Vec2D.new(3.0, 5.000001)
+    expect(a.eql?(b)).to be false
+  end
+end
+
+describe 'Vec2D#equal?' do
+  it 'should return a.eql? b' do
+    a = Vec2D.new(3.0, 5.0)
+    expect(a.equal?(a)).to be true
+  end
+end
+
+describe 'Vec2D#equal?' do
+  it 'should return a.eql? b' do
+    a = Vec2D.new(3.0, 5.0)
+    b = Vec2D.new(3.0, 5.0)
+    expect(a.equal?(b)).to be false
+  end
+end
+
 describe 'Vec2D#==' do
   it 'should return a == b' do
     a = Vec2D.new(3.0000000, 5.00000)
@@ -423,5 +454,44 @@ describe 'Vec3D#z=' do
     w = 56.0
     a.z = w
     expect(a.z).to eq w
+  end
+end
+
+describe 'Vec3D#==' do
+  it 'should return a == b' do
+    a = Vec3D.new(3.0, 5.0, 0)
+    b = Vec3D.new(3.0, 5.000001, 0)
+    expect(a == b).to be true
+  end
+end
+
+describe 'Vec3D#eql?' do
+  it 'should return a.eql? b' do
+    a = Vec3D.new(3.0, 5.0, 0)
+    b = Vec3D.new(3.0, 5.0, 0)
+    expect(a.eql?(b)).to be true
+  end
+end
+
+describe 'Vec3D#eql?' do
+  it 'should return a.eql? b' do
+    a = Vec3D.new(3.0, 5.0, 0)
+    b = Vec3D.new(3.0, 5.000001, 0)
+    expect(a.eql?(b)).to be false
+  end
+end
+
+describe 'Vec3D#equal?' do
+  it 'should return a.eql? b' do
+    a = Vec3D.new(3.0, 5.0)
+    expect(a.equal?(a)).to be true
+  end
+end
+
+describe 'Vec3D#equal?' do
+  it 'should return a.eql? b' do
+    a = Vec3D.new(3.0, 5.0, 0)
+    b = Vec3D.new(3.0, 5.0, 0)
+    expect(a.equal?(b)).to be false
   end
 end
