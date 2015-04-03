@@ -29,7 +29,7 @@ If you haven't got `wget` just download jruby-complete-1.7.19 (for ruby-processi
 The vendored jruby-complete is only required for application export, and running certain sketches (eg shader sketches see [wiki][]).
 
 
-### How to build latest development version 2.6.8
+### How to build latest development version 
 See [wiki](https://github.com/jashkenas/ruby-processing/wiki/How-to-build-latest-version)
 
 For previous release (version 2.6.7) checkout the "stable" branch and follow the same instructions
