@@ -68,9 +68,23 @@ module Processing
 
     # ruby alternative implementation of map using range parameters
     # (begin..end) and excluded end (begin...end) produce the same result
+    # @param val    float
+    # @param r_in   range
+    # @param r_out  range
+    # @return mapped value float
     def map1d(val, r_in, r_out)
       r_out.begin + (r_out.end - r_out.begin) *
         ((val - r_in.begin).to_f / (r_in.end - r_in.begin))
+    end
+    
+    # A ruby-processing special constrain input then map range
+    # @param val    float
+    # @param r_in   range
+    # @param r_out  range
+    # @return constrained mapped value float
+    def constrained_map(val, r_in, r_out)      
+      r_out.begin + (r_out.end - r_out.begin) *
+        ((r_in.clip(val) - r_in.begin).to_f / (r_in.end - r_in.begin))
     end
 
     # explicitly provide 'processing.org' norm instance method
