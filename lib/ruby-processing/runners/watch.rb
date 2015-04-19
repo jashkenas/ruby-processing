@@ -34,8 +34,10 @@ module Processing
     def report_errors
       yield
     rescue Exception => e
-      warn "Exception occured while running sketch #{File.basename SKETCH_PATH}..."
-      puts "Backtrace:\n\t#{e.backtrace.join("\n\t")}"
+      wformat = 'Exception occured while running sketch %s...'
+      tformat = "Backtrace:\n\t%s"
+      warn format(wformat, File.basename(SKETCH_PATH))
+      puts format(tformat, e.backtrace.join("\n\t"))
     end
 
     def start_runner
@@ -48,7 +50,7 @@ module Processing
     end
 
     def reload_files_to_watch
-      @files = ([SKETCH_PATH] + Dir.glob(File.dirname(SKETCH_PATH) + '/*.rb')).uniq
+      @files = Dir.glob(File.join(SKETCH_ROOT, '**/*.rb'))
     end
   end
 end
