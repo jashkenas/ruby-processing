@@ -29,7 +29,7 @@ If you haven't got `wget` just download jruby-complete-1.7.19 (for ruby-processi
 The vendored jruby-complete is only required for application export, and running certain sketches (eg shader sketches see [wiki][]).
 
 
-### How to build latest development version 2.6.8
+### How to build latest development version 
 See [wiki](https://github.com/jashkenas/ruby-processing/wiki/How-to-build-latest-version)
 
 For previous release (version 2.6.7) checkout the "stable" branch and follow the same instructions
@@ -92,28 +92,39 @@ end
 
 ```
 See [samples][] for many more examples
+___
 
-## Supported Ruby Version
+### Supported java version
+
+NB: you can't use jdk/jre installed by processing
+* Open jdk8 (latest version preferred, is the default linux install)
+* jdk7 from Oracle (latest version preferred, or required by Mac)
+* jdk8 from Oracle (latest version preferred, or required by Mac)
+
+### Supported ruby version
 
 This gem has been tested with the following ruby implementations
 
 * Ruby 1.9.3
 * Ruby 2.0.0
 * Ruby 2.1.2
-* Ruby 2.2.0
+* Ruby 2.2.1
 * [JRuby][] preferred (required to use rubygems in sketches)
 
 NB: current support for ruby-2.0 syntax is limited (and experimental see jruby documentation).
 However if you use JRuby-9.0.0.0.pre1 you will find ruby-2.2 syntax is now supported (try jruby-9000-pre branch). Future development of ruby-processing will target ruby-2.2 (with probable backward compatibitility with MRI ruby-2.1) any further backward compability will be accidental and unsupported (owing to limited resources).
 
-## Supported Processing Version
+### Supported processing version
 
 * processing-2.2.1 (recommended)
 * seems also work with processing-3.0a5 (might be worth upgrading to, a more recent jogl etc....)
 
-## Replacements for processing convenience methods in ruby
+____
 
-Many of processing (convenience) methods make little sense in ruby (and in recent versions of ruby-processing many are no-longer implemented). See ruby alternatives for [details][].
+### Ruby alternatives for processing convenience methods
+
+Many processing (convenience) methods make little sense in ruby (and many are no-longer implemented). See ruby alternatives for [details][].
+____
 
 [License][]
 
@@ -124,7 +135,7 @@ Many of processing (convenience) methods make little sense in ruby (and in recen
 [download]:https://processing.org/download/
 [samples]:https://github.com/ruby-processing/Example-Sketches
 [wiki]:http://github.com/jashkenas/ruby-processing/wikis/
-[details]:http://github.com/jashkenas/ruby-processing/wikis/Deprecation-of-methods
+[details]:https://github.com/jashkenas/ruby-processing/wiki/Replacing-processing-convenience-methods
 [FAQs]:http://github.com/jashkenas/ruby-processing/wikis/FAQs/
 [release]:https://github.com/jashkenas/ruby-processing/releases/
 [guide to installing]:https://www.ruby-lang.org/en/installation/

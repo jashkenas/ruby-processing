@@ -202,9 +202,11 @@ public final class Vec3 extends RubyObject {
             throw context.runtime.newTypeError("argument should be Vec3D");
         }
         return Vec3.rbNew(context, other.getMetaClass(), new IRubyObject[]{
-                context.runtime.newFloat(jy * vec.jz - jz * vec.jy),
-                context.runtime.newFloat(jz * vec.jx - jx * vec.jz),
-        context.runtime.newFloat(jx * vec.jy - jy * vec.jx)});
+            context.runtime.newFloat(jy * vec.jz - jz * vec.jy),
+            context.runtime.newFloat(jz * vec.jx - jx * vec.jz),
+            context.runtime.newFloat(jx * vec.jy - jy * vec.jx)
+        }
+        );
     }
     
     /**
@@ -421,7 +423,7 @@ public final class Vec3 extends RubyObject {
     * @param context
     * @return
     */
-    @JRubyMethod(name = "copy")
+    @JRubyMethod(name = {"copy", "dup"})
     
     public IRubyObject copy(ThreadContext context) {
         return Vec3.rbNew(context, this.getMetaClass(), new IRubyObject[]{
@@ -513,10 +515,10 @@ public final class Vec3 extends RubyObject {
     */
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 37 * hash + (int) (Double.doubleToLongBits(this.jx) ^ (Double.doubleToLongBits(this.jx) >>> 32));
-        hash = 37 * hash + (int) (Double.doubleToLongBits(this.jy) ^ (Double.doubleToLongBits(this.jy) >>> 32));
-        hash = 37 * hash + (int) (Double.doubleToLongBits(this.jz) ^ (Double.doubleToLongBits(this.jz) >>> 32));
+        int hash = 7;
+        hash = 97 * hash + (int) (Double.doubleToLongBits(this.jx) ^ (Double.doubleToLongBits(this.jx) >>> 32));
+        hash = 97 * hash + (int) (Double.doubleToLongBits(this.jy) ^ (Double.doubleToLongBits(this.jy) >>> 32));
+        hash = 97 * hash + (int) (Double.doubleToLongBits(this.jz) ^ (Double.doubleToLongBits(this.jz) >>> 32));
         return hash;
     }
     
@@ -527,20 +529,38 @@ public final class Vec3 extends RubyObject {
     */
     @Override
     public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
+        if (obj instanceof Vec3) {
         final Vec3 other = (Vec3) obj;
-        if (Double.doubleToLongBits(this.jx) != Double.doubleToLongBits(other.jx)) {
+        if (!((Double)this.jx).equals(other.jx)) {
             return false;
         }
-        if (Double.doubleToLongBits(this.jy) != Double.doubleToLongBits(other.jy)) {
+        if (!((Double)this.jy).equals(other.jy)) {
             return false;
         }
-        return (Double.doubleToLongBits(this.jz) == Double.doubleToLongBits(other.jz));
+        return ((Double)this.jz).equals(other.jz);
+        }
+        return false;
+    }
+        
+   /**                                                                              
+    *                                                                      
+    * @param other                                                                     
+    * @return                                                                        
+    */                                                                               
+    @JRubyMethod(name = "eql?", required = 1) 
+    
+    public IRubyObject eql_p(ThreadContext context, IRubyObject other) {
+        if (other instanceof Vec3){                                                    
+            Vec3 v = (Vec3) other.toJava(Vec3.class);                                              
+            if (!((Double)this.jx).equals(v.jx)) {                                   
+                return RubyBoolean.newBoolean(context.runtime, false);                                                          
+            }  
+            if (!((Double)this.jy).equals(v.jy)) {                                   
+                return RubyBoolean.newBoolean(context.runtime, false);                                                          
+            } 
+            return RubyBoolean.newBoolean(context.runtime, ((Double)this.jz).equals(v.jz));                                   
+        }                                                                            
+        return RubyBoolean.newBoolean(context.runtime, false);                                                                     
     }
     
     /**
@@ -553,15 +573,20 @@ public final class Vec3 extends RubyObject {
     
     @Override
     public IRubyObject op_equal(ThreadContext context, IRubyObject other) {
-        Vec3 v = (other instanceof Vec3) ? (Vec3) other.toJava(Vec3.class) : null;
-        RubyBoolean result = (v == null) ? RubyBoolean.newBoolean(context.runtime, false)
-        : (Math.abs(jx - v.jx) > Vec3.EPSILON)
-        ? RubyBoolean.newBoolean(context.runtime, false)
-        : (Math.abs(jy - v.jy) > Vec3.EPSILON)
-        ? RubyBoolean.newBoolean(context.runtime, false)
-        : (Math.abs(jz - v.jz) > Vec3.EPSILON)
-        ? RubyBoolean.newBoolean(context.runtime, false)
-        : RubyBoolean.newBoolean(context.runtime, true);
-        return result; // return false as default unless not null && values equal
+        if (other instanceof Vec3) {
+          Vec3 v = (Vec3) other.toJava(Vec3.class);
+            double diff = jx - v.jx;
+            if ((diff < 0 ? -diff : diff) > Vec3.EPSILON) {
+                return RubyBoolean.newBoolean(context.runtime, false);
+            }
+            diff = jy - v.jy;
+            if ((diff < 0 ? -diff : diff) > Vec3.EPSILON) {
+                return RubyBoolean.newBoolean(context.runtime, false);
+            }
+            diff = jz - v.jz;
+            boolean result = ((diff < 0 ? -diff : diff) < Vec3.EPSILON);
+            return RubyBoolean.newBoolean(context.runtime, result);
+        }
+        return RubyBoolean.newBoolean(context.runtime, false);
     }
 }

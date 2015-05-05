@@ -480,7 +480,7 @@ public class Vec2 extends RubyObject {
     * @param context
     * @return
     */
-    @JRubyMethod(name = "copy")
+    @JRubyMethod(name = {"copy", "dup"})
 
     public IRubyObject copy(ThreadContext context) {
         Ruby runtime = context.runtime;
@@ -554,20 +554,34 @@ public class Vec2 extends RubyObject {
     */
     @Override
     public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
+        if (obj instanceof Vec2){
         final Vec2 other = (Vec2) obj;
-        if (Double.doubleToLongBits(this.jx) != Double.doubleToLongBits(other.jx)) {
+        if (!((Double)this.jx).equals(other.jx)) {
             return false;
         }
-        return (Double.doubleToLongBits(this.jy) == Double.doubleToLongBits(other.jy));
+        return ((Double)this.jy).equals(other.jy);
+        }
+        return false;
     }
-
-    /**
+    
+    /**                                                                              
+    *                                                                      
+    * @param obj                                                                     
+    * @return                                                                        
+    */                                                                               
+    @JRubyMethod(name = "eql?", required = 1)                                                                    
+    public IRubyObject eql_p(ThreadContext context, IRubyObject other) {
+        if (other instanceof Vec2){                                                    
+            Vec2 v = (Vec2) other.toJava(Vec2.class);                                              
+            if (!((Double)this.jx).equals(v.jx)) {                                   
+                return RubyBoolean.newBoolean(context.runtime, false);                                                          
+            }                                                                            
+            return RubyBoolean.newBoolean(context.runtime, ((Double)this.jy).equals(v.jy));                                   
+        }                                                                            
+        return RubyBoolean.newBoolean(context.runtime, false);                                                                     
+    }
+    
+   /**
     *
     * @param context
     * @param other
@@ -577,13 +591,16 @@ public class Vec2 extends RubyObject {
 
     @Override
     public IRubyObject op_equal(ThreadContext context, IRubyObject other) {
-        Vec2 v = (other instanceof Vec2) ? (Vec2) other.toJava(Vec2.class) : null;
-        RubyBoolean result = (v == null) ? RubyBoolean.newBoolean(context.getRuntime(), false)
-        : (Math.abs(jx - v.jx) > Vec2.EPSILON)
-        ? RubyBoolean.newBoolean(context.getRuntime(), false)
-        : (Math.abs(jy - v.jy) > Vec2.EPSILON)
-        ? RubyBoolean.newBoolean(context.getRuntime(), false)
-        : RubyBoolean.newBoolean(context.getRuntime(), true);
-        return result; // return false as default unless not null && values equal
+        if (other instanceof Vec2) {
+          Vec2 v = (Vec2) other.toJava(Vec2.class);
+            double diff = jx - v.jx;
+            if ((diff < 0 ? -diff : diff) > Vec2.EPSILON) {
+                return RubyBoolean.newBoolean(context.runtime, false);
+            }
+            diff = jy - v.jy;
+            boolean result = ((diff < 0 ? -diff : diff) < Vec2.EPSILON);
+            return RubyBoolean.newBoolean(context.runtime, result);
+        }
+        return RubyBoolean.newBoolean(context.runtime, false);
     }
 }

@@ -1,9 +1,10 @@
 module Processing
+  # Encapsulate library loader functionality as a class
   class LibraryLoader
     attr_reader :sketchbook_library_path
 
     def initialize
-      @sketchbook_library_path = File.join(find_sketchbook_path || '', 'libraries')
+      @sketchbook_library_path = File.join(find_sketchbook_path, 'libraries')
       @loaded_libraries = Hash.new(false)
     end
 
@@ -18,9 +19,10 @@ module Processing
     # If a library is put into a 'library' folder next to the sketch it will
     # be used instead of the library that ships with Ruby-Processing.
     def load_libraries(*args)
+      message = 'no such file to load -- %s'
       args.each do |lib|
         loaded = load_ruby_library(lib) || load_java_library(lib)
-        fail(LoadError.new, "no such file to load -- #{lib}") unless loaded
+        fail(LoadError.new, format(message, lib)) unless loaded
       end
     end
     alias_method :load_library, :load_libraries
@@ -30,7 +32,7 @@ module Processing
     # of the same name as the library folder.
     def load_ruby_library(library_name)
       library_name = library_name.to_sym
-      return true if @loaded_libraries[library_name]
+      return true if @loaded_libraries.include?(library_name)
       if Processing.exported?
         begin
           return @loaded_libraries[library_name] = (require_relative "../library/#{library_name}")
@@ -43,15 +45,13 @@ module Processing
       @loaded_libraries[library_name] = (require path)
     end
 
-    # For pure java libraries, such as the ones that are available
+    # HACK: For pure java libraries, such as the ones that are available
     # on this page: http://processing.org/reference/libraries/index.html
-    #
-    # P.S. -- Loading libraries which include native code needs to
-    # hack the 'Java ClassLoader', so that you don't have to
-    # futz with your PATH. But it's probably bad juju.
+    # that include native code, we mess with the 'Java ClassLoader', so that
+    # you don't have to futz with your PATH. But it's probably bad juju.
     def load_java_library(library_name)
       library_name = library_name.to_sym
-      return true if @loaded_libraries[library_name]
+      return true if @loaded_libraries.include?(library_name)
       jpath = get_library_directory_path(library_name, 'jar')
       jars = get_library_paths(library_name, 'jar')
       return false if jars.empty?
@@ -60,7 +60,6 @@ module Processing
       platform_specific_library_paths = platform_specific_library_paths.select do |ppath|
         test(?d, ppath) && !Dir.glob(File.join(ppath, '*.{so,dll,jnilib}')).empty?
       end
-
       unless platform_specific_library_paths.empty?
         platform_specific_library_paths << java.lang.System.getProperty('java.library.path')
         new_library_path = platform_specific_library_paths.join(java.io.File.pathSeparator)
@@ -73,23 +72,23 @@ module Processing
       end
       @loaded_libraries[library_name] = true
     end
-    
+
     def platform
-      match = %w(Mac Linux Windows).find do |os|
-        java.lang.System.getProperty('os.name').index(os)
+      match = %w(mac linux windows).find do |os|
+        java.lang.System.getProperty('os.name').downcase.index(os)
       end
       return 'other' unless match
-      return match.downcase unless match =~ /Mac/
-      return 'macosx'
+      return match unless match =~ /mac/
+      'macosx'
     end
 
     def get_platform_specific_library_paths(basename)
       bits = 'universal'  # for MacOSX, but does this even work, or does Mac return '64'?
       if java.lang.System.getProperty('sun.arch.data.model') == '32' ||
-          java.lang.System.getProperty('java.vm.name').index('32')
+        java.lang.System.getProperty('java.vm.name').index('32')
         bits = '32'
       elsif java.lang.System.getProperty('sun.arch.data.model') == '64' ||
-          java.lang.System.getProperty('java.vm.name').index('64')
+        java.lang.System.getProperty('java.vm.name').index('64')
         bits = '64' unless platform =~ /macosx/
       end
       [platform, platform + bits].map { |p| File.join(basename, p) }
@@ -105,14 +104,13 @@ module Processing
     def get_library_directory_path(library_name, extension = nil)
       extensions = extension ? [extension] : %w(jar rb)
       extensions.each do |ext|
-        [ "#{SKETCH_ROOT}/library/#{library_name}",
-          "#{Processing::RP_CONFIG['PROCESSING_ROOT']}/modes/java/libraries/#{library_name}/library",
-          "#{RP5_ROOT}/library/#{library_name}/library",
-          "#{RP5_ROOT}/library/#{library_name}",
-          "#{@sketchbook_library_path}/#{library_name}/library",
-          "#{@sketchbook_library_path}/#{library_name}"
+        ["#{SKETCH_ROOT}/library/#{library_name}",
+        "#{Processing::RP_CONFIG['PROCESSING_ROOT']}/modes/java/libraries/#{library_name}/library",
+        "#{RP5_ROOT}/library/#{library_name}/library",
+        "#{RP5_ROOT}/library/#{library_name}",
+        "#{@sketchbook_library_path}/#{library_name}/library"
         ].each do |jpath|
-          if FileTest.exist?(jpath) && !Dir.glob(jpath + "/*.#{ext}").empty?
+          if File.exist?(jpath) && !Dir.glob(format('%s/*.%s', jpath, ext)).empty?
             return jpath
           end
         end
@@ -123,32 +121,21 @@ module Processing
     def find_sketchbook_path
       preferences_paths = []
       sketchbook_paths = []
-      if sketchbook_path = Processing::RP_CONFIG['sketchbook_path']
-        return File.expand_path(sketchbook_path)
+      if sketchbook_path = Processing::RP_CONFIG.fetch('sketchbook_path', false)
+        return sketchbook_path
       else
         ["'Application Data/Processing'", 'AppData/Roaming/Processing',
-          'Library/Processing', 'Documents/Processing',
-          '.processing', 'sketchbook'].each do |prefix|
-          spath = "#{ENV['HOME']}/#{prefix}"
-          pref_path = spath + '/preferences.txt'
-          if test(?f, pref_path)
-            preferences_paths << pref_path
-          end
-          if test(?d, spath)
-            sketchbook_paths << spath
-          end
+        'Library/Processing', 'Documents/Processing',
+        '.processing', 'sketchbook'].each do |prefix|
+          spath = format('%s/%s', ENV['HOME'], prefix)
+          pref_path = format('%s/preferences.txt', spath)
+          preferences_paths << pref_path if test(?f, pref_path)
+          sketchbook_paths << spath if test(?d, spath)
         end
-        if preferences_paths.empty?
-          sketchbook_path = sketchbook_paths.first
-        else
-          lines = File.readlines(preferences_paths.first)
-          regex1 = /^sketchbook\.path=(.+)/           # processing-2.0
-          regex2 = /^sketchbook\.path\.three=(.+)/    # processing-3.0
-          matched_lines = lines.grep(regex1) { $1 } unless $1 == ''
-          matched_lines = lines.grep(regex2) { $1 } unless $1 == ''
-          sketchbook_path = matched_lines.first
-        end
-        return sketchbook_path
+        return sketchbook_paths.first if preferences_paths.empty?
+        lines = IO.readlines(preferences_paths.first)
+        matchedline = lines.grep(/^sketchbook/).first
+        matchedline[/=(.+)/].gsub('=', '')
       end
     end
   end

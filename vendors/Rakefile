@@ -9,7 +9,7 @@ WARNING = <<-EOS
 EOS
 
 JRUBYC_VERSION     = '1.7.19'
-EXAMPLES           = '1.3'
+EXAMPLES           = '1.5'
 HOME_DIR = ENV['HOME']
 MAC_OR_LINUX = /linux|mac|darwin/ =~ RbConfig::CONFIG['host_os'] 
 
@@ -75,6 +75,7 @@ task :copy_examples => file_name do
   else
     sh "tar xzvf #{EXAMPLES}.tar.gz" 
   end
+  sh "rm -r #{HOME_DIR}/rp_samples" if File.exist? "#{HOME_DIR}/rp_samples"
   sh "cp -r Example-Sketches-#{EXAMPLES} #{HOME_DIR}/rp_samples"  
   sh "rm -r Example-Sketches-#{EXAMPLES}"   
 end

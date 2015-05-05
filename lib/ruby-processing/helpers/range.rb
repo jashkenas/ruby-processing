@@ -1,11 +1,7 @@
+# Extend Range class to include clip (used to implement processing constrain)
 class Range #:nodoc:
   def clip(n)
-    if cover?(n)
-      n
-    elsif n < min
-      min
-    else
-      max
-    end
+    return n if cover?(n)
+    (n < min) ? min : max
   end
 end

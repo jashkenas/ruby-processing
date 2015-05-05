@@ -19,7 +19,7 @@ end
 CODE
 
 CLASS_BASIC = <<-CODE
-class %s
+class %s < Processing::App
   def setup
     size %s, %s
   end
@@ -31,7 +31,7 @@ end
 CODE
 
 CLASS_MODE = <<-CODE
-class %s
+class %s < Processing::App
   def setup
     size %s, %s, %s
   end
