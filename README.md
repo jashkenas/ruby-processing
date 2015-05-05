@@ -20,11 +20,11 @@ Then install ruby-processing (from rubygems-org) in the usual way
 
 `gem install ruby-processing` some systems eg Ubuntu may require `sudo` access
 
-To install jruby-complete use our built in tool (relies on `wget` to download [jruby-complete-1.7.18](http://jruby.org/download))
+To install jruby-complete use our built in tool (relies on `wget` to download [jruby-complete-1.7.20](http://jruby.org/download))
 
 since ruby-processing-2.5.0 `rp5 setup install` (was `install_jruby_complete`)
 
-If you haven't got `wget` just download jruby-complete-1.7.19 (for ruby-processing-2.6.7)to the vendors folder (then run above tool)
+If you haven't got `wget` just download jruby-complete-1.7.20 (for ruby-processing-2.6.10)to the vendors folder (then run above tool)
 
 The vendored jruby-complete is only required for application export, and running certain sketches (eg shader sketches see [wiki][]).
 
@@ -32,7 +32,7 @@ The vendored jruby-complete is only required for application export, and running
 ### How to build latest development version 
 See [wiki](https://github.com/jashkenas/ruby-processing/wiki/How-to-build-latest-version)
 
-For previous release (version 2.6.7) checkout the "stable" branch and follow the same instructions
+For previous release (version 2.6.9) checkout the "stable" branch and follow the same instructions
 
 ## Documentation
 
@@ -112,7 +112,7 @@ This gem has been tested with the following ruby implementations
 * [JRuby][] preferred (required to use rubygems in sketches)
 
 NB: current support for ruby-2.0 syntax is limited (and experimental see jruby documentation).
-However if you use JRuby-9.0.0.0.pre1 you will find ruby-2.2 syntax is now supported (try jruby-9000-pre branch). Future development of ruby-processing will target ruby-2.2 (with probable backward compatibitility with MRI ruby-2.1) any further backward compability will be accidental and unsupported (owing to limited resources).
+However if you use JRuby-9.0.0.0.pre2 you will find ruby-2.2 syntax is now supported (try jruby-9000-pre branch). Future development of ruby-processing will target ruby-2.2 (with probable backward compatibitility with MRI ruby-2.1) any further backward compability will be accidental and unsupported (owing to limited resources).
 
 ### Supported processing version
 
