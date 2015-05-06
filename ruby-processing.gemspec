@@ -12,26 +12,14 @@ Gem::Specification.new do |spec|
                Juris Galang\ Guillaume\ Pierronne Martin\ Prout)
   spec.email = "jeremy@ashkenas.com"
   spec.description = <<-EOS
-
-  Ruby-Processing is a Ruby wrapper for the Processing code art framework. It's
-  this thin little shim that squeezes between Processing and JRuby, passing
-  along some neat goodies like:
-
-  * Application exporting of your sketches. Hand them out to your party guests,
-    ready-to-run.
-
-  * A "Control Panel" library, so that you can easily create sliders, buttons,
-    checkboxes and drop-down menus, and hook them into your sketch's instance
-    variables.
-
-  * "Watch" mode, where Ruby-Processing keeps an eye on your sketch and reloads
-    it from scratch every time you make a change. A pretty nice REPL-ish way
-    to work on your Processing sketches.
-
-  * Use ruby-gems and or java-libraries to access some pretty cool stuff...
-
-  * Hundreds of worked examples are included to get you started
-
+  Ruby-Processing is a ruby wrapper for the processing art framework.
+  The current version supports processing-2.2.1, and uses jruby-1.7.xx
+  as the glue between ruby and java. You can use both processing libraries and ruby
+  gems in your sketches. Features create/export/run/watch modes. The "watch" mode,
+  provides a nice REPL-ish way to work on your processing sketches. Includes:-
+  A "Control Panel" library, so that you can easily create sliders, buttons,
+  checkboxes and drop-down menus, and hook them into your sketch's instance
+  variables and hundreds of worked examples to get you started...
   EOS
   spec.summary = %q{Code as Art, Art as Code. Processing and Ruby are meant for each other.}
   spec.homepage = "http://wiki.github.com/jashkenas/ruby-processing"
