@@ -118,7 +118,7 @@ However if you use JRuby-9.0.0.0.pre2 you will find ruby-2.2 syntax is now suppo
 
 * processing-2.2.1 (recommended)
 * seems also work with processing-3.0a5 (might be worth upgrading to, a more recent jogl etc....)
-* Not supported processing-3.0a6+ see JRubyArt processing-3.0 branch for bleeding edge stuff, help welcomed.....
+* Not supported any later version (currently best avoided, owing to severe period of transition LWJGL now ditched in favour of JOGL may herald stability)
 
 ____
 
