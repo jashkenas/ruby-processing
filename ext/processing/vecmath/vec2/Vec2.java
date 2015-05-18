@@ -4,7 +4,6 @@ import org.jruby.Ruby;
 import org.jruby.RubyArray;
 import org.jruby.RubyBoolean;
 import org.jruby.RubyClass;
-import org.jruby.RubyFloat;
 import org.jruby.RubyObject;
 import org.jruby.anno.JRubyClass;
 import org.jruby.anno.JRubyMethod;
@@ -565,8 +564,9 @@ public class Vec2 extends RubyObject {
     }
     
     /**                                                                              
-    *                                                                      
-    * @param obj                                                                     
+    *                                                                     
+     * @param context
+     * @param other
     * @return                                                                        
     */                                                                               
     @JRubyMethod(name = "eql?", required = 1)                                                                    
