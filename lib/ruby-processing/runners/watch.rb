@@ -50,7 +50,7 @@ module Processing
     end
 
     def reload_files_to_watch
-      @files = Dir.glob(File.join(SKETCH_ROOT, '**/*.rb'))
+      @files = Dir.glob(File.join(SKETCH_ROOT, "**/*.{rb,glsl}"))
     end
   end
 end
