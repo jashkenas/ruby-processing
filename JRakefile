@@ -12,6 +12,12 @@ if !File.exist? './lib/core.jar'
   end
 end
 
+WARNING = <<-EOS 
+   WARNING: you need a copy processings 'video.jar' to lib folder 
+   for the ext compile (since video_event library)
+      
+EOS
+
 
 if RUBY_PLATFORM =~ /java/
   # -*- ruby -*-
@@ -19,6 +25,7 @@ if RUBY_PLATFORM =~ /java/
   
   Rake::JavaExtensionTask.new('processing') do |ext|
     jars = FileList['lib/*.jar']
+    warn WARNING unless FileTest.exist? 'lib/video.jar'
     ext.classpath = jars.map {|x| File.expand_path x}.join ':'
     ext.name = 'rpextras'
     ext.debug = true
