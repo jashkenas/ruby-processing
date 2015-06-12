@@ -111,8 +111,7 @@ This gem has been tested with the following ruby implementations
 * Ruby 2.2.1
 * [JRuby][] preferred (required to use rubygems in sketches)
 
-NB: current support for ruby-2.0 syntax is limited (and experimental see jruby documentation).
-However if you use JRuby-9.0.0.0.pre2 you will find ruby-2.2 syntax is now supported (try jruby-9000-pre branch). Future development of ruby-processing will target ruby-2.2 (with probable backward compatibitility with MRI ruby-2.1) any further backward compability will be accidental and unsupported (owing to limited resources).
+NB: ruby-processing-2.6.12+ is required for jruby-9.0.0.0.rc1+ (see CHANGELOG)
 
 ### Supported processing version
 
