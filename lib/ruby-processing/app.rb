@@ -8,12 +8,6 @@ require_relative '../ruby-processing/helpers/string_extra'
 require_relative '../ruby-processing/library_loader'
 require_relative '../ruby-processing/config'
 
-jars = Dir["#{Processing::RP_CONFIG['PROCESSING_ROOT']}/core/library/\*.jar"]
-# We don't seem need to load the native jars so perhaps we shouldn't
-jars.reject { |jar| jar =~ /native/ }.each do |jar|
-  require jar
-end
-
 module Processing
   # This is the main Ruby-Processing class, and is what you'll
   # inherit from when you create a sketch. This class can call

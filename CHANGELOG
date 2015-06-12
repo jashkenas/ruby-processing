@@ -1,3 +1,7 @@
+v2.6.12 Changes to make jruby and PApplet use same classloader
+* to make ruby-processing compatible with JRuby-9.0.0.0.rc1+
+* getting ready for JRuby-9.0.0.0 release
+
 v2.6.11 Update examples sketches to version 1.6
 * Enhanced 'watch' mode now monitors '*.glsl' files...
 * Two new libraries to make it possible to use java reflection methods
