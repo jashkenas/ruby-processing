@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.version = RubyProcessing::VERSION
   spec.authors = %w(Jeremy\ Ashkenas Peter\ Gassner\ Martin\ Stannard\ Andrew\ Nanton
                 Marc\ Chung Peter\ Krenn Florian\ Jenett Andreas\ Haller
-               Juris Galang\ Guillaume\ Pierronne Martin\ Prout)
+               Juris Galang\ Guillaume\ Pierronnet Martin\ Prout)
   spec.email = "jeremy@ashkenas.com"
   spec.description = <<-EOS
   Ruby-Processing is a ruby wrapper for the processing art framework.
