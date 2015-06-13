@@ -192,7 +192,7 @@ module Processing
         command = ['java',
                    java_args,
                    '-cp',
-                   classpath.join(':'),
+                   classpath.join(path_separator),
                    'org.jruby.Main',
                    runner,
                    sketch,
@@ -201,7 +201,7 @@ module Processing
         command = ['jruby', 
                    java_args,
                    '-J-cp',
-                   core_classpath.join(':'),
+                   core_classpath.join(path_separator),
                    runner, 
                    sketch, 
                    args].flatten
@@ -209,6 +209,11 @@ module Processing
       exec(*command)
       # exec replaces the Ruby process with the JRuby one.
     end
+    
+    def path_separator
+      (host_os == :windows) ? ';' : ':'
+    end
+      
 
     # If you need to pass in arguments to Java, such as the ones on this page:
     # http://docs.oracle.com/javase/1.5.0/docs/tooldocs/windows/java.html
