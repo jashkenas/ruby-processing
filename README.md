@@ -116,8 +116,7 @@ NB: ruby-processing-2.6.12+ is required for jruby-9.0.0.0.rc1+ (see CHANGELOG)
 ### Supported processing version
 
 * processing-2.2.1 (recommended)
-* seems also work with processing-3.0a5 (might be worth upgrading to, a more recent jogl etc....)
-* Not supported any later version (currently best avoided, owing to severe period of transition LWJGL now ditched in favour of JOGL may herald stability)
+* for processing-3.0 see [this](https://github.com/monkstone/ruby-processing-3.0)
 
 ____
 
