@@ -16,7 +16,7 @@ class StringExtra
       .downcase
       .gsub(/_id$/, '')
       .gsub(/_/, ' ').capitalize
-      .gsub(/\b([a-z])/) { $1.capitalize }
+      .gsub(/\b([a-z])/) { Regexp.last_match[1].capitalize }
   end
 
   def humanize

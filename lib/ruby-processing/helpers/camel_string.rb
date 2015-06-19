@@ -10,7 +10,8 @@ class CamelString
 
   def camelize(first_letter_in_uppercase = true)
     if first_letter_in_uppercase
-      @string.gsub(/\/(.?)/) { '::' + $1.upcase }.gsub(/(^|_)(.)/) { $2.upcase }
+      @string.gsub(%r{\/(.?)}) { '::' + Regexp.last_match[1].upcase }
+        .gsub(/(^|_)(.)/) { Regexp.last_match[2].upcase }
     else
       @string[0] + camelize[1..-1]
     end
