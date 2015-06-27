@@ -116,7 +116,7 @@ NB: ruby-processing-2.6.12+ is required for jruby-9.0.0.0.rc1+ (see CHANGELOG)
 ### Supported processing version
 
 * processing-2.2.1 (recommended)
-* for processing-3.0 see [this](https://github.com/monkstone/ruby-processing-3.0)
+* for processing-3.0 see [JRubyArt](https://github.com/ruby-processing/JRubyArt)
 
 ____
 
