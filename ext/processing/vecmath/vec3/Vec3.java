@@ -544,6 +544,7 @@ public final class Vec3 extends RubyObject {
         
    /**                                                                              
     *                                                                      
+    * @param context
     * @param other                                                                     
     * @return                                                                        
     */                                                                               

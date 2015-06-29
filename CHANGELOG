@@ -1,3 +1,19 @@
+v2.6.12 Changes to make jruby and PApplet use same classloader
+* to make ruby-processing compatible with JRuby-9.0.0.0.rc1+
+* getting ready for JRuby-9.0.0.0 release
+
+v2.6.11 Update examples sketches to version 1.6
+* Enhanced 'watch' mode now monitors '*.glsl' files...
+* Two new libraries to make it possible to use java reflection methods
+* video_event library makes possible use of 'capturEvent(c)' and 'movieEvent(m)'
+* library_proxy possible use of 'pre', 'draw' and 'post' in a ruby library.
+
+v2.6.10 Update to jruby-complete-1.7.20
+* Possibly the last 1.7 series releases prior to jruby-9.0.0.0?
+
+v2.6.9 Fix wrapped sketches (no-one complained, yet old hands prefer them?)
+* simplified the loading of files to monitor, in watch mode
+
 v2.6.8 Some more refactoring, mainly tidying up library_loader/app interface.
 * changes for Vec2D and Vec3D, added eql? (exact match) and dup (alias copy)
 

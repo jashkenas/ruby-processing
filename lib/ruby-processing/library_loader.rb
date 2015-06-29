@@ -1,4 +1,6 @@
+# Then processing wrapper module
 module Processing
+
   # Encapsulate library loader functionality as a class
   class LibraryLoader
     attr_reader :sketchbook_library_path
@@ -121,22 +123,20 @@ module Processing
     def find_sketchbook_path
       preferences_paths = []
       sketchbook_paths = []
-      if sketchbook_path = Processing::RP_CONFIG.fetch('sketchbook_path', false)
-        return sketchbook_path
-      else
-        ["'Application Data/Processing'", 'AppData/Roaming/Processing',
-        'Library/Processing', 'Documents/Processing',
-        '.processing', 'sketchbook'].each do |prefix|
-          spath = format('%s/%s', ENV['HOME'], prefix)
-          pref_path = format('%s/preferences.txt', spath)
-          preferences_paths << pref_path if test(?f, pref_path)
-          sketchbook_paths << spath if test(?d, spath)
-        end
-        return sketchbook_paths.first if preferences_paths.empty?
-        lines = IO.readlines(preferences_paths.first)
-        matchedline = lines.grep(/^sketchbook/).first
-        matchedline[/=(.+)/].gsub('=', '')
+      sketchbook_path = Processing::RP_CONFIG.fetch('sketchbook_path', false)
+      return sketchbook_path if sketchbook_path
+      ["'Application Data/Processing'", 'AppData/Roaming/Processing',
+       'Library/Processing', 'Documents/Processing',
+       '.processing', 'sketchbook'].each do |prefix|
+        spath = format('%s/%s', ENV['HOME'], prefix)
+        pref_path = format('%s/preferences.txt', spath)
+        preferences_paths << pref_path if test(?f, pref_path)
+        sketchbook_paths << spath if test(?d, spath)
       end
+      return sketchbook_paths.first if preferences_paths.empty?
+      lines = IO.readlines(preferences_paths.first)
+      matchedline = lines.grep(/^sketchbook/).first
+      matchedline[/=(.+)/].gsub('=', '')
     end
   end
 end
