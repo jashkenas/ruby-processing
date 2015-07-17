@@ -172,10 +172,6 @@ module Processing
 
     private
     
-    def core_classpath
-      Dir["#{Processing::RP_CONFIG['PROCESSING_ROOT']}/core/library/\*.jar"]
-    end
-
     # Trade in this Ruby instance for a JRuby instance, loading in a starter
     # script and passing it some arguments.Unless '--nojruby' is passed, the
     # installed version of jruby is used instead of our vendored jarred one
@@ -188,11 +184,10 @@ module Processing
       @options.nojruby = true if Processing::RP_CONFIG['JRUBY'] == 'false'
       java_args = discover_java_args(sketch)      
       if @options.nojruby
-        classpath = jruby_complete + core_classpath
         command = ['java',
                    java_args,
                    '-cp',
-                   classpath.join(path_separator),
+                   jruby_complete,
                    'org.jruby.Main',
                    runner,
                    sketch,
@@ -200,8 +195,6 @@ module Processing
       else
         command = ['jruby', 
                    java_args,
-                   '-J-cp',
-                   core_classpath.join(path_separator),
                    runner, 
                    sketch, 
                    args].flatten
@@ -209,11 +202,6 @@ module Processing
       exec(*command)
       # exec replaces the Ruby process with the JRuby one.
     end
-    
-    def path_separator
-      (host_os == :windows) ? ';' : ':'
-    end
-      
 
     # If you need to pass in arguments to Java, such as the ones on this page:
     # http://docs.oracle.com/javase/1.5.0/docs/tooldocs/windows/java.html
@@ -239,7 +227,7 @@ module Processing
 
     def jruby_complete
       rcomplete = File.join(RP5_ROOT, 'lib/ruby/jruby-complete.jar')
-      return [rcomplete] if FileTest.exist?(rcomplete)
+      return rcomplete if FileTest.exist?(rcomplete)
       warn "#{rcomplete} does not exist\nTry running `rp5 setup install`"
       exit
     end

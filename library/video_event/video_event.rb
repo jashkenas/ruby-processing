@@ -1,4 +1,5 @@
-require 'rpextras'
+require_relative '../../lib/ruby-processing'
+require "#{RP5_ROOT}/lib/rpextras"
 
 class Processing::App
   include Java::ProcessingCore::VideoInterface

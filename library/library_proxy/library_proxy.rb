@@ -1,4 +1,5 @@
-require 'rpextras'
+require_relative '../../lib/ruby-processing'
+require "#{RP5_ROOT}/lib/rpextras"
 
 LibraryProxy = Java::ProcessingCore::AbstractLibrary
 
