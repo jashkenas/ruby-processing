@@ -1,3 +1,6 @@
+require_relative '../../lib/ruby-processing'
+require "#{RP5_ROOT}/lib/rpextras"
+
 # Then processing wrapper module
 module Processing
 

@@ -30,8 +30,7 @@ public interface WheelHandler {
     /**
      * 
      * @param amount 
-     */
-   
+     */   
 
     public void handleWheel(final int amount);
 }

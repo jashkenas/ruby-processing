@@ -120,7 +120,7 @@ public final class Vec3 extends RubyObject {
     
     public IRubyObject setX(ThreadContext context, IRubyObject other) {
         jx = (Double) other.toJava(Double.class);
-        return context.getRuntime().newFloat(jx);
+        return other;
     }
     
     /**
@@ -133,7 +133,7 @@ public final class Vec3 extends RubyObject {
     
     public IRubyObject setY(ThreadContext context, IRubyObject other) {
         jy = (Double) other.toJava(Double.class);
-        return context.getRuntime().newFloat(jy);
+        return other;
     }
     
     /**
@@ -145,7 +145,7 @@ public final class Vec3 extends RubyObject {
     @JRubyMethod(name = "z=")
     public IRubyObject setZ(ThreadContext context, IRubyObject other) {
         jz = (Double) other.toJava(Double.class);
-        return context.getRuntime().newFloat(jz);
+        return other;
     }
     
     /**

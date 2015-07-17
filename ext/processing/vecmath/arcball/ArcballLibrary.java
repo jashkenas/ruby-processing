@@ -20,5 +20,4 @@ public class ArcballLibrary implements Library {
     public void load(final Ruby runtime, boolean wrap) throws IOException {
         Rarcball.createArcBall(runtime);
     }
-
 }

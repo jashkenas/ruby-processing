@@ -20,8 +20,6 @@
 
 package processing.vecmath.arcball;
 
-
-
 /**
  * Based on a original sketch by Ariel Malka
  * Arcball quaternion idea by Ken Shoemake
@@ -70,7 +68,7 @@ public final class Quaternion {
      * @param w scalar 
      * @param v custom Vector class
      */
-    public void set(double w, JVector v) {
+    public void set(double w, Jvector v) {
         this.w = w;
         x = v.x;
         y = v.y;
@@ -116,5 +114,3 @@ public final class Quaternion {
         return new double[]{Math.acos(w) * 2.0f, x / sa, y / sa, z / sa};
     }
 }
-
-
