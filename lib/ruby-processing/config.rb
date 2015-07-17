@@ -1,7 +1,8 @@
 require 'psych'
 
 module Processing
-  if Processing.exported?
+  
+  if ENV['EXPORTED'].eql?('true')
     RP_CONFIG = { 'PROCESSING_ROOT' => RP5_ROOT, 'JRUBY' => 'false' }
   end
   unless defined? RP_CONFIG

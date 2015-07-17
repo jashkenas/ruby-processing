@@ -1,7 +1,6 @@
-require_relative '../../lib/ruby-processing'
-require "#{RP5_ROOT}/lib/rpextras"
+# The processing wrapper module
+require_relative '../ruby-processing'
 
-# Then processing wrapper module
 module Processing
 
   # Encapsulate library loader functionality as a class
@@ -38,10 +37,10 @@ module Processing
     def load_ruby_library(library_name)
       library_name = library_name.to_sym
       return true if @loaded_libraries.include?(library_name)
-      if Processing.exported?
+      if ENV['EXPORTED'].eql?('true')
         begin
           return @loaded_libraries[library_name] = (require_relative "../library/#{library_name}")
-        rescue LoadError => e
+        rescue LoadError
           return false
         end
       end
@@ -63,7 +62,7 @@ module Processing
       jars.each { |jar| require jar }
       platform_specific_library_paths = get_platform_specific_library_paths(jpath)
       platform_specific_library_paths = platform_specific_library_paths.select do |ppath|
-        test(?d, ppath) && !Dir.glob(File.join(ppath, '*.{so,dll,jnilib}')).empty?
+        FileTest.directory?(ppath) && !Dir.glob(File.join(ppath, '*.{so,dll,jnilib}')).empty?
       end
       unless platform_specific_library_paths.empty?
         platform_specific_library_paths << java.lang.System.getProperty('java.library.path')
@@ -133,8 +132,8 @@ module Processing
        '.processing', 'sketchbook'].each do |prefix|
         spath = format('%s/%s', ENV['HOME'], prefix)
         pref_path = format('%s/preferences.txt', spath)
-        preferences_paths << pref_path if test(?f, pref_path)
-        sketchbook_paths << spath if test(?d, spath)
+        preferences_paths << pref_path if FileTest.file?(pref_path)
+        sketchbook_paths << spath if FileTest.directory?(spath)
       end
       return sketchbook_paths.first if preferences_paths.empty?
       lines = IO.readlines(preferences_paths.first)

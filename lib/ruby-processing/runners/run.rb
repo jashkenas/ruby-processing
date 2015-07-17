@@ -1,6 +1,3 @@
-# TODO: this is crud. Windows applets are having serious
-# trouble with absolute paths.
-
-require_relative '../runners/base'
+require_relative 'base'
 
 Processing.load_and_run_sketch
