@@ -18,7 +18,9 @@ module Processing
   # should define in your sketch. 'setup' will be called one
   # time when the sketch is first loaded, and 'draw' will be
   # called constantly, for every frame.
-  Dir["#{RP_CONFIG["PROCESSING_ROOT"]}/core/library/\*.jar"].each { |jar| require jar }
+  Dir["#{RP_CONFIG["PROCESSING_ROOT"]}/core/library/\*.jar"].each do |jar| 
+    require jar unless jar =~ /native/
+  end
   # Include some core processing classes that we'd like to use:
   include_package 'processing.core'
 
