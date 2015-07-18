@@ -102,7 +102,7 @@ public class Vec2 extends RubyObject {
 
     public IRubyObject setX(ThreadContext context, IRubyObject other) {
         jx = (Double) other.toJava(Double.class);
-        return context.getRuntime().newFloat(jx);
+        return other;
     }
 
     /**
@@ -115,7 +115,7 @@ public class Vec2 extends RubyObject {
 
     public IRubyObject setY(ThreadContext context, IRubyObject other) {
         jy = (Double) other.toJava(Double.class);
-        return context.getRuntime().newFloat(jy);
+        return other;
     }
 
     /**

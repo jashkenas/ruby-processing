@@ -16,7 +16,7 @@
  * 
  * 2) Simon Greenwold? 2003 (as reported 2006 by Tom Carden http://wiki.processing.org/w/Arcball)
  *
- * 3) JArcBall concept invented by Ken Shoemake, published in his 1985 SIGGRAPH paper "Animating rotations with quaternion curves". 
+ * 3) JarcBall concept invented by Ken Shoemake, published in his 1985 SIGGRAPH paper "Animating rotations with quaternion curves". 
  * 
  * 4) Somewhat modified by Martin Prout to support callbacks from processing sketch
  **/
@@ -27,22 +27,22 @@ import processing.event.KeyEvent;
 import processing.event.MouseEvent;
 
 /**
- * Supports the JArcBall and MouseWheel zoom manipulation of objects in
+ * Supports the JarcBall and MouseWheel zoom manipulation of objects in
  * processing
  * 
 * @author Martin Prout
  */
-public final class JArcBall {
+public final class JarcBall {
 
     private double center_x;
     private double center_y;
     private double radius;
-    private JVector v_down;
-    private JVector v_drag;
+    private Jvector v_down;
+    private Jvector v_drag;
     private Quaternion q_now;
     private Quaternion q_down;
     private Quaternion q_drag;
-    private JVector[] axisSet;
+    private Jvector[] axisSet;
     private Constrain axis;
     private boolean isActive = false;
     private final PApplet parent;
@@ -58,7 +58,7 @@ public final class JArcBall {
      * @param center_y double y coordinate of arcball center
      * @param radius double radius of arcball
      */
-    public JArcBall(final PApplet parent, float center_x, float center_y, float radius) {
+    public JarcBall(final PApplet parent, float center_x, float center_y, float radius) {
         this.zoomWheelHandler = new WheelHandler() {
             @Override
             public void handleWheel(final int delta) {
@@ -69,12 +69,12 @@ public final class JArcBall {
         this.center_x = center_x;
         this.center_y = center_y;
         this.radius = radius;
-        this.v_down = new JVector();
-        this.v_drag = new JVector();
+        this.v_down = new Jvector();
+        this.v_drag = new Jvector();
         this.q_now = new Quaternion();
         this.q_down = new Quaternion();
         this.q_drag = new Quaternion();
-        this.axisSet = new JVector[]{new JVector(1.0, 0.0, 0.0), new JVector(0.0, 1.0, 0.0), new JVector(0.0, 0.0, 1.0)};
+        this.axisSet = new Jvector[]{new Jvector(1.0, 0.0, 0.0), new Jvector(0.0, 1.0, 0.0), new Jvector(0.0, 0.0, 1.0)};
         this.axis = Constrain.FREE; // no constraints...
 
     }
@@ -85,7 +85,7 @@ public final class JArcBall {
      * @param parent
      *
      */
-    public JArcBall(final PApplet parent) {
+    public JarcBall(final PApplet parent) {
         // this(parent, parent.width / 2.0f, parent.height / 2.0f, Math.min(parent.width, parent.height) * 0.5f);
         this(parent, 0, 0, Math.min(parent.width, parent.height) * 0.8f);
         parent.camera(parent.width / 2.0f, parent.height / 2.0f, parent.height * DEPTH, 0, 0, 0, 0, 1.0f, 0);
@@ -188,14 +188,14 @@ public final class JArcBall {
     }
 
     /**
-     * Returns either the JVector of mouse position mapped to a sphere or
+     * Returns either the Jvector of mouse position mapped to a sphere or
      * the constrained version (when constrained to one axis) 
      * @param x
      * @param y
      * @return mouse coordinate mapped to unit sphere
      */
-    public JVector mouse2sphere(double x, double y) {
-        JVector v = new JVector((x - center_x) / radius, (y - center_y) / radius, 0);
+    public Jvector mouse2sphere(double x, double y) {
+        Jvector v = new Jvector((x - center_x) / radius, (y - center_y) / radius, 0);
         double mag_sq = v.x * v.x + v.y * v.y; 
         if (mag_sq > 1.0) {
             v.normalize(); 
@@ -215,8 +215,8 @@ public final class JArcBall {
      * @param axis
      * @return
      */
-    public JVector constrainVector(JVector vector, JVector axis) {
-        JVector res = vector.sub(axis.mult(axis.dot(vector)));
+    public Jvector constrainVector(Jvector vector, Jvector axis) {
+        Jvector res = vector.sub(axis.mult(axis.dot(vector)));
         return res.normalize(); // like Jvector res is changed
     }
 

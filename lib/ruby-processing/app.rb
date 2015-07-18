@@ -3,10 +3,12 @@
 # Most of the code here is for interfacing with Swing,
 # web applets, going fullscreen and so on.
 require 'java'
-require_relative '../ruby-processing/helper_methods'
-require_relative '../ruby-processing/helpers/string_extra'
-require_relative '../ruby-processing/library_loader'
-require_relative '../ruby-processing/config'
+require_relative 'helper_methods'
+require_relative 'helpers/string_extra'
+require_relative 'library_loader'
+require_relative 'config'
+
+
 
 module Processing
   # This is the main Ruby-Processing class, and is what you'll
@@ -16,7 +18,9 @@ module Processing
   # should define in your sketch. 'setup' will be called one
   # time when the sketch is first loaded, and 'draw' will be
   # called constantly, for every frame.
-
+  Dir["#{RP_CONFIG["PROCESSING_ROOT"]}/core/library/\*.jar"].each do |jar| 
+    require jar unless jar =~ /native/
+  end
   # Include some core processing classes that we'd like to use:
   include_package 'processing.core'
 

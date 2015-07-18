@@ -1,4 +1,4 @@
-require_relative '../runners/base'
+require_relative 'base'
 
 module Processing
   # A sketch loader, observer, and reloader, to tighten

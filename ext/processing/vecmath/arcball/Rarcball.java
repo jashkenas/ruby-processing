@@ -55,17 +55,17 @@ public class Rarcball extends RubyObject {
             float cx = (float) args[1].toJava(Float.class);
             float cy = (float) args[2].toJava(Float.class);
             float radius = (float) args[3].toJava(Float.class);
-            new JArcBall(parent, cx, cy, radius).setActive(true);
+            new JarcBall(parent, cx, cy, radius).setActive(true);
         }
         if (count == 3) {
             PApplet parent = (PApplet) args[0].toJava(PApplet.class);
             float cx = (float) args[1].toJava(Float.class);
             float cy = (float) args[2].toJava(Float.class);
-            new JArcBall(parent, cx, cy, parent.width * 0.8f).setActive(true);
+            new JarcBall(parent, cx, cy, parent.width * 0.8f).setActive(true);
         }
         if (count == 1) {
             PApplet parent = (PApplet) args[0].toJava(PApplet.class);
-            new JArcBall(parent).setActive(true);
+            new JarcBall(parent).setActive(true);
         }        
     }
 }
