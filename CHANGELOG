@@ -1,3 +1,10 @@
+v2.6.14 revert to using 'require to load jars' because everything just worked   
+* before and sometimes just doesn't with java classpath loading. Now loading
+* native libraries into java classpath for jruby-9.0.0.0 (only).        
+
+v2.6.13 update to jruby-complete-1.7.21
+* the perfomance of 1.7.** series still exceeds jruby-9.0.0.0
+
 v2.6.12 Changes to make jruby and PApplet use same classloader
 * to make ruby-processing compatible with JRuby-9.0.0.0.rc1+
 * getting ready for JRuby-9.0.0.0 release
