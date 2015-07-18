@@ -5,7 +5,7 @@ Java::ProcessingVecmathArcball::ArcballLibrary.new.load(JRuby.runtime, false)
 
 describe 'arcball new' do
   it 'should give error' do
-    expect { Processing::ArcBall.init }.to raise_error
+    expect { Processing::ArcBall.init }.to raise_error(ArgumentError)
   end
 end
 
