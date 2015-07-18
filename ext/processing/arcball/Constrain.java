@@ -18,20 +18,42 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-package processing.vecmath.arcball;
+package processing.arcball;
 
 /**
- * @author Martin Prout 
- * from a borrowed pattern seen in Jonathan Feinbergs Peasycam
- * when I was struggling with non functioning browser applet, 
- * probably superfluous here. 
+ *
+ * @author Martin Prout
  */
-public interface WheelHandler { 
+public enum Constrain {
+
     /**
-     * 
-     * @param amount 
-     */   
+     * Used to constrain arc-ball rotation about X axis
+     */
+    
+    XAXIS(0),
+    /**
+     * Used to constrain arc-ball rotation about Y axis
+     */
+    YAXIS(1),
+    /**
+     * Used to constrain arc-ball rotation about Z axis
+     */
+    ZAXIS(2),
+    /**
+     * Used for default no constrain arc-ball about any axis
+     */
+    FREE(-1);
+    private final int index;
 
-    public void handleWheel(final int amount);
+    Constrain(int idx) {
+        this.index = idx;
+    }
+
+    /**
+     * Numeric value of constrained axis
+     * @return
+     */
+    public int index() {
+        return index;
+    }
 }
-

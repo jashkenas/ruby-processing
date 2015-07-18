@@ -1,4 +1,4 @@
-package processing.core;
+package processing.video;
 
 import static processing.core.PConstants.*;
 
@@ -12,7 +12,7 @@ import static processing.core.PConstants.*;
  */
 public abstract class AbstractLibrary {
 
-    private final PApplet app;
+    private final processing.core.PApplet app;
 
     /**
      * Useful accessors
@@ -23,7 +23,7 @@ public abstract class AbstractLibrary {
      *
      * @param app Applet
      */
-    public AbstractLibrary(PApplet app) {
+    public AbstractLibrary(processing.core.PApplet app) {
         this.app = app;
         this.width = app.width;
         this.height = app.height;
@@ -89,7 +89,7 @@ public abstract class AbstractLibrary {
      * Access applet if we must
      * @return
      */
-    public PApplet app() {
+    public processing.core.PApplet app() {
         return this.app;
     }
 
