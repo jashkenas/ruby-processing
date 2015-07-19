@@ -1,14 +1,15 @@
-package processing.vecmath.vec3;
+package monkstone.vecmath.vec2;
 
 import java.io.IOException;
 import org.jruby.Ruby;
 import org.jruby.runtime.load.Library;
 
+
 /**
  *
  * @author Martin Prout
  */
-public class Vec3Library implements Library {
+public class Vec2Library implements Library{
 
     /**
      *
@@ -18,6 +19,6 @@ public class Vec3Library implements Library {
      */
     @Override
     public void load(final Ruby runtime, boolean wrap) throws IOException {
-        Vec3.createVec3(runtime);
-    }
+        Vec2.createVec2(runtime);
+    }  
 }

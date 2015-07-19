@@ -1,4 +1,4 @@
-package processing.videoevent;
+package monkstone.videoevent;
 import processing.video.Movie;
 import processing.video.Capture;
 /**

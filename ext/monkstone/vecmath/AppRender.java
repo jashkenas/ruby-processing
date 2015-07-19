@@ -1,4 +1,4 @@
-package processing.vecmath;
+package monkstone.vecmath;
 
 import processing.core.PApplet;
 

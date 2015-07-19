@@ -2,7 +2,7 @@ require_relative '../../lib/ruby-processing'
 require "#{RP5_ROOT}/lib/rpextras"
 
 class Processing::App
-  include Java::ProcessingVideoevent::VideoInterface
+  include Java::MonkstoneVideoevent::VideoInterface
   def captureEvent(c)
     # satisfy implement abstract class
   end

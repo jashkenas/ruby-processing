@@ -1,4 +1,4 @@
-package processing.fastmath;
+package monkstone.fastmath;
 
 import org.jruby.Ruby;
 import org.jruby.RubyClass;

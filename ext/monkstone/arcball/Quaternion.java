@@ -18,7 +18,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-package processing.arcball;
+package monkstone.arcball;
 
 /**
  * Based on a original sketch by Ariel Malka
