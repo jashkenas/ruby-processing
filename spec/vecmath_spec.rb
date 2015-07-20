@@ -1,7 +1,7 @@
 require_relative '../lib/rpextras'
 
-Java::ProcessingVecmathVec2::Vec2Library.new.load(JRuby.runtime, false)
-Java::ProcessingVecmathVec3::Vec3Library.new.load(JRuby.runtime, false)
+Java::MonkstoneVecmathVec2::Vec2Library.new.load(JRuby.runtime, false)
+Java::MonkstoneVecmathVec3::Vec3Library.new.load(JRuby.runtime, false)
 
 EPSILON = 1.0e-04
 

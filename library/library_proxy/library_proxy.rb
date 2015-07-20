@@ -1,7 +1,7 @@
 require_relative '../../lib/ruby-processing'
 require "#{RP5_ROOT}/lib/rpextras"
 
-LibraryProxy = Java::ProcessingCore::AbstractLibrary
+LibraryProxy = Java::MonkstoneCore::AbstractLibrary
 
 # classes that inherit from Library are expected to implement
 # the abstract methods of processing.core.AbstractLibrary

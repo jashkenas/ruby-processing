@@ -183,7 +183,7 @@ module Processing
       warn('The --jruby flag is no longer required') if @options.jruby
       @options.nojruby = true if Processing::RP_CONFIG['JRUBY'] == 'false'
       java_args = discover_java_args(sketch)
-      jars = native_classpath     # jruby-9.0.0.0 compatibility
+      jars = core_classpath     # jruby-9.0.0.0 compatibility
       if @options.nojruby # we are not using jruby-9.0.0.0      
         command = ['java',
                    java_args,
@@ -234,10 +234,8 @@ module Processing
       (host_os == :windows) ? ';' : ':'
     end
     
-    def native_classpath
-      Dir["#{RP_CONFIG["PROCESSING_ROOT"]}/core/library/\*.jar"].tap do |jar|
-        classpath << jar if jar =~ /native/
-      end
+    def core_classpath
+      Dir["#{RP_CONFIG["PROCESSING_ROOT"]}/core/library/\*.jar"]
     end
     
     # NB: we really do require 'and' not '&&' to get message returned

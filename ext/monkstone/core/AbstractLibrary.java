@@ -1,4 +1,4 @@
-package processing.video;
+package monkstone.core;
 
 import static processing.core.PConstants.*;
 
@@ -21,7 +21,7 @@ public abstract class AbstractLibrary {
 
     /**
      *
-     * @param app Applet
+     * @param app PApplet
      */
     public AbstractLibrary(processing.core.PApplet app) {
         this.app = app;

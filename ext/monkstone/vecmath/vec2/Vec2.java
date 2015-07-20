@@ -1,4 +1,4 @@
-package processing.vecmath.vec2;
+package monkstone.vecmath.vec2;
 
 import org.jruby.Ruby;
 import org.jruby.RubyArray;
@@ -12,7 +12,7 @@ import org.jruby.runtime.Block;
 import org.jruby.runtime.ObjectAllocator;
 import org.jruby.runtime.ThreadContext;
 import org.jruby.runtime.builtin.IRubyObject;
-import processing.vecmath.JRender;
+import monkstone.vecmath.JRender;
 
 /**
 *

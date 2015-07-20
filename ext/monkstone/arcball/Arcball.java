@@ -20,7 +20,7 @@
  * 
  * 4) Somewhat modified by Martin Prout to support callbacks from processing sketch
  **/
-package processing.arcball;
+package monkstone.arcball;
 
 import java.util.Objects;
 import processing.core.PApplet;
