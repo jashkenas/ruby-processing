@@ -25,22 +25,22 @@ package monkstone.arcball;
  */
 public final class Jvector {
 
-    static final float EPSILON = 9.999999747378752E-5f;
+    static final double EPSILON = 9.999999747378752E-5f;
 
     /**
      *
      */
-    public float x;
+    public double x;
 
     /**
      *
      */
-    public float y;
+    public double y;
 
     /**
      *
      */
-    public float z;
+    public double z;
 
     /**
      *
@@ -48,7 +48,7 @@ public final class Jvector {
      * @param y
      * @param z
      */
-    public Jvector(float x, float y, float z) {
+    public Jvector(double x, double y, double z) {
         this.x = x;
         this.y = y;
         this.z = z;
@@ -63,6 +63,7 @@ public final class Jvector {
 
     /**
      *
+     * @param vect
      */
     public Jvector(Jvector vect) {
         this(vect.x, vect.y, vect.z);
@@ -82,7 +83,7 @@ public final class Jvector {
      * @param scalar
      * @return
      */
-    public Jvector mult(float scalar) {
+    public Jvector mult(double scalar) {
         return new Jvector(this.x * scalar, this.y * scalar, this.z * scalar);
     }
 
@@ -90,8 +91,8 @@ public final class Jvector {
      *
      * @return
      */
-    public float mag() {
-        return (float) Math.sqrt(x * x + y * y + z * z);
+    public double mag() {
+        return  Math.sqrt(x * x + y * y + z * z);
     }
 
     /**
@@ -100,7 +101,7 @@ public final class Jvector {
      * @return this
      */
     public Jvector normalize() {
-        float mag = (float) Math.sqrt(x * x + y * y + z * z);
+        double mag =  Math.sqrt(x * x + y * y + z * z);
         this.x /= mag;
         this.y /= mag;
         this.z /= mag;
@@ -112,7 +113,7 @@ public final class Jvector {
      * @param other
      * @return
      */
-    public float dot(Jvector other) {
+    public double dot(Jvector other) {
         return x * other.x + y * other.y + z * other.z;
     }
 
@@ -122,12 +123,17 @@ public final class Jvector {
      * @return
      */
     public Jvector cross(Jvector other) {
-        float xc = y * other.z - z * other.y;
-        float yc = z * other.x - x * other.z;
-        float zc = x * other.y - y * other.x;
+        double xc = y * other.z - z * other.y;
+        double yc = z * other.x - x * other.z;
+        double zc = x * other.y - y * other.x;
         return new Jvector(xc, yc, zc);
     }
 
+    /**
+     *
+     * @param other
+     * @return
+     */
     public boolean equals(Jvector other) {
         if (other instanceof Jvector) {
 
@@ -143,6 +149,11 @@ public final class Jvector {
 
     }
 
+    /**
+     *
+     * @param obj
+     * @return
+     */
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {
@@ -152,15 +163,19 @@ public final class Jvector {
             return false;
         }
         final Jvector other = (Jvector) obj;
-        if (Float.floatToIntBits(this.x) != Float.floatToIntBits(other.x)) {
+        if (Double.doubleToLongBits(this.x) != Double.doubleToLongBits(other.x)) {
             return false;
         }
-        if (Float.floatToIntBits(this.y) != Float.floatToIntBits(other.y)) {
+        if (Double.doubleToLongBits(this.y) != Double.doubleToLongBits(other.y)) {
             return false;
         }
-        return (Float.floatToIntBits(this.z) != Float.floatToIntBits(other.z));
+        return (Double.doubleToLongBits(this.z) != Double.doubleToLongBits(other.z));
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public int hashCode() {
         int hash = 7;

@@ -12,11 +12,11 @@ public interface VideoInterface {
      * @see processing.video.Movie
      * @param movie Movie
      */
-    void movieEvent(Movie movie);
+    public void movieEvent(Movie movie);
     /**
      * Used to implement reflection method in PApplet
      * @see processing.video.Capture
      * @param capture Capture
      */
-    void captureEvent(Capture capture);    
+    public void captureEvent(Capture capture);    
 }

@@ -29,15 +29,15 @@ import processing.event.MouseEvent;
 
 /**
  * Supports the Arcball and MouseWheel zoom manipulation of objects in
- processing
+ * processing
  * 
 * @author Martin Prout
  */
 public class Arcball {
 
-    private float center_x;
-    private float center_y;
-    private float radius;
+    private double center_x;
+    private double center_y;
+    private double radius;
     private Jvector v_down;
     private Jvector v_drag;
     private Quaternion q_now;
@@ -47,7 +47,7 @@ public class Arcball {
     private Constrain axis;
     private boolean isActive = false;
     private PApplet parent;
-    private float zoom = 1.0f;
+    private double zoom = 1.0f;
     private WheelHandler zoomWheelHandler;
     private boolean camera = false;
     float DEPTH = (float) (1 / (2 * Math.tan(Math.PI / 6)));
@@ -55,11 +55,11 @@ public class Arcball {
     /**
      *
      * @param parent PApplet
-     * @param center_x float x coordinate of arcball center
-     * @param center_y float y coordinate of arcball center
-     * @param radius float radius of arcball
+     * @param center_x double x coordinate of arcball center
+     * @param center_y double y coordinate of arcball center
+     * @param radius double radius of arcball
      */
-    public Arcball(PApplet parent, float center_x, float center_y, float radius) {
+    public Arcball(PApplet parent, double center_x, double center_y, double radius) {
         this.zoomWheelHandler = new WheelHandler() {
             @Override
             public void handleWheel(int delta) {
@@ -79,6 +79,19 @@ public class Arcball {
         this.axis = Constrain.FREE; // no constraints...
     }
 
+    /**
+     * Default centered arcball and half width or half height whichever smaller
+     *
+     * @param parent
+     *
+     */
+    public Arcball(PApplet parent) {
+        // this(parent, parent.width / 2.0f, parent.height / 2.0f, Math.min(parent.width, parent.height) * 0.5f);
+        this(parent, 0f, 0f, Math.min(parent.width, parent.height) * 0.8f);
+        parent.camera(parent.width / 2.0f, parent.height / 2.0f, (parent.height * DEPTH), 0, 0, 0, 0, 1.0f, 0);
+        camera = true;
+        this.axis = Constrain.FREE; // no constraints...
+    }
 
     /**
      * mouse event to register
@@ -171,23 +184,24 @@ public class Arcball {
     private void update() {
         q_now = Quaternion.mult(q_drag, q_down);
         applyQuaternion2Matrix(q_now);
-        parent.scale(zoom);
+        parent.scale((float) zoom);
     }
 
     /**
-     * Returns either the Jvector of mouse position mapped to a sphere or
-     * the constrained version (when constrained to one axis) 
+     * Returns either the Jvector of mouse position mapped to a sphere or the
+     * constrained version (when constrained to one axis)
+     *
      * @param x
      * @param y
      * @return mouse coordinate mapped to unit sphere
      */
-    public Jvector mouse2sphere(float x, float y) {
+    public Jvector mouse2sphere(double x, double y) {
         Jvector v = new Jvector((x - center_x) / radius, (y - center_y) / radius, 0);
-        float mag_sq = v.x * v.x + v.y * v.y; 
+        double mag_sq = v.x * v.x + v.y * v.y;
         if (mag_sq > 1.0) {
-            v.normalize(); 
+            v.normalize();
         } else {
-            v.z = (float) Math.sqrt(1.0 - mag_sq);
+            v.z = Math.sqrt(1.0 - mag_sq);
         }
         if (axis != Constrain.FREE) {
             v = constrainVector(v, axisSet[axis.index()]);
@@ -223,8 +237,8 @@ public class Arcball {
      */
     public void applyQuaternion2Matrix(Quaternion q) {
         // instead of transforming q into a matrix and applying it...
-        float[] aa = q.getValue();
-        parent.rotate(aa[0], aa[1], aa[2], aa[3]);
+        double[] aa = q.getValue();
+        parent.rotate((float) aa[0], (float) aa[1], (float) aa[2], (float) aa[3]);
     }
 
     /**
@@ -233,9 +247,12 @@ public class Arcball {
     public void dispose() {
         setActive(false);
     }
-    
 
-
+    /**
+     *
+     * @param obj
+     * @return
+     */
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {
@@ -245,25 +262,29 @@ public class Arcball {
             return false;
         }
         final Arcball other = (Arcball) obj;
-        if (Float.floatToIntBits(this.center_x) != Float.floatToIntBits(other.center_x)) {
+        if (Double.doubleToLongBits(this.center_x) != Double.doubleToLongBits(other.center_x)) {
             return false;
         }
-        if (Float.floatToIntBits(this.center_y) != Float.floatToIntBits(other.center_y)) {
+        if (Double.doubleToLongBits(this.center_y) != Double.doubleToLongBits(other.center_y)) {
             return false;
         }
-        if (Float.floatToIntBits(this.radius) != Float.floatToIntBits(other.radius)) {
+        if (Double.doubleToLongBits(this.radius) != Double.doubleToLongBits(other.radius)) {
             return false;
         }
         return Objects.equals(this.parent, other.parent);
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 59 * hash + Float.floatToIntBits(this.center_x);
-        hash = 59 * hash + Float.floatToIntBits(this.center_y);
-        hash = 59 * hash + Float.floatToIntBits(this.radius);
+        long hash = 3;
+        hash = 59 * hash + Double.doubleToLongBits(this.center_x);
+        hash = 59 * hash + Double.doubleToLongBits(this.center_y);
+        hash = 59 * hash + Double.doubleToLongBits(this.radius);
         hash = 59 * hash + Objects.hashCode(this.parent);
-        return hash;
+        return (int) hash;
     }
 }

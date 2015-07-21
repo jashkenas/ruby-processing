@@ -1,6 +1,7 @@
 require_relative '../../lib/ruby-processing'
 require "#{RP5_ROOT}/lib/rpextras"
 
+<<<<<<< Updated upstream
 Java::MonkstoneVecmathVec2::Vec2Library.new.load(JRuby.runtime, false)
 Java::MonkstoneVecmathVec3::Vec3Library.new.load(JRuby.runtime, false)
 
@@ -19,3 +20,11 @@ module Processing
     end
   end
 end
+=======
+Java::MonkstoneArcball::ArcballLibrary.new.load(JRuby.runtime, false)
+Java::MonkstoneVecmathVec2::Vec2Library.new.load(JRuby.runtime, false)
+Java::MonkstoneVecmathVec3::Vec3Library.new.load(JRuby.runtime, false)
+
+AppRender ||= Java::MonkstoneVecmath::AppRender
+ShapeRender ||= Java::MonkstoneVecmath::ShapeRender
+>>>>>>> Stashed changes

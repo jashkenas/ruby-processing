@@ -39,37 +39,6 @@ describe 'Vec2D#==' do
   end
 end
 
-describe 'Vec2D#eql?' do
-  it 'should return a.eql? b' do
-    a = Vec2D.new(3.0, 5.0)
-    b = Vec2D.new(3.0, 5.0)
-    expect(a.eql?(b)).to be true
-  end
-end
-
-describe 'Vec2D#eql?' do
-  it 'should return a.eql? b' do
-    a = Vec2D.new(3.0, 5.0)
-    b = Vec2D.new(3.0, 5.000001)
-    expect(a.eql?(b)).to be false
-  end
-end
-
-describe 'Vec2D#equal?' do
-  it 'should return a.eql? b' do
-    a = Vec2D.new(3.0, 5.0)
-    expect(a.equal?(a)).to be true
-  end
-end
-
-describe 'Vec2D#equal?' do
-  it 'should return a.eql? b' do
-    a = Vec2D.new(3.0, 5.0)
-    b = Vec2D.new(3.0, 5.0)
-    expect(a.equal?(b)).to be false
-  end
-end
-
 describe 'Vec2D#==' do
   it 'should return a == b' do
     a = Vec2D.new(3.0000000, 5.00000)
@@ -93,6 +62,7 @@ describe 'Vec2D#-' do
     expect(a - b).to eq Vec2D.new(-3, -2)
   end
 end
+
 
 describe 'Vec2D#*' do
   it 'should return Vec2D sum of a * b' do
@@ -119,7 +89,7 @@ end
 describe 'Vec2D2#x=' do
   it 'should set x to supplied value' do
     a = Vec2D.new(3, 5)
-    a.x = 23
+    a.x=23
     expect(a.x).to eq 23.0
   end
 end
@@ -151,6 +121,7 @@ describe 'Vec2D mag' do
     expect(a.mag).to eq(1)
   end
 end
+
 
 describe 'Vec2D lerp' do
   it 'should return Vec2D lerp' do
@@ -215,6 +186,7 @@ describe 'Vec2D dist' do
   end
 end
 
+
 describe 'Vec2D dot' do
   it 'should return Vec2D dist(a, b)' do
     a = Vec2D.new(3, 5)
@@ -278,18 +250,10 @@ describe 'Vec2D#to_a' do
   end
 end
 
-# describe 'Vec2D#to_h' do
-#   it 'should return Vec2D as a hash' do
-#     x, y = 1.0000001, 1.01
-#     a = Vec2D.new(x, y)
-#     expect(a.to_h).to eq({x: x, y: y})
-#   end
-# end
-
 describe 'Vec2D#array.reduce' do
   it 'should correctly sum objects of Vec2D' do
     array = [Vec2D.new(1, 2), Vec2D.new(10, 2), Vec2D.new(1, 2)]
-    sum = array.reduce(:+)
+    sum = array.reduce(Vec2D.new) { |c, d| c + d }
     expect(sum).to eq(Vec2D.new(12, 6))
   end
 end
@@ -310,14 +274,6 @@ describe 'Vec2D#rotate rot' do
     b = Vec2D.new(x, y)
     a = b.rotate(Math::PI / 2)
     expect(a).to eq(Vec2D.new(-10.0, 20.0))
-  end
-end
-
-describe 'Vec2D#add Vec3D' do
-  it 'it to raise exception' do
-    a = Vec2D.new
-    b = Vec3D.new 100, 100, 100
-    expect { a += b }.to raise_error(TypeError)
   end
 end
 
@@ -495,3 +451,6 @@ describe 'Vec3D#equal?' do
     expect(a.equal?(b)).to be false
   end
 end
+
+
+

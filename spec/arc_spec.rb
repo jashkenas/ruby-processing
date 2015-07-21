@@ -1,6 +1,7 @@
 require_relative '../lib/core'
-require_relative '../library/vecmath/vecmath'
+require_relative '../lib/rpextras'
 
+Java::MonkstoneArcball::ArcballLibrary.new.load(JRuby.runtime, false)
 
 describe 'arcball new' do
   it 'should give error' do
