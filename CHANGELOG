@@ -1,11 +1,6 @@
 v2.6.14 revert to using 'require to load jars' because everything just worked   
-<<<<<<< Updated upstream
-* before, and sometimes just doesn't with java classpath loading. Now loading
-* core libraries into java classpath for jruby-9.0.0.0 (only).        
-=======
-* before and sometimes just doesn't with java classpath loading. Now loading
-* core processing jars into java classpath for jruby-9.0.0.0 (only).        
->>>>>>> Stashed changes
+* before, and sometimes just doesn't with java classpath loading.     
+* jruby-9.0.0.0 has been fixed, so now we don't need compability changes...
 
 v2.6.13 update to jruby-complete-1.7.21
 * the perfomance of 1.7.** series still exceeds jruby-9.0.0.0
