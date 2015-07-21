@@ -111,7 +111,7 @@ This gem has been tested with the following ruby implementations
 * Ruby 2.2.1
 * [JRuby][] preferred (required to use rubygems in sketches)
 
-NB: ruby-processing-2.6.14+ is required for jruby-9.0.0.0.rc2+ (see CHANGELOG)
+NB: jruby-9.0.0.0 wait for next release (important fix in latest SNAPSHOT)
 
 ### Supported processing version
 
