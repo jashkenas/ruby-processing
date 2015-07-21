@@ -4,7 +4,6 @@ require 'rbconfig'
 require_relative '../ruby-processing/config'
 require_relative '../ruby-processing/version'
 
-
 module Processing
 
   # Utility class to handle the different commands that the 'rp5' command
@@ -158,7 +157,6 @@ module Processing
       puts "  jruby-complete installed = #{installed}"
     end
 
-
     # Display the current version of Ruby-Processing.
     def show_version
       puts "Ruby-Processing version #{RubyProcessing::VERSION}"
@@ -168,7 +166,6 @@ module Processing
     def show_help
       puts HELP_MESSAGE
     end
-
 
     private
     
@@ -183,32 +180,21 @@ module Processing
       warn('The --jruby flag is no longer required') if @options.jruby
       @options.nojruby = true if Processing::RP_CONFIG['JRUBY'] == 'false'
       java_args = discover_java_args(sketch)
-      jars = core_classpath << rp_extras # jruby-9.0.0.0 compatibility
-      if @options.nojruby # we are not using jruby-9.0.0.0      
+      if @options.nojruby 
         command = ['java',
-                   java_args,
-                   '-cp',
-                   jruby_complete,
-                   'org.jruby.Main',
-                   runner,
-                   sketch,
-                   args].flatten
+                  java_args,
+                  '-cp',
+                  jruby_complete,
+                  'org.jruby.Main',
+                  runner,
+                  sketch,
+                  args].flatten
       else
-        if `jruby -v` =~ %r(9.0.0.0) # need to load native jars to classpath
-          command = ['jruby', 
-                    java_args,
-                    '-J-cp',
-                    jars.join(path_separator),
-                    runner, 
-                    sketch, 
-                    args].flatten
-        else
-          command = ['jruby', 
-                    java_args,
-                    runner, 
-                    sketch, 
-                    args].flatten
-        end
+        command = ['jruby', 
+                  java_args,
+                  runner, 
+                  sketch, 
+                  args].flatten        
       end
       exec(*command)
       # exec replaces the Ruby process with the JRuby one.
@@ -228,18 +214,6 @@ module Processing
       end
       args.map! { |arg| "-J#{arg}" } unless @options.nojruby
       args
-    end
-    
-    def path_separator
-      (host_os == :windows) ? ';' : ':'
-    end
-
-    def rp_extras
-      File.join(RP5_ROOT, 'lib/rpextras.jar')
-    end
-    
-    def core_classpath
-      Dir["#{RP_CONFIG["PROCESSING_ROOT"]}/core/library/\*.jar"]
     end
     
     # NB: we really do require 'and' not '&&' to get message returned
