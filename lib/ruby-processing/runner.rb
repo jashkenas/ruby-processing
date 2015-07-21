@@ -183,11 +183,7 @@ module Processing
       warn('The --jruby flag is no longer required') if @options.jruby
       @options.nojruby = true if Processing::RP_CONFIG['JRUBY'] == 'false'
       java_args = discover_java_args(sketch)
-<<<<<<< Updated upstream
-      jars = core_classpath     # jruby-9.0.0.0 compatibility
-=======
       jars = core_classpath << rp_extras # jruby-9.0.0.0 compatibility
->>>>>>> Stashed changes
       if @options.nojruby # we are not using jruby-9.0.0.0      
         command = ['java',
                    java_args,
