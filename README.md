@@ -109,9 +109,7 @@ This gem has been tested with the following ruby implementations
 * Ruby 2.0.0
 * Ruby 2.1.2
 * Ruby 2.2.1
-* [JRuby][] preferred (required to use rubygems in sketches)
-
-NB: jruby-9.0.0.0 wait for next release (important fix in latest SNAPSHOT)
+* [JRuby][] preferred use jruby-1.7.XX but also works with jruby-9.0.0.0 release
 
 ### Supported processing version
 
