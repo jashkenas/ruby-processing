@@ -1,12 +1,16 @@
-# An IRB shell for live coding.
-# This flavor will either load up empty Ruby-Processing,
-# or will start with your sketch.
-
+# A pry shell for live coding.
+# Will start with your sketch.
 require_relative 'base'
 Processing.load_and_run_sketch
 
-ARGV.clear # So that IRB doesn't try to load them as files.
+class PryException < StandardError
+end
 
-require 'irb'
-IRB.setup(__FILE__)
-IRB.start
+MESSAGE = "You need to 'jruby -S gem install pry' for 'live' mode"
+
+if Gem::Specification.find_all_by_name('pry').any?
+  require 'pry'
+  $app.pry
+else
+  fail(PryException.new, MESSAGE)
+end
