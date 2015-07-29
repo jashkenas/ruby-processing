@@ -279,7 +279,7 @@ public class Vec2 extends RubyObject {
   */
   @JRubyMethod(name = "heading")
   public IRubyObject heading(ThreadContext context) {
-    return context.getRuntime().newFloat(Math.atan2(-jy, jx) * -1.0);
+    return context.getRuntime().newFloat(Math.atan2(jy, jx));
   }
   
   /**
