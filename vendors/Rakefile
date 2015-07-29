@@ -9,7 +9,7 @@ WARNING = <<-EOS
 EOS
 
 JRUBYC_VERSION     = '1.7.21'
-EXAMPLES           = '1.6'
+EXAMPLES           = '1.7'
 HOME_DIR = ENV['HOME']
 MAC_OR_LINUX = /linux|mac|darwin/ =~ RbConfig::CONFIG['host_os'] 
 
