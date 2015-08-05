@@ -70,7 +70,7 @@ module Processing
     def extract_libraries(source)
       lines = source.split("\n")
       libs = lines.grep(/^[^#]*load_(?:java_|ruby_)?librar(?:y|ies)\s+(.+)/) do
-        $1.split(/\s*,\s*/).map do |raw_library_name|
+        Regexp.last_match(1).split(/\s*,\s*/).map do |raw_library_name|
           raw_library_name.tr("\"':\r\n", '')
         end
       end.flatten
