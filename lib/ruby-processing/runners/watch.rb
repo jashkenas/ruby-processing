@@ -5,6 +5,15 @@ module Processing
   # the feedback between code and effect.
   class Watcher
     # Sic a new Processing::Watcher on the sketch
+    WATCH_MESSAGE ||= <<-EOS
+    Warning:
+    To protect you from running watch mode in a top level
+    directory with lots of nested ruby or GLSL files we
+    limit the number of files to watch to %d.
+    If you really want to watch %d files you should
+    increase MAX_WATCH in ~/.rp5rc
+
+    EOS
     SLEEP_TIME = 0.2
     def initialize
       reload_files_to_watch
@@ -50,7 +59,12 @@ module Processing
     end
 
     def reload_files_to_watch
-      @files = Dir.glob(File.join(SKETCH_ROOT, "**/*.{rb,glsl}"))
+      @files = Dir.glob(File.join(SKETCH_ROOT, '**/*.{rb,glsl}'))
+      count = @files.length
+      max_watch = RP_CONFIG.fetch('MAX_WATCH', 20)
+      return unless count > max_watch
+      warn format(WATCH_MESSAGE, max_watch, count)
+      abort
     end
   end
 end
