@@ -4,7 +4,7 @@ In the spirit of [free software][free-sw], **everyone** is encouraged to help im
 Here are some ways *you* can contribute:
 
 * by reporting bugs or problems [here][]
-* by suggesting/implementing new features ( _export using warbler would be cool_ )
+* by suggesting/implementing new features ( _export using warbler would be cool_ ) see [shoes/furoshoki][]
 * by writing or editing documentation ( _expert Windows users could help write install instructions_ )
 * by [contributing examples][] ( _show your creativity, or translate someone elses masterpiece, you could learn a lot_ )
 * by refactoring examples to be more rubyfied
@@ -34,3 +34,4 @@ the bug, including your gem version, Ruby version, and operating system.
 [processing.org]: http://processing.org/foundation/
 [development branch]: https://github.com/ruby-processing/JRubyArt
 [contributing examples]: https://github.com/ruby-processing/Example-Sketches/blob/master/CONTRIBUTING.md
+[shoes/furoshoki]:https://github.com/shoes/furoshiki
