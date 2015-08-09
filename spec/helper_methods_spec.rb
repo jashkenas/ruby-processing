@@ -4,6 +4,34 @@ include Processing::HelperMethods
 
 EPSILON = 1.0e-04
 
+describe 'dodgy String color' do
+  it 'should raise TypeError' do
+    hexstring = '*56666'
+    expect {hex_color(hexstring)}.to raise_error(StandardError, 'Dodgy Hexstring')
+  end
+end
+
+describe 'hexadecimal Fixnum color' do
+  it 'should return color(hex)' do
+    hexcolor = 0xFFCC6600
+    expect(hex_color(hexcolor)).to eq -3381760
+  end
+end
+
+describe 'hexadecimal String color' do
+  it 'should return color(hex_string)' do
+    hexstring = '#CC6600'
+    expect(hex_color(hexstring)).to eq -3381760
+  end
+end
+
+describe 'double color' do
+  it 'should return color(double)' do
+     col_double = 0.5
+     expect(hex_color(col_double)).to eq 0.5
+  end
+end 
+
 describe 'constrained_map included' do
   it 'should return constrained_map(x, range1, range2)' do
     x = 0
