@@ -144,12 +144,19 @@ module Processing
       methods  = fields.map { |field| java_class.declared_field(field) }
       @declared_fields = Hash[fields.zip(methods)]
     end
+    
+    class VersionError < StandardError
+    end
 
     # By default, your sketch path is the folder that your sketch is in.
     # If you'd like to do something fancy, feel free.
     def set_sketch_path(spath = nil)
       field = @declared_fields['sketchPath']
-      field.set_value(java_self, spath || SKETCH_ROOT)
+      begin
+        field.set_value(java_self, spath || SKETCH_ROOT)
+      rescue TypeError
+        fail VersionError, 'Use JRubyArt for processing-3.0'
+      end
     end
 
     # Fix java conversion problems getting the last key
