@@ -1,4 +1,5 @@
-v2.6.15 added guard against running 'watch' in top level directories
+v2.6.15 added guard against running 'watch' in top level directories, rescue error
+when processing-3.0 is specified, and suggest updating to JRubyArt
 
 v2.6.14 revert to using 'require to load jars' because everything just worked   
 * before, and sometimes just doesn't with java classpath loading.     
