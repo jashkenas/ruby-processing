@@ -21,6 +21,7 @@ module Processing
   Dir["#{RP_CONFIG["PROCESSING_ROOT"]}/core/library/\*.jar"].each do |jar| 
     require jar unless jar =~ /native/
   end
+  Java::Monkstone::MathToolLibrary.new.load(JRuby.runtime, false)
   # Include some core processing classes that we'd like to use:
   include_package 'processing.core'
 
@@ -40,6 +41,7 @@ module Processing
   class App < PApplet
     include Math
     include HelperMethods
+    include MathTool
     # Alias some methods for familiarity for Shoes coders.
     # attr_accessor :frame, :title
     alias_method :oval, :ellipse
@@ -194,6 +196,7 @@ module Processing
   # unfettered access to the methods defined in the surrounding class.
   module Proxy
     include Math
+    include MathTool
     # Generate a list of method names to proxy for inner classes.
     # Nothing camelCased, nothing __internal__, just the Processing API.
     def self.desired_method_names(inner_class)
