@@ -60,6 +60,7 @@ module Processing
     # @return [float] mapped value
     def map(value, start1, stop1, start2, stop2)
       start2 + (stop2 - start2) * ((value - start1).to_f / (stop1 - start1))
+      warn('map is deprecated use p5map or map1d instead')
     end
     # deprecate :map, :p5map, 2015, 12
 
