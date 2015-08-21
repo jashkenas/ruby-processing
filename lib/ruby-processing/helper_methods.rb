@@ -1,8 +1,10 @@
 # processing module wrapper
 require_relative '../rpextras'
 
+
 module Processing
   # Provides some convenience methods available in vanilla processing
+  Java::Monkstone::MathToolLibrary.new.load(JRuby.runtime, false)
   module HelperMethods
     # processings epsilon may not be defined yet
     EPSILON ||= 1.0e-04
@@ -59,40 +61,7 @@ module Processing
     def map(value, start1, stop1, start2, stop2)
       start2 + (stop2 - start2) * ((value - start1).to_f / (stop1 - start1))
     end
-
-    # ruby alternative implementation of map using range parameters
-    # (begin..end) and excluded end (begin...end) produce the same result
-    def map1d(val, r_in, r_out)
-      r_out.begin + (r_out.end - r_out.begin) *
-        ((val - r_in.begin).to_f / (r_in.end - r_in.begin))
-    end
-
-    # Explicitly provides 'processing.org' map instance method, where
-    # value is mapped from range 1 to range 2 where values are clamped to
-    # range 2.
-    # @param val input
-    # @param [r_in] start1, stop1
-    # @param [r_out] start2, stop2
-    # @return mapped value
-    def constrained_map(val, r_in, r_out)
-      unless r_in.include? val
-        return r_out.begin if (val < r_in.begin && r_in.begin < r_in.end) ||
-                              (val > r_in.begin && r_in.begin > r_in.end)
-        return r_out.end
-      end
-      r_out.begin + (r_out.end - r_out.begin) *
-        ((val - r_in.begin).to_f / (r_in.end - r_in.begin))
-    end
-
-    # explicitly provide 'processing.org' norm instance method
-    def norm(value, start, stop)
-      (value - start).to_f / (stop - start)
-    end
-
-    # explicitly provide 'processing.org' lerp instance method
-    def lerp(start, stop, amt)
-      start + (stop - start) * amt
-    end
+    # deprecate :map, :p5map, 2015, 12
 
     # explicitly provide 'processing.org' min instance method
     # to return a float:- a, b and c need to be floats

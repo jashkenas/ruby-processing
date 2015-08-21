@@ -1,13 +1,16 @@
 v2.6.15 added guard against running 'watch' in top level directories, rescue error
-when processing-3.0 is specified, and suggest updating to JRubyArt
+* when processing-3.0 is specified, and suggest updating to JRubyArt update to
+* jruby-complete-1.7.22 (this may be the final release of 1.7.XX series)
+* features deprecation of processing map in favor of p5map (or map1d) which
+* are now both jruby extensions, along with lerp and norm
 
-v2.6.14 revert to using 'require to load jars' because everything just worked   
-* before, and sometimes just doesn't with java classpath loading.     
+v2.6.14 revert to using 'require to load jars' because everything just worked
+* before, and sometimes just doesn't with java classpath loading.
 * jruby-9.0.0.0 has been fixed, so now we don't need compability changes...
 * use pry-java for live mode
 
 v2.6.13 update to jruby-complete-1.7.21
-* the perfomance of 1.7.** series still exceeds jruby-9.0.0.0
+* the perfomance of 1.7.XX series still exceeds jruby-9.0.0.0
 
 v2.6.12 Changes to make jruby and PApplet use same classloader
 * to make ruby-processing compatible with JRuby-9.0.0.0.rc1+

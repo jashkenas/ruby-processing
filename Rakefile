@@ -42,6 +42,13 @@ task :test do
   ruby "test/rp5_test.rb"	
 end
 
+desc 'Spec'
+task :spec do
+  Dir['./spec/processing/*.rb'].each do |sp|
+    sh "jruby -S rspec #{sp}"
+  end
+end
+
 desc 'Clean'
 task :clean do
   Dir['./**/*.%w{jar gem}'].each do |path|
