@@ -1,3 +1,5 @@
+v2.6.16 changed to static load for jruby extensions 
+
 v2.6.15 added guard against running 'watch' in top level directories, rescue error
 * when processing-3.0 is specified, and suggest updating to JRubyArt update to
 * jruby-complete-1.7.22 (this may be the final release of 1.7.XX series)
