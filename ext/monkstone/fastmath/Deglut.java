@@ -45,8 +45,7 @@ public class Deglut extends RubyObject {
       }
       initialized = true;
     }
-  }
-  
+  }  
   
   
   /**
@@ -58,8 +57,7 @@ public class Deglut extends RubyObject {
     RubyModule deglutModule = runtime.defineModule("DegLut");
     deglutModule.defineAnnotatedMethods(Deglut.class);
     Deglut.initTable();
-  }
-  
+  }  
   
   
   /**
@@ -112,6 +110,5 @@ public class Deglut extends RubyObject {
     ? -sinDegLut[y] : (theta < 270)
     ? -sinDegLut[NINETY - y] : sinDegLut[y];
     return context.getRuntime().newFloat(result);
-  }
-  
+  }  
 }

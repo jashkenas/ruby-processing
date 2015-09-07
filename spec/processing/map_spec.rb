@@ -1,7 +1,7 @@
 # require_relative '../../lib/rpextras'
 require_relative '../../lib/ruby-processing/helper_methods'
 
-# Java::Monkstone::MathToolLibrary.new.load(JRuby.runtime, false)
+# Java::Monkstone::MathToolLibrary.load(JRuby.runtime)
 
 include Processing::HelperMethods
 include Processing::MathTool

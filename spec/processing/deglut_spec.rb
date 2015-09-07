@@ -1,6 +1,6 @@
 require_relative '../../lib/rpextras'
 
-Java::MonkstoneFastmath::DeglutLibrary.new.load(JRuby.runtime, false)
+Java::MonkstoneFastmath::DeglutLibrary.load(JRuby.runtime)
 
 EPSILON = 1.0e-04
 TO_RADIAN = Math::PI / 180

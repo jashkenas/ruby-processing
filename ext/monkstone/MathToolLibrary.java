@@ -20,6 +20,14 @@ import org.jruby.runtime.load.Library;
  * @author Martin Prout
  */
 public class MathToolLibrary implements Library{
+  
+    /**
+     *
+     * @param runtime
+     */
+    public static void load(final Ruby runtime) {
+        MathTool.createMathTool(runtime);
+    } 
     
     /**
      *
@@ -29,6 +37,6 @@ public class MathToolLibrary implements Library{
      */
     @Override
     public void load(final Ruby runtime, boolean wrap) throws IOException {
-        MathTool.createMathTool(runtime);
+        load(runtime);
     }  
 }

@@ -21,7 +21,7 @@ module Processing
   Dir["#{RP_CONFIG["PROCESSING_ROOT"]}/core/library/\*.jar"].each do |jar| 
     require jar unless jar =~ /native/
   end
-  Java::Monkstone::MathToolLibrary.new.load(JRuby.runtime, false)
+  Java::Monkstone::MathToolLibrary.load(JRuby.runtime)
   # Include some core processing classes that we'd like to use:
   include_package 'processing.core'
 

@@ -9,6 +9,15 @@ import org.jruby.runtime.load.Library;
  * @author Martin Prout
  */
 public class ArcballLibrary implements Library {
+  
+    /**
+     *
+     * @param runtime
+     */
+
+    public static void load(final Ruby runtime) {
+        Rarcball.createArcBall(runtime);
+    }
 
     /**
      *
@@ -18,6 +27,6 @@ public class ArcballLibrary implements Library {
      */
     @Override
     public void load(final Ruby runtime, boolean wrap) throws IOException {
-        Rarcball.createArcBall(runtime);
+        load(runtime);
     }
 }

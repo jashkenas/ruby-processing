@@ -22,9 +22,8 @@ public class Rarcball extends RubyObject {
     /**
      *
      * @param runtime
-     * @throws IOException
      */
-    public static void createArcBall(final Ruby runtime) throws IOException {
+    public static void createArcBall(final Ruby runtime) {
         RubyModule processing = runtime.defineModule("Processing");
         RubyModule arcBallModule = processing.defineModuleUnder("ArcBall");
         arcBallModule.defineAnnotatedMethods(Rarcball.class);

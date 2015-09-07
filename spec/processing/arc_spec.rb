@@ -1,7 +1,7 @@
 require_relative '../../lib/core'
 require_relative '../../lib/rpextras'
 
-Java::MonkstoneArcball::ArcballLibrary.new.load(JRuby.runtime, false)
+Java::MonkstoneArcball::ArcballLibrary.load(JRuby.runtime)
 
 describe 'arcball new' do
   it 'should give error' do

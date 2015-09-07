@@ -4,7 +4,7 @@ require_relative '../rpextras'
 
 module Processing
   # Provides some convenience methods available in vanilla processing
-  Java::Monkstone::MathToolLibrary.new.load(JRuby.runtime, false)
+  Java::Monkstone::MathToolLibrary.load(JRuby.runtime)
   module HelperMethods
     # processings epsilon may not be defined yet
     EPSILON ||= 1.0e-04

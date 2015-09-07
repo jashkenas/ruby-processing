@@ -9,6 +9,14 @@ import org.jruby.runtime.load.Library;
  * @author Martin Prout
  */
 public class Vec3Library implements Library {
+  
+    /**
+     *
+     * @param runtime
+     */
+    public static void load(final Ruby runtime) {
+        Vec3.createVec3(runtime);
+    }
 
     /**
      *
@@ -18,6 +26,6 @@ public class Vec3Library implements Library {
      */
     @Override
     public void load(final Ruby runtime, boolean wrap) throws IOException {
-        Vec3.createVec3(runtime);
+        load(runtime);
     }
 }
