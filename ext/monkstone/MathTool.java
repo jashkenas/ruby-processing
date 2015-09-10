@@ -83,6 +83,7 @@ public class MathTool extends RubyObject {
        return mapMt(context, value, first1, last1, first2, last2);
     }
     
+    
     /**
      *
      * @param context JRuby runtime
@@ -90,7 +91,7 @@ public class MathTool extends RubyObject {
      * @param args floats as in processing map function
      * @return RubyFloat
      */
-    @JRubyMethod(name = "p5map", rest = true, module = true)
+    @JRubyMethod(name = {"p5map", "map"}, rest = true, module = true)
     public static IRubyObject mapProcessing(ThreadContext context, IRubyObject recv, IRubyObject[] args) {
         double value = (Double) args[0].toJava(Double.class);
         double first1 = (Double) args[1].toJava(Double.class);
@@ -162,6 +163,27 @@ public class MathTool extends RubyObject {
     static final RubyFloat mapMt(ThreadContext context, double value, double first1, double last1, double first2, double last2) {   
         double result = first2 + (last2 - first2) * ((value - first1) / (last1 - first1));
         return context.getRuntime().newFloat(result);
+    }
+    
+    /**
+     * Provides processing constrain method as a ruby module method
+     * @param context
+     * @param recv
+     * @param args
+     * @return original or limit values
+     */
+    @JRubyMethod(name = "constrain", rest = true, module = true)
+    public static IRubyObject constrainValue(ThreadContext context, IRubyObject recv, IRubyObject[] args) {
+        RubyFloat value = args[0].convertToFloat();
+        RubyFloat start = args[1].convertToFloat();
+        RubyFloat stop = args[2].convertToFloat();
+        if (value.op_ge(context, start).isTrue() && value.op_le(context, stop).isTrue()) {
+            return args[0];
+        } else if (value.op_ge(context, start).isTrue()) {
+            return args[2];
+        } else {
+            return args[1];
+        }
     }
 
     /**

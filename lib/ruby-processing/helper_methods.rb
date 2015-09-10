@@ -50,20 +50,6 @@ module Processing
       end
     end
 
-    # Explicitly provides 'processing.org' map instance method, in which
-    # value is mapped from range 1, to range 2 (NB: values are not clamped to
-    # range 1). It may be better to explicitly write your own interpolate
-    # function
-    # @param [float] value input
-    # @param [range] start1, stop1
-    # @param [range] start2, stop2
-    # @return [float] mapped value
-    def map(value, start1, stop1, start2, stop2)
-      start2 + (stop2 - start2) * ((value - start1).to_f / (stop1 - start1))
-      warn('map is deprecated use p5map or map1d instead')
-    end
-    # deprecate :map, :p5map, 2015, 12
-
     # explicitly provide 'processing.org' min instance method
     # to return a float:- a, b and c need to be floats
 
@@ -87,12 +73,6 @@ module Processing
         return dist3d(*args)
       end
       fail ArgumentError, 'takes 4 or 6 parameters'
-    end
-
-    # explicitly provide 'processing.org' constrain instance method
-    # to return a float:- amt, low and high need to be floats
-    def constrain(amt, low, high)
-      (low..high).clip(amt)
     end
 
     # Uses PImage class method under hood
