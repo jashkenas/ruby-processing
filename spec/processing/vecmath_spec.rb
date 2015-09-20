@@ -86,6 +86,14 @@ describe 'Vec2D#from_angle' do
   end
 end
 
+describe 'Vec2D#random' do
+  it 'should return Vec2D#random' do
+    a = Vec2D.random
+    expect(a).to be_instance_of Vec2D
+    expect(a.mag).to be_within(EPSILON).of(1.0)
+  end
+end
+
 describe 'Vec2D2#x=' do
   it 'should set x to supplied value' do
     a = Vec2D.new(3, 5)
@@ -347,6 +355,14 @@ describe 'Vec3D#normalize!' do
   it 'should return Vec3D#normalize! Vec3D#mag == 1.0' do
     a = Vec3D.new(3, 5, 2)
     a.normalize!
+    expect(a.mag).to be_within(EPSILON).of(1.0)
+  end
+end
+
+describe 'Vec3D#random' do
+  it 'should return Vec2D#random' do
+    a = Vec3D.random
+    expect(a).to be_instance_of Vec3D
     expect(a.mag).to be_within(EPSILON).of(1.0)
   end
 end

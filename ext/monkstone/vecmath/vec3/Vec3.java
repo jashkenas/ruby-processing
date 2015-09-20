@@ -411,6 +411,29 @@ public final class Vec3 extends RubyObject {
             runtime.newFloat(jz / mag)});
     }
 
+ /**
+  * Example of a regular ruby class method 
+  *
+  * @param context
+  * @param klazz
+  * @return new Vec2 object (ruby)
+  */
+  @JRubyMethod(name = "random", meta = true)
+    
+    public static IRubyObject random_direction(ThreadContext context, IRubyObject klazz) {
+    Ruby runtime = context.getRuntime();
+    double angle = Math.random() * Math.PI * 2;
+    double vz = Math.random() * 2 - 1;
+    double vx = Math.sqrt(1 - vz * vz) * Math.cos(angle);
+    double vy = Math.sqrt(1 - vz * vz) * Math.sin(angle);
+
+    return Vec3.rbNew(context, klazz, new IRubyObject[]{
+        runtime.newFloat(vx),
+        runtime.newFloat(vy),
+        runtime.newFloat(vz)});
+  }
+
+
     /**
      *
      * @param context

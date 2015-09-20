@@ -1,4 +1,4 @@
-v2.6.16 changed to static load for jruby extensions 
+v2.6.16 changed to static load for jruby extensions implement Vec2D.random and Vec3D.random
 
 v2.6.15 added guard against running 'watch' in top level directories, rescue error
 * when processing-3.0 is specified, and suggest updating to JRubyArt update to

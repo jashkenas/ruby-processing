@@ -431,6 +431,8 @@ public class Vec2 extends RubyObject {
     jy = y;
     return this;
   }
+
+
   
   /**
   *
@@ -502,6 +504,23 @@ public class Vec2 extends RubyObject {
       throw runtime.newTypeError("argument should be Vec2D");
     }
     return runtime.newFloat(Math.atan2(jx - vec.jx, jy - vec.jy));
+  }
+
+/**
+  * Example of a regular ruby class method Use Math rather than RadLut
+  * here!!!
+  *
+  * @param context
+  * @param klazz
+  * @return new Vec2 object (ruby)
+  */
+  @JRubyMethod(name = "random", meta = true)
+  public static IRubyObject random_direction(ThreadContext context, IRubyObject klazz) {
+    Ruby runtime = context.getRuntime();
+    double angle = Math.random() * Math.PI * 2;
+    return Vec2.rbNew(context, klazz, new IRubyObject[]{
+        runtime.newFloat(Math.cos(angle)),
+        runtime.newFloat(Math.sin(angle))});
   }
   
   /**
