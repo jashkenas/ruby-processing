@@ -106,7 +106,7 @@ public class MathTool extends RubyObject {
      * A more correct version than processing.org version
      * @param context
      * @param recv
-     * @param args args[2] should be between 0 and 1.0 if not returns sart or stop
+     * @param args args[2] should be between 0 and 1.0 if not returns start or stop
      * @return
      */
     @JRubyMethod(name = "lerp", rest = true, module = true)
@@ -114,8 +114,8 @@ public class MathTool extends RubyObject {
         double start = (Double) args[0].toJava(Double.class);
         double stop = (Double) args[1].toJava(Double.class);
         double amount = (Double) args[2].toJava(Double.class);
-        if (amount <= 0) return context.getRuntime().newFloat(start);
-        if (amount >= 1.0) return context.getRuntime().newFloat(stop);
+        if (amount <= 0) return args[0];
+        if (amount >= 1.0) return args[1];
         return context.getRuntime().newFloat((1 - amount) * start + (stop * amount));
     }   
 
