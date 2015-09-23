@@ -39,7 +39,7 @@ end
 
 desc 'Test'
 task :test do
-  ruby "test/rp5_test.rb"	
+  ruby "test/rp5_run_test.rb"	
 end
 
 desc 'Spec'
