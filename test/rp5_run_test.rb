@@ -1,8 +1,6 @@
 gem 'minitest'      # don't use bundled minitest
 require 'minitest/autorun'
 
-Minitest::Test = MiniTest::Unit::TestCase unless defined?(Minitest::Test)
-
 Dir.chdir(File.dirname(__FILE__))
 
 class Rp5Test < Minitest::Test

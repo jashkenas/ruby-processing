@@ -35,7 +35,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rake", "~> 10.4"
   spec.add_development_dependency "rake-compiler", "~> 0.9"
   spec.add_development_dependency "minitest", "~> 5.8"
-  spec.add_development_dependency "rspec", "~> 3.3"
   spec.requirements << 'A decent graphics card'
   spec.requirements << 'java runtime >= 1.7+'
   spec.requirements << 'processing = 2.2.1'
