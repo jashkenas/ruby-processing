@@ -1,6 +1,7 @@
 gem 'minitest'      # don't use bundled minitest
 require 'java'
 require 'minitest/autorun'
+require 'minitest/pride'
 
 require_relative '../lib/rpextras'
 require_relative '../lib/ruby-processing/helper_methods'
@@ -11,8 +12,6 @@ include Processing::HelperMethods
 include Processing::MathTool
 
 EPSILON ||= 1.0e-04
-
-Minitest::Test = MiniTest::Unit::TestCase unless defined?(Minitest::Test)
 
 Dir.chdir(File.dirname(__FILE__))
 

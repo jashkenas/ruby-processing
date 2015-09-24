@@ -1,6 +1,7 @@
 gem 'minitest'      # don't use bundled minitest
 require 'java'
 require 'minitest/autorun'
+require 'minitest/pride'
 
 require_relative '../lib/rpextras'
 require_relative '../lib/ruby-processing/helpers/aabb'
@@ -9,8 +10,6 @@ Java::MonkstoneVecmathVec2::Vec2Library.new.load(JRuby.runtime, false)
 Java::MonkstoneVecmathVec3::Vec3Library.new.load(JRuby.runtime, false)
 
 EPSILON ||= 1.0e-04
-
-Minitest::Test = MiniTest::Unit::TestCase unless defined?(Minitest::Test)
 
 Dir.chdir(File.dirname(__FILE__))
 

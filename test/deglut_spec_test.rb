@@ -1,7 +1,7 @@
 gem 'minitest'      # don't use bundled minitest
 require 'java'
 require 'minitest/autorun'
-require 'minitest/spec'
+require 'minitest/pride'
 
 require_relative '../lib/rpextras'
 
@@ -9,9 +9,6 @@ Java::MonkstoneFastmath::DeglutLibrary.new.load(JRuby.runtime, false)
 
 EPSILON ||= 1.0e-04
 TO_RADIAN = Math::PI / 180
-
-
-Minitest::Test = MiniTest::Unit::TestCase unless defined?(Minitest::Test)
 
 Dir.chdir(File.dirname(__FILE__))
 
@@ -27,5 +24,3 @@ class DeglutTest < Minitest::Test
     end
   end
 end
-
-

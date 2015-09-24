@@ -1,7 +1,7 @@
 gem 'minitest'      # don't use bundled minitest
 require 'java'
 require 'minitest/autorun'
-require 'minitest/spec'
+require 'minitest/pride'
 
 require_relative '../lib/rpextras'
 
