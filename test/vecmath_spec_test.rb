@@ -298,13 +298,32 @@ class VecmathTest < Minitest::Test
     assert_equal(a.mag, 1, 'Failed to return magnitude of vector')
   end
 
-  def test_dist
-    a = Vec3D.new(3, 5)
-    b = Vec3D.new(6, 7)
-    assert_equal(a.dist(b), Math.sqrt(3.0**2 + 2**2), 'Failed to return distance between two vectors')
+ def test_dist
+    a = Vec3D.new(3, 5, 2)
+    b = Vec3D.new(6, 7, 1)
+    message = 'Failed to return distance between two vectors'
+    assert_equal(a.dist(b), Math.sqrt(3.0**2 + 2**2 + 1), message)
   end
-
-
+  
+  def test_dist_squared
+    a = Vec3D.new(3, 5, 2)
+    b = Vec3D.new(6, 7, 1)
+    message = 'Failed to return distance squared between two vectors'
+    assert_equal(a.dist_squared(b), 3.0**2 + 2**2 + 1, message)
+  end
+ 
+  def test_dot
+    a = Vec3D.new(10, 20, 0)
+    b = Vec3D.new(60, 80, 0)
+    assert_equal(a.dot(b), 2200.0, 'Failed to dot product')
+  end
+  
+  def test_cross
+    a = Vec3D.new(3, 5, 2)
+    b = Vec3D.new(6, 7, 1)
+    c = Vec3D.new(-9.0, 9.0, -9.0)
+    assert_equal(a.cross(b), c, 'Failed cross product')
+  end
 
   def test_set_mag
     a = Vec3D.new(1, 1)
