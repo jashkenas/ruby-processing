@@ -1,7 +1,7 @@
 # Ruby-Processing (for processing-2.2.1)
 [![Gem Version](https://badge.fury.io/rb/ruby-processing.svg)](http://badge.fury.io/rb/ruby-processing)
 
-Is a ruby wrapper around the [Processing][] code art framework, built using [JRuby][], which has been superceded by [JRubyArt][jruby_art].
+Is a ruby wrapper around the [Processing][] code art framework, built using [JRuby][], which has been superseded by [JRubyArt][jruby_art].
 
 [Processing][] provides a tidy API, with a bunch of handy methods you can call 
   from Ruby-Processing. Here's a smattering:
