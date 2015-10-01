@@ -103,12 +103,12 @@ This gem has been tested with the following ruby implementations
 * Ruby 2.0.0
 * Ruby 2.1.2
 * Ruby 2.2.1
-* [JRuby][] preferred use jruby-1.7.XX but also works with jruby-9.0.0.0 release
+* [JRuby][] preferred use jruby-1.7.XX but also works with jruby-9.0.1.0 release
 
 ### Supported processing version
 
 * processing-2.2.1 (recommended)
-* for processing-3.0 see [JRubyArt](https://github.com/ruby-processing/JRubyArt)
+* for processing-3.0 see [JRubyArt](https://ruby-processing.github.io/)
 
 ____
 
