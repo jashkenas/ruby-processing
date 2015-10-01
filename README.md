@@ -139,4 +139,4 @@ ____
 [alternative install]:http://tutorials.jumpstartlab.com/topics/environment/environment.html
 [fix]:https://github.com/jruby/jruby/issues/1917
 [japanese]:http://qiita.com/yohm13/items/f3f82f423b507cec1dcc
-[jrub_art]:https://ruby-processing.github.io/
+[jruby_art]:https://ruby-processing.github.io/
