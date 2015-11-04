@@ -20,7 +20,7 @@ Then install ruby-processing (from rubygems-org) in the usual way
 
 `gem install ruby-processing` some systems eg Ubuntu may require `sudo` access
 
-To install jruby-complete use our built in tool (relies on `wget` to download [jruby-complete-1.7.21](http://jruby.org/download))
+To install jruby-complete use our built in tool (relies on `wget` to download [jruby-complete-1.7.22](http://jruby.org/download))
 
 since ruby-processing-2.5.0 `rp5 setup install` (was `install_jruby_complete`)
 
