@@ -1,7 +1,7 @@
 # Ruby-Processing (for processing-2.2.1)
 [![Gem Version](https://badge.fury.io/rb/ruby-processing.svg)](http://badge.fury.io/rb/ruby-processing)
 
-Is a ruby wrapper around the [Processing][] code art framework, built using [JRuby][], which has been superseded by [JRubyArt][jruby_art].
+Is a ruby wrapper around the [Processing][] code art framework, built using [JRuby][], which has been superseded by [JRubyArt][jruby_art]. Works on same platforms as vanilla processing (windows, mac, linux) for Android see Yuki Morohoshi [ruboto-processing2][].
 
 [Processing][] provides a tidy API, with a bunch of handy methods you can call 
   from Ruby-Processing. Here's a smattering:
@@ -134,3 +134,4 @@ ____
 [fix]:https://github.com/jruby/jruby/issues/1917
 [japanese]:http://qiita.com/yohm13/items/f3f82f423b507cec1dcc
 [jruby_art]:https://ruby-processing.github.io/
+[ruboto-processing2]:https://github.com/hoshi-sano/ruboto-processing2
