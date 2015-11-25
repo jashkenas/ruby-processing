@@ -4,19 +4,15 @@ In the spirit of [free software][free-sw], **everyone** is encouraged to help im
 Here are some ways *you* can contribute:
 
 * by reporting bugs or problems [here][]
-* by suggesting/implementing new features ( _export using warbler would be cool_ ) see [shoes/furoshoki][]
-* by writing or editing documentation ( _expert Windows users could help write install instructions_ )
-* by [contributing examples][] ( _show your creativity, or translate someone elses masterpiece, you could learn a lot_ )
-* by refactoring examples to be more rubyfied
 * by closing [issues][]
-* by proselytizing ruby-processing, we need more champions
+* by proselytizing JRubyArt, it is the future we need more champions
 * by supporting [Processing.org][], nothing to do with us but we rely on them
-* by figuring out if we could replace swing with javafx for control_panel etc
+* by figuring out how we could clamp pbox2d and toxiclibs version to 0.4.2 and 0.4.0
 * by testing / contributing to the [development branch][]
 
 ## Submitting an Issue
 We use the [GitHub issue tracker][issues] to track bugs and features. Before
-submitting a bug report or feature request, check to make sure it hasn't
+submitting a bug report or feature request, check to make sure it has not
 already been submitted. When submitting a bug report, ideally include a [Gist][]
 that includes a stack trace and any details that may be necessary to reproduce
 the bug, including your gem version, Ruby version, and operating system. 
