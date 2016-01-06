@@ -5,10 +5,10 @@ Here are some ways *you* can contribute:
 
 * by reporting bugs or problems [here][]
 * by closing [issues][]
-* by proselytizing JRubyArt, it is the future we need more champions
+* by proselytizing [JRubyArt][], it is the future we need more champions
 * by supporting [Processing.org][], nothing to do with us but we rely on them
 * by figuring out how we could clamp pbox2d and toxiclibs version to 0.4.2 and 0.4.0
-* by testing / contributing to the [development branch][]
+* by updating build to match [JRubyArt][]
 
 ## Submitting an Issue
 We use the [GitHub issue tracker][issues] to track bugs and features. Before
@@ -31,3 +31,4 @@ the bug, including your gem version, Ruby version, and operating system.
 [development branch]: https://github.com/ruby-processing/JRubyArt
 [contributing examples]: https://github.com/ruby-processing/Example-Sketches/blob/master/CONTRIBUTING.md
 [shoes/furoshoki]:https://github.com/shoes/furoshiki
+[JRubyArt]:https://github.com/ruby-processing/JRubyArt
