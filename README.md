@@ -93,7 +93,7 @@ ___
 NB: you can't use jdk/jre installed by processing
 * Open jdk8 (latest version preferred, is the default linux install)
 * jdk8 from Oracle (latest version preferred, or required by Mac)
-* jdk8 from Oracle (latest version preferred, or required by Mac)
+* jdk7 should also work (typically ubuntu linux or some other linux distro)
 
 ### Supported ruby version
 
