@@ -13,4 +13,4 @@ Gemfile.lock
 tmp
 vendors/*.tar.gz
 target
-
+MANIFEST.MF
