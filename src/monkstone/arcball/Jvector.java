@@ -1,5 +1,5 @@
 /* 
- * Copyright (c) 2015 Martin Prout
+ * Copyright (C) 2015-16 Martin Prout
  * 
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -72,7 +72,7 @@ public final class Jvector {
     /**
      *
      * @param other
-     * @return
+     * @return subtracted vector
      */
     public Jvector sub(Jvector other) {
         return new Jvector(this.x - other.x, this.y - other.y, this.z - other.z);
@@ -81,7 +81,7 @@ public final class Jvector {
     /**
      *
      * @param scalar
-     * @return
+     * @return subtracted vector
      */
     public Jvector mult(double scalar) {
         return new Jvector(this.x * scalar, this.y * scalar, this.z * scalar);
@@ -89,7 +89,7 @@ public final class Jvector {
 
     /**
      *
-     * @return
+     * @return magnitude float
      */
     public double mag() {
         return  Math.sqrt(x * x + y * y + z * z);
@@ -98,7 +98,7 @@ public final class Jvector {
     /**
      * The usual normalize
      *
-     * @return this
+     * @return this Jvector
      */
     public Jvector normalize() {
         double mag =  Math.sqrt(x * x + y * y + z * z);
@@ -111,7 +111,7 @@ public final class Jvector {
     /**
      *
      * @param other
-     * @return
+     * @return new dot product
      */
     public double dot(Jvector other) {
         return x * other.x + y * other.y + z * other.z;
@@ -120,7 +120,7 @@ public final class Jvector {
     /**
      *
      * @param other
-     * @return
+     * @return new cross product     
      */
     public Jvector cross(Jvector other) {
         double xc = y * other.z - z * other.y;
@@ -132,7 +132,7 @@ public final class Jvector {
     /**
      *
      * @param other
-     * @return
+     * @return boolean
      */
     public boolean equals(Jvector other) {
         if (other instanceof Jvector) {
@@ -152,7 +152,7 @@ public final class Jvector {
     /**
      *
      * @param obj
-     * @return
+     * @return boolean
      */
     @Override
     public boolean equals(Object obj) {
@@ -174,7 +174,7 @@ public final class Jvector {
 
     /**
      *
-     * @return
+     * @return has int
      */
     @Override
     public int hashCode() {

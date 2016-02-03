@@ -1,6 +1,5 @@
 package monkstone.arcball;
 
-import java.io.IOException;
 import org.jruby.Ruby;
 import org.jruby.RubyClass;
 import org.jruby.RubyModule;
@@ -18,6 +17,8 @@ import processing.core.PApplet;
  */
 @JRubyClass(name = "ArcBall")
 public class Rarcball extends RubyObject {
+
+    private static final long serialVersionUID = -8164248008668234947L;
 
     /**
      *
