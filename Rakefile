@@ -1,9 +1,23 @@
+require_relative 'lib/ruby-processing/version'
+
+def create_manifest
+  title =  'Implementation-Title: rpextras (java extension for ruby-processing)'
+  version =  format('Implementation-Version: %s', RubyProcessing::VERSION)
+  file = File.open('MANIFEST.MF', 'w') do |f|
+    f.puts(title)
+    f.puts(version)
+  end
+end
+
+desc 'Create Manifest'
+task :init do
+  create_manifest
+end
 
 desc 'build and test'    
-task :default => [:build_and_test]
+task :default => [:init, :build_and_test]
 
 task :build_and_test do
-  Rake::Task[:compile].execute
   Rake::Task["build"].execute  
   Rake::Task["test"].execute
 end
@@ -21,20 +35,16 @@ end
 desc 'Install jruby-complete'
 task :install_jruby_complete do
   begin
-    sh "cd vendors && rake"
+    sh 'cd vendors && rake'
   rescue
-    warn("WARNING: you may not have wget installed")	    
+    warn('WARNING: you may not have wget installed')	    
   end
-end
-
-desc 'Compile'
-task :compile do
-  sh "jruby -S rake --rakefile JRakefile compile"
 end
 
 desc 'Build gem'
 task :build do
-  sh "jruby -S gem build ruby-processing.gemspec"
+  sh 'mvn package'
+  sh 'mv target/rpextras.jar lib'
 end
 
 desc 'Test'
@@ -44,13 +54,6 @@ task :test do
   sh "jruby test/math_tool_test.rb"
   sh "jruby test/helper_methods_test.rb"
   ruby "test/rp5_run_test.rb"	
-end
-
-desc 'Spec'
-task :spec do
-  Dir['./spec/processing/*.rb'].each do |sp|
-    sh "jruby -S rspec #{sp}"
-  end
 end
 
 desc 'Clean'
