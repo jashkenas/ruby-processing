@@ -1,4 +1,4 @@
-v2.6.17 update to jruby-complete-1.7.24
+v2.6.17 move to a polyglot maven build and update to jruby-complete-1.7.24, it should be easy to update to jruby-complete-9.0+ if required. Updating processing version is unecessary because JRubyArt does that.
 
 v2.6.16 update to jruby-complete-1.7.23 changed to static load for jruby extensions implement Vec2D.random and Vec3D.random
 * get rid of rspec as development requirement (all minitest now) this is expected to be the last release of ruby-processing
