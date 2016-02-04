@@ -27,7 +27,7 @@ file "jruby-complete-#{JRUBYC_VERSION}.jar" do
   rescue
     warn(WARNING)
   end
-  check_sha1("jruby-complete-#{JRUBYC_VERSION}.jar", "0c321d2192768dfec419bee6b44c7190f4db32e1")
+  check_sha1("jruby-complete-#{JRUBYC_VERSION}.jar", '01fc8605c833490b833ee1520f7a2e1409ef8885')
 end
 
 directory "../lib/ruby"
