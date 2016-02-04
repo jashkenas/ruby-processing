@@ -4,7 +4,6 @@ require 'minitest/autorun'
 require 'minitest/pride'
 
 require_relative '../lib/ruby-processing/helper_methods'
-require_relative '../lib/core'
 
 include Processing::HelperMethods
 

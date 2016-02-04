@@ -32,10 +32,10 @@ task :test do
   sh 'jruby test/vecmath_spec_test.rb'
   sh 'jruby test/deglut_spec_test.rb'
   sh 'jruby test/math_tool_test.rb'
-  sh 'jruby test/helper_methods_test.rb'
   home = File.expand_path('~')
   config = File.exist?(format('%s/.rp5rc', home))
   if config
+    sh 'jruby test/helper_methods_test.rb'
     ruby 'test/rp5_run_test.rb'
   else
     warn format('You should create %s/.rp5rc to run sketch tests', home)
