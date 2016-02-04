@@ -16,7 +16,8 @@ Gem::Specification.new do |spec|
   This version supports processing-2.2.1, and uses jruby-complete-1.7.24 or an 
   installed jruby as the glue between ruby and java. Use both processing 
   libraries and ruby gems in your sketches. The "watch" mode, provides a 
-  nice REPL-ish way to work on your processing sketches. 
+  nice REPL-ish way to work on your processing sketches. Features a polyglot
+  maven build, opening the way to use/test latest jruby.
   EOS
   spec.summary = %q{Code as Art, Art as Code. Processing and Ruby are meant for each other.}
   spec.homepage = "http://wiki.github.com/jashkenas/ruby-processing"
@@ -33,7 +34,6 @@ Gem::Specification.new do |spec|
 
   spec.add_development_dependency "bundler", "~> 1.10"
   spec.add_development_dependency "rake", "~> 10.4"
-  spec.add_development_dependency "rake-compiler", "~> 0.9"
   spec.add_development_dependency "minitest", "~> 5.8"
   spec.requirements << 'A decent graphics card'
   spec.requirements << 'java runtime >= 1.7+'

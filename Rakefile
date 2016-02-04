@@ -9,7 +9,7 @@ def create_manifest
   end
 end
 
-task :default => [:init, :compile, :gem, :test]
+task :default => [:init, :compile, :test, :gem]
 
 desc 'Create Manifest'
 task :init do
@@ -29,17 +29,23 @@ end
 
 desc 'Test'
 task :test do
-  sh "jruby test/vecmath_spec_test.rb"
-  sh "jruby test/deglut_spec_test.rb"
-  sh "jruby test/math_tool_test.rb"
-  sh "jruby test/helper_methods_test.rb"
-  ruby "test/rp5_run_test.rb"
+  sh 'jruby test/vecmath_spec_test.rb'
+  sh 'jruby test/deglut_spec_test.rb'
+  sh 'jruby test/math_tool_test.rb'
+  sh 'jruby test/helper_methods_test.rb'
+  home = File.expand_path('~')
+  config = File.exist?(format('%s/.rp5rc', home))
+  if config
+    ruby 'test/rp5_run_test.rb'
+  else
+    warn format('You should create %s/.rp5rc to run sketch tests', home)
+  end
 end
 
 desc 'Clean'
 task :clean do
   Dir['./**/*.%w{jar gem}'].each do |path|
-    puts "Deleting #{path} ..."
+    puts format('Deleting %s ...', path)
     File.delete(path)
   end
   FileUtils.rm_rf('./tmp')
