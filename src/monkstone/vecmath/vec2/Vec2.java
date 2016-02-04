@@ -1,6 +1,6 @@
 package monkstone.vecmath.vec2;
 /* 
-* Copyright (c) 2015 Martin Prout
+* Copyright (C) 2015-16 Martin Prout
 * 
 * This library is free software; you can redistribute it and/or
 * modify it under the terms of the GNU Lesser General Public
@@ -41,6 +41,7 @@ import monkstone.vecmath.JRender;
 public class Vec2 extends RubyObject {
   
   static final double EPSILON = 9.999999747378752e-05; // matches processing.org EPSILON
+  private static final long serialVersionUID = -7013225882277559392L;
   private double jx = 0;
   private double jy = 0;
   
@@ -92,7 +93,7 @@ public class Vec2 extends RubyObject {
   /**
   *
   * @param context
-  * @return
+  * @return jx float
   */
   @JRubyMethod(name = "x")
   
@@ -103,7 +104,7 @@ public class Vec2 extends RubyObject {
   /**
   *
   * @param context
-  * @return
+  * @return jy float
   */
   @JRubyMethod(name = "y")
   
@@ -115,7 +116,7 @@ public class Vec2 extends RubyObject {
   *
   * @param context
   * @param other
-  * @return
+  * @return jx float
   */
   @JRubyMethod(name = "x=")
   
@@ -128,7 +129,7 @@ public class Vec2 extends RubyObject {
   *
   * @param context
   * @param other
-  * @return
+  * @return jy float
   */
   @JRubyMethod(name = "y=")
   
@@ -141,7 +142,7 @@ public class Vec2 extends RubyObject {
   *
   * @param context
   * @param other
-  * @return
+  * @return hypotenuse float
   */
   @JRubyMethod(name = "dist", required = 1)
   
@@ -161,7 +162,7 @@ public class Vec2 extends RubyObject {
   *
   * @param context
   * @param other
-  * @return
+  * @return cross product as a new Vec3D
   */
   @JRubyMethod(name = "cross", required = 1)
   
@@ -180,7 +181,7 @@ public class Vec2 extends RubyObject {
   *
   * @param context
   * @param other
-  * @return
+  * @return do product as a float
   */
   @JRubyMethod(name = "dot", required = 1)
   
@@ -275,7 +276,7 @@ public class Vec2 extends RubyObject {
   /**
   *
   * @param context
-  * @return
+  * @return angle radians as a float
   */
   @JRubyMethod(name = "heading")
   public IRubyObject heading(ThreadContext context) {
@@ -285,7 +286,7 @@ public class Vec2 extends RubyObject {
   /**
   *
   * @param context
-  * @return
+  * @return magnitude float
   */
   @JRubyMethod(name = "mag")
   
@@ -312,7 +313,7 @@ public class Vec2 extends RubyObject {
   * @param context
   * @param scalar double value to set
   * @param block should return a boolean (optional)
-  * @return
+  * @return this Vec2D with the new magnitude
   */
   @JRubyMethod(name = "set_mag")
   
@@ -491,7 +492,7 @@ public class Vec2 extends RubyObject {
   *
   * @param context
   * @param other
-  * @return
+  * @return theta radians float
   */
   @JRubyMethod(name = "angle_between")
   
@@ -526,7 +527,7 @@ public class Vec2 extends RubyObject {
   /**
   *
   * @param context
-  * @return
+  * @return new copy
   */
   @JRubyMethod(name = {"copy", "dup"})
   
@@ -540,7 +541,7 @@ public class Vec2 extends RubyObject {
   /**
   *
   * @param context
-  * @return
+  * @return ruby array
   */
   @JRubyMethod(name = "to_a")
   
@@ -579,7 +580,7 @@ public class Vec2 extends RubyObject {
   /**
   * For jruby-9000 we alias to inspect
   * @param context
-  * @return
+  * @return custom to string (inspect)
   */
   @JRubyMethod(name = {"to_s", "inspect"})
   
@@ -589,7 +590,7 @@ public class Vec2 extends RubyObject {
   
   /**
   *
-  * @return
+  * @return hash int
   */
   @Override
   public int hashCode() {
@@ -602,7 +603,7 @@ public class Vec2 extends RubyObject {
   /**
   *
   * @param obj
-  * @return
+  * @return ruby boolean
   */
   @Override
   public boolean equals(Object obj) {
@@ -620,7 +621,7 @@ public class Vec2 extends RubyObject {
   *                                                                     
   * @param context
   * @param other
-  * @return                                                                        
+  * @return ruby boolean                                                                       
   */                                                                               
   @JRubyMethod(name = "eql?", required = 1)                                                                    
   public IRubyObject eql_p(ThreadContext context, IRubyObject other) {
@@ -639,7 +640,7 @@ public class Vec2 extends RubyObject {
   *
   * @param context
   * @param other
-  * @return
+  * @return ruby boolean
   */
   @JRubyMethod(name = "==", required = 1)
   

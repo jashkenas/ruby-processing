@@ -51,7 +51,7 @@ public enum Constrain {
 
     /**
      * Numeric value of constrained axis
-     * @return
+     * @return index int
      */
     public int index() {
         return index;

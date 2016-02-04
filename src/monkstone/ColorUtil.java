@@ -1,7 +1,7 @@
 /**
- * The purpose of this uilit is to allow ruby-processing users to use an alternative 
+ * The purpose of this utility is to allow ruby-processing users to use an alternative 
  * to processing.org color their sketches (to cope with ruby FixNumber vs java int)
- * Copyright (C) 2015 Martin Prout. This tool is free software; you can 
+ * Copyright (C) 2015-16 Martin Prout. This tool is free software; you can 
  * redistribute it and/or modify it under the terms of the GNU Lesser General 
  * Public License as published by the Free Software Foundation; either version
  * 2.1 of the License, or (at your option) any later version.

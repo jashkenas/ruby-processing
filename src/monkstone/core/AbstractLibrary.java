@@ -87,7 +87,7 @@ public abstract class AbstractLibrary {
 
     /**
      * Access applet if we must
-     * @return
+     * @return app PApplet
      */
     public processing.core.PApplet app() {
         return this.app;

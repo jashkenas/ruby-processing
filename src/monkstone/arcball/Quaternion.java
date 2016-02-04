@@ -90,7 +90,7 @@ public final class Quaternion {
      * 
      * @param q1
      * @param q2
-     * @return
+     * @return new Quaternion
      */
     public static Quaternion mult(Quaternion q1, Quaternion q2) {
         double w = q1.w * q2.w - q1.x * q2.x - q1.y * q2.y - q1.z * q2.z;

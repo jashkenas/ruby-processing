@@ -1,7 +1,7 @@
 /**
  * The purpose of this tool is to allow ruby-processing users to use an alternative 
  * to processing.org map, lerp and norm methods in their sketches
- * Copyright (C) 2015 Martin Prout. This tool is free software; you can 
+ * Copyright (C) 2015-16 Martin Prout. This tool is free software; you can 
  * redistribute it and/or modify it under the terms of the GNU Lesser General 
  * Public License as published by the Free Software Foundation; either version
  * 2.1 of the License, or (at your option) any later version.
@@ -26,6 +26,10 @@ import org.jruby.runtime.builtin.IRubyObject;
  */
 
 public class MathTool extends RubyObject {
+
+    private static final long serialVersionUID = 4427564758225746633L;
+
+  
 
     /**
      *
@@ -107,7 +111,7 @@ public class MathTool extends RubyObject {
      * @param context
      * @param recv
      * @param args args[2] should be between 0 and 1.0 if not returns start or stop
-     * @return
+     * @return lerp value
      */
     @JRubyMethod(name = "lerp", rest = true, module = true)
     public static IRubyObject lerpP(ThreadContext context, IRubyObject recv, IRubyObject[] args) {
@@ -127,7 +131,7 @@ public class MathTool extends RubyObject {
      * @param context
      * @param recv
      * @param args
-     * @return
+     * @return norm value
      */
     @JRubyMethod(name = "norm", rest = true, module = true)
     public static IRubyObject normP(ThreadContext context, IRubyObject recv, IRubyObject[] args) { 
@@ -143,7 +147,7 @@ public class MathTool extends RubyObject {
      * @param context
      * @param recv
      * @param args
-     * @return
+     * @return strict normalized value ie 0..1.0
      */
     @JRubyMethod(name = "norm_strict", rest = true, module = true)
     public static IRubyObject norm_strict(ThreadContext context, IRubyObject recv, IRubyObject[] args) {

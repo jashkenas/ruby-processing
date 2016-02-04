@@ -1,6 +1,6 @@
 package monkstone.vecmath.vec3;
 /* 
- * Copyright (c) 2015 Martin Prout
+ * Copyright (C) 2015-16 Martin Prout
  * 
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -40,10 +40,11 @@ import monkstone.vecmath.JRender;
 @JRubyClass(name = "Vec3D")
 public final class Vec3 extends RubyObject {
 
+    private static final long serialVersionUID = 1L;
+
     /**
      *
      * @param runtime
-     * @throws IOException
      */
     public static void createVec3(final Ruby runtime) {
         RubyClass vec3Cls = runtime.defineClass("Vec3D", runtime.getObject(), new ObjectAllocator() {
@@ -98,7 +99,7 @@ public final class Vec3 extends RubyObject {
     /**
      *
      * @param context
-     * @return
+     * @return jx float
      */
     @JRubyMethod(name = "x")
 
@@ -109,7 +110,7 @@ public final class Vec3 extends RubyObject {
     /**
      *
      * @param context
-     * @return
+     * @return jy float
      */
     @JRubyMethod(name = "y")
 
@@ -120,7 +121,7 @@ public final class Vec3 extends RubyObject {
     /**
      *
      * @param context
-     * @return
+     * @return jz float
      */
     @JRubyMethod(name = "z")
     public IRubyObject getZ(ThreadContext context) {
@@ -131,7 +132,7 @@ public final class Vec3 extends RubyObject {
      *
      * @param context
      * @param other
-     * @return
+     * @return jx float
      */
     @JRubyMethod(name = "x=")
 
@@ -144,7 +145,7 @@ public final class Vec3 extends RubyObject {
      *
      * @param context
      * @param other
-     * @return
+     * @return jy float
      */
     @JRubyMethod(name = "y=")
 
@@ -157,7 +158,7 @@ public final class Vec3 extends RubyObject {
      *
      * @param context
      * @param other
-     * @return
+     * @return jz float
      */
     @JRubyMethod(name = "z=")
     public IRubyObject setZ(ThreadContext context, IRubyObject other) {
@@ -169,7 +170,7 @@ public final class Vec3 extends RubyObject {
      *
      * @param context
      * @param other
-     * @return
+     * @return distance between float
      */
     @JRubyMethod(name = "dist", required = 1)
 
@@ -188,7 +189,7 @@ public final class Vec3 extends RubyObject {
      *
      * @param context
      * @param other
-     * @return
+     * @return distance squared between float
      */
     @JRubyMethod(name = "dist_squared", required = 1)
 
@@ -207,7 +208,7 @@ public final class Vec3 extends RubyObject {
      *
      * @param context
      * @param other
-     * @return
+     * @return cross product as a new Vec3D
      */
     @JRubyMethod(name = "cross", required = 1)
 
@@ -231,7 +232,7 @@ public final class Vec3 extends RubyObject {
      *
      * @param context
      * @param other
-     * @return
+     * @return do product as a float
      */
     @JRubyMethod(name = "dot", required = 1)
 
@@ -325,7 +326,7 @@ public final class Vec3 extends RubyObject {
     /**
      *
      * @param context
-     * @return
+     * @return magnitude squared float
      */
     @JRubyMethod(name = "mag_squared")
 
@@ -336,7 +337,7 @@ public final class Vec3 extends RubyObject {
     /**
      *
      * @param context
-     * @return
+     * @return magnitude float
      */
     @JRubyMethod(name = "mag")
 
@@ -351,7 +352,7 @@ public final class Vec3 extends RubyObject {
      * @param context
      * @param scalar double value to set
      * @param block should return a boolean (optional)
-     * @return
+     * @return this with new magnitude
      */
     @JRubyMethod(name = "set_mag")
 
@@ -438,7 +439,7 @@ public final class Vec3 extends RubyObject {
      *
      * @param context
      * @param other
-     * @return
+     * @return angle between radians
      */
     @JRubyMethod(name = "angle_between")
 
@@ -470,7 +471,7 @@ public final class Vec3 extends RubyObject {
     /**
      *
      * @param context
-     * @return
+     * @return a deep copy
      */
     @JRubyMethod(name = {"copy", "dup"})
 
@@ -485,7 +486,7 @@ public final class Vec3 extends RubyObject {
     /**
      *
      * @param context
-     * @return
+     * @return as an array of float
      */
     @JRubyMethod(name = "to_a")
 
@@ -552,7 +553,7 @@ public final class Vec3 extends RubyObject {
      * For jruby-9000 we alias to inspect
      *
      * @param context
-     * @return
+     * @return custom to string (inspect)
      */
     @JRubyMethod(name = {"to_s", "inspect"})
 
@@ -562,7 +563,7 @@ public final class Vec3 extends RubyObject {
 
     /**
      *
-     * @return
+     * @return hash int
      */
     @Override
     public int hashCode() {
@@ -576,7 +577,7 @@ public final class Vec3 extends RubyObject {
     /**
      *
      * @param obj
-     * @return
+     * @return equals boolean
      */
     @Override
     public boolean equals(Object obj) {
@@ -597,7 +598,7 @@ public final class Vec3 extends RubyObject {
      *
      * @param context
      * @param other
-     * @return
+     * @return eql? boolean
      */
     @JRubyMethod(name = "eql?", required = 1)
 
@@ -619,7 +620,7 @@ public final class Vec3 extends RubyObject {
      *
      * @param context
      * @param other
-     * @return
+     * @return eql? boolean
      */
     @JRubyMethod(name = "==", required = 1)
 

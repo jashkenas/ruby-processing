@@ -214,7 +214,7 @@ public class Arcball {
      *
      * @param vector
      * @param axis
-     * @return
+     * @return constrained vector
      */
     public Jvector constrainVector(Jvector vector, Jvector axis) {
         Jvector res = vector.sub(axis.mult(axis.dot(vector)));
@@ -251,7 +251,7 @@ public class Arcball {
     /**
      *
      * @param obj
-     * @return
+     * @return java boolean
      */
     @Override
     public boolean equals(Object obj) {
@@ -276,7 +276,7 @@ public class Arcball {
 
     /**
      *
-     * @return
+     * @return has code int
      */
     @Override
     public int hashCode() {

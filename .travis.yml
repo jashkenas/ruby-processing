@@ -1,0 +1,11 @@
+sudo: false
+
+language: ruby
+
+rvm:
+  - jruby-19mode 
+  - jruby-head
+
+jdk:
+  - openjdk7
+
