@@ -109,7 +109,7 @@ This gem has been tested with the following ruby implementations
 ### Supported processing version
 
 * processing-2.2.1 (recommended)
-* for processing-3.0 see [JRubyArt](https://ruby-processing.github.io/)
+* for processing-3.0+ see [JRubyArt](https://ruby-processing.github.io/)
 
 ____
 
