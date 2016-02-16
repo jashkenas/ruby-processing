@@ -37,14 +37,14 @@ project 'rp5extras', 'https://github.com/jashkenas/ruby-processing' do
   plugin_management do
     plugin :resources, '2.6'
     plugin :dependency, '2.8'
-    plugin( :compiler, '3.1',
+    plugin( :compiler, '3.3',
           'source' =>  '1.7',
           'target' =>  '1.7' )
     plugin( :javadoc, '2.10.3',
           'detectOfflineLinks' => 'false',
           'links' => ['${processing.api}', '${jruby.api}']
           )
-    plugin( :jar, '2.4',
+    plugin( :jar, '2.6',
             'archive' => {
               'manifestFile' => 'MANIFEST.MF'
             }
