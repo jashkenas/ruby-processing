@@ -1,3 +1,3 @@
 module RubyProcessing
-  VERSION = '2.6.17'
+  VERSION = '2.6.18'
 end
