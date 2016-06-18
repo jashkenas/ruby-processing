@@ -26,18 +26,23 @@ module Processing
   EOS
 
   # This method is the common entry point to run a sketch, bare or complete.
+
+  def self.run_app
+      load SKETCH_PATH
+      Processing::App.sketch_class.new unless $app
+  end
+
   def self.load_and_run_sketch
     source = read_sketch_source
     wrapped = !source.match(/^[^#]*< Processing::App/).nil?
     no_methods = source.match(/^[^#]*(def\s+setup|def\s+draw)/).nil?
     if wrapped
-      load SKETCH_PATH
-      Processing::App.sketch_class.new unless $app
+      run_app
       return
     end
-    code = no_methods ? format(NAKED_WRAP, source) : format(BARE_WRAP, source)
-    Object.class_eval code, SKETCH_PATH, -1
+    Object.class_eval(code, SKETCH_PATH, -1)
     Processing::App.sketch_class.new
+    code = no_methods ? format(NAKED_WRAP, source) : format(BARE_WRAP, source)
   end
 
   # Read in the sketch source code. Needs to work both online and offline.

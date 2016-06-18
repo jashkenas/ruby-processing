@@ -158,7 +158,7 @@ module Processing
       klass.constants.each do |name|
         const = klass.const_get name
         next if const.class != Class || const.to_s.match(/^Java::/)
-        const.class_eval 'include Processing::Proxy'
+        const.class_eval('include Processing::Proxy')
       end
     end
 
