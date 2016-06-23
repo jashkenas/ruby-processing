@@ -33,6 +33,7 @@ module Processing
     Examples:
     rp5 setup unpack_samples
     rp5 run rp_samples/samples/contributed/jwishy.rb
+    rp5 run-app rp_samples/samples/contributed/jwishy.rb
     rp5 create some_new_sketch 640 480 p3d (P3D mode example)
     rp5 create some_new_sketch 640 480 --wrap (a class wrapped default sketch)
     rp5 watch some_new_sketch.rb
@@ -63,14 +64,15 @@ module Processing
     # Dispatch central.
     def execute!
       case @options.action
-      when 'run'    then run(@options.path, @options.args)
-      when 'watch'  then watch(@options.path, @options.args)
-      when 'live'   then live(@options.path, @options.args)
-      when 'create' then create(@options.path, @options.args)
-      when 'app'    then app(@options.path)
-      when 'setup'  then setup(@options.path)
-      when /-v/     then show_version
-      when /-h/     then show_help
+      when 'run'        then run(@options.path, @options.args)
+      when 'run-app'    then run_app(@options.path, @options.args)
+      when 'watch'      then watch(@options.path, @options.args)
+      when 'live'       then live(@options.path, @options.args)
+      when 'create'     then create(@options.path, @options.args)
+      when 'app'        then app(@options.path)
+      when 'setup'      then setup(@options.path)
+      when /-v/         then show_version
+      when /-h/         then show_help
       else
         show_help
       end
@@ -101,6 +103,11 @@ module Processing
     def run(sketch, args)
       ensure_exists(sketch)
       spin_up('run.rb', sketch, args)
+    end
+
+    def run_app(sketch, args)
+      ensure_exists(sketch)
+      spin_up('run_app.rb', sketch, args)
     end
 
     # Run a sketch, keeping an eye on it's file, and reloading
