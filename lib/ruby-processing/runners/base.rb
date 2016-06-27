@@ -40,9 +40,9 @@ module Processing
       run_app
       return
     end
+    code = no_methods ? format(NAKED_WRAP, source) : format(BARE_WRAP, source)
     Object.class_eval(code, SKETCH_PATH, -1)
     Processing::App.sketch_class.new
-    code = no_methods ? format(NAKED_WRAP, source) : format(BARE_WRAP, source)
   end
 
   # Read in the sketch source code. Needs to work both online and offline.

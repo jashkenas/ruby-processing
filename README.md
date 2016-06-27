@@ -24,7 +24,7 @@ To install jruby-complete use our built in tool (relies on `wget` to download [j
 
 since ruby-processing-2.5.0 `rp5 setup install` (was `install_jruby_complete`)
 
-If you haven't got `wget` just download jruby-complete-1.7.25 (for ruby-processing-2.6.18) to the vendors folder (then run above tool)
+If you haven't got `wget` just download jruby-complete-1.7.25 (for ruby-processing-2.7.0) to the vendors folder (then run above tool)
 
 The vendored jruby-complete is only required for application export, and running certain sketches (eg shader sketches see [wiki][]).
 
@@ -104,7 +104,7 @@ This gem has been tested with the following ruby implementations
 * Ruby 2.1.2
 * Ruby 2.2.1
 * Ruby 2.3.0
-* [JRuby][] preferred use jruby-1.7.XX but also works with jruby-9.0.5.0 release 
+* [JRuby][] preferred use jruby-1.7.XX but also works with jruby-9.1.2.0 release 
 
 ### Supported processing version
 

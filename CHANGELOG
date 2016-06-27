@@ -1,3 +1,5 @@
+v2.7.0 bump version in recognition of the 'new' run-app option see wiki Getting-Started
+
 v2.6.18 update to jruby-complete-1.7.25, to allow travis testing, anyone wishing to update to jruby-complete-9.0.5.0+ should try out `propane`.
 
 v2.6.17 move to a polyglot maven build and update to jruby-complete-1.7.24, to allow travis testing, should be easy to update to jruby-complete-9.0+ if required. Updating processing version is unecessary because JRubyArt does that.

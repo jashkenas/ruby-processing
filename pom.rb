@@ -1,13 +1,13 @@
 require 'fileutils'
 project 'rp5extras', 'https://github.com/jashkenas/ruby-processing' do
   model_version '4.0.0'
-  id 'ruby-processing:rp5extras', '2.6.18'
+  id 'ruby-processing:rp5extras', '2.7.0'
   packaging 'jar'
   description 'rp5extras for ruby-processing'
   organization 'ruby-processing', 'https://ruby-processing.github.io'
   developer 'monkstone' do
     name 'Martin Prout'
-    email 'martin_p@lineone.net'
+    email 'mamba2928@yahoo.co.uk'
     roles 'developer'
   end
 
