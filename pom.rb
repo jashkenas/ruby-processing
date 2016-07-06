@@ -33,19 +33,19 @@ project 'rp5extras', 'https://github.com/jashkenas/ruby-processing' do
   jar 'org.processing:video:2.2.1'
   plugin_management do
     plugin :resources, '2.6'
-    plugin :dependency, '2.8'
+    plugin :dependency, '2.10'
     plugin(
-      :compiler, '3.3',
+      :compiler, '3.5.1',
       'source' =>  '1.7',
       'target' =>  '1.7'
     )
     plugin(
-      :javadoc, '2.10.3',
+      :javadoc, '2.10.4',
       'detectOfflineLinks' => 'false',
       'links' => ['${processing.api}', '${jruby.api}']
     )
     plugin(
-      :jar, '2.6',
+      :jar, '3.0.2',
       'archive' => {
         'manifestFile' => 'MANIFEST.MF'
       }
