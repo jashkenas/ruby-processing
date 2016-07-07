@@ -1,7 +1,7 @@
 require 'fileutils'
 project 'rp5extras', 'https://github.com/jashkenas/ruby-processing' do
   model_version '4.0.0'
-  id 'ruby-processing:rp5extras', '2.7.0'
+  id 'ruby-processing:rp5extras', '2.7.1'
   packaging 'jar'
   description 'rp5extras for ruby-processing'
   organization 'ruby-processing', 'https://ruby-processing.github.io'
