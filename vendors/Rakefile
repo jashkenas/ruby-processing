@@ -71,7 +71,7 @@ end
 desc "copy examples"
 task :copy_examples => file_name do
   if MAC_OR_LINUX.nil?
-    sh "unzip #{EXAMPLES},zip"
+    sh "unzip #{EXAMPLES}.zip"
   else
     sh "tar xzvf #{EXAMPLES}.tar.gz" 
   end
