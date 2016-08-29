@@ -13,7 +13,7 @@ Gem::Specification.new do |spec|
   spec.email = "jeremy@ashkenas.com"
   spec.description = <<-EOS
   Ruby-Processing is a ruby wrapper for the processing-2.0 art framework.
-  This version supports processing-2.2.1, and uses jruby-complete-1.7.25 or an 
+  This version supports processing-2.2.1, and uses jruby-complete-1.7.26 or an 
   installed jruby as the glue between ruby and java. Use both processing 
   libraries and ruby gems in your sketches. The "watch" mode, provides a 
   nice REPL-ish way to work on your processing sketches. Features a polyglot

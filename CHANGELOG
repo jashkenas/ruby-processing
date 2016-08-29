@@ -1,4 +1,7 @@
+v2.7.1 update to jruby-complete-1.7.26.
+
 v2.7.0 bump version in recognition of the 'new' run-app option see wiki Getting-Started
+
 
 v2.6.18 update to jruby-complete-1.7.25, to allow travis testing, anyone wishing to update to jruby-complete-9.0.5.0+ should try out `propane`.
 
