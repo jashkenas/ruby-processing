@@ -108,7 +108,7 @@ This gem has been tested with the following ruby implementations
 
 ### Supported processing version
 
-* processing-2.2.1 (recommended)
+* processing-2.2.1 (required)
 * for processing-3.0+ see [JRubyArt][jruby_art] or [propane][propane]
 
 ____
