@@ -1,7 +1,7 @@
 # Ruby-Processing (for processing-2.2.1)
 [![Gem Version](https://badge.fury.io/rb/ruby-processing.svg)](http://badge.fury.io/rb/ruby-processing)
 
-Is a ruby wrapper around the [Processing][] code art framework, built using [JRuby][], which has been superseded by [JRubyArt][jruby_art]. Works on same platforms as vanilla processing (windows, mac, linux) for Android see Yuki Morohoshi [ruboto-processing2][].
+Is a ruby wrapper around the [Processing][processing] code art framework, built using [JRuby][jruby]. Ruby-processing has been superseded by an updated version [JRubyArt][jruby_art] and its standalone alternative [propane][], which both target processing-3.2.1 and support ruby-2.3 syntax. Works on same platforms as vanilla processing (windows, mac, linux) for Android see Yuki Morohoshi [ruboto-processing2][].
 
 [Processing][] provides a tidy API, with a bunch of handy methods you can call 
   from Ruby-Processing. Here's a smattering:
@@ -20,11 +20,11 @@ Then install ruby-processing (from rubygems-org) in the usual way
 
 `gem install ruby-processing` some systems eg Ubuntu may require `sudo` access
 
-To install jruby-complete use our built in tool (relies on `wget` to download [jruby-complete-1.7.25](http://jruby.org/download))
+To install jruby-complete use our built in tool (relies on `wget` to download [jruby-complete-1.7.26](http://jruby.org/download))
 
 since ruby-processing-2.5.0 `rp5 setup install` (was `install_jruby_complete`)
 
-If you haven't got `wget` just download jruby-complete-1.7.25 (for ruby-processing-2.7.0) to the vendors folder (then run above tool)
+If you haven't got `wget` just download jruby-complete-1.7.26 (for ruby-processing-2.7.1) to the vendors folder (then run above tool)
 
 The vendored jruby-complete is only required for application export, and running certain sketches (eg shader sketches see [wiki][]).
 
@@ -109,7 +109,7 @@ This gem has been tested with the following ruby implementations
 ### Supported processing version
 
 * processing-2.2.1 (recommended)
-* for processing-3.0+ see [JRubyArt](https://ruby-processing.github.io/)
+* for processing-3.0+ see [JRubyArt][jruby_art] or [propane][propane]
 
 ____
 
@@ -136,3 +136,4 @@ ____
 [japanese]:http://qiita.com/yohm13/items/f3f82f423b507cec1dcc
 [jruby_art]:https://ruby-processing.github.io/
 [ruboto-processing2]:https://github.com/hoshi-sano/ruboto-processing2
+[propane]:https://ruby-processing.github.io/propane/
