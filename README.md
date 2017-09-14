@@ -1,7 +1,7 @@
 # Ruby-Processing (for processing-2.2.1)
 [![Gem Version](https://badge.fury.io/rb/ruby-processing.svg)](http://badge.fury.io/rb/ruby-processing)
 
-<b>Ruby-processing use is now deprecated please use updated version</b> [JRubyArt][jruby_art] <b>or its standalone alternative</b> [propane][], which both target processing-3.3 and support ruby-2.3 syntax. Works on same platforms as vanilla processing (windows, mac, linux) for Android see Yuki Morohoshi [ruboto-processing2][].
+<b>Ruby-processing use is now deprecated please use updated version</b> [JRubyArt][jruby_art] <b>or its standalone alternative</b> [propane][], which both target processing-3.3.6 and support ruby-2.3 syntax. Works on same platforms as vanilla processing (windows, mac, linux) for Android see Yuki Morohoshi [ruboto-processing2][].
 
 [Processing][] provides a tidy API, with a bunch of handy methods you can call 
   from Ruby-Processing. Here's a smattering:
