@@ -3,7 +3,7 @@
 
 ### NB: Ruby-processing is now deprecated ###
 
-please use the updated version</b> [JRubyArt][jruby_art] <b>or the standalone alternative</b> [propane][], which both target processing-3.3.7 and support ruby-2.3 syntax. Works on same platforms as vanilla processing (windows, mac, linux) for Android see Yuki Morohoshi [ruboto-processing2][].
+please use the updated version</b> [JRubyArt][jruby_art] <b>or the standalone alternative</b> [propane][], which both target processing-3.4 and support ruby-2.3 syntax. Works on same platforms as vanilla processing (windows, mac, linux) for Android see Yuki Morohoshi [ruboto-processing2][].
 
 [Processing][] provides a tidy API, with a bunch of handy methods you can call 
   from Ruby-Processing. Here's a smattering:
